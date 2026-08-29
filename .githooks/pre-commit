@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Enable once per clone:  git config core.hooksPath .githooks
+# Note: checks the WORKING TREE, not the index — keep them in sync at closeout
+# (a citation staged then fixed only in the worktree would slip through).
+./workspace.sh check || exit 1
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --no-banner || exit 1
+fi

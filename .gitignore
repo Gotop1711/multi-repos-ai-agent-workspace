@@ -1,0 +1,10 @@
+# Product layer — never tracked by the workspace repo
+projects/
+
+# Secrets and local runtime state — never committed
+.env*
+*.pem
+*.key
+credentials*
+.claude/settings.local.json
+.mcp.json
