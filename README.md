@@ -7,11 +7,13 @@ repositories — safely, with durable memory, and with evidence for every claim.
 > exists and the seven ideas behind its design, in ~150 lines. Everything else
 > in this repo is an implementation of that document.
 
-**12 files, one script.** The rules live in [AGENTS.md](AGENTS.md); the
-mechanics live in [workspace.sh](workspace.sh).
+**11 files, one script.** The rules live in [AGENTS.md](AGENTS.md); the
+mechanics live in [workspace.sh](workspace.sh). Every record and document is
+agent-written: session logs automatically at closeout, findings into the docs
+system, the examined parts of `docs/` only past an examination bar.
 
 ```
-this repo                 ← governance: rules, memory, snapshots, docs
+this repo                 ← governance: rules, memory, docs
 └── projects/             ← gitignored clones of your child repos
 ```
 
@@ -29,9 +31,9 @@ a dead disk. (It ships with none on purpose.)
 ## Daily loop
 
 ```bash
-./workspace.sh snapshot <task>  # 1. pin the fleet
-# 2. agent works: reads projects/, writes tasks/<date>-<task>/ and docs/
-# 3. agent closes out: session log + closeout commit + push — you review the diff
+# 1. agent works: reads projects/; findings land in docs/<scope>.md
+#    ("Open findings"); the examined body changes only past the bar
+# 2. agent closes out: session log + closeout commit + push — you review the diff
 ```
 
 ## What each file and folder is
@@ -41,12 +43,10 @@ a dead disk. (It ships with none on purpose.)
 | `docs/BLUEPRINT.md` | Why this repo exists; the design rationale |
 | `AGENTS.md` | The whole rulebook — canonical for every agent runtime |
 | `CLAUDE.md` | ≤5-line bridge to `AGENTS.md` (one per installed runtime that needs it) |
-| `workspace.sh` | `setup` \| `clone` \| `snapshot <task>` \| `restore <lockfile>` \| `check` |
+| `workspace.sh` | `setup` \| `clone` \| `check` |
 | `catalog/repos.yaml` | The fleet manifest — also the authorization record |
-| `snapshots/` | Committed lockfiles; every finding cites one *(appears on your first `snapshot` — git cannot track an empty directory)* |
-| `.agents/memory/sessions/` | The diary: one log per session — decisions & pitfalls |
-| `docs/<scope>/` | The library: settled per-product state + signed plans (see `docs/README.md`) |
-| `tasks/` | Working records, one directory per task |
+| `.agents/memory/sessions/` | Simple journey logs, one per agent run — decisions & pitfalls, never findings |
+| `docs/<scope>.md` + `docs/plans/` | The knowledge system: per-scope document (Open-findings intake + examined body) plus signed plans (see `docs/README.md`) |
 | `.githooks/pre-commit` | Runs `workspace.sh check`; broken states cannot be committed |
 
 ## Growing it

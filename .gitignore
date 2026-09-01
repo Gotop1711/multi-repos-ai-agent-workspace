@@ -1,6 +1,9 @@
 # Product layer — never tracked by the workspace repo
 projects/
 
+# Disposable working artifacts — safe to delete anytime
+.agents/scratch/
+
 # Secrets and local runtime state — never committed
 .env*
 *.pem

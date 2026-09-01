@@ -1,7 +1,9 @@
 # Session Log — YYYY-MM-DD | {agent} | {scope}
 
 Copy to `YYYY-MM-DD-{agent}-{scope}-{task}.md` ({agent} = claude / codex / …;
-{scope} = product code or `workspace`).
+{scope} = product code or `workspace`). Written by the agent at closeout —
+a session may not end without its log. This file is the **journey only**:
+findings belong in the docs system (`docs/<scope>.md` → Open findings).
 
 ## Task
 One line.
