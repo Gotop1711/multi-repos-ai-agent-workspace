@@ -18,7 +18,10 @@ docs/
 2. **Changes** — append-only (entry format per the header of `../CHANGELOG.md`).
 3. **Open findings** — the intake tray, appended as work happens: each finding
    with full evidence (`<repo>@<sha>` + file + symbol, evidence type,
-   confidence, unresolved questions). Findings never enter the body directly.
+   confidence, unresolved questions). A finding about how repos interact cites
+   every involved repo from one `./workspace.sh cite` output — the full fleet
+   line when its dependency surface is uncertain. Findings never enter the
+   body directly.
 
 ## The examination bar (promotion from Open findings into the body)
 
@@ -31,7 +34,9 @@ A claim is promoted only after being carefully and analytically examined:
    unresolved questions.
 3. **Re-examined when reality moves** — if a cited repo's current HEAD differs
    from a claim's cited sha, re-verify the claim before trusting or extending
-   the document.
+   the document. To see exactly what a finding described, paste its
+   `<repo>@<sha>` citations after `./workspace.sh restore`; return with
+   `restore <repo>`.
 
 Superseded or refuted findings are struck with an appended note — never
 deleted. (Scope of the bar: it governs scope documents. `BLUEPRINT.md` and

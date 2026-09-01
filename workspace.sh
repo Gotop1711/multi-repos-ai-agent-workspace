@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # workspace.sh — the whole harness in one script.
-#   ./workspace.sh setup    one-time: wire the safety hook, print what to do next
-#   ./workspace.sh clone    rebuild the fleet from catalog/repos.yaml
-#   ./workspace.sh check    verify the manifest (session-init / pre-commit)
+#   ./workspace.sh setup                 one-time: wire the safety hook, print what to do next
+#   ./workspace.sh clone                 rebuild the fleet from catalog/repos.yaml
+#   ./workspace.sh cite                  print the fleet as one citation line — paste into findings
+#   ./workspace.sh restore <repo>@<sha>… check cited commits out (bare <repo> returns to its branch)
+#   ./workspace.sh check                 verify the manifest (session-init / pre-commit)
 # Plain bash (macOS 3.2 ok), zero dependencies.
 set -u
 cd "$(dirname "$0")" || exit 1
@@ -22,7 +24,7 @@ entries() { # one line per repo: id|path|remote|branch|access
 }
 
 cmd="${1:-help}"
-case "$cmd" in clone|check)
+case "$cmd" in clone|cite|restore|check)
   [ -f "$MANIFEST" ] || { echo "FAIL: $MANIFEST missing" >&2; exit 1; }
 esac
 
@@ -69,6 +71,52 @@ clone)
   [ "$fail" -eq 0 ] && echo "fleet complete." || { echo "$fail repo(s) failed to clone." >&2; exit 1; }
   ;;
 
+cite)
+  tmp="$(mktemp)"; entries > "$tmp"
+  [ -s "$tmp" ] || { echo "manifest has no repos — edit catalog/repos.yaml first" >&2; exit 1; }
+  line=""
+  while IFS='|' read -r id path remote branch access; do
+    [ -n "$id" ] || continue
+    [ -d "$path/.git" ] || { echo "[$id] not cloned — run ./workspace.sh clone" >&2; exit 1; }
+    [ -z "$(git -C "$path" status --porcelain)" ] \
+      || echo "warn: [$id] has local changes — its HEAD does not describe what you are reading" >&2
+    line="$line $id@$(git -C "$path" rev-parse --short HEAD)"
+  done < "$tmp"
+  echo "${line# }"
+  ;;
+
+restore)
+  shift
+  if [ "$#" -eq 0 ]; then
+    echo "usage: workspace.sh restore <repo>@<sha> [...]   # paste a finding's citations" >&2
+    echo "       workspace.sh restore <repo> [...]         # back to the manifest branch" >&2
+    exit 1
+  fi
+  tmp="$(mktemp)"; entries > "$tmp"
+  fail=0
+  # $* unquoted on purpose: a whole citation line pasted as ONE argument
+  # (quotes, or a zsh variable) still splits into tokens
+  for token in $*; do
+    id="${token%%@*}"; sha=""; [ "$token" != "$id" ] && sha="${token#*@}"
+    path="$(awk -F'|' -v id="$id" '$1==id{print $2; exit}' "$tmp")"
+    branch="$(awk -F'|' -v id="$id" '$1==id{print $4; exit}' "$tmp")"
+    [ -n "$path" ] || { echo "[$id] not in the manifest" >&2; fail=$((fail+1)); continue; }
+    [ -d "$path/.git" ] || { echo "[$id] not cloned — run ./workspace.sh clone" >&2; fail=$((fail+1)); continue; }
+    if [ -n "$(git -C "$path" status --porcelain)" ]; then
+      echo "[$id] has local changes — NOT touching it" >&2; fail=$((fail+1)); continue
+    fi
+    if [ -n "$sha" ]; then
+      git -C "$path" checkout --quiet --detach "$sha" 2>/dev/null \
+        && echo "[$id] → $sha (detached; './workspace.sh restore $id' returns to $branch)" \
+        || { echo "[$id] RESTORE FAILED (sha $sha unreachable — history rewritten upstream?)" >&2; fail=$((fail+1)); }
+    else
+      git -C "$path" checkout --quiet "$branch" && echo "[$id] → $branch" \
+        || { echo "[$id] RESTORE FAILED (branch $branch)" >&2; fail=$((fail+1)); }
+    fi
+  done
+  [ "$fail" -eq 0 ] || { echo "restore: $fail repo(s) not restored." >&2; exit 1; }
+  ;;
+
 check)
   status=0; n=0; tmp="$(mktemp)"; entries > "$tmp"
   while IFS='|' read -r id path remote branch access; do
@@ -97,11 +145,11 @@ check)
   ;;
 
 help)
-  sed -n '2,5p' "$0"
+  sed -n '2,7p' "$0"
   ;;
 
 *)
-  sed -n '2,5p' "$0" >&2
+  sed -n '2,7p' "$0" >&2
   exit 1
   ;;
 esac

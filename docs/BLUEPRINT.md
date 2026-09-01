@@ -28,7 +28,8 @@ extensions**, never foundation.
    it. For `read-only` repos the push URL is disabled at clone time —
    violations fail mechanically, not socially. Evidence is anchored per
    finding — each cites the commit it was observed at (`<repo>@<sha>`) —
-   with no fleet-wide pinning machinery.
+   with no lockfile machinery: `workspace.sh cite` prints the whole fleet
+   as one coherent citation line, and `restore` checks cited commits back out.
 3. **One rulebook, thin bridges.** `AGENTS.md` is the single canonical
    instruction file (the cross-vendor standard most agent runtimes read
    natively); any vendor file (`CLAUDE.md`, …) is a ≤5-line bridge pointing at
@@ -46,15 +47,17 @@ extensions**, never foundation.
    (direct / corroborated / inferred / unverified), a confidence level
    (high / medium / low), and unresolved questions. Same-named things in
    different repos are never assumed identical without file-level evidence.
+   Claims about repo *interactions* cite every involved repo from one
+   `cite` run — the full fleet line when the dependency surface is uncertain.
 6. **One human gate.** No write of any kind to a child repository before a
    human signs the plan in `docs/plans/` (format in `docs/README.md`).
    The one standing git authorization is the session-closeout commit (and its
    push) of the workspace repo itself; everything else waits for explicit
    instruction.
 7. **One script, machine-checked.** All mechanics live in `workspace.sh`
-   (`setup | clone | check`); the pre-commit hook runs `workspace.sh check`
-   so a broken state cannot be committed. No agent vigilance where a script
-   can verify.
+   (`setup | clone | cite | restore | check`); the pre-commit hook runs
+   `workspace.sh check` so a broken state cannot be committed. No agent
+   vigilance where a script can verify.
 
 The workspace repo gets **one private remote** (its memory must survive a dead
 disk); the root `.gitignore` and a secret scanner (if installed) keep child
@@ -69,7 +72,7 @@ multi-repos-ai-agent-workspace/
 ├── CLAUDE.md                        ← bridge: "@AGENTS.md"
 ├── CHANGELOG.md                     ← workspace-level record (append-only)
 ├── .gitignore                       ← projects/ .env* keys local settings
-├── workspace.sh                     ← setup | clone | check
+├── workspace.sh                     ← setup | clone | cite | restore | check
 ├── .githooks/pre-commit             ← runs workspace.sh check (+ gitleaks if installed)
 ├── catalog/repos.yaml               ← the fleet manifest (edit first)
 ├── docs/README.md                   ← docs system rules: intake, examination bar, gate
@@ -110,7 +113,7 @@ commit.
 | The same cross-repo relationship gets re-derived from source in a second task | `catalog/systems.yaml`, `relationships.yaml`, glossary |
 | Prototyping needed before a plan can be judged | `labs/` (tracked; no production standards) |
 | A scope document outgrows one file | Split `docs/<scope>.md` into a `docs/<scope>/` folder |
-| Analyses must be reproducible for audits or a second engineer | Whole-fleet snapshot lockfiles (pin + restore machinery) |
+| An analysis spans multiple sessions against moving upstreams, or a third party must verify what the fleet looked like independent of any finding | Standalone snapshot artifacts: task-named fleet lockfiles committed to git |
 | Reviewed analyses shared beyond the team | `reports/` (+ `audits/<date>/`) |
 | Sessions keep starting inside a child directory | Generated `CLAUDE.local.md` child bridge |
 | The sessions folder outgrows eyeballing | Generated `index.md` |
@@ -129,14 +132,14 @@ Each of these was weighed and deliberately not built in:
 | Day-one JSON Schemas (`schemas/`) | Deferred | The evidence format is five lines in `AGENTS.md`; contracts earn their keep only when shapes drift |
 | Day-one catalog knowledge files (systems/domains/relationships/glossary) | Deferred; only `repos.yaml` ships | Knowledge grows from confirmed findings, not from scaffolding |
 | A day-one skill library + generated registry | Deferred | With no skills on day one there is nothing to route or generate |
-| One script per mechanism | One `workspace.sh` with three subcommands | Fewer files to understand beats separation of concerns at this scale |
+| One script per mechanism | One `workspace.sh` (`setup | clone | cite | restore | check`) | Fewer files to understand beats separation of concerns at this scale |
 | A wider consistency checker | `workspace.sh check` (manifest validation) | The extra checks would guard machinery that doesn't exist day one |
 | Pre-created `reports/` and `labs/` | Deferred | Not used weekly at the start |
 | A separate `tasks/` workbench directory for working findings | Findings go straight into the docs system | A third home for knowledge would mean two hand-offs (task file → distillation → docs); the Open-findings intake inside each scope document keeps exactly one |
 | Multi-file scope folders (`background` / `specification` / `CHANGELOG` per scope) | One examined `docs/<scope>.md`, split only when it outgrows a file | Fewer files to keep coherent; the examination bar, not file boundaries, is what protects documentation quality |
 | Per-directory READMEs everywhere | Two READMEs + this blueprint | The rulebook is one page; orientation files for empty trees are noise |
 | Git submodules | A plain manifest | Submodules dirty the parent on every child pull, detach HEADs, clone emptily when `--init` is forgotten, and hard-fail on one inaccessible private child; a manifest composes the fleet without any of that |
-| Whole-fleet snapshot lockfiles (pin/restore machinery, citation checks) | Per-finding `<repo>@<sha>` citations | Fleet-wide pinning earns its keep in multi-engineer audit settings; a single-operator workspace only needs each claim anchored to the commit it was observed at — one `rev-parse`, zero machinery |
+| Whole-fleet snapshot lockfiles (generated files, naming ceremony, dangling-citation checks) | Per-finding citations + `cite`/`restore` | The lockfile's two real capabilities survive without the file: `cite` captures a coherent cross-repo moment as one inline line, and `restore` reproduces any cited state straight from a finding. What stays rejected is the standalone artifact — a fleet record independent of any finding — whose value waits on the §4 audit trigger |
 | Findings recorded inside the session logs | Findings live in the docs system's Open-findings intake | Logs are the journey; knowledge — even tentative — belongs where it will be examined and maintained, not in an append-only diary |
 | A never-pushed, local-only governance repo | Private remote required | No remote makes irreplaceable memory a single-disk point of failure; secret hygiene achieves the same privacy without the fragility |
 
@@ -149,12 +152,15 @@ The workspace is correct when:
    loudly.
 2. Every claim in a scope document's body carries a `<repo>@<sha>` citation
    and survives re-verification against source at that commit.
-3. Breaking the manifest makes `workspace.sh check` — and therefore the
+3. Pasting a finding's citations after `./workspace.sh restore` checks those
+   children out at the cited commits; a child with local changes is refused;
+   bare `restore <repo>` returns it to its manifest branch.
+4. Breaking the manifest makes `workspace.sh check` — and therefore the
    pre-commit hook — fail.
-4. A second session (any runtime) picks up the first session's decisions and
+5. A second session (any runtime) picks up the first session's decisions and
    pitfalls from the session logs with no human re-briefing.
-5. No write to any child repo is possible under the rules without a signed
+6. No write to any child repo is possible under the rules without a signed
    plan, and the only unprompted git actions are the closeout commit and its
    push.
-6. With the private remote configured, a dead machine costs at most
+7. With the private remote configured, a dead machine costs at most
    uncommitted local work — never the memory.

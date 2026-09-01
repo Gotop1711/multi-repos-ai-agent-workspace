@@ -4,7 +4,7 @@ One governance repo that lets AI agents work across many independent code
 repositories — safely, with durable memory, and with evidence for every claim.
 
 > **Start here: [docs/BLUEPRINT.md](docs/BLUEPRINT.md)** — why this repository
-> exists and the seven ideas behind its design, in ~150 lines. Everything else
+> exists and the seven ideas behind its design, in one short read. Everything else
 > in this repo is an implementation of that document.
 
 **11 files, one script.** The rules live in [AGENTS.md](AGENTS.md); the
@@ -43,7 +43,7 @@ a dead disk. (It ships with none on purpose.)
 | `docs/BLUEPRINT.md` | Why this repo exists; the design rationale |
 | `AGENTS.md` | The whole rulebook — canonical for every agent runtime |
 | `CLAUDE.md` | ≤5-line bridge to `AGENTS.md` (one per installed runtime that needs it) |
-| `workspace.sh` | `setup` \| `clone` \| `check` |
+| `workspace.sh` | `setup` \| `clone` \| `cite` \| `restore` \| `check` |
 | `catalog/repos.yaml` | The fleet manifest — also the authorization record |
 | `.agents/memory/sessions/` | Simple journey logs, one per agent run — decisions & pitfalls, never findings |
 | `docs/<scope>.md` + `docs/plans/` | The knowledge system: per-scope document (Open-findings intake + examined body) plus signed plans (see `docs/README.md`) |

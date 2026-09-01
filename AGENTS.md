@@ -30,7 +30,9 @@ the examination bar).
      standing git authorization**; every other git action here — and any
      state-changing git action in a child repo (branch, commit, tag, push,
      PR) — waits for explicit human instruction. Read-only git in children
-     (e.g. `rev-parse` for citations) is part of the sanctioned loop.
+     (e.g. `rev-parse` for citations) and the checkouts `./workspace.sh
+     restore` performs (they move HEAD, never history) are part of the
+     sanctioned loop.
 
 ## Red lines
 
@@ -56,6 +58,15 @@ plus file + symbol; evidence type (direct / corroborated / inferred /
 unverified); confidence (high / medium / low); unresolved questions. Never
 assume same-named things in different repos are the same entity without
 file-level evidence.
+
+A claim about how repositories **interact** cites every involved repo from a
+single `./workspace.sh cite` run — it prints the whole fleet as one coherent
+line; paste the involved subset, or the **full line when the claim's
+dependency surface is uncertain**. `cite` warns on stderr for any child with
+uncommitted changes — do not cite a warned repo until it is clean, or note
+the discrepancy in the finding. To re-examine any finding at its cited
+state, paste its `<repo>@<sha>` citations after `./workspace.sh restore`
+(bare `<repo>` returns a child to its manifest branch).
 
 ## Before analyzing any child
 
