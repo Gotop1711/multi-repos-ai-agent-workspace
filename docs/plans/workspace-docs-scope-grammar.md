@@ -4,6 +4,7 @@ Scope: workspace
 Status: discussion — **unsigned**. Nothing below has been applied; every rule
 edit in §9 is outside the agent write surface and waits for a human.
 Observed at: workspace@8e4db92 (this repository's HEAD when analysed).
+Owner's answers (2026-09-03, given interactively) are settled in §13.
 Origin: 2026-09-03 session (log `2026-09-03-claude-workspace-analyze-and-document-layout.md`);
 four independent designs (scope-first, feature-first, kind-first, hybrid), each
 refuted by a rules-conformance critic and a two-year scaling critic, then
@@ -371,13 +372,18 @@ finding ids, `proposed` scopes, product hubs, YAML frontmatter (day-one
 structure with no bite); a line-count split trigger and `git mv` of the root;
 pointer stubs in a consumer's Open findings.
 
-## 13. Questions for the human (they change the layout)
+## 13. Settled by the owner (2026-09-03)
 
-1. Do several child repositories together form one product? If yes, add
-   `scope: <product>` on those entries on day one; if every repo is its own
-   product, no `scope:` keys are needed.
-2. Is there a cross-cutting system (auth, observability, data platform) to
-   document as its own scope from the start — with a home repo in the fleet,
-   or as a convention spread across product repos? Either is legal; the answer
-   decides whether `docs/auth.md`-style documents are created by the first
-   session or only when a task names them.
+Answers given interactively in the session that wrote this plan; they replace
+the questions.
+
+1. **Some products span several repos.** When the fleet is declared, those
+   manifest entries carry `scope: <product>`; single-repo products need no
+   key (scope id = repo id). The one-word `workspace.sh:137` edit in §9 then
+   validates the key from day one.
+2. **Cross-cutting systems exist as conventions with no home repo.**
+   `docs/<system>.md` (auth, observability, …) is created when the owner names
+   the system in a task, not by the first session; every claim in it cites a
+   consumer repo, and Body › Consumers is where those citations live. No
+   `scope:` key points at such a scope. The document layer follows the same
+   rule: `sources/<system>/` may exist for it.

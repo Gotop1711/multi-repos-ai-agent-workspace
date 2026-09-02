@@ -5,6 +5,8 @@ Status: discussion — **unsigned**. Nothing below has been applied; the rule,
 script and ignore-file edits in §9 are outside the agent write surface and
 wait for a human.
 Observed at: workspace@8e4db92.
+Owner's answers (2026-09-03, given interactively) are settled in §14; the
+question sections are gone.
 Origin: 2026-09-03 session (log `2026-09-03-claude-workspace-analyze-and-document-layout.md`);
 three analyses of the workspace, four independent designs (blueprint-purist,
 evidence-first, agent-readability-first, storage-pragmatist), two adversarial
@@ -60,7 +62,9 @@ and is carried by the extension.
 Adoption note: nothing has "bitten twice" because there are no sessions yet.
 This is an owner decision to give a new input class a home, recorded as such
 in the CHANGELOG, with day-one mechanics cut to the irreversible-mistake
-guards (binary / size / secret) and the minimum that makes a document citable.
+guards (binary / size / secret) and the minimum that makes a document citable —
+plus Vision OCR and pptx/xlsx extraction, because the owner's pile (many scans,
+many decks and spreadsheets) means those two triggers have already bitten.
 
 ## 2. Layout
 
@@ -101,11 +105,11 @@ personal / HR / legal storage        ← anything that is not evidence for engin
 | Loose source, config and text-diagram files (sql, py, sh, toml, ini, conf, svg, drawio, mermaid, plantuml, ipynb, rst, adoc, tex) | same — ingested verbatim by MIME sniffing (any non-binary encoding); strip notebook outputs first if an `.ipynb` exceeds 1 MB | text derivative tracked | `…@<blob12> L<n>` |
 | Office documents (docx, doc, rtf, odt, html) | same; derivative via `textutil` | text derivative tracked | `…@<blob12> §<heading> L<n>` |
 | PDFs with a text layer (specs, manuals, papers, exported decks) | same; derivative via PDFKit (swift) with `<!-- page N -->` markers | text derivative tracked | `…@<blob12> p.<N>` |
-| Scanned PDFs, images, whiteboard photos, diagrams | same; derivative is header-only `status: no-text` until OCR (§8) is run on the ones that matter | header (+ OCR text) tracked; OCR claims ≤ medium confidence | `…@<blob12> p.<N>` or "figure, see original" |
-| Presentations (pptx, key) | export to PDF from the app first (`.key` is a folder bundle and cannot be hashed as one file; it is gitignored anyway); ingest the PDF | PDF text derivative tracked | `…pdf.md@<blob12> p.<N>` (page = slide) |
-| Spreadsheets (xlsx, numbers) | export each sheet as `<date>-<slug>-<sheet>.csv` (`.numbers` is a bundle: export first); the workbook goes to the store with a header-only derivative | CSV derivatives tracked | `…csv.md@<blob12> L<n>` |
+| Scanned PDFs, images, whiteboard photos, diagrams | same; `extract` runs macOS Vision OCR when a PDF has no usable text layer, and on png/jpg/tiff/heic directly (§8) | OCR text tracked, `extractor: vision-ocr`; OCR claims ≤ medium confidence | `…@<blob12> p.<N>` or "figure, see original" |
+| Presentations (pptx, key) | pptx: `extract` prints the text per slide (python3 stdlib, §8); Keynote `.key` is a folder bundle (and gitignored): export to pptx or PDF first | text derivative tracked | `…pptx.md@<blob12> slide <N>` or `…pdf.md@<blob12> p.<N>` |
+| Spreadsheets (xlsx, numbers) | xlsx: `extract` prints each sheet as tab-separated rows (python3 stdlib, §8; empty cells are skipped, so columns can shift — export a CSV when column position matters); Numbers is a bundle: export to xlsx or CSV first | text derivative tracked | `…xlsx.md@<blob12> sheet <name> L<n>` |
 | Emails (eml, emlx, msg) | save as Raw Message Source **with attachments removed first** (Mail: Message ▸ Remove Attachments) or paste headers + body into a `.txt`; attachments are ingested as their own documents; msg → eml first; only decision-bearing messages, never whole mailboxes | text derivative tracked | `…eml.md@<blob12> L<n>` |
-| Live cloud documents (Google Docs/Sheets/Slides, Confluence, Notion, Apple Notes) | export a dated snapshot — Docs → docx/pdf, Sheets → CSV per sheet, Slides → PDF, Confluence/Notion → HTML/Markdown — and ingest the export; put the source URL in the scope document's Changes entry (`as received: <url>`) | text derivative tracked | `…@<blob12>` + locator; the URL alone is never a citation |
+| Live cloud documents (Google Docs/Sheets/Slides, Confluence, Notion, Apple Notes) | a routine, not an exception: export a dated snapshot — Docs → docx/pdf, Sheets → CSV per sheet, Slides → PDF, Confluence/Notion → HTML/Markdown — and ingest the export; put the source URL in the scope document's Changes entry (`as received: <url>`) | text derivative tracked | `…@<blob12>` + locator; the URL alone is never a citation |
 | Chat threads (Slack/Teams exports, WhatsApp txt) | only decision-bearing threads, exported to txt/json, names of private individuals reviewed | verbatim derivative | `…@<blob12> L<n>` |
 | Cross-cutting org documents (architecture, policies, roadmaps, vendor comparisons) | `sources/<system-scope>/…` or `sources/workspace/…` — exactly one home; other scopes cite by path | text derivative tracked | as above |
 | Large media and datasets (video, audio, dumps, > 1 MB of text) | store only; header-only derivative `status: no-text` (paste a transcript or data dictionary under the header if one exists; split oversize text by chapter) | header tracked, bytes never | `…@<blob12> t=<mm:ss>` / "see original" |
@@ -266,8 +270,8 @@ loaded: …/liblept.5.dylib`) — do not rely on it.
 
 Recommended installs (outside the repo): `brew install gitleaks` (the hook
 already calls it if present; without it the secret gate is only `extract`'s
-grep) and optionally `brew install poppler` (`pdftotext -layout`, `pdftoppm`
-for multi-page OCR renders). gitleaks syntax is unverified here: newer
+grep) and optionally `brew install poppler` (`pdftotext -layout` as an alternative
+PDF text route; not needed for OCR — PDFKit renders the pages). gitleaks syntax is unverified here: newer
 releases use `gitleaks dir <path>` and `gitleaks git --pre-commit --staged`;
 `detect`/`protect` are older forms — check `gitleaks --help` after installing.
 
@@ -283,18 +287,22 @@ Per format, as `extract` runs them:
   (`<!-- page N -->` per page; exit 2 unreadable, exit 3 encrypted →
   `status: no-text`) *(verified)*. With poppler, `pdftotext -layout "$f" -`
   is equivalent.
-- `pptx xlsx msg` → not extracted on day one: export from the app (PDF for
-  decks, CSV per sheet, eml for mail) and ingest the export.
+- `pptx xlsx` → the `ooxml-text` python3 program embedded in `extract` (§9):
+  pptx per slide (`<!-- slide N -->`), xlsx per sheet as tab-separated rows
+  *(verified on synthetic files built from the OOXML structure; test on real
+  PowerPoint and Excel exports before applying)*. `msg` → save as eml first.
 - Every derivative is normalised to **UTF-8 without BOM**: UTF-16/32 originals
   (Excel "Unicode Text", many Windows exports) are converted with `iconv`; a
   NUL byte anywhere makes git — and the hook — treat the file as binary
   *(amended)*.
-- Images and scanned PDFs → `status: no-text` on day one. When a scan
-  matters, OCR by hand with macOS Vision (medium quality; render at ≥ 200 dpi):
-  `qlmanage -t -s 2400 -o .agents/scratch/ql "$f"` gives page 1 as PNG
-  *(verified)* (multi-page needs `pdftoppm -r 200 -png`), then a 9-line Swift
-  `VNRecognizeTextRequest` program; paste the output under `<!-- ocr -->`,
-  keep the header; composite transparent PNGs onto white first.
+- Images and scanned PDFs → the `ocr` Swift program embedded in `extract`
+  (§9): PDFKit renders each page at 200 dpi and Vision recognises the text,
+  `<!-- page N (ocr) -->` per page; png/jpg/tiff/heic go straight to Vision
+  *(verified: a rendered one-page PDF is read correctly in 1.3 s)*. `extract`
+  falls back to OCR when a PDF's text layer averages under 20 characters per
+  page; a scan carrying a printed header line can slip through — force it with
+  `OCR=<name>`. OCR text is medium quality: cite it at ≤ medium confidence;
+  composite transparent PNGs onto white first.
 - Secret gate (inside `extract`, before anything is written): key formats
   (`-----BEGIN … PRIVATE KEY`, `AKIA…`, `gh[pousr]_…`, `xox[abp]-…`, `sk-…`,
   `AIza…`, JWT `eyJ…`, `scheme://user:pass@`) plus case-insensitive
@@ -356,9 +364,12 @@ binary/size gates inspect the index".
   manifest" — the residue of Open finding 6; keep symbols on the finding
   line after the file token, or extend the arm to `*.*` if no repo id
   contains a dot.
+- Line 12: `trap 'rm -f "$tmp" "$ocr" "$ooxml"' EXIT` (the two extra helper
+  programs below are temp files too).
 - New `extract)` subcommand before `check)` *(amended after the critic:
   no copy into the store; bundle guard; MIME fallback; UTF-8 normalisation;
-  `[`-aware secret regex; `RESTRICTED`; write only after hashing succeeded)*:
+  `[`-aware secret regex; `RESTRICTED`; write only after hashing succeeded;
+  OCR and OOXML arms added for the owner's pile)*:
 ```
 extract)
   shift; scope="${1:-}"; shift || true
@@ -371,6 +382,62 @@ guard CommandLine.arguments.count > 1, let d = PDFDocument(url: URL(fileURLWithP
 if d.isLocked { exit(3) }
 for i in 0..<d.pageCount { print("<!-- page \(i+1) -->"); print(d.page(at: i)?.string ?? "") }
 SWIFT
+  ocr="$(mktemp)"; cat > "$ocr" <<'SWIFT'
+import Foundation
+import PDFKit
+import Vision
+import AppKit
+let args = CommandLine.arguments
+guard args.count > 1 else { exit(2) }
+func ocr(_ cg: CGImage) -> [String] {
+    let req = VNRecognizeTextRequest(); req.recognitionLevel = .accurate
+    try? VNImageRequestHandler(cgImage: cg, options: [:]).perform([req])
+    return (req.results ?? []).sorted { $0.boundingBox.minY > $1.boundingBox.minY }.compactMap { $0.topCandidates(1).first?.string }
+}
+if let doc = PDFDocument(url: URL(fileURLWithPath: args[1])) {
+    for i in 0..<doc.pageCount {
+        guard let page = doc.page(at: i) else { continue }
+        let box = page.bounds(for: .mediaBox); let s: CGFloat = 200.0 / 72.0
+        let img = page.thumbnail(of: CGSize(width: box.width * s, height: box.height * s), for: .mediaBox)
+        print("<!-- page \(i+1) (ocr) -->")
+        if let cg = img.cgImage(forProposedRect: nil, context: nil, hints: nil) { ocr(cg).forEach { print($0) } }
+    }
+} else if let img = NSImage(contentsOfFile: args[1]), let cg = img.cgImage(forProposedRect: nil, context: nil, hints: nil) {
+    print("<!-- page 1 (ocr) -->"); ocr(cg).forEach { print($0) }
+} else { exit(2) }
+SWIFT
+  ooxml="$(mktemp)"; cat > "$ooxml" <<'PY'
+# ooxml-text: print the text of a .pptx (per slide) or .xlsx (per sheet, tab-separated) - python3 stdlib only
+import sys, re, zipfile, xml.etree.ElementTree as ET
+p = sys.argv[1]; z = zipfile.ZipFile(p)
+A = '{http://schemas.openxmlformats.org/drawingml/2006/main}'
+S = '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'
+R = '{http://schemas.openxmlformats.org/officeDocument/2006/relationships}'
+if p.lower().endswith('.pptx'):
+    slides = sorted((n for n in z.namelist() if re.match(r'ppt/slides/slide\d+\.xml$', n)), key=lambda n: int(re.search(r'\d+', n).group()))
+    for i, n in enumerate(slides, 1):
+        print(f'<!-- slide {i} -->')
+        for para in ET.fromstring(z.read(n)).iter(A + 'p'):
+            t = ''.join(x.text or '' for x in para.iter(A + 't'))
+            if t.strip(): print(t)
+else:
+    ss = []
+    if 'xl/sharedStrings.xml' in z.namelist():
+        for si in ET.fromstring(z.read('xl/sharedStrings.xml')).iter(S + 'si'):
+            ss.append(''.join(x.text or '' for x in si.iter(S + 't')))
+    rels = {r.get('Id'): r.get('Target') for r in ET.fromstring(z.read('xl/_rels/workbook.xml.rels'))}
+    for sh in ET.fromstring(z.read('xl/workbook.xml')).iter(S + 'sheet'):
+        target = rels[sh.get(R + 'id')].lstrip('/'); path = target if target.startswith('xl/') else 'xl/' + target
+        print(f"<!-- sheet {sh.get('name')} -->")
+        for row in ET.fromstring(z.read(path)).iter(S + 'row'):
+            cells = []
+            for c in row.iter(S + 'c'):
+                v = c.find(S + 'v'); t = c.get('t')
+                if t == 's' and v is not None: cells.append(ss[int(v.text)])
+                elif t == 'inlineStr': cells.append(''.join(x.text or '' for x in c.iter(S + 't')))
+                else: cells.append(v.text if v is not None else '')
+            if any(x.strip() for x in cells): print('\t'.join(cells))
+PY
   fail=0
   for src in "$@"; do
     name="$(basename "$src")"; orig="originals/$scope/$name"; out="sources/$scope/$name.md"
@@ -384,7 +451,12 @@ SWIFT
       case "$ext" in
         md|txt|csv|tsv|json|yaml|yml|xml|log|eml|emlx|ics) extractor=verbatim; cat "$orig" > "$body" ;;
         docx|doc|rtf|odt|html|htm|webarchive) extractor=textutil; textutil -convert txt -stdout "$orig" > "$body" ;;
-        pdf) extractor=pdfkit; swift "$tmp" "$orig" > "$body" 2>/dev/null || { extractor="none (pdf unreadable or encrypted)"; : > "$body"; } ;;
+        pdf) extractor=pdfkit; swift "$tmp" "$orig" > "$body" 2>/dev/null || { extractor="none (pdf unreadable or encrypted)"; : > "$body"; }
+             pages="$(grep -c '^<!-- page' "$body")"; chars="$(grep -v '^<!-- page' "$body" | tr -d '[:space:]' | wc -c | tr -d ' ')"
+             if [ "${OCR:-}" = "$name" ] || { [ "$pages" -gt 0 ] && [ "$chars" -lt $((20 * pages)) ]; }; then
+               extractor=vision-ocr; swift "$ocr" "$orig" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; }; fi ;;
+        png|jpg|jpeg|tif|tiff|heic|gif) extractor=vision-ocr; swift "$ocr" "$orig" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; } ;;
+        pptx|xlsx) extractor=ooxml; python3 "$ooxml" "$orig" > "$body" 2>/dev/null || { extractor="none (ooxml unreadable)"; : > "$body"; } ;;
         *) [ "$(file -b --mime-encoding "$orig")" = binary ] || { extractor=verbatim; cat "$orig" > "$body"; } ;;
       esac
       enc="$(file -b --mime-encoding "$body")"
@@ -534,12 +606,17 @@ not a §4 trigger: documents were the first input class with no home").
 0. **Rule commit (human):** apply §9; `./workspace.sh check` → PASS; commit
    and push. Then `brew install gitleaks` (recommended), optionally
    `brew install poppler`. Do not depend on tesseract.
-1. **Choose the store:** a cloud-drive folder with version history (set to
-   "available offline"/mirror) or a snapshotted NAS;
-   `ln -s "$HOME/Library/CloudStorage/<Provider>/workspace-originals" originals`
-   per machine. A plain local folder works today; moving it later changes only
-   the symlink target.
-2. **Inventory without moving anything:** types
+1. **Create the store (settled: a plain local folder for now):**
+   `mkdir -p ~/Documents/workspace-originals && ln -s ~/Documents/workspace-originals originals`.
+   Until it becomes a versioned cloud-drive folder or a snapshotted NAS, only
+   the extracted text is protected by the remote — keep the folder inside
+   whatever backs up your home directory (Time Machine), and move it when a
+   versioned store exists: the symlink target changes, nothing in git does.
+2. **Export the live documents, then inventory without moving anything.**
+   Google Docs → docx or pdf, Sheets → xlsx or CSV per sheet, Slides → pptx or
+   pdf, Confluence/Notion → HTML or Markdown, Apple Notes → pdf; name each
+   export by its export date and keep the source URL for the Changes entry.
+   Then: types
    `find "$PILE" -type f | awk -F. '{print tolower($NF)}' | sort | uniq -c | sort -rn`;
    sizes `find "$PILE" -type f -size +1M | wc -l`; duplicates among files under
    50 MB `find "$PILE" -type f -size -50M -exec shasum -a 256 {} + | sort | awk '{print $1}' | uniq -d`
@@ -551,7 +628,7 @@ not a §4 trigger: documents were the first input class with no home").
    is a naming and scope staging area, not a second copy — symlink or move
    large media into it rather than copying; `workspace` is the default scope
    when unsure (re-scoping later is the §4 procedure and old blob citations
-   keep resolving). Mark PII/NDA files for `RESTRICTED` ingest; unpack
+   keep resolving). Nothing is expected to be restricted (`RESTRICTED` remains for exceptions); unpack
    archives; export bundles and unsupported formats from their apps. If the
    catalog is still empty, product scopes are the repo ids you intend to
    declare; declare and `clone` them before writing product findings.
@@ -562,8 +639,8 @@ not a §4 trigger: documents were the first input class with no home").
    Act on every non-OK line: `SKIP` (rename, or export a bundle), `REFUSED
    credential` (vault + redacted copy under a new name + rerun, or
    `SECRET_OK=<name>` for a documented placeholder), `REFUSED over 1 MB`
-   (split), `no-text` (scanned — accept; OCR what matters; or "no extractor
-   for .ext" — export from the app).
+   (split), `no-text` (OCR found nothing, or "no extractor for .ext" — export from the
+   app).
 6. **Review:** `./workspace.sh check` → PASS; `du -sh sources` (hundreds of
    documents should be tens of MB); spot-check `head -12` of a few of each type.
 7. **Provenance and index:** create `docs/<scope>.md` where absent and append
@@ -584,15 +661,17 @@ not a §4 trigger: documents were the first input class with no home").
 
 ## 12. Growth triggers (bite twice)
 
-OCR inside `extract`; pptx/xlsx extractors (python3 stdlib); generated
-`sources/INDEX.md` checked by `check`; `workspace.sh verify` (batched
+Generated `sources/INDEX.md` checked by `check` (with many documents of every
+kind it is generated at migration step 7 already); `workspace.sh verify` (batched
 `shasum` of the store, launchd) — until then `check` compares sizes and hashes
 only mounted originals whose size still matches; `restore` writing
 `git show <blob>` into scratch; originals versioned as a read-only child repo
 `projects/originals` (needs git-lfs or a size discipline of its own); a skill
 for the OCR/export how-to; a second store for NDA material; plus two existing
 defects worth fixing at the next script touch — the index-aware hook and the
-`restore` fetch (Open findings 5 and 9 in `docs/workspace.md`).
+`restore` fetch (Open findings 5 and 9 in `docs/workspace.md`). Not a
+trigger but the first TODO after migration: move the originals folder to a
+versioned store.
 
 ## 13. Accepted tradeoffs and rejected alternatives
 
@@ -622,40 +701,39 @@ unexamined home for scope knowledge); citing documents by URL/location only
 `check` failing on store-side drift (blocks the mandatory closeout on state
 the agent may not touch).
 
-## 14. Assumptions (what changes if wrong)
+## 14. Settled by the owner (2026-09-03)
 
-- The documents are engineering evidence about the products or the
-  organisation, not a personal archive — else most of the pile stays out and
-  the layer may not be worth adopting yet.
-- A versioned cloud-drive folder or snapshotted NAS is available as the store
-  — else a plain local folder today (only the text in git survives a dead
-  disk), or pull the "originals as a read-only child" trigger forward.
-- The bulk is PDFs, Office files and text; scans and decks a minority — if
-  scans dominate, run OCR at migration; if decks/sheets dominate, ship the
-  pptx/xlsx extractors with the rule commit.
-- Individual documents' text is under 1 MB — else split by chapter or ingest
-  a header plus a sample.
-- The human will name files `YYYY-MM-DD-<slug>.<ext>` and assign a coarse scope
-  — else ingest everything under `workspace` first and re-scope later.
-- Some documents concern products whose repos are not yet declared — their
-  derivatives can be filed under the intended repo id, but body claims about
-  code cannot be promoted until the repo is declared and cloned.
-- The private GitHub remote is an acceptable place for the extracted text of
-  non-restricted documents — if some vendor material is NDA-bound even as
-  text, mark it restricted (header only).
+Answers given interactively in the session that wrote this plan; they replace
+the earlier assumptions and questions.
 
-## 15. Questions for the human (they change the layout)
+- **Store:** none yet — a plain local folder outside the repo, symlinked as
+  `originals/` (migration step 1). Consequence: until it moves to a versioned
+  cloud-drive folder or a snapshotted NAS, the remote protects only the
+  extracted text; the originals are as safe as the home-directory backup.
+  Moving later changes only the symlink target. The "originals as a read-only
+  child repo" trigger stays deferred: with no git-lfs, a pile of scans and
+  decks would bloat it.
+- **Sensitivity:** nothing restricted — all extracted text may reach the
+  private remote. `RESTRICTED=<name>` stays available for exceptions;
+  credentials still never enter (redacted copy under a new name).
+- **Subjects:** a mix — product documents under product scopes, the rest under
+  system scopes or `workspace`. Body claims about code are promoted only once
+  the product's repos are declared and cloned.
+- **Agents may run `extract`** on files placed in the store; the AGENTS.md
+  wording in §9 stands as written.
+- **Pile shape:** mostly PDFs, Office files and text, **plus** many scans or
+  image-only files, many decks and spreadsheets, and many live cloud documents.
+  Consequences, applied above: Vision OCR and the pptx/xlsx extractor ship in
+  the rule commit (§8, §9) instead of waiting for a trigger; exporting live
+  documents as dated snapshots is a routine step (§3, §11); with many
+  documents of every kind, `sources/INDEX.md` is generated at migration.
+- **Products span repos** (from the scope-grammar plan): `scope: <product>`
+  keys go on those manifest entries when the fleet is declared, so
+  `sources/<product>/` and `docs/<product>.md` share one id.
+- **Cross-cutting systems are conventions with no home repo:**
+  `sources/<system>/` may exist for such a scope; `docs/<system>.md` is created
+  when the owner names it in a task; every claim cites a consumer repo.
 
-1. Which store will hold the originals — a cloud drive with version history
-   (which provider; can the folder be "available offline"), a NAS with
-   snapshots, or nothing yet?
-2. Rough shape of the pile: count, total size, share of scanned/image-only
-   material, share of decks and spreadsheets, share of live cloud documents.
-3. Are any documents NDA-bound or PII-bearing such that even their extracted
-   text must not reach the private remote? If that is most of the pile, a
-   second store with stricter access and no text in git is the layout instead.
-4. Which child repositories will be declared, and are the documents mostly
-   about those products or mostly cross-cutting? Scope folder names must match
-   `docs/<scope>.md` names.
-5. May agents run `./workspace.sh extract` on files you drop into the store
-   (bounded writes to `sources/`), or is derivative generation a human-only step?
+Still unknown and not needed for the layout: the count and total size of the
+pile. They decide only how long migration step 5 takes and whether the
+`.agents/scratch/inbox/` staging should use symlinks for large media.

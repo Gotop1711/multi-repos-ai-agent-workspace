@@ -57,6 +57,10 @@ and evidence on every claim. Rationale in `BLUEPRINT.md`; rulebook in
   `docs/plans/workspace-document-layer.md` (where human-supplied documents of
   mixed file types go). No rule, script or ignore file was changed.
 
+#### Changed
+- Same day: both plans amended with the owner's interactive answers (settled
+  sections replace the questions); still unsigned.
+
 ## Open findings
 
 All observed at workspace@8e4db92. Entry format: claim — citation; evidence

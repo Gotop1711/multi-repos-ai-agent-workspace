@@ -78,3 +78,24 @@ by product, both, or other).
   no identities) and a one-off HTTPS push finds no valid token in the
   osxkeychain; `gh` is not installed. The closeout commit is local on `main`,
   one ahead of `origin/main` — the human runs `git push`.
+
+## Update — same session, after the owner's answers
+- Completed: folded the owner's interactive answers into both plans as settled
+  facts (document-layer §14; scope-grammar §13); question sections removed;
+  routing table, §8 extraction, §9 `extract` arms, §11 migration and §12
+  triggers adjusted accordingly.
+- Answers: no store yet (plain local folder); nothing restricted; subjects a
+  mix of product and cross-cutting; agents may run `extract`; the pile has
+  many scans, many decks/spreadsheets and many live cloud documents besides
+  PDFs/Office/text; some products span several repos; cross-cutting systems
+  are conventions with no home repo.
+- Decision: because of the pile shape, Vision OCR and a pptx/xlsx extractor
+  move into the rule commit. Both were prototyped in
+  `.agents/scratch/verify-extractors/`: the OOXML extractor on synthetic
+  files only (test on real exports before applying); the PDFKit + Vision OCR
+  program on a rendered one-page PDF (1.3 s, text read correctly).
+- Pitfall: the closeout commit was not amended a second time — the owner may
+  already have pushed it from their terminal — so this update is a second
+  commit of the same session.
+- TODO: the owner signs or rejects the two plans; after migration, move the
+  originals folder to a versioned store.
