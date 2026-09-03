@@ -4,7 +4,7 @@
 # closeout; the binary / size gates below inspect the index.
 ./workspace.sh check || exit 1
 # Text only, ever: history is never rewritten, so one binary would be permanent.
-# Document originals go to ./originals (the store); their text to sources/ via `workspace.sh extract`.
+# Document originals stay in gitignored docs/assets/; their text goes to docs/<scope>/sources/ via `workspace.sh ingest`.
 git diff --cached --numstat | awk -F'\t' '$1=="-" { print "FAIL: binary staged: " $3 " — originals belong in ./originals, not in git"; bad=1 } END { exit bad }' || exit 1
 git diff --cached --name-only --diff-filter=ACMR -z | while IFS= read -r -d '' f; do
   [ "$(git cat-file -s ":$f")" -le 1048576 ] || { echo "FAIL: $f is over 1 MiB — too big for this repo; store it as an original"; exit 1; }

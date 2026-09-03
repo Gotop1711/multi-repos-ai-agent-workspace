@@ -111,3 +111,21 @@ amendment, CHANGELOG. The tombstone is deleted on `nabu-dashboard` after the
 rebase. Lesson: the repo-id default for an unnamed scope is the root cause;
 prefer `scope:` keys at fleet declaration. The owner's workflow is rebase — the
 project branch is rebased onto `main` after every infrastructure commit.
+
+## Addendum — originals copied into gitignored docs/assets/ (owner instruction)
+The owner does not want the symlinked external store: originals are copied
+into the repository directory. Asked (question tool) and answered: originals
+gitignored, not tracked; central `docs/assets/<scope>/` for originals; text
+derivatives under `docs/<scope>/sources/`. Mechanics: `ASSETS="docs/assets"`
+replaces the store, `mount_store` is gone, `ingest` refuses to run unless
+`docs/assets/` is ignored, `check` scans `docs/*/sources/` and fails on any
+tracked file under `docs/assets/`, `restore` skips `*sources/*@*` tokens.
+Rules: AGENTS.md, docs/README.md (tree, reserved `assets`, rename rule,
+citation form), README.md, BLUEPRINT.md; §15 amendment in the document-layer
+specification. The four nabu documents are migrated on `nabu-dashboard` after
+the rebase: `git mv sources/nabu docs/nabu/sources`, re-ingest from the pile
+so the headers gain the new `source:` path (blobs change; the 31 findings'
+citations are updated to the new blobs; `received:` is preserved by
+re-ingesting rather than re-extracting). The repo-root `originals` symlink was
+removed; `~/Documents/workspace-originals/` is the owner's folder and was left
+in place — it is now unused.

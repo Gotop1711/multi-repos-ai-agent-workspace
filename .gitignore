@@ -1,8 +1,8 @@
 # Product layer — never tracked by the workspace repo
 /projects/
 
-# Document originals — the store, mirrored per machine as a symlink (anchored, no trailing slash so a symlink matches)
-/originals
+# Document originals — copied in by `workspace.sh ingest`, never committed (their text lives in docs/<scope>/sources/)
+/docs/assets/
 
 # Disposable working artifacts — safe to delete anytime
 /.agents/scratch/

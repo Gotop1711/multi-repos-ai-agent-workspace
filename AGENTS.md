@@ -9,10 +9,10 @@ All records and documentation here are produced by agents: session logs
 written by the agent at every closeout (`check` only reports the newest one);
 the docs system per `docs/README.md` (findings into a scope document's Open
 findings; the examined body only past the examination bar). The one exception
-is `sources/` — text derivatives of human-supplied documents, written only by
-`./workspace.sh ingest` (copies the original into the document store under a
-dated name, then extracts it) or `extract` (a file already in the store); the
-store is mirrored at gitignored `originals/`.
+is the document layer — `docs/<scope>/sources/`, text derivatives of
+human-supplied documents, written only by `./workspace.sh ingest` (copies the
+original to gitignored `docs/assets/<scope>/` under a dated name, then extracts
+it) or `extract` (a file already there). Originals are never committed.
 
 ## Every session
 
@@ -25,7 +25,7 @@ store is mirrored at gitignored `originals/`.
    `scope:` in `catalog/repos.yaml`, default the repo id), read
    `docs/<scope>.md` and, if `docs/<scope>/` exists, the topic files the task
    needs; for a feature also `docs/plans/<scope>--<feature>.md`; and list
-   `sources/<scope>/` — the human-supplied documents about it.
+   `docs/<scope>/sources/` — the human-supplied documents about it.
 4. Work (rules below).
 5. Close out — mandatory:
    - Write the session log
@@ -54,20 +54,21 @@ store is mirrored at gitignored `originals/`.
   plan in `docs/plans/` (signature format in `docs/README.md`).
   Read-only repos' push URLs are disabled regardless.
 - ⛔ The write surface is exactly: `.agents/memory/sessions/` (logs), `docs/`
-  (per its rules), `./CHANGELOG.md`, `sources/<scope>/*.md` **only as
-  `./workspace.sh ingest` or `extract` output** (never hand-edited), the store
-  **only through `./workspace.sh ingest`** (it adds a dated original and never
-  overwrites, renames or removes one), and gitignored `.agents/scratch/` for
+  (per its rules), `./CHANGELOG.md`, `docs/<scope>/sources/*.md` **only as
+  `./workspace.sh ingest` or `extract` output** (never hand-edited), gitignored
+  `docs/assets/<scope>/` **only through `./workspace.sh ingest`** (it adds a
+  dated original and never overwrites, renames or removes one), and gitignored
+  `.agents/scratch/` for
   disposable working artifacts (safe to delete anytime; their conclusions go
   into findings or the log). Never write inside `projects/`; never touch an
   existing original by any other means.
 - ⛔ No secrets in any file, ever; report a credential's location, not its value.
 - ⛔ Nothing binary and nothing over 1 MiB enters this repository — the
-  pre-commit hook refuses it; document originals go to the store. A document
-  containing a credential is never ingested — `ingest` refuses it and removes
-  its copy from the store again; a human vaults the value and provides a
-  redacted copy, ingested under a new name. Documents already inside
-  `projects/` are never copied into `sources/`.
+  pre-commit hook refuses it; document originals stay in gitignored
+  `docs/assets/`. A document containing a credential is never ingested —
+  `ingest` refuses it and removes its copy again; a human vaults the value and
+  provides a redacted copy, ingested under a new name. Documents already
+  inside `projects/` are never copied into `docs/`.
 - ⛔ No production systems unless a task explicitly authorizes it (then
   read-only credentials only); no destructive commands; inspect source rather
   than executing it.
@@ -84,7 +85,7 @@ assume same-named things in different repos are the same entity without
 file-level evidence.
 
 A finding drawn from a human-supplied document cites the derivative it read:
-`sources/<scope>/<name>.<ext>.md@<blob>` — read with
+`docs/<scope>/sources/<name>.<ext>.md@<blob>` — read with
 `git hash-object <path> | cut -c1-12` (equal to
 `git rev-parse --short=12 HEAD:<path>` after the closeout commit) — plus
 `p.<N>`, `L<n>` or `§heading`, and optionally a ≤12-word verbatim quote.
@@ -92,7 +93,7 @@ Re-examine with `git show <blob>`; a changed `hash-object` means re-verify. A
 document is direct evidence of what it says; a claim about code or the fleet
 drawn from it is `inferred` until re-verified in `projects/` at a
 `<repo>@<sha>`. OCR-derived text caps confidence at medium; when layout,
-figures or formulas matter, open the original in `originals/` before
+figures or formulas matter, open the original in `docs/assets/<scope>/` before
 promotion. Document tokens and locators on a pasted citation line are skipped
 by `restore`.
 
@@ -109,5 +110,5 @@ state, paste its `<repo>@<sha>` citations after `./workspace.sh restore`
 
 Read its README and its own AGENTS.md first; identify runtime, entry points,
 APIs, storage; exclude generated-output and dependency directories (a
-`sources/` derivative is the agent-readable form of its original, not
+`docs/<scope>/sources/` derivative is the agent-readable form of its original, not
 excluded output).

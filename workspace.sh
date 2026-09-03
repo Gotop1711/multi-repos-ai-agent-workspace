@@ -4,26 +4,15 @@
 #   ./workspace.sh clone                 rebuild the fleet from catalog/repos.yaml
 #   ./workspace.sh cite                  print the fleet as one citation line — paste into findings
 #   ./workspace.sh restore <repo>@<sha>… check cited commits out (bare <repo> returns to its branch)
-#   ./workspace.sh ingest <scope> <file>…      copy a document from anywhere into the store under a dated name, then extract it
-#   ./workspace.sh extract <scope> originals/<scope>/<file>…  text of a stored document → sources/<scope>/<file>.md
+#   ./workspace.sh ingest <scope> <file>…      copy a document to docs/assets/<scope>/ (gitignored) under a dated name, then extract it
+#   ./workspace.sh extract <scope> docs/assets/<scope>/<file>…  text of a copied document → docs/<scope>/sources/<file>.md
 #   ./workspace.sh check                 verify the manifest and the document layer (session-init / pre-commit)
 # Plain bash (macOS 3.2 ok), zero dependencies — extract alone uses macOS textutil, swift (PDFKit, Vision) and python3.
 set -u
 cd "$(dirname "$0")" || exit 1
 MANIFEST="catalog/repos.yaml"
-STORE="${WORKSPACE_STORE:-$HOME/Documents/workspace-originals}"   # the document store; ingest creates it and the originals symlink
+ASSETS="docs/assets"        # originals: copied in by ingest as docs/assets/<scope>/<YYYY-MM-DD-slug.ext>, gitignored, never committed
 tmp=""; ocr=""; ooxml=""; trap 'rm -f "$tmp" "$ocr" "$ooxml"' EXIT
-
-mount_store() { # originals -> the store. `mount_store create` makes both; bare mount_store only links a store that already exists
-  if [ -L originals ]; then
-    [ -e originals ] || { [ "${1:-}" = create ] && mkdir -p "$(readlink originals)"; }
-  elif [ ! -e originals ]; then
-    if [ -d "$STORE" ] || [ "${1:-}" = create ]; then
-      mkdir -p "$STORE" && ln -s "$STORE" originals && echo "mounted: originals -> $STORE" >&2
-    fi
-  fi
-  [ -e originals ]
-}
 
 entries() { # one line per repo: id|path|remote|branch|access
   awk '
@@ -56,7 +45,7 @@ setup)
     echo "  1. edit catalog/repos.yaml         # declare your child repos + access levels"
     echo "  2. ./workspace.sh clone            # fleet appears under projects/"
   fi
-  echo "  •  ./workspace.sh ingest <scope> <files>   # documents become agent-readable text under sources/<scope>/ (store: $STORE)"
+  echo "  •  ./workspace.sh ingest <scope> <files>   # documents become agent-readable text under docs/<scope>/sources/ (originals copied to $ASSETS/<scope>/, gitignored)"
   git remote | grep -q . \
     || echo "  •  add a PRIVATE remote for this repo and push — its memory must survive a dead disk"
   ;;
@@ -113,7 +102,7 @@ restore)
   # (quotes, or a zsh variable) still splits into tokens
   for token in $*; do
     case "$token" in
-      sources/*@*) echo "[$token] is a document citation — read it with: git show ${token#*@}" >&2; continue ;;
+      *sources/*@*) echo "[$token] is a document citation — read it with: git show ${token#*@}" >&2; continue ;;
       */*|p.[0-9]*|L[0-9]*) continue ;;   # file / symbol locators on a pasted finding line
     esac
     id="${token%%@*}"; sha=""; [ "$token" != "$id" ] && sha="${token#*@}"
@@ -137,12 +126,12 @@ restore)
   ;;
 
 extract)
-  # humans place originals in ./originals/<scope>/ (dated names); this only reads them and writes sources/<scope>/<name>.md
+  # reads an original already under docs/assets/<scope>/ (dated name) and writes docs/<scope>/sources/<name>.md
   shift; scope="${1:-}"; shift || true
-  usage="usage: workspace.sh extract <scope> originals/<scope>/<file>…   (scope = a docs/<scope>.md id; RESTRICTED=<file> header only; OCR=<file> force OCR; SECRET_OK=<file> waive a false positive)"
+  usage="usage: workspace.sh extract <scope> docs/assets/<scope>/<file>…   (scope = a docs/<scope>.md id; RESTRICTED=<file> header only; OCR=<file> force OCR; SECRET_OK=<file> waive a false positive)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
-  mount_store || { echo "FAIL: ./originals missing — './workspace.sh ingest <scope> <file>' creates the store, or: ln -s <your document store> originals" >&2; exit 1; }
+  [ -d "$ASSETS/$scope" ] || { echo "FAIL: $ASSETS/$scope/ missing — './workspace.sh ingest $scope <file>' copies a document there first" >&2; exit 1; }
   tmp="$(mktemp)"; cat > "$tmp" <<'SWIFT'
 import Foundation
 import PDFKit
@@ -208,10 +197,10 @@ else:
 PY
   fail=0
   for src in "$@"; do
-    name="$(basename "$src")"; orig="originals/$scope/$name"; out="sources/$scope/$name.md"
+    name="$(basename "$src")"; orig="$ASSETS/$scope/$name"; out="docs/$scope/sources/$name.md"
     [ -d "$src" ] && { echo "[$name] SKIP: a bundle (rtfd/key/pages/numbers) — export it from its app (PDF, txt or CSV) and ingest the export" >&2; fail=$((fail+1)); continue; }
-    if ! { [ -f "$orig" ] && [ "$(cd "$(dirname "$src")" 2>/dev/null && pwd -P)" = "$(cd "originals/$scope" 2>/dev/null && pwd -P)" ]; }; then
-      echo "[$name] SKIP: place the file in originals/$scope/ first — humans write the store, extract only reads it" >&2; fail=$((fail+1)); continue; fi
+    if ! { [ -f "$orig" ] && [ "$(cd "$(dirname "$src")" 2>/dev/null && pwd -P)" = "$(cd "$ASSETS/$scope" 2>/dev/null && pwd -P)" ]; }; then
+      echo "[$name] SKIP: not under $ASSETS/$scope/ — './workspace.sh ingest $scope <file>' copies it there first" >&2; fail=$((fail+1)); continue; fi
     printf '%s' "$name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.[a-z0-9]+$' || { echo "[$name] SKIP: name must be YYYY-MM-DD-<slug>.<ext>" >&2; fail=$((fail+1)); continue; }
     sha="$(shasum -a 256 "$orig" | cut -c1-64)"; [ -n "$sha" ] || { echo "[$name] REFUSED: cannot hash $orig" >&2; fail=$((fail+1)); continue; }
     ext="$(printf '%s' "${name##*.}" | tr 'A-Z' 'a-z')"; body="$(mktemp)"; extractor=none; status=ok
@@ -236,13 +225,13 @@ PY
       hits="$(grep -nE -e '-----BEGIN [A-Z ]*PRIVATE KEY' -e 'AKIA[0-9A-Z]{16}' -e 'gh[pousr]_[A-Za-z0-9]{30,}' -e 'xox[abp]-[A-Za-z0-9-]{10,}' -e 'sk-[A-Za-z0-9_-]{20,}' -e 'AIza[0-9A-Za-z_-]{30,}' -e 'eyJ[A-Za-z0-9_-]{20,}\.' -e '://[^/[:space:]:]+:[^@/[:space:]]+@' "$body" | cut -d: -f1 | tr '\n' ',' | sed 's/,$//')"
       hits2="$(grep -inE '(password|passwd|secret|api[_-]?key|access[_-]?token|bearer)[[:space:]]*[:=][[:space:]]*[^[:space:]<[]{8,}' "$body" | cut -d: -f1 | tr '\n' ',' | sed 's/,$//')"
       if [ -n "$hits$hits2" ] && [ "${SECRET_OK:-}" != "$name" ]; then
-        echo "[$name] REFUSED: credential-shaped text at line(s) ${hits}${hits:+,}${hits2} — vault the value, put a redacted copy in the store under a new name, re-run (SECRET_OK=$name waives a false positive)" >&2
+        echo "[$name] REFUSED: credential-shaped text at line(s) ${hits}${hits:+,}${hits2} — vault the value, ingest a redacted copy under a new name (SECRET_OK=$name waives a false positive)" >&2
         rm -f "$body"; fail=$((fail+1)); continue
       fi
       [ "$(wc -c < "$body")" -le 1000000 ] || { echo "[$name] REFUSED: extracted text over 1 MB — split the original and ingest the parts" >&2; rm -f "$body"; fail=$((fail+1)); continue; }
       [ -s "$body" ] || { status="no-text"; [ "$extractor" = none ] && echo "[$name] no extractor for .$ext — export from the app and ingest the export" >&2; }
     fi
-    mkdir -p "sources/$scope"
+    mkdir -p "docs/$scope/sources"
     { printf -- '---\nsource: %s\nsha256: %s\nbytes: %s\nextractor: %s\nstatus: %s\n' "$orig" "$sha" "$(wc -c < "$orig" | tr -d ' ')" "$extractor" "$status"
       [ -n "${RECEIVED:-}" ] && printf 'received: %s\n' "$RECEIVED"   # the as-received file name, set by ingest
       [ "${SECRET_OK:-}" = "$name" ] && printf 'secret_review: waived %s\n' "$(date +%F)"
@@ -253,23 +242,23 @@ PY
   ;;
 
 ingest)
-  # agent or human: copy a document from anywhere into the store as originals/<scope>/YYYY-MM-DD-<slug>.<ext>, then extract it.
-  # The store is only ever ADDED to here: identical bytes are reused, different bytes under an existing name are refused,
-  # and a file that extract refuses (credential, oversize) is removed from the store again.
+  # agent or human: copy a document from anywhere to docs/assets/<scope>/YYYY-MM-DD-<slug>.<ext> (gitignored), then extract it.
+  # Originals are only ever ADDED here: identical bytes are reused, different bytes under an existing name are refused,
+  # and a file that extract refuses (credential, oversize) is removed again.
   shift; scope="${1:-}"; shift || true
   usage="usage: workspace.sh ingest <scope> <file>…   (NAME=<YYYY-MM-DD-slug.ext> names one file — required for non-ASCII titles; DATE=<YYYY-MM-DD> dates the default name; RESTRICTED/OCR/SECRET_OK=<stored name> pass through to extract)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
   [ -n "${NAME:-}" ] && [ "$#" -gt 1 ] && { echo "FAIL: NAME= names exactly one file — ingest the others in their own calls" >&2; exit 1; }
-  mount_store create || { echo "FAIL: cannot mount originals -> $STORE" >&2; exit 1; }
-  mkdir -p "originals/$scope" || { echo "FAIL: cannot create originals/$scope" >&2; exit 1; }
-  store_real="$(cd originals && pwd -P)"; proj_real="$( [ -d projects ] && cd projects && pwd -P )"
+  git check-ignore -q "$ASSETS/$scope/probe" 2>/dev/null || { echo "FAIL: $ASSETS/ is not gitignored — originals must never be committed; add '/docs/assets/' to .gitignore" >&2; exit 1; }
+  mkdir -p "$ASSETS/$scope" || { echo "FAIL: cannot create $ASSETS/$scope" >&2; exit 1; }
+  store_real="$(cd "$ASSETS" && pwd -P)"; proj_real="$( [ -d projects ] && cd projects && pwd -P )"
   fail=0
   for src in "$@"; do
     base="$(basename "$src")"
     [ -f "$src" ] || { echo "[$base] SKIP: not a file (a bundle such as .key/.pages/.numbers/.rtfd — export it from its app first)" >&2; fail=$((fail+1)); continue; }
     real="$(cd "$(dirname "$src")" && pwd -P)/$base"
-    case "$real" in "$store_real"/*) echo "[$base] SKIP: already in the store — use: ./workspace.sh extract $scope originals/$scope/<name>" >&2; fail=$((fail+1)); continue ;; esac
+    case "$real" in "$store_real"/*) echo "[$base] SKIP: already under $ASSETS/ — use: ./workspace.sh extract $scope $ASSETS/$scope/<name>" >&2; fail=$((fail+1)); continue ;; esac
     if [ -n "$proj_real" ]; then case "$real" in "$proj_real"/*) echo "[$base] SKIP: inside projects/ — a document in a child repo is cited <repo>@<sha> + path, never copied" >&2; fail=$((fail+1)); continue ;; esac; fi
     if [ -n "${NAME:-}" ]; then name="$NAME"; else
       if printf '%s' "$base" | LC_ALL=C grep -q '[^ -~]'; then
@@ -287,20 +276,20 @@ ingest)
       name="$date-$slug.$ext"
     fi
     printf '%s' "$name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.[a-z0-9]+$' || { echo "[$base] SKIP: '$name' is not YYYY-MM-DD-<slug>.<ext> in lowercase ASCII" >&2; fail=$((fail+1)); continue; }
-    dest="originals/$scope/$name"; placed=0
+    dest="$ASSETS/$scope/$name"; placed=0
     if [ -e "$dest" ]; then
       if [ "$(shasum -a 256 "$src" | cut -c1-64)" = "$(shasum -a 256 "$dest" | cut -c1-64)" ]; then
         echo "[$base] already stored as $name (identical bytes) — re-extracting" >&2
       else
-        echo "[$base] REFUSED: $dest exists with different bytes — the store is never overwritten; a new version is a new dated name (NAME=…)" >&2; fail=$((fail+1)); continue
+        echo "[$base] REFUSED: $dest exists with different bytes — an original is never overwritten; a new version is a new dated name (NAME=…)" >&2; fail=$((fail+1)); continue
       fi
     else
-      cp "$src" "$dest" || { echo "[$base] REFUSED: cannot copy into the store" >&2; fail=$((fail+1)); continue; }
+      cp "$src" "$dest" || { echo "[$base] REFUSED: cannot copy to $ASSETS/$scope/" >&2; fail=$((fail+1)); continue; }
       placed=1; echo "[$base] → $dest" >&2
     fi
     if ! RECEIVED="$base" bash "$0" extract "$scope" "$dest"; then
       fail=$((fail+1))
-      [ "$placed" -eq 1 ] && { rm -f "$dest"; echo "[$base] removed from the store again — extract refused it" >&2; }
+      [ "$placed" -eq 1 ] && { rm -f "$dest"; echo "[$base] removed from $ASSETS/$scope/ again — extract refused it" >&2; }
     fi
   done
   [ "$fail" -eq 0 ] || { echo "ingest: $fail file(s) not ingested." >&2; exit 1; }
@@ -326,20 +315,24 @@ check)
     /^[[:space:]]+(path|remote|default_branch|access|scope):/ { if (NF > 2) print NR }
   ' "$MANIFEST")"
   [ -z "$bad" ] || { echo "FAIL: manifest line(s) $(echo $bad | tr ' ' ','): values must be single tokens (no spaces or inline comments)" >&2; status=1; }
-  if [ -d sources ]; then   # document layer: every file is a .md derivative with a header; text only, ≤ 1 MiB
-    find sources -type f ! -name .DS_Store | while read -r f; do
-      case "$f" in *.md) : ;; *) echo "FAIL: $f — only .md derivatives live under sources/ (originals go to the store)" >&2; exit 1 ;; esac
-      [ "$(head -1 "$f")" = "---" ] && grep -qE '^sha256: [0-9a-f]{64}$' "$f" && grep -qE '^source: originals/' "$f" \
+  if ls -d docs/*/sources >/dev/null 2>&1; then   # document layer: docs/<scope>/sources/*.md derivatives with a header; originals in gitignored docs/assets/<scope>/
+    find docs/*/sources -type f ! -name .DS_Store | while read -r f; do
+      scope="$(basename "$(dirname "$(dirname "$f")")")"
+      case "$f" in *.md) : ;; *) echo "FAIL: $f — only .md derivatives live under docs/<scope>/sources/ (originals go to $ASSETS/<scope>/)" >&2; exit 1 ;; esac
+      [ "$(head -1 "$f")" = "---" ] && grep -qE '^sha256: [0-9a-f]{64}$' "$f" && grep -qE "^source: $ASSETS/" "$f" \
         || { echo "FAIL: $f lacks the extract header (source/sha256) — regenerate with ./workspace.sh extract" >&2; exit 1; }
       [ "$(wc -c < "$f")" -le 1048576 ] || { echo "FAIL: $f is over 1 MiB — split the original and re-extract" >&2; exit 1; }
       git check-ignore -q "$f" 2>/dev/null && { echo "FAIL: $f is matched by .gitignore and would never be committed — rename it" >&2; exit 1; }
       o="$(sed -n 's/^source: //p' "$f" | head -1)"
-      case "$o" in "originals/$(basename "$(dirname "$f")")/"*) : ;; *) echo "FAIL: $f: header source $o is not under this scope — re-extract in place" >&2; exit 1 ;; esac
+      case "$o" in "$ASSETS/$scope/"*) : ;; *) echo "FAIL: $f: header source $o is not under $ASSETS/$scope/ — re-extract in place" >&2; exit 1 ;; esac
       if [ -e "$o" ] && { [ "$(wc -c < "$o" | tr -d ' ')" != "$(sed -n 's/^bytes: //p' "$f" | head -1)" ] || [ "$(shasum -a 256 "$o" | cut -c1-64)" != "$(sed -n 's/^sha256: //p' "$f" | head -1)" ]; }; then
-        echo "warn: $f: $o differs from its header — a new version is a new dated name; re-run extract or restore the store copy" >&2
+        echo "warn: $f: $o differs from its header — a new version is a new dated name; re-ingest it or restore the copy" >&2
       fi
     done || status=1
-    echo "info: $(find sources -type f -name '*.md' | wc -l | tr -d ' ') document derivative(s) under sources/$([ -e originals ] || echo ' (originals not mounted: hashes not verified)')"
+    tracked="$(git ls-files "$ASSETS" 2>/dev/null | wc -l | tr -d ' ')"
+    [ "$tracked" -eq 0 ] || { echo "FAIL: $tracked file(s) under $ASSETS/ are tracked by git — originals are never committed (git rm --cached them; keep '/docs/assets/' in .gitignore)" >&2; status=1; }
+    [ ! -d "$ASSETS" ] || find "$ASSETS" -type f ! -name .DS_Store | while read -r o; do s="$(basename "$(dirname "$o")")"; [ -f "docs/$s/sources/$(basename "$o").md" ] || echo "warn: $o has no derivative — ./workspace.sh extract $s $o" >&2; done
+    echo "info: $(find docs/*/sources -type f -name '*.md' | wc -l | tr -d ' ') document derivative(s) under docs/*/sources/$([ -d "$ASSETS" ] || echo " ($ASSETS/ absent: hashes not verified)")"
   fi
   [ "$n" -gt 0 ] || echo "warn: manifest has no repos yet — edit catalog/repos.yaml"
   newest="$(ls .agents/memory/sessions 2>/dev/null | grep -E '^[0-9]{4}-' | sort | tail -1)"

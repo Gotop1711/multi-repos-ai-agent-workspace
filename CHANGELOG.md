@@ -3,6 +3,21 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [Originals copied into gitignored docs/assets/, text under docs/<scope>/sources/] — 2026-09-03
+
+### Changed
+- No external store and no `originals` symlink any more. `workspace.sh ingest`
+  copies a document to `docs/assets/<scope>/<YYYY-MM-DD-slug.ext>` — gitignored,
+  never committed — and `extract` writes its text to
+  `docs/<scope>/sources/<name>.md`, beside the scope's own documents. Citation
+  form: `docs/<scope>/sources/<name>.<ext>.md@<blob>`. `check` validates each
+  pair by size and hash when the original is present and fails if anything
+  under `docs/assets/` is tracked; `ingest` refuses to run unless
+  `docs/assets/` is ignored. Root-level `sources/` and `originals/` are gone;
+  `assets` is a reserved id. Owner decision: the symlinked store added a manual
+  mount step for no benefit once originals are simply copied into the
+  repository directory. Amendment in `docs/workspace/document-layer.md` §15.
+
 ## [No tombstone documents: a scope id change is a recorded rename] — 2026-09-03
 
 ### Changed

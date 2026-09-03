@@ -109,6 +109,19 @@ and evidence on every claim. Rationale in `BLUEPRINT.md`; rulebook in
   Amendment in `docs/workspace/scope-grammar.md` §14; the tombstone itself is
   removed on the project branch.
 
+### [No store, no symlink: originals in gitignored docs/assets/, text under docs/<scope>/sources/] — 2026-09-03
+
+#### Changed
+- Owner instruction: the external store and its `originals` symlink are gone.
+  `ingest` copies an original to `docs/assets/<scope>/<dated name>`
+  (gitignored, never committed) and `extract` writes
+  `docs/<scope>/sources/<name>.md` beside the scope's own documents; root-level
+  `sources/` and `originals/` no longer exist. `check` validates each pair and
+  fails if anything under `docs/assets/` is tracked. `assets` joins the
+  reserved ids. Rules and the citation form updated in AGENTS.md,
+  docs/README.md, README.md and BLUEPRINT.md; amendment in
+  `docs/workspace/document-layer.md` §15.
+
 ## Open findings
 
 All observed at workspace@8e4db92. Entry format: claim — citation; evidence

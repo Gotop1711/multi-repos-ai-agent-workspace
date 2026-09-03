@@ -758,3 +758,34 @@ longer the only index from an original title to its stored name. Why the rule
 changed: the first real ingest (2026-09-03) was blocked outright — the agent
 could not mount the store or place a file, so no document claim could be
 cited — which contradicts the workspace's purpose of autonomous agent work.
+
+### 2026-09-03 — no store, no symlink: originals copied into gitignored `docs/assets/<scope>/`, text under `docs/<scope>/sources/`
+
+Owner instruction, recorded in `../../CHANGELOG.md`. Supersedes the layout of
+§1 and §2 (external store, `originals` symlink, root-level `sources/`), the
+destination and citation columns of §3 wherever they say `originals/<scope>/`
+or `sources/<scope>/`, the paths of §4, the `source:` form of §5, the citation
+form of §6, and migration steps 1, 5, 11 and 12 of §11. The layout now:
+
+- `docs/assets/<scope>/YYYY-MM-DD-<slug>.<ext>` — the original, copied there by
+  `./workspace.sh ingest`; `/docs/assets/` is gitignored and `check` fails if
+  anything under it is tracked. A fresh clone has no originals, only text, as
+  before; `check` then reports hashes as not verified.
+- `docs/<scope>/sources/YYYY-MM-DD-<slug>.<ext>.md` — the derivative, written
+  by `ingest` or by `extract <scope> docs/assets/<scope>/<name>`; header
+  `source: docs/assets/<scope>/<name>`; cited
+  `docs/<scope>/sources/<name>.<ext>.md@<blob12>` plus the same locators as
+  before (`§heading`, `L<n>`, `p.<N>`).
+- Everything human-supplied about a scope therefore sits under `docs/<scope>/`
+  beside its scope document and topic files; `sources` and `assets` are
+  reserved names so no topic file can collide.
+- A rename (`docs/README.md` › Scopes) moves `docs/assets/<old>` with a plain
+  `mv` (gitignored copies), `git mv`s `docs/<old>/sources`, and re-extracts to
+  refresh the `source:` headers; old blobs still resolve with `git show`.
+
+Why: the store and symlink existed to keep binaries out of git while backing
+them up elsewhere; the owner decided the originals are simply copies of their
+own files, wants them inside the repository directory, and does not need them
+in git — so the mount step bought nothing. What §1 still guards is unchanged:
+only text enters git, the hook refuses binaries and files over 1 MiB, and a
+derivative's sha256 pins the bytes it was extracted from.
