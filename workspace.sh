@@ -4,13 +4,26 @@
 #   ./workspace.sh clone                 rebuild the fleet from catalog/repos.yaml
 #   ./workspace.sh cite                  print the fleet as one citation line — paste into findings
 #   ./workspace.sh restore <repo>@<sha>… check cited commits out (bare <repo> returns to its branch)
+#   ./workspace.sh ingest <scope> <file>…      copy a document from anywhere into the store under a dated name, then extract it
 #   ./workspace.sh extract <scope> originals/<scope>/<file>…  text of a stored document → sources/<scope>/<file>.md
 #   ./workspace.sh check                 verify the manifest and the document layer (session-init / pre-commit)
 # Plain bash (macOS 3.2 ok), zero dependencies — extract alone uses macOS textutil, swift (PDFKit, Vision) and python3.
 set -u
 cd "$(dirname "$0")" || exit 1
 MANIFEST="catalog/repos.yaml"
+STORE="${WORKSPACE_STORE:-$HOME/Documents/workspace-originals}"   # the document store; ingest creates it and the originals symlink
 tmp=""; ocr=""; ooxml=""; trap 'rm -f "$tmp" "$ocr" "$ooxml"' EXIT
+
+mount_store() { # originals -> the store. `mount_store create` makes both; bare mount_store only links a store that already exists
+  if [ -L originals ]; then
+    [ -e originals ] || { [ "${1:-}" = create ] && mkdir -p "$(readlink originals)"; }
+  elif [ ! -e originals ]; then
+    if [ -d "$STORE" ] || [ "${1:-}" = create ]; then
+      mkdir -p "$STORE" && ln -s "$STORE" originals && echo "mounted: originals -> $STORE" >&2
+    fi
+  fi
+  [ -e originals ]
+}
 
 entries() { # one line per repo: id|path|remote|branch|access
   awk '
@@ -25,7 +38,7 @@ entries() { # one line per repo: id|path|remote|branch|access
 }
 
 cmd="${1:-help}"
-case "$cmd" in clone|cite|restore|check|extract)
+case "$cmd" in clone|cite|restore|check|extract|ingest)
   [ -f "$MANIFEST" ] || { echo "FAIL: $MANIFEST missing" >&2; exit 1; }
 esac
 
@@ -43,6 +56,7 @@ setup)
     echo "  1. edit catalog/repos.yaml         # declare your child repos + access levels"
     echo "  2. ./workspace.sh clone            # fleet appears under projects/"
   fi
+  echo "  •  ./workspace.sh ingest <scope> <files>   # documents become agent-readable text under sources/<scope>/ (store: $STORE)"
   git remote | grep -q . \
     || echo "  •  add a PRIVATE remote for this repo and push — its memory must survive a dead disk"
   ;;
@@ -128,7 +142,7 @@ extract)
   usage="usage: workspace.sh extract <scope> originals/<scope>/<file>…   (scope = a docs/<scope>.md id; RESTRICTED=<file> header only; OCR=<file> force OCR; SECRET_OK=<file> waive a false positive)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
-  [ -e originals ] || { echo "FAIL: ./originals missing — ln -s <your document store> originals" >&2; exit 1; }
+  mount_store || { echo "FAIL: ./originals missing — './workspace.sh ingest <scope> <file>' creates the store, or: ln -s <your document store> originals" >&2; exit 1; }
   tmp="$(mktemp)"; cat > "$tmp" <<'SWIFT'
 import Foundation
 import PDFKit
@@ -230,11 +244,66 @@ PY
     fi
     mkdir -p "sources/$scope"
     { printf -- '---\nsource: %s\nsha256: %s\nbytes: %s\nextractor: %s\nstatus: %s\n' "$orig" "$sha" "$(wc -c < "$orig" | tr -d ' ')" "$extractor" "$status"
+      [ -n "${RECEIVED:-}" ] && printf 'received: %s\n' "$RECEIVED"   # the as-received file name, set by ingest
       [ "${SECRET_OK:-}" = "$name" ] && printf 'secret_review: waived %s\n' "$(date +%F)"
       printf -- '---\n'; cat "$body"; } > "$out"; rm -f "$body"
     echo "[$name] → $out ($extractor, $status); cite as $out@$(git hash-object "$out" | cut -c1-12) after the closeout commit"
   done
   [ "$fail" -eq 0 ] || { echo "extract: $fail file(s) not ingested." >&2; exit 1; }
+  ;;
+
+ingest)
+  # agent or human: copy a document from anywhere into the store as originals/<scope>/YYYY-MM-DD-<slug>.<ext>, then extract it.
+  # The store is only ever ADDED to here: identical bytes are reused, different bytes under an existing name are refused,
+  # and a file that extract refuses (credential, oversize) is removed from the store again.
+  shift; scope="${1:-}"; shift || true
+  usage="usage: workspace.sh ingest <scope> <file>…   (NAME=<YYYY-MM-DD-slug.ext> names one file — required for non-ASCII titles; DATE=<YYYY-MM-DD> dates the default name; RESTRICTED/OCR/SECRET_OK=<stored name> pass through to extract)"
+  printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
+  [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
+  [ -n "${NAME:-}" ] && [ "$#" -gt 1 ] && { echo "FAIL: NAME= names exactly one file — ingest the others in their own calls" >&2; exit 1; }
+  mount_store create || { echo "FAIL: cannot mount originals -> $STORE" >&2; exit 1; }
+  mkdir -p "originals/$scope" || { echo "FAIL: cannot create originals/$scope" >&2; exit 1; }
+  store_real="$(cd originals && pwd -P)"; proj_real="$( [ -d projects ] && cd projects && pwd -P )"
+  fail=0
+  for src in "$@"; do
+    base="$(basename "$src")"
+    [ -f "$src" ] || { echo "[$base] SKIP: not a file (a bundle such as .key/.pages/.numbers/.rtfd — export it from its app first)" >&2; fail=$((fail+1)); continue; }
+    real="$(cd "$(dirname "$src")" && pwd -P)/$base"
+    case "$real" in "$store_real"/*) echo "[$base] SKIP: already in the store — use: ./workspace.sh extract $scope originals/$scope/<name>" >&2; fail=$((fail+1)); continue ;; esac
+    if [ -n "$proj_real" ]; then case "$real" in "$proj_real"/*) echo "[$base] SKIP: inside projects/ — a document in a child repo is cited <repo>@<sha> + path, never copied" >&2; fail=$((fail+1)); continue ;; esac; fi
+    if [ -n "${NAME:-}" ]; then name="$NAME"; else
+      if printf '%s' "$base" | LC_ALL=C grep -q '[^ -~]'; then
+        echo "[$base] SKIP: the title is not ASCII and the slug rule would silently drop its non-Latin words — name it yourself: NAME=YYYY-MM-DD-<english-slug>.<ext> ./workspace.sh ingest $scope '$src'" >&2; fail=$((fail+1)); continue; fi
+      ext="$(printf '%s' "${base##*.}" | tr 'A-Z' 'a-z')"; stem="${base%.*}"
+      slug="$(printf '%s' "$stem" | iconv -c -f UTF-8 -t ASCII//TRANSLIT 2>/dev/null | tr -d "'\`^~\"" | tr 'A-Z' 'a-z' | sed -E 's/[^a-z0-9]+/-/g; s/^-//; s/-$//')"
+      date="${DATE:-}"
+      if printf '%s' "$slug" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}(-|$)'; then            # a leading date in the title is the document's own date
+        [ -n "$date" ] || date="$(printf '%s' "$slug" | cut -c1-10)"; slug="$(printf '%s' "$slug" | cut -c12-)"
+      elif printf '%s' "$slug" | grep -qE '(^|-)[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then          # …or a trailing one
+        [ -n "$date" ] || date="$(printf '%s' "$slug" | sed -E 's/.*([0-9]{4}-[0-9]{2}-[0-9]{2})$/\1/')"; slug="$(printf '%s' "$slug" | sed -E 's/-?[0-9]{4}-[0-9]{2}-[0-9]{2}$//')"
+      fi
+      [ -n "$date" ] || date="$(stat -f %Sm -t %Y-%m-%d "$src")"                             # last resort: the file's modification date
+      [ -n "$slug" ] || slug=untitled
+      name="$date-$slug.$ext"
+    fi
+    printf '%s' "$name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.[a-z0-9]+$' || { echo "[$base] SKIP: '$name' is not YYYY-MM-DD-<slug>.<ext> in lowercase ASCII" >&2; fail=$((fail+1)); continue; }
+    dest="originals/$scope/$name"; placed=0
+    if [ -e "$dest" ]; then
+      if [ "$(shasum -a 256 "$src" | cut -c1-64)" = "$(shasum -a 256 "$dest" | cut -c1-64)" ]; then
+        echo "[$base] already stored as $name (identical bytes) — re-extracting" >&2
+      else
+        echo "[$base] REFUSED: $dest exists with different bytes — the store is never overwritten; a new version is a new dated name (NAME=…)" >&2; fail=$((fail+1)); continue
+      fi
+    else
+      cp "$src" "$dest" || { echo "[$base] REFUSED: cannot copy into the store" >&2; fail=$((fail+1)); continue; }
+      placed=1; echo "[$base] → $dest" >&2
+    fi
+    if ! RECEIVED="$base" bash "$0" extract "$scope" "$dest"; then
+      fail=$((fail+1))
+      [ "$placed" -eq 1 ] && { rm -f "$dest"; echo "[$base] removed from the store again — extract refused it" >&2; }
+    fi
+  done
+  [ "$fail" -eq 0 ] || { echo "ingest: $fail file(s) not ingested." >&2; exit 1; }
   ;;
 
 check)
@@ -280,11 +349,11 @@ check)
   ;;
 
 help)
-  sed -n '2,9p' "$0"
+  sed -n '2,10p' "$0"
   ;;
 
 *)
-  sed -n '2,9p' "$0" >&2
+  sed -n '2,10p' "$0" >&2
   exit 1
   ;;
 esac

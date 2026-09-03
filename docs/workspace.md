@@ -45,6 +45,13 @@ and evidence on every claim. Rationale in `BLUEPRINT.md`; rulebook in
   (`a9f8876…`) — direct (executed); high. Basis for citing any tracked file by
   blob without new machinery.
 
+### Specifications (moved from `docs/plans/` on 2026-09-03)
+
+- → see `workspace/document-layer.md` — how human-supplied documents enter the
+  workspace: the store, `ingest` / `extract`, derivatives, blob citations.
+- → see `workspace/scope-grammar.md` — how `docs/` is organised: scopes,
+  features, plans, session-log names.
+
 ## Changes
 
 ### [Create the scope document; record the 2026-09-03 analysis] — 2026-09-03
@@ -71,6 +78,24 @@ and evidence on every claim. Rationale in `BLUEPRINT.md`; rulebook in
   Plans and the session log renamed to the `--` grammar; `Shipped:` lines
   added. Open findings 1, 4, 7, 14 struck as resolved; 3, 6, 15, 16, 17
   annotated as partly resolved.
+
+### [Agents may ingest documents; the workspace specifications leave docs/plans/] — 2026-09-03
+
+#### Changed
+- Owner instruction (session of 2026-09-03): a store only humans may write
+  made the first real ingest impossible for an agent, which was never the
+  intent. The store is now on the agent write surface through
+  `workspace.sh ingest` only, which adds dated originals and never overwrites,
+  renames or removes one; `extract` is unchanged for files a human placed.
+- The two founding plans moved verbatim — except their H1 and a prepended
+  status line — from `docs/plans/workspace--document-layer.md` to
+  `docs/workspace/document-layer.md` and from
+  `docs/plans/workspace--docs-scope-grammar.md` to
+  `docs/workspace/scope-grammar.md`. They specify this repository; they are
+  not plans for child-repo work, which is what `docs/plans/` gates. Each
+  carries an appended amendment recording today's changes. Earlier findings
+  and CHANGELOG entries that say `plan workspace--…` are history and resolve
+  to the new files.
 
 ## Open findings
 

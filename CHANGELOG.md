@@ -3,6 +3,30 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [Agents may ingest documents; workspace specifications leave docs/plans/] — 2026-09-03
+
+### Added
+- `workspace.sh ingest <scope> <file>…`: copies a document from anywhere into
+  the store as `originals/<scope>/YYYY-MM-DD-<slug>.<ext>`, mounting
+  `originals -> ~/Documents/workspace-originals` (or `$WORKSPACE_STORE`) when
+  absent, then runs `extract`. `NAME=` names one file and is required for a
+  non-ASCII title (the slug rule silently drops non-Latin words); `DATE=` dates
+  a default name; a leading or trailing date in the title is taken as the
+  document's own. The store is only ever added to: identical bytes are reused,
+  different bytes under an existing name are refused, and a file `extract`
+  refuses (credential, oversize) is removed from the store again. Derivatives
+  gain a `received: <as-received name>` header line.
+
+### Changed
+- AGENTS.md: the store joins the agent write surface through `ingest` only;
+  existing originals are still never touched. Owner decision: the human-only
+  store blocked the first real ingest (docs/workspace.md finding 23) and
+  contradicted the workspace's purpose of autonomous agent work.
+- The two founding plans are now specifications at
+  `docs/workspace/document-layer.md` and `docs/workspace/scope-grammar.md`;
+  `docs/plans/` is reserved for plans that authorize child-repo work, and a
+  workspace design change is adopted by owner instruction and recorded here.
+
 ## [Document layer: text in sources/, originals in a store] — 2026-09-03
 
 ### Added

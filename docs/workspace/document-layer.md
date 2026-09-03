@@ -1,4 +1,11 @@
-# Plan — the document layer: text in `sources/`, originals in a store
+# workspace/document-layer — how human-supplied documents enter the workspace
+
+> **Status: adopted 2026-09-03.** Specification of this repository's document
+> layer. Born as the signed plan `workspace--document-layer` and shipped the
+> same day; moved here verbatim from `docs/plans/` on 2026-09-03 by owner
+> instruction, because `docs/plans/` gates child-repo work only. The lifecycle
+> lines below are its provenance. Amendments are appended in §15 and take
+> precedence over the sections they amend.
 
 Scope: workspace
 Signed: gotop1711 — 2026-09-03
@@ -724,3 +731,30 @@ the earlier assumptions and questions.
 Still unknown and not needed for the layout: the count and total size of the
 pile. They decide only how long migration step 5 takes and whether the
 `.agents/scratch/inbox/` staging should use symlinks for large media.
+
+## 15. Amendments
+
+### 2026-09-03 — agents may add originals to the store (`ingest`)
+
+Owner instruction, recorded in `../../CHANGELOG.md` (entry "Agents may ingest
+documents…"). Supersedes the first two bullets of §7 and the sentence "Humans
+write the store; agents only read it" in §1: `./workspace.sh ingest <scope>
+<file>…` copies a document from anywhere into
+`originals/<scope>/YYYY-MM-DD-<slug>.<ext>`, mounting
+`originals -> $WORKSPACE_STORE` (default `~/Documents/workspace-originals`)
+when absent, then runs `extract` — so migration steps 1, 4 and 5 are one
+command for either party. What §7 still forbids, now enforced mechanically:
+overwriting (different bytes under an existing name are refused), renaming,
+removing or editing an existing original; the one removal `ingest` performs is
+of a file it had itself just added and `extract` then refused (credential,
+oversize). The §4 slug recipe is applied only to ASCII titles; a non-ASCII
+title must be named with `NAME=` — measured on this owner's pile, the recipe
+silently deletes CJK and yields a plausible name that has lost its subject
+(`docs/workspace.md` finding 25). A leading or trailing date in an ASCII title
+is taken as the document's own date; `DATE=` overrides; the file's
+modification date is the last resort. A derivative written by `ingest` carries
+`received: <as-received name>`, so the scope document's Changes entry is no
+longer the only index from an original title to its stored name. Why the rule
+changed: the first real ingest (2026-09-03) was blocked outright — the agent
+could not mount the store or place a file, so no document claim could be
+cited — which contradicts the workspace's purpose of autonomous agent work.

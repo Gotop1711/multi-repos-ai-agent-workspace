@@ -1,4 +1,11 @@
-# Plan — governing `docs/`: scope-first, with a naming grammar
+# workspace/scope-grammar — how `docs/` is organised
+
+> **Status: adopted 2026-09-03.** Specification of this repository's `docs/`
+> layout. Born as the signed plan `workspace--docs-scope-grammar` and shipped
+> the same day; moved here verbatim from `docs/plans/` on 2026-09-03 by owner
+> instruction, because `docs/plans/` gates child-repo work only. The lifecycle
+> lines below are its provenance. Amendments are appended in §14 and take
+> precedence over the sections they amend.
 
 Scope: workspace
 Signed: gotop1711 — 2026-09-03
@@ -381,3 +388,21 @@ the questions.
    consumer repo, and Body › Consumers is where those citations live. No
    `scope:` key points at such a scope. The document layer follows the same
    rule: `sources/<system>/` may exist for it.
+
+## 14. Amendments
+
+### 2026-09-03 — workspace design leaves `docs/plans/`
+
+Owner instruction, recorded in `../../CHANGELOG.md`. Supersedes the last
+sentence of §2 ("workspace-level *proposals* still go to the log's TODO and,
+when substantial, to an unsigned `docs/plans/workspace--<topic>.md` such as
+this one"): `docs/plans/` holds only plans that authorize child-repo work, so
+the gate audit `grep -L '^Signed:' docs/plans/*.md` lists nothing else. A
+proposal about the workspace itself starts in `docs/workspace.md` Open
+findings and the log's TODO; once the owner adopts it, its specification lives
+in `docs/workspace/<topic>.md` — this file and `document-layer.md` are the
+first two — with a status note under the H1 and a CHANGELOG entry. The `--`
+grammar, the session-log form, the filing rule and the tag rule are
+unchanged. The two founding plans were moved verbatim except for their H1 and
+the prepended note; earlier references `plan workspace--document-layer` and
+`plan workspace--docs-scope-grammar` resolve to these files.

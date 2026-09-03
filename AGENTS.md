@@ -10,8 +10,9 @@ written by the agent at every closeout (`check` only reports the newest one);
 the docs system per `docs/README.md` (findings into a scope document's Open
 findings; the examined body only past the examination bar). The one exception
 is `sources/` — text derivatives of human-supplied documents, written only by
-`./workspace.sh extract`; the originals live in your document store, mirrored
-at gitignored `originals/`.
+`./workspace.sh ingest` (copies the original into the document store under a
+dated name, then extracts it) or `extract` (a file already in the store); the
+store is mirrored at gitignored `originals/`.
 
 ## Every session
 
@@ -54,16 +55,19 @@ at gitignored `originals/`.
   Read-only repos' push URLs are disabled regardless.
 - ⛔ The write surface is exactly: `.agents/memory/sessions/` (logs), `docs/`
   (per its rules), `./CHANGELOG.md`, `sources/<scope>/*.md` **only as
-  `./workspace.sh extract` output** (never hand-edited), and gitignored
-  `.agents/scratch/` for disposable working artifacts (safe to delete anytime;
-  their conclusions go into findings or the log). Never write inside
-  `projects/`; never write inside `originals/` or the store.
+  `./workspace.sh ingest` or `extract` output** (never hand-edited), the store
+  **only through `./workspace.sh ingest`** (it adds a dated original and never
+  overwrites, renames or removes one), and gitignored `.agents/scratch/` for
+  disposable working artifacts (safe to delete anytime; their conclusions go
+  into findings or the log). Never write inside `projects/`; never touch an
+  existing original by any other means.
 - ⛔ No secrets in any file, ever; report a credential's location, not its value.
 - ⛔ Nothing binary and nothing over 1 MiB enters this repository — the
   pre-commit hook refuses it; document originals go to the store. A document
-  containing a credential is never ingested: a human vaults the value and
-  places a redacted copy in the store. Documents already inside `projects/`
-  are never copied into `sources/`.
+  containing a credential is never ingested — `ingest` refuses it and removes
+  its copy from the store again; a human vaults the value and provides a
+  redacted copy, ingested under a new name. Documents already inside
+  `projects/` are never copied into `sources/`.
 - ⛔ No production systems unless a task explicitly authorizes it (then
   read-only credentials only); no destructive commands; inspect source rather
   than executing it.

@@ -59,7 +59,7 @@ extensions**, never foundation.
    push) of the workspace repo itself; everything else waits for explicit
    instruction.
 7. **One script, machine-checked.** All mechanics live in `workspace.sh`
-   (`setup | clone | cite | restore | extract | check`); the pre-commit hook
+   (`setup | clone | cite | restore | ingest | extract | check`); the pre-commit hook
    runs `workspace.sh check` and refuses binaries and files over 1 MiB, so a
    broken state cannot be committed. No agent vigilance where a script can
    verify.
@@ -77,7 +77,7 @@ multi-repos-ai-agent-workspace/
 ├── CLAUDE.md                        ← bridge: "@AGENTS.md"
 ├── CHANGELOG.md                     ← workspace-level record (append-only)
 ├── .gitignore                       ← /projects/ /originals .env* keys local settings
-├── workspace.sh                     ← setup | clone | cite | restore | extract | check
+├── workspace.sh                     ← setup | clone | cite | restore | ingest | extract | check
 ├── .githooks/pre-commit             ← runs workspace.sh check + refuses binaries and > 1 MiB (+ gitleaks if installed)
 ├── catalog/repos.yaml               ← the fleet manifest (edit first); optional scope: per repo = its home scope document (default: the repo id)
 ├── docs/README.md                   ← docs system rules: intake, examination bar, gate
@@ -86,8 +86,9 @@ multi-repos-ai-agent-workspace/
 │
 ├── docs/<scope>.md                  ← one per scope (a product or system a human names), created as findings arrive; never moves
 ├── docs/<scope>/<topic>.md          ← growth only: examined Body topics moved out beside the root
+├── docs/workspace/<topic>.md        ← the workspace's own specifications (document layer, scope grammar), adopted by owner instruction
 ├── docs/plans/<scope>--<feature>.md ← created with the first gated plan
-├── sources/<scope>/                 ← created by workspace.sh extract; tracked text derivatives of human documents
+├── sources/<scope>/                 ← created by workspace.sh ingest / extract; tracked text derivatives of human documents
 ├── originals/                       ← gitignored; per-machine symlink to the document store
 ├── .agents/scratch/                 ← gitignored; disposable working artifacts
 └── projects/                        ← gitignored; created by workspace.sh clone
