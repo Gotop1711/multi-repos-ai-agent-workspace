@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 # Enable once per clone:  git config core.hooksPath .githooks
-# Note: checks the WORKING TREE, not the index — keep them in sync at closeout
-# (a manifest error staged then fixed only in the worktree would slip through).
+# Note: check inspects the WORKING TREE, not the index — keep them in sync at
+# closeout; the binary / size gates below inspect the index.
 ./workspace.sh check || exit 1
+# Text only, ever: history is never rewritten, so one binary would be permanent.
+# Document originals go to ./originals (the store); their text to sources/ via `workspace.sh extract`.
+git diff --cached --numstat | awk -F'\t' '$1=="-" { print "FAIL: binary staged: " $3 " — originals belong in ./originals, not in git"; bad=1 } END { exit bad }' || exit 1
+git diff --cached --name-only --diff-filter=ACMR -z | while IFS= read -r -d '' f; do
+  [ "$(git cat-file -s ":$f")" -le 1048576 ] || { echo "FAIL: $f is over 1 MiB — too big for this repo; store it as an original"; exit 1; }
+done || exit 1
 if command -v gitleaks >/dev/null 2>&1; then
-  gitleaks protect --staged --no-banner || exit 1
+  gitleaks git --pre-commit --staged --no-banner 2>/dev/null || gitleaks protect --staged --no-banner || exit 1
 fi

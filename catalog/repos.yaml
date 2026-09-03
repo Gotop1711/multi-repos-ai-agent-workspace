@@ -13,3 +13,4 @@
 #   default_branch: main
 #   access: read-only
 #   owner: some-team           # optional, informational only — not read by workspace.sh
+#   scope: my-product          # optional — the docs/<scope>.md this repo belongs to (default: the id); single token

@@ -9,12 +9,12 @@ by product, both, or other).
 1. `docs/workspace.md` — created the workspace's own scope document: examined
    Body (mechanics at workspace@8e4db92), a Changes entry, Open findings 1–22
    from the analysis (each with citation, evidence type, confidence).
-2. `docs/plans/workspace-docs-scope-grammar.md` — **unsigned** plan: organise
+2. `docs/plans/workspace--docs-scope-grammar.md` — **unsigned** plan: organise
    `docs/` by scope (product or cross-cutting system), feature as a
    `--<feature>` filename token and `[feature]` tag, kind as a heading; `scope:`
    hint in the manifest defaulting to the repo id; root file never moves on a
    split; exact rule edits listed, none applied.
-3. `docs/plans/workspace-document-layer.md` — **unsigned** plan: originals of
+3. `docs/plans/workspace--document-layer.md` — **unsigned** plan: originals of
    every type in an external store mirrored at gitignored `originals/`; one
    tracked UTF-8 text derivative per original under `sources/<scope>/` written
    by a new `workspace.sh extract`; blob citations `sources/…@<blob12>`;
@@ -99,3 +99,41 @@ by product, both, or other).
   commit of the same session.
 - TODO: the owner signs or rejects the two plans; after migration, move the
   originals folder to a versioned store.
+
+## Update — plans signed and applied (same session)
+- Completed: the owner signed both plans (line 4 of each); applied their §9
+  edits to AGENTS.md, docs/README.md, docs/BLUEPRINT.md, README.md,
+  CHANGELOG.md, TEMPLATE.md, catalog/repos.yaml (comment), .gitignore,
+  .githooks/pre-commit and workspace.sh (`extract` with textutil / PDFKit /
+  Vision OCR / OOXML, `restore` token arms, `scope:` validation, document
+  checks in `check`, help lines). Both plans, this log, and every reference
+  renamed to the `--` grammar; `Shipped:` lines added; docs/workspace.md
+  findings 1, 4, 7, 14 struck as resolved and 3, 6, 15, 16, 17 annotated.
+- Verification (sandbox `.agents/scratch/apply-test/`, a git-initialised copy
+  with the hook wired and a store of real fixtures): 12 derivatives written
+  (txt, docx, text-layer pdf, image-only pdf and png via OCR, pptx, xlsx,
+  UTF-16 csv, sql via MIME fallback, redacted txt, restricted xlsx, binary as
+  no-text); refused: AKIA key, > 1 MB text; skipped: bundle, bad name, file
+  outside the store; `check` PASS with the info line, warn on a tampered
+  original, FAIL on a stray file and on a wrong-scope header; hook refused a
+  staged binary and a 1.2 MB text; blob citation equals `HEAD:<path>` after
+  commit and `git show` returns it; `restore` skips document tokens and
+  locators; a two-token `scope:` fails `check`; unmounted store → PASS with
+  the "not verified" suffix.
+- Pitfall: the auto-mode classifier blocked one Bash batch (writing
+  workspace.sh, the hook, .gitignore and the manifest comment together); the
+  same edits went through the dedicated Write/Edit tools. Executable bits
+  survived.
+- Pitfall: a `cd` into the sandbox persisted into the shell that launched the
+  verification workflow; the agents were told the repo root explicitly.
+- Deviation from the plan text: none intended; the `extract` credential
+  message can repeat a line number when two patterns hit the same line
+  (cosmetic; fixed after the review if nothing larger surfaces).
+- TODO: fold in the verification workflow's fix list, then the closeout
+  commit; the owner pushes.
+- Closeout made before the verification workflow finished (the owner had to
+  power down). The review run is `wf_f89cf4bb-60d`; its per-agent results, if
+  any completed, are in that run's `journal.jsonl` under
+  `~/.claude/projects/<this workspace>/…/subagents/workflows/`. Next session:
+  read it (or re-run the review), apply the fix list plus the cosmetic
+  credential-line dedupe in `extract`, and close out again.

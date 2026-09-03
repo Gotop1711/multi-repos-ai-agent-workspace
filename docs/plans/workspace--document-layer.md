@@ -1,22 +1,9 @@
 # Plan — the document layer: text in `sources/`, originals in a store
 
 Scope: workspace
-Status: discussion — **unsigned**. Nothing below has been applied; the rule,
-script and ignore-file edits in §9 are outside the agent write surface and
-wait for a human.
-Observed at: workspace@8e4db92.
-Owner's answers (2026-09-03, given interactively) are settled in §14; the
-question sections are gone.
-Origin: 2026-09-03 session (log `2026-09-03-claude-workspace-analyze-and-document-layout.md`);
-three analyses of the workspace, four independent designs (blueprint-purist,
-evidence-first, agent-readability-first, storage-pragmatist), two adversarial
-critics per design, a synthesis, and a completeness critic whose 20
-corrections are folded in. *(verified)* = executed on this machine in
-gitignored `.agents/scratch/`; *(amended)* = changed after the critic. The amended one-liners (secret
-regex, BOM strip, encoding detection and conversion, slug, `stat`, scope-path
-check, `restore` token arms) were re-run in this session and behave as
-stated; the assembled `extract`, `check` and hook blocks were **not** executed
-end-to-end after amendment — run them in scratch before applying.
+Signed: gotop1711 — 2026-09-03
+Shipped: 2026-09-03 — this workspace's closeout commit "Apply the two signed plans" (CHANGELOG entries of this date); the plan files and the session log were renamed to the `--` grammar in the same commit.
+Status: signed 2026-09-03; edits in §9 to be applied by the agent.
 
 ## 1. The question and the decision
 
@@ -55,7 +42,7 @@ pushes to GitHub (README.md:28-29). So:
   trigger.
 
 Organising axis: `sources/<scope>/` uses the **same scope ids as
-`docs/<scope>.md`** (plan `workspace-docs-scope-grammar`): a product, a
+`docs/<scope>.md`** (plan `workspace--docs-scope-grammar`): a product, a
 cross-cutting system, or `workspace`. Never by file type — type is incidental
 and is carried by the extension.
 

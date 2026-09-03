@@ -1,8 +1,12 @@
 # Product layer — never tracked by the workspace repo
-projects/
+/projects/
+
+# Document originals — the store, mirrored per machine as a symlink (anchored, no trailing slash so a symlink matches)
+/originals
 
 # Disposable working artifacts — safe to delete anytime
-.agents/scratch/
+/.agents/scratch/
+.DS_Store
 
 # Secrets and local runtime state — never committed
 .env*

@@ -51,15 +51,26 @@ and evidence on every claim. Rationale in `BLUEPRINT.md`; rulebook in
 
 #### Added
 - This document, with Open findings 1–22 from the 2026-09-03 analysis session
-  (log `2026-09-03-claude-workspace-analyze-and-document-layout.md`).
+  (log `2026-09-03-claude-workspace--analyze-and-document-layout.md`).
 - Two **unsigned** plans in discussion state:
-  `docs/plans/workspace-docs-scope-grammar.md` (how `docs/` is organised) and
-  `docs/plans/workspace-document-layer.md` (where human-supplied documents of
+  `docs/plans/workspace--docs-scope-grammar.md` (how `docs/` is organised) and
+  `docs/plans/workspace--document-layer.md` (where human-supplied documents of
   mixed file types go). No rule, script or ignore file was changed.
 
 #### Changed
 - Same day: both plans amended with the owner's interactive answers (settled
   sections replace the questions); still unsigned.
+
+### [Apply the two signed plans] — 2026-09-03
+
+#### Changed
+- Both plans signed by the owner and applied: AGENTS.md, docs/README.md,
+  docs/BLUEPRINT.md, README.md, CHANGELOG.md, TEMPLATE.md, the manifest
+  comment, .gitignore, the pre-commit hook and workspace.sh (`extract`,
+  `restore` token arms, `scope:` validation, document checks in `check`).
+  Plans and the session log renamed to the `--` grammar; `Shipped:` lines
+  added. Open findings 1, 4, 7, 14 struck as resolved; 3, 6, 15, 16, 17
+  annotated as partly resolved.
 
 ## Open findings
 
@@ -68,7 +79,7 @@ type; confidence; Q: unresolved questions. "direct (executed)" = re-run on this
 machine in this session; "direct (read)" = established from the cited lines;
 "corroborated" = a sandbox run by a subagent in `.agents/scratch/` plus reading.
 
-### 1. Human-supplied documents have no sanctioned home and no citation form
+### 1. ~~Human-supplied documents have no sanctioned home and no citation form~~
 `docs/` admits only agent-written scope documents and plans; `projects/` is
 clones only; `.agents/scratch/` is disposable; the write surface has no inputs
 location; every finding must cite a `<repo>@<sha>` read from `projects/`; §4
@@ -76,7 +87,8 @@ has no trigger for source material and §5 rejects per-scope
 background/specification folders — `docs/README.md:4-10`, `AGENTS.md:4-5`,
 `AGENTS.md:42-45`, `AGENTS.md:55-56`, `docs/BLUEPRINT.md:22-25`, `:139`;
 direct (read); high. Q: which external store will hold originals; whether any
-material is NDA/PII-bound even as text. → plan `workspace-document-layer`.
+material is NDA/PII-bound even as text. → plan `workspace--document-layer`.
+→ resolved 2026-09-03 by plan workspace--document-layer: `sources/<scope>/` + `originals/`, `workspace.sh extract`, blob citations (AGENTS.md › Evidence).
 
 ### 2. An empty fleet cannot produce a rule-compliant finding
 `cite` exits 1 when the manifest has no repos while `check` only warns, so a
@@ -91,14 +103,16 @@ closeout pushes, so a credential or large binary committed once is permanent —
 `README.md:28-29`; direct (read; `command -v gitleaks` empty); high. A 10 MB
 PDF commits through the hook — corroborated; high. Q: whether
 `gitleaks protect --staged` is still the current command form — unverified; low.
+→ partly resolved 2026-09-03: the hook now refuses staged binaries and files over 1 MiB; the secret gate is `extract`'s grep plus gitleaks when installed (still absent on this machine).
 
-### 4. `.gitignore` silently swallows legitimate document names
+### 4. ~~`.gitignore` silently swallows legitimate document names~~
 `docs/deck.key` (`:10 *.key`), `docs/credentials-policy.pdf` (`:11 credentials*`),
 `docs/.env-setup.md` (`:8 .env*`), `docs/projects/x.md` and
 `docs/vendor/projects/x.pdf` (`:2 projects/`, unanchored) are all ignored with
 no error; `.agents/scratch/` (`:5`) is likewise unanchored — `.gitignore:2-11`;
 direct (executed `git check-ignore -v`); high. Fix: anchor `/projects/` and
 `/.agents/scratch/`; any documents layout must avoid these names.
+→ resolved 2026-09-03: `/projects/`, `/originals`, `/.agents/scratch/` anchored; `check` fails on an ignored derivative. `*.key` and `credentials*` still match basenames — dated document names avoid them.
 
 ### 5. `restore` never fetches
 A sha that exists upstream but not in the local clone fails as "history
@@ -115,13 +129,15 @@ not paste cleanly — `AGENTS.md:55-57`, `:67-69`, `docs/README.md:20`,
 `workspace.sh:99-103`; direct (executed); high. `AGENTS.md:56` also hardcodes
 `projects/<repo>` while `path:` is free-form — `catalog/repos.yaml:11`,
 `workspace.sh:18`; direct (read); high.
+→ partly resolved 2026-09-03: `restore` now skips `sources/…@…` tokens and `p.N` / `L<n>` / path locators; a bare symbol token still reports 'not in the manifest'; the `projects/<repo>` wording at AGENTS.md › Evidence is unchanged.
 
-### 7. "Automatically written" session logs are an overclaim
+### 7. ~~"Automatically written" session logs are an overclaim~~
 `README.md:12`, `AGENTS.md:8-9` and `docs/BLUEPRINT.md:38` say logs are written
 automatically; `AGENTS.md:21-25` and `TEMPLATE.md:4` have the agent write them
 by hand; `check` only prints the newest log name — `workspace.sh:141-142`. The
 workspace's own most important red line (`AGENTS.md:51`) is enforced by
 nothing, against `docs/BLUEPRINT.md:59-60`; direct (read); high.
+→ resolved 2026-09-03: AGENTS.md, README.md and BLUEPRINT.md now say the log is written by the agent.
 
 ### 8. The write surface contradicts the growth path, the CHANGELOG mandate and catalog editing
 `AGENTS.md:42-45` fixes the surface; `docs/BLUEPRINT.md:108-123` and
@@ -163,13 +179,14 @@ corroborated; medium.
 direct (read); high. `docs/BLUEPRINT.md:27-29` "fail mechanically" holds only
 for the common path. Q: acceptable by design, or worth a note in AGENTS.md?
 
-### 14. Session-log filenames can collide and their fields are undefined
+### 14. ~~Session-log filenames can collide and their fields are undefined~~
 `YYYY-MM-DD-{agent}-{scope}-{task}.md` has no sequence component, so two
 same-day sessions with the same task overwrite each other against
 `docs/README.md:58`; `{scope}` is "product code or workspace" (`TEMPLATE.md:4`)
 vs "product/area" (`docs/README.md:8`); `{task}` has no slug rules —
 `AGENTS.md:22`, `TEMPLATE.md:3-4`; direct (read); medium. → plan
-`workspace-docs-scope-grammar` (`<scope>--<task>`).
+`workspace--docs-scope-grammar` (`<scope>--<task>`).
+→ resolved 2026-09-03 by plan workspace--docs-scope-grammar: `YYYY-MM-DD-{agent}-{scope}--{task}.md`, `{scope}` and `{task}` defined in TEMPLATE.md; a same-day collision on an identical task slug remains possible.
 
 ### 15. No template or heading contract for `docs/<scope>.md`
 `docs/README.md:14-24` names three parts but no headings; the Changes entry
@@ -177,18 +194,21 @@ format reuses the CHANGELOG's H2 (`docs/README.md:18`, `CHANGELOG.md:4`),
 colliding with the document's own H2 sections; `AGENTS.md:18` has no branch
 for "does not exist yet"; direct (read); medium. This document uses H3 entries
 under `## Changes` and the skeleton proposed in the scope-grammar plan.
+→ partly resolved 2026-09-03: Body contents and the Changes heading level are defined in docs/README.md; the recommended section skeleton lives in plan workspace--docs-scope-grammar §5, not in the README.
 
 ### 16. Git-authorization wording over-forbids read-only git here and omits pull/fetch
 `AGENTS.md:29-35` sanctions read-only git only in children; taken literally
 `git status`/`log`/`hash-object` in this repo need permission, and a second
 machine's closeout push has no authorised remedy for a non-fast-forward
 (`docs/BLUEPRINT.md:160-166`); direct (read); medium (interpretation).
+→ partly resolved 2026-09-03: AGENTS.md sanctions read-only git in this repo; pull/fetch for a second machine is still unaddressed.
 
 ### 17. CHANGELOG says "append-only" but is newest-first; README table is incomplete
 `CHANGELOG.md:3` vs `:6`, `:20`; the initial release has no entry; the README
 file table (`README.md:41-50`) omits `README.md`, `CHANGELOG.md`, `.gitignore`
 and `docs/README.md` while `README.md:55` points readers at the CHANGELOG;
 direct (read); high.
+→ partly resolved 2026-09-03: the README table now lists every shipped file; the CHANGELOG header wording is unchanged (entries stay newest-first).
 
 ### 18. `pr-only` is undefined and mechanically identical to `write`
 `workspace.sh:63-69` treats only `read-only` specially; `AGENTS.md:6` names

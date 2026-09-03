@@ -9,11 +9,15 @@ repositories — safely, with durable memory, and with evidence for every claim.
 
 **11 files, one script.** The rules live in [AGENTS.md](AGENTS.md); the
 mechanics live in [workspace.sh](workspace.sh). Every record and document is
-agent-written: session logs automatically at closeout, findings into the docs
-system, the examined parts of `docs/` only past an examination bar.
+agent-written — except `sources/`, the extracted text of documents you hand
+it (originals stay in your own document store): session logs written by the
+agent at closeout, findings into the docs system, the examined parts of
+`docs/` only past an examination bar.
 
 ```
 this repo                 ← governance: rules, memory, docs
+├── sources/              ← tracked text of your documents, one .md per original (workspace.sh extract)
+├── originals -> <store>  ← gitignored symlink to your document store
 └── projects/             ← gitignored clones of your child repos
 ```
 
@@ -23,6 +27,7 @@ this repo                 ← governance: rules, memory, docs
 ./workspace.sh setup           # 1. wires the safety hook, prints what to do next
 # edit catalog/repos.yaml      # 2. declare your child repos + access levels
 ./workspace.sh clone           # 3. fleet appears under projects/
+ln -s <your-document-store> originals && ./workspace.sh extract <scope> originals/<scope>/<files>   # 4. (optional) make your documents agent-readable
 ```
 
 Then add a **private remote** for this repo and push — its memory must survive
@@ -40,14 +45,19 @@ a dead disk. (It ships with none on purpose.)
 
 | Path | One line |
 |---|---|
+| `README.md` | This file: what the workspace is, setup, the daily loop |
 | `docs/BLUEPRINT.md` | Why this repo exists; the design rationale |
 | `AGENTS.md` | The whole rulebook — canonical for every agent runtime |
 | `CLAUDE.md` | ≤5-line bridge to `AGENTS.md` (one per installed runtime that needs it) |
-| `workspace.sh` | `setup` \| `clone` \| `cite` \| `restore` \| `check` |
-| `catalog/repos.yaml` | The fleet manifest — also the authorization record |
+| `workspace.sh` | `setup` \| `clone` \| `cite` \| `restore` \| `extract` \| `check` |
+| `catalog/repos.yaml` | The fleet manifest — also the authorization record; optional `scope:` per repo names its home scope document |
+| `CHANGELOG.md` | Workspace-level record of what changed and why, newest entry first |
+| `.gitignore` | Keeps `projects/`, `originals`, scratch, secrets and local runtime state out of the repo |
 | `.agents/memory/sessions/` | Simple journey logs, one per agent run — decisions & pitfalls, never findings |
-| `docs/<scope>.md` + `docs/plans/` | The knowledge system: per-scope document (Open-findings intake + examined body) plus signed plans (see `docs/README.md`) |
-| `.githooks/pre-commit` | Runs `workspace.sh check`; broken states cannot be committed |
+| `docs/README.md` | The docs system's rules: scopes, intake, examination bar, signature gate |
+| `docs/<scope>.md` + `docs/plans/<scope>--<feature>.md` | The knowledge system: per-scope document (Open-findings intake + examined body) plus signed plans (see `docs/README.md`) |
+| `sources/<scope>/` + `originals/` | Human-supplied documents: tracked text derivatives (`extract` output, cited `…@<blob>`) / gitignored symlink to their originals |
+| `.githooks/pre-commit` | Runs `workspace.sh check` and refuses binaries and files over 1 MiB; broken states cannot be committed |
 
 ## Growing it
 

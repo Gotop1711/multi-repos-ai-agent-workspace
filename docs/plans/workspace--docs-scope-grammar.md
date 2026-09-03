@@ -1,15 +1,9 @@
 # Plan — governing `docs/`: scope-first, with a naming grammar
 
 Scope: workspace
-Status: discussion — **unsigned**. Nothing below has been applied; every rule
-edit in §9 is outside the agent write surface and waits for a human.
-Observed at: workspace@8e4db92 (this repository's HEAD when analysed).
-Owner's answers (2026-09-03, given interactively) are settled in §13.
-Origin: 2026-09-03 session (log `2026-09-03-claude-workspace-analyze-and-document-layout.md`);
-four independent designs (scope-first, feature-first, kind-first, hybrid), each
-refuted by a rules-conformance critic and a two-year scaling critic, then
-synthesised. Mechanical claims marked *(verified)* were re-run under zsh on
-this machine in gitignored `.agents/scratch/`.
+Signed: gotop1711 — 2026-09-03
+Shipped: 2026-09-03 — this workspace's closeout commit "Apply the two signed plans" (CHANGELOG entries of this date); the plan files and the session log were renamed to the `--` grammar in the same commit.
+Status: signed 2026-09-03; edits in §9 to be applied by the agent.
 
 ## 1. The question and the answer
 
