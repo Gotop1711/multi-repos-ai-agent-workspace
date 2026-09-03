@@ -84,7 +84,7 @@ multi-repos-ai-agent-workspace/
 ├── docs/BLUEPRINT.md                ← this document
 ├── .agents/memory/sessions/TEMPLATE.md  ← session-log template
 │
-├── docs/<scope>.md                  ← one per scope (a product or system a human names), created as findings arrive; never moves
+├── docs/<scope>.md                  ← one per scope (a product or system a human names), created as findings arrive; stays on a split, renamed with its id (no tombstones)
 ├── docs/<scope>/<topic>.md          ← growth only: examined Body topics moved out beside the root
 ├── docs/workspace/<topic>.md        ← the workspace's own specifications (document layer, scope grammar), adopted by owner instruction
 ├── docs/plans/<scope>--<feature>.md ← created with the first gated plan

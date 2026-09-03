@@ -17,8 +17,9 @@ docs/
 
 A **scope** is a product or a cross-cutting system a human names when
 assigning work — never a repository, never a feature. Ids are lowercase kebab
-(`[a-z0-9]+(-[a-z0-9]+)*`), immutable handles (the H1 carries the display
-name); `readme`, `blueprint`, `plans`, `sources`, `workspace` are reserved. A
+(`[a-z0-9]+(-[a-z0-9]+)*`), stable handles (the H1 carries the display
+name; an id changes only when the owner names the product differently, and
+then by the rename rule below, never by a second document); `readme`, `blueprint`, `plans`, `sources`, `workspace` are reserved. A
 repo's home scope is its `scope:` in `../catalog/repos.yaml`, default the repo
 id. An agent creates `docs/<scope>.md` for a scope the task names, or for a
 repo's id when no scope is named; it never invents a product boundary or a new
@@ -31,6 +32,21 @@ specifications — the document layer, the scope grammar — are
 in `../CHANGELOG.md`, never gated by a signature (`docs/plans/` holds only
 plans that authorize child-repo work). References name ids,
 never paths (`scope auth`, `plan ledger--refund-sync`).
+
+**Rename, never a tombstone.** When the owner names a scope that an existing
+document already covers — typically a product scope replacing a document
+created under a repo id — the document is renamed, not superseded, in one
+commit: `git mv docs/<old>.md docs/<new>.md` (and `docs/<old>/` to
+`docs/<new>/` if split); H1 and the manifest `scope:` keys updated; plans
+`git mv`ed to `docs/plans/<new>--<feature>.md` with an appended
+`Renamed: <YYYY-MM-DD> — from <old>--<feature>` line; documents re-extracted
+under `sources/<new>/` once the owner has moved their originals in the store;
+and one Changes entry `[Renamed from scope <old>] — <date>` in the renamed
+document listing everything that moved. Afterwards the old id exists nowhere
+in `docs/`; session-log filenames keep it, as history. Git keeps the moved
+file's history and citations never name document paths, so no evidence
+breaks. Declaring `scope:` keys for every repo of a multi-repo product when the
+fleet is declared avoids most renames.
 
 ## Scope documents — intake and examined body
 
@@ -102,7 +118,8 @@ scope the task named, else the one whose repos it mainly writes — with
 several (each other scope receives a Changes entry when it ships). Lifecycle
 lines are appended, never overwritten: `Signed:` (human),
 `Shipped: <YYYY-MM-DD> — <repo>@<sha>…` (agent; the landed commits),
-`Abandoned: <YYYY-MM-DD> — <reason>`. Plans are never renamed or moved.
+`Abandoned: <YYYY-MM-DD> — <reason>`. Plans are renamed only together with
+their scope id (Scopes › rename), never otherwise moved.
 A proposal about the workspace itself is not a plan: it starts in
 `docs/workspace.md` Open findings and the log's TODO, and once the owner adopts
 it, its specification lives in `docs/workspace/<topic>.md` with a `Status:`

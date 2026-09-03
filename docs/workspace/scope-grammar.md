@@ -406,3 +406,29 @@ grammar, the session-log form, the filing rule and the tag rule are
 unchanged. The two founding plans were moved verbatim except for their H1 and
 the prepended note; earlier references `plan workspace--document-layer` and
 `plan workspace--docs-scope-grammar` resolve to these files.
+
+### 2026-09-03 — no tombstone documents: an id change is a recorded rename
+
+Owner instruction, recorded in `../../CHANGELOG.md`. Supersedes, insofar as
+they concern renames: §2's "A scope id is an immutable handle; a product
+rename changes the H1 display name, never the id or any filename"; the
+"NEVER moves" of §3 and "The root never moves" of §8 (both still hold for
+splits — the root stays beside its topic folder); §3's "plans are never
+renamed or moved"; the whole "Scope rename … the old file stays as the
+tombstone" paragraph of §8; and the §11 tradeoff "a wrong early scope
+boundary costs a tombstone and re-filing". The rule now: an id changes only
+when the owner names the product differently, and the change is one commit
+that `git mv`s `docs/<old>.md` to `docs/<new>.md` (and `docs/<old>/` to
+`docs/<new>/`), updates the H1 and the manifest `scope:` keys, `git mv`s
+`docs/plans/<old>--*` to `<new>--*` with an appended
+`Renamed: <date> — from <old>--<feature>` line, has documents re-extracted
+under `sources/<new>/` once the owner has moved their originals in the store,
+and appends one Changes entry `[Renamed from scope <old>] — <date>` to the
+renamed document listing what moved. Nothing else carries the old id
+afterwards except session-log filenames, which are history and stay. Git
+keeps the moved file's history; citations never name document paths, so no
+evidence breaks. Why: the first use of the tombstone procedure (2026-09-03,
+`nabu-ui` → `nabu`) produced a struck-through duplicate the owner did not
+want. The underlying cause is the repo-id default of §2 — so declare `scope:`
+keys for every repo of a multi-repo product when the fleet is declared, and
+treat a later naming as a cheap rename.

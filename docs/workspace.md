@@ -97,6 +97,18 @@ and evidence on every claim. Rationale in `BLUEPRINT.md`; rulebook in
   and CHANGELOG entries that say `plan workspace--…` are history and resolve
   to the new files.
 
+### [No tombstone documents: a scope id change is a recorded rename] — 2026-09-03
+
+#### Changed
+- Owner instruction: the first use of the rename procedure — a repo-id
+  document superseded by the product scope `nabu` — left `docs/nabu-ui.md`
+  behind as a struck-through tombstone, which the owner does not want.
+  `docs/README.md` › Scopes now defines an id change as `git mv` of the
+  document, its topic folder and its plans, plus one Changes entry; the old id
+  then exists nowhere in `docs/`. Ids are "stable", no longer "immutable".
+  Amendment in `docs/workspace/scope-grammar.md` §14; the tombstone itself is
+  removed on the project branch.
+
 ## Open findings
 
 All observed at workspace@8e4db92. Entry format: claim — citation; evidence

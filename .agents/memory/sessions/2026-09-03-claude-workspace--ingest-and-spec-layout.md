@@ -100,3 +100,14 @@ on `nabu-dashboard` and is logged in that branch's intake log.
 as the `Jarvis-bookai` account, which is denied on this repository — see the
 intake log on `nabu-dashboard`). The commit is local; the owner pushes
 `main` from their own terminal.
+
+## Addendum — no tombstone documents (owner instruction, same session)
+The owner saw `docs/nabu-ui.md` as a struck-through tombstone beside
+`docs/nabu.md` and does not want historical-marker documents. Rule changed on
+`main`: an id change is a recorded rename (`git mv` + one Changes entry), ids
+are "stable" not "immutable", plans move with their scope id — `docs/README.md`
+› Scopes, BLUEPRINT tree line, `docs/workspace/scope-grammar.md` §14
+amendment, CHANGELOG. The tombstone is deleted on `nabu-dashboard` after the
+rebase. Lesson: the repo-id default for an unnamed scope is the root cause;
+prefer `scope:` keys at fleet declaration. The owner's workflow is rebase — the
+project branch is rebased onto `main` after every infrastructure commit.

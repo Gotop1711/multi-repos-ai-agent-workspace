@@ -3,6 +3,17 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [No tombstone documents: a scope id change is a recorded rename] — 2026-09-03
+
+### Changed
+- `docs/README.md` › Scopes: when the owner names a scope that an existing
+  document covers, the document is renamed with `git mv` — with its topic
+  folder and its plans — and records one `[Renamed from scope <old>]`
+  Changes entry; no superseded file stays behind. Ids are stable handles that
+  change only by owner decision. Cause: the first rename left `docs/nabu-ui.md`
+  as a tombstone the owner did not want. Amendment in
+  `docs/workspace/scope-grammar.md` §14.
+
 ## [Agents may ingest documents; workspace specifications leave docs/plans/] — 2026-09-03
 
 ### Added
