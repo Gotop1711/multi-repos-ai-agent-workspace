@@ -432,3 +432,19 @@ evidence breaks. Why: the first use of the tombstone procedure (2026-09-03,
 want. The underlying cause is the repo-id default of §2 — so declare `scope:`
 keys for every repo of a multi-repo product when the fleet is declared, and
 treat a later naming as a cheap rename.
+
+### 2026-09-04 — the repository axis also places documents
+
+Owner instruction, recorded in `../../CHANGELOG.md`; specification in
+`document-layer.md` §15 (same date). §1's "Repository = the evidence axis"
+gains one consequence: a human-supplied document that is evidence about one
+repository may live one folder below its scope's document layer, in a folder
+named for that repository's manifest id lowercased
+(`docs/<scope>/sources/<repo>/`, `docs/assets/<scope>/<repo>/`). This is not a
+repo-first layout — the scope stays the folder axis and the findings tray stays
+one per scope; the folder is the manifest vocabulary applied to where evidence
+sits, and it answers the recurring pull toward repo-named scopes that the first
+amendment above traced to the repo-id default (`nabu-ui`, then `ui` and
+`rea-proto`). §10 is already superseded by the document layer's 2026-09-03
+layout amendment; `docs/<scope>/sources/` and `docs/assets/<scope>/`, each with
+the optional repo folder, are the current paths.

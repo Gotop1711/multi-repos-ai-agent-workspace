@@ -4,8 +4,9 @@
 #   ./workspace.sh clone                 rebuild the fleet from catalog/repos.yaml
 #   ./workspace.sh cite                  print the fleet as one citation line — paste into findings
 #   ./workspace.sh restore <repo>@<sha>… check cited commits out (bare <repo> returns to its branch)
-#   ./workspace.sh ingest <scope> <file>…      copy a document to docs/assets/<scope>/ (gitignored) under a dated name, then extract it
-#   ./workspace.sh extract <scope> docs/assets/<scope>/<file>…  text of a copied document → docs/<scope>/sources/<file>.md
+#   ./workspace.sh ingest <scope> <file>…      copy a document to docs/assets/<scope>/[<repo>/] (gitignored) under a dated name, then extract it
+#                                              REPO=<manifest id> files it one folder down, under that repository (REA_PROTO → rea-proto/)
+#   ./workspace.sh extract <scope> docs/assets/<scope>/[<repo>/]<file>…  text of a copied document → docs/<scope>/sources/[<repo>/]<file>.md
 #   ./workspace.sh check                 verify the manifest and the document layer (session-init / pre-commit)
 # Plain bash (macOS 3.2 ok), zero dependencies — extract alone uses macOS textutil, swift (PDFKit, Vision) and python3.
 set -u
@@ -25,6 +26,8 @@ entries() { # one line per repo: id|path|remote|branch|access
     END                            { flush() }
   ' "$MANIFEST"
 }
+repo_sub()  { printf '%s' "$1" | tr 'A-Z_' 'a-z-'; }          # manifest id → its document-layer folder: lowercase, '_' → '-' (REA_PROTO → rea-proto)
+repo_subs() { entries | cut -d'|' -f1 | tr 'A-Z_' 'a-z-'; }   # every permitted folder below docs/assets/<scope>/ and docs/<scope>/sources/, one per line
 
 cmd="${1:-help}"
 case "$cmd" in clone|cite|restore|check|extract|ingest)
@@ -128,7 +131,7 @@ restore)
 extract)
   # reads an original already under docs/assets/<scope>/ (dated name) and writes docs/<scope>/sources/<name>.md
   shift; scope="${1:-}"; shift || true
-  usage="usage: workspace.sh extract <scope> docs/assets/<scope>/<file>…   (scope = a docs/<scope>.md id; RESTRICTED=<file> header only; OCR=<file> force OCR; SECRET_OK=<file> waive a false positive)"
+  usage="usage: workspace.sh extract <scope> docs/assets/<scope>/[<repo>/]<file>…   (scope = a docs/<scope>.md id; <repo> = a manifest id lowercased; RESTRICTED=<file> header only; OCR=<file> force OCR; SECRET_OK=<file> waive a false positive)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
   [ -d "$ASSETS/$scope" ] || { echo "FAIL: $ASSETS/$scope/ missing — './workspace.sh ingest $scope <file>' copies a document there first" >&2; exit 1; }
@@ -197,10 +200,16 @@ else:
 PY
   fail=0
   for src in "$@"; do
-    name="$(basename "$src")"; orig="$ASSETS/$scope/$name"; out="docs/$scope/sources/$name.md"
+    name="$(basename "$src")"
     [ -d "$src" ] && { echo "[$name] SKIP: a bundle (rtfd/key/pages/numbers) — export it from its app (PDF, txt or CSV) and ingest the export" >&2; fail=$((fail+1)); continue; }
-    if ! { [ -f "$orig" ] && [ "$(cd "$(dirname "$src")" 2>/dev/null && pwd -P)" = "$(cd "$ASSETS/$scope" 2>/dev/null && pwd -P)" ]; }; then
-      echo "[$name] SKIP: not under $ASSETS/$scope/ — './workspace.sh ingest $scope <file>' copies it there first" >&2; fail=$((fail+1)); continue; fi
+    # the original sits directly under docs/assets/<scope>/, or one folder down in a folder named for a manifest repo (REA_PROTO → rea-proto)
+    d="$(cd "$(dirname "$src")" 2>/dev/null && pwd -P)"; root="$(cd "$ASSETS/$scope" 2>/dev/null && pwd -P)"; sub=""
+    if [ -n "$d" ] && [ "$d" = "$root" ]; then :
+    elif [ -n "$d" ] && [ "$(dirname "$d")" = "$root" ] && repo_subs | grep -qxF "$(basename "$d")"; then sub="$(basename "$d")"
+    else echo "[$name] SKIP: not under $ASSETS/$scope/ or $ASSETS/$scope/<repo>/ (<repo> = a manifest id lowercased) — './workspace.sh ingest $scope <file>' copies it there first" >&2; fail=$((fail+1)); continue; fi
+    rel="${sub:+$sub/}$name"; orig="$ASSETS/$scope/$rel"; out="docs/$scope/sources/$rel.md"
+    [ -f "$orig" ] || { echo "[$name] SKIP: $orig is not a file" >&2; fail=$((fail+1)); continue; }
+    received="${RECEIVED:-}"; [ -n "$received" ] || { [ -f "$out" ] && received="$(sed -n 's/^received: //p' "$out" | head -1)"; }   # a re-extract keeps the as-received name ingest recorded
     printf '%s' "$name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.[a-z0-9]+$' || { echo "[$name] SKIP: name must be YYYY-MM-DD-<slug>.<ext>" >&2; fail=$((fail+1)); continue; }
     sha="$(shasum -a 256 "$orig" | cut -c1-64)"; [ -n "$sha" ] || { echo "[$name] REFUSED: cannot hash $orig" >&2; fail=$((fail+1)); continue; }
     ext="$(printf '%s' "${name##*.}" | tr 'A-Z' 'a-z')"; body="$(mktemp)"; extractor=none; status=ok
@@ -231,9 +240,9 @@ PY
       [ "$(wc -c < "$body")" -le 1000000 ] || { echo "[$name] REFUSED: extracted text over 1 MB — split the original and ingest the parts" >&2; rm -f "$body"; fail=$((fail+1)); continue; }
       [ -s "$body" ] || { status="no-text"; [ "$extractor" = none ] && echo "[$name] no extractor for .$ext — export from the app and ingest the export" >&2; }
     fi
-    mkdir -p "docs/$scope/sources"
+    mkdir -p "$(dirname "$out")"
     { printf -- '---\nsource: %s\nsha256: %s\nbytes: %s\nextractor: %s\nstatus: %s\n' "$orig" "$sha" "$(wc -c < "$orig" | tr -d ' ')" "$extractor" "$status"
-      [ -n "${RECEIVED:-}" ] && printf 'received: %s\n' "$RECEIVED"   # the as-received file name, set by ingest
+      [ -n "$received" ] && printf 'received: %s\n' "$received"   # the as-received file name, set by ingest and kept across re-extracts
       [ "${SECRET_OK:-}" = "$name" ] && printf 'secret_review: waived %s\n' "$(date +%F)"
       printf -- '---\n'; cat "$body"; } > "$out"; rm -f "$body"
     echo "[$name] → $out ($extractor, $status); cite as $out@$(git hash-object "$out" | cut -c1-12) after the closeout commit"
@@ -246,12 +255,18 @@ ingest)
   # Originals are only ever ADDED here: identical bytes are reused, different bytes under an existing name are refused,
   # and a file that extract refuses (credential, oversize) is removed again.
   shift; scope="${1:-}"; shift || true
-  usage="usage: workspace.sh ingest <scope> <file>…   (NAME=<YYYY-MM-DD-slug.ext> names one file — required for non-ASCII titles; DATE=<YYYY-MM-DD> dates the default name; RESTRICTED/OCR/SECRET_OK=<stored name> pass through to extract)"
+  usage="usage: workspace.sh ingest <scope> <file>…   (REPO=<manifest id> files them under docs/assets/<scope>/<repo>/; NAME=<YYYY-MM-DD-slug.ext> names one file — required for non-ASCII titles; DATE=<YYYY-MM-DD> dates the default name; RESTRICTED/OCR/SECRET_OK=<stored name> pass through to extract)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
   [ -n "${NAME:-}" ] && [ "$#" -gt 1 ] && { echo "FAIL: NAME= names exactly one file — ingest the others in their own calls" >&2; exit 1; }
   git check-ignore -q "$ASSETS/$scope/probe" 2>/dev/null || { echo "FAIL: $ASSETS/ is not gitignored — originals must never be committed; add '/docs/assets/' to .gitignore" >&2; exit 1; }
-  mkdir -p "$ASSETS/$scope" || { echo "FAIL: cannot create $ASSETS/$scope" >&2; exit 1; }
+  sub=""   # REPO= → one folder below the scope, named for the repository the documents are evidence about
+  if [ -n "${REPO:-}" ]; then
+    entries | cut -d'|' -f1 | grep -qxF "$REPO" || { echo "FAIL: REPO=$REPO is not a manifest id (ids: $(entries | cut -d'|' -f1 | tr '\n' ' '))" >&2; exit 1; }
+    sub="$(repo_sub "$REPO")"
+    printf '%s' "$sub" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "FAIL: repo id '$REPO' does not lowercase to a folder name in the id grammar (got '$sub')" >&2; exit 1; }
+  fi
+  mkdir -p "$ASSETS/$scope${sub:+/$sub}" || { echo "FAIL: cannot create $ASSETS/$scope${sub:+/$sub}" >&2; exit 1; }
   store_real="$(cd "$ASSETS" && pwd -P)"; proj_real="$( [ -d projects ] && cd projects && pwd -P )"
   fail=0
   for src in "$@"; do
@@ -276,7 +291,7 @@ ingest)
       name="$date-$slug.$ext"
     fi
     printf '%s' "$name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.[a-z0-9]+$' || { echo "[$base] SKIP: '$name' is not YYYY-MM-DD-<slug>.<ext> in lowercase ASCII" >&2; fail=$((fail+1)); continue; }
-    dest="$ASSETS/$scope/$name"; placed=0
+    dest="$ASSETS/$scope${sub:+/$sub}/$name"; placed=0
     if [ -e "$dest" ]; then
       if [ "$(shasum -a 256 "$src" | cut -c1-64)" = "$(shasum -a 256 "$dest" | cut -c1-64)" ]; then
         echo "[$base] already stored as $name (identical bytes) — re-extracting" >&2
@@ -316,22 +331,27 @@ check)
   ' "$MANIFEST")"
   [ -z "$bad" ] || { echo "FAIL: manifest line(s) $(echo $bad | tr ' ' ','): values must be single tokens (no spaces or inline comments)" >&2; status=1; }
   if ls -d docs/*/sources >/dev/null 2>&1; then   # document layer: docs/<scope>/sources/*.md derivatives with a header; originals in gitignored docs/assets/<scope>/
+    subs="$(repo_subs)"
     find docs/*/sources -type f ! -name .DS_Store | while read -r f; do
-      scope="$(basename "$(dirname "$(dirname "$f")")")"
+      scope="${f#docs/}"; scope="${scope%%/*}"; rel="${f#docs/$scope/sources/}"
+      case "$rel" in
+        */*/*) echo "FAIL: $f — at most one folder below docs/<scope>/sources/, and it must be a manifest repo id lowercased" >&2; exit 1 ;;
+        */*) printf '%s\n' "$subs" | grep -qxF "${rel%%/*}" || { echo "FAIL: $f — folder '${rel%%/*}' is not a manifest repo id lowercased (one of: $(printf '%s' "$subs" | tr '\n' ' '))" >&2; exit 1; } ;;
+      esac
       case "$f" in *.md) : ;; *) echo "FAIL: $f — only .md derivatives live under docs/<scope>/sources/ (originals go to $ASSETS/<scope>/)" >&2; exit 1 ;; esac
       [ "$(head -1 "$f")" = "---" ] && grep -qE '^sha256: [0-9a-f]{64}$' "$f" && grep -qE "^source: $ASSETS/" "$f" \
         || { echo "FAIL: $f lacks the extract header (source/sha256) — regenerate with ./workspace.sh extract" >&2; exit 1; }
       [ "$(wc -c < "$f")" -le 1048576 ] || { echo "FAIL: $f is over 1 MiB — split the original and re-extract" >&2; exit 1; }
       git check-ignore -q "$f" 2>/dev/null && { echo "FAIL: $f is matched by .gitignore and would never be committed — rename it" >&2; exit 1; }
       o="$(sed -n 's/^source: //p' "$f" | head -1)"
-      case "$o" in "$ASSETS/$scope/"*) : ;; *) echo "FAIL: $f: header source $o is not under $ASSETS/$scope/ — re-extract in place" >&2; exit 1 ;; esac
+      [ "$o" = "$ASSETS/$scope/${rel%.md}" ] || { echo "FAIL: $f: header source '$o' is not $ASSETS/$scope/${rel%.md} — re-extract in place" >&2; exit 1; }
       if [ -e "$o" ] && { [ "$(wc -c < "$o" | tr -d ' ')" != "$(sed -n 's/^bytes: //p' "$f" | head -1)" ] || [ "$(shasum -a 256 "$o" | cut -c1-64)" != "$(sed -n 's/^sha256: //p' "$f" | head -1)" ]; }; then
         echo "warn: $f: $o differs from its header — a new version is a new dated name; re-ingest it or restore the copy" >&2
       fi
     done || status=1
     tracked="$(git ls-files "$ASSETS" 2>/dev/null | wc -l | tr -d ' ')"
     [ "$tracked" -eq 0 ] || { echo "FAIL: $tracked file(s) under $ASSETS/ are tracked by git — originals are never committed (git rm --cached them; keep '/docs/assets/' in .gitignore)" >&2; status=1; }
-    [ ! -d "$ASSETS" ] || find "$ASSETS" -type f ! -name .DS_Store | while read -r o; do s="$(basename "$(dirname "$o")")"; [ -f "docs/$s/sources/$(basename "$o").md" ] || echo "warn: $o has no derivative — ./workspace.sh extract $s $o" >&2; done
+    [ ! -d "$ASSETS" ] || find "$ASSETS" -type f ! -name .DS_Store | while read -r o; do r="${o#$ASSETS/}"; s="${r%%/*}"; [ -f "docs/$s/sources/${r#*/}.md" ] || echo "warn: $o has no derivative — ./workspace.sh extract $s $o" >&2; done
     echo "info: $(find docs/*/sources -type f -name '*.md' | wc -l | tr -d ' ') document derivative(s) under docs/*/sources/$([ -d "$ASSETS" ] || echo " ($ASSETS/ absent: hashes not verified)")"
   fi
   [ "$n" -gt 0 ] || echo "warn: manifest has no repos yet — edit catalog/repos.yaml"

@@ -122,6 +122,19 @@ and evidence on every claim. Rationale in `BLUEPRINT.md`; rulebook in
   docs/README.md, README.md and BLUEPRINT.md; amendment in
   `docs/workspace/document-layer.md` §15.
 
+### [Documents may sit one folder below a scope, named for a fleet repo] — 2026-09-04
+
+#### Changed
+- Owner instruction: `REPO=<manifest id>` on `ingest` files a document under
+  `docs/assets/<scope>/<repo>/` and `docs/<scope>/sources/<repo>/`; `extract`
+  and `check` follow; the citation form gains `[<repo>/]`. The scope remains
+  the product and its tray the only tray. Rules and trees updated in
+  AGENTS.md, docs/README.md, README.md and BLUEPRINT.md; amendments in
+  `workspace/document-layer.md` §15 and `workspace/scope-grammar.md` §14.
+
+#### Fixed
+- `extract` preserves `received:` across a re-extract (it used to drop it).
+
 ## Open findings
 
 All observed at workspace@8e4db92. Entry format: claim — citation; evidence

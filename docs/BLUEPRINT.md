@@ -23,8 +23,10 @@ extensions**, never foundation.
    docs) sits above gitignored working clones of independent child
    repos under `projects/`. Child histories are never merged; nothing is ever
    generated into a child. Beside the code sits the document layer:
-   human-supplied originals copied into gitignored `docs/assets/<scope>/`,
-   one tracked text derivative each under `docs/<scope>/sources/` —
+   human-supplied originals copied into gitignored `docs/assets/<scope>/`
+   (optionally one folder down, named for the fleet repo a document is
+   evidence about), one tracked text derivative each under
+   `docs/<scope>/sources/` —
    readable on any machine without the originals or the extraction tools,
    cited by git blob.
 2. **Manifest, not submodules.** `catalog/repos.yaml` declares the fleet
@@ -88,8 +90,8 @@ multi-repos-ai-agent-workspace/
 ├── docs/<scope>/<topic>.md          ← growth only: examined Body topics moved out beside the root
 ├── docs/workspace/<topic>.md        ← the workspace's own specifications (document layer, scope grammar), adopted by owner instruction
 ├── docs/plans/<scope>--<feature>.md ← created with the first gated plan
-├── docs/<scope>/sources/            ← created by workspace.sh ingest / extract; tracked text derivatives of human documents
-├── docs/assets/<scope>/             ← gitignored; the originals, copied in by ingest
+├── docs/<scope>/sources/[<repo>/]   ← created by workspace.sh ingest / extract; tracked text derivatives of human documents; <repo> = a manifest id lowercased
+├── docs/assets/<scope>/[<repo>/]    ← gitignored; the originals, copied in by ingest
 ├── .agents/scratch/                 ← gitignored; disposable working artifacts
 └── projects/                        ← gitignored; created by workspace.sh clone
 ```

@@ -54,9 +54,9 @@ it) or `extract` (a file already there). Originals are never committed.
   plan in `docs/plans/` (signature format in `docs/README.md`).
   Read-only repos' push URLs are disabled regardless.
 - ⛔ The write surface is exactly: `.agents/memory/sessions/` (logs), `docs/`
-  (per its rules), `./CHANGELOG.md`, `docs/<scope>/sources/*.md` **only as
+  (per its rules), `./CHANGELOG.md`, `docs/<scope>/sources/[<repo>/]*.md` **only as
   `./workspace.sh ingest` or `extract` output** (never hand-edited), gitignored
-  `docs/assets/<scope>/` **only through `./workspace.sh ingest`** (it adds a
+  `docs/assets/<scope>/[<repo>/]` **only through `./workspace.sh ingest`** (it adds a
   dated original and never overwrites, renames or removes one), and gitignored
   `.agents/scratch/` for
   disposable working artifacts (safe to delete anytime; their conclusions go
@@ -85,7 +85,7 @@ assume same-named things in different repos are the same entity without
 file-level evidence.
 
 A finding drawn from a human-supplied document cites the derivative it read:
-`docs/<scope>/sources/<name>.<ext>.md@<blob>` — read with
+`docs/<scope>/sources/[<repo>/]<name>.<ext>.md@<blob>` — read with
 `git hash-object <path> | cut -c1-12` (equal to
 `git rev-parse --short=12 HEAD:<path>` after the closeout commit) — plus
 `p.<N>`, `L<n>` or `§heading`, and optionally a ≤12-word verbatim quote.

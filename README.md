@@ -16,8 +16,8 @@ agent at closeout, findings into the docs system, the examined parts of
 
 ```
 this repo                 ← governance: rules, memory, docs
-├── docs/<scope>/sources/ ← tracked text of your documents, one .md per original (workspace.sh ingest / extract)
-├── docs/assets/<scope>/  ← the originals, copied in by ingest; gitignored
+├── docs/<scope>/sources/[<repo>/] ← tracked text of your documents, one .md per original (workspace.sh ingest / extract); the optional folder names the fleet repo a document is evidence about
+├── docs/assets/<scope>/[<repo>/]  ← the originals, copied in by ingest; gitignored
 └── projects/             ← gitignored clones of your child repos
 ```
 
@@ -28,6 +28,7 @@ this repo                 ← governance: rules, memory, docs
 # edit catalog/repos.yaml      # 2. declare your child repos + access levels
 ./workspace.sh clone           # 3. fleet appears under projects/
 ./workspace.sh ingest <scope> <files>   # 4. (optional) documents become agent-readable: original copied to docs/assets/<scope>/ (gitignored), text under docs/<scope>/sources/
+                                        #    REPO=<manifest id> files them one folder down, under the repo they are evidence about
 ```
 
 Then add a **private remote** for this repo and push — its memory must survive
@@ -56,7 +57,7 @@ a dead disk. (It ships with none on purpose.)
 | `.agents/memory/sessions/` | Simple journey logs, one per agent run — decisions & pitfalls, never findings |
 | `docs/README.md` | The docs system's rules: scopes, intake, examination bar, signature gate |
 | `docs/<scope>.md` + `docs/plans/<scope>--<feature>.md` | The knowledge system: per-scope document (Open-findings intake + examined body) plus signed plans (see `docs/README.md`) |
-| `docs/<scope>/sources/` + `docs/assets/<scope>/` | Human-supplied documents: tracked text derivatives (`ingest`/`extract` output, cited `…@<blob>`) / their originals, gitignored |
+| `docs/<scope>/sources/[<repo>/]` + `docs/assets/<scope>/[<repo>/]` | Human-supplied documents: tracked text derivatives (`ingest`/`extract` output, cited `…@<blob>`) / their originals, gitignored; `<repo>` = a manifest id lowercased, for documents that are evidence about one fleet repo |
 | `.githooks/pre-commit` | Runs `workspace.sh check` and refuses binaries and files over 1 MiB; broken states cannot be committed |
 
 ## Growing it

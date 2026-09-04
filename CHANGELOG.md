@@ -3,6 +3,30 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [Documents may sit one folder below a scope, named for the fleet repo they are evidence about] — 2026-09-04
+
+### Added
+- `REPO=<manifest id> ./workspace.sh ingest <scope> <file>…` files documents
+  under `docs/assets/<scope>/<repo>/` and `docs/<scope>/sources/<repo>/`, where
+  `<repo>` is the id lowercased with `_` → `-` (`REA_PROTO` → `rea-proto`).
+  `extract` accepts either level; `check` derives the scope from the path,
+  refuses a second level or a folder that is not a manifest id, and pins each
+  `source:` header exactly. The citation form gains the optional folder:
+  `docs/<scope>/sources/[<repo>/]<name>.<ext>.md@<blob>`. Owner decision: the
+  owner organises evidence by which repository produced it (the prototype's
+  rendering of a dialog beside the new UI's rendering of the same dialog), and
+  with scope as the only axis the outlet was a repo-named scope (`nabu-ui`,
+  then `ui` and `rea-proto`), which fragments a product's findings. Scope stays
+  the product; the folder is the manifest's vocabulary applied to where
+  evidence sits. Rules and trees in AGENTS.md, docs/README.md, README.md and
+  BLUEPRINT.md; amendments in `docs/workspace/document-layer.md` §15 and
+  `docs/workspace/scope-grammar.md` §14. Verified by 26 sandbox cases.
+
+### Fixed
+- `extract` keeps an existing derivative's `received:` line when re-run
+  without `RECEIVED=`; a bare re-extract used to drop it, changing the blob
+  for a reason unrelated to the text. Found by the sandbox test above.
+
 ## [Originals copied into gitignored docs/assets/, text under docs/<scope>/sources/] — 2026-09-03
 
 ### Changed

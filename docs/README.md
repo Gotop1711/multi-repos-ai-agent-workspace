@@ -9,8 +9,8 @@ text under `<scope>/sources/`, their originals in gitignored `assets/<scope>/`):
 docs/
 ├── <scope>.md                    ← one document per scope: a product or system a human names
 ├── <scope>/<topic>.md            ← growth only: examined Body topics moved out; the root stays
-├── <scope>/sources/<name>.<ext>.md ← human-supplied documents as text (ingest / extract output only)
-├── assets/<scope>/<name>.<ext>   ← their originals, copied in by ingest; gitignored, never committed
+├── <scope>/sources/[<repo>/]<name>.<ext>.md ← human-supplied documents as text (ingest / extract output only); <repo> = a manifest id lowercased, for a document that is evidence about one fleet repo
+├── assets/<scope>/[<repo>/]<name>.<ext>   ← their originals, copied in by ingest; gitignored, never committed
 ├── workspace/<topic>.md          ← the workspace's own specifications (document layer, scope grammar)
 └── plans/<scope>--<feature>.md   ← child-repo work only: discussion → 🚦 signature → execution
 ```
@@ -64,7 +64,7 @@ fleet is declared avoids most renames.
    one heading level down).
 3. **Open findings** — the intake tray, appended as work happens: each finding
    with full evidence (`<repo>@<sha>` + file + symbol, or
-   `docs/<scope>/sources/<name>.<ext>.md@<blob>` + locator for documents, evidence
+   `docs/<scope>/sources/[<repo>/]<name>.<ext>.md@<blob>` + locator for documents, evidence
    type, confidence, unresolved questions). A finding about how repos interact
    cites every involved repo from one `./workspace.sh cite` output — the full
    fleet line when its dependency surface is uncertain. Findings never enter

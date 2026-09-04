@@ -789,3 +789,45 @@ own files, wants them inside the repository directory, and does not need them
 in git — so the mount step bought nothing. What §1 still guards is unchanged:
 only text enters git, the hook refuses binaries and files over 1 MiB, and a
 derivative's sha256 pins the bytes it was extracted from.
+
+### 2026-09-04 — one optional folder below a scope: the repository the documents are evidence about
+
+Owner instruction, recorded in `../../CHANGELOG.md`. Amends the layout of the
+2026-09-03 "no store" amendment above, §3's destination column and §4's paths:
+a document may sit one folder below its scope, and that folder can only be a
+repository of the fleet —
+
+- `docs/assets/<scope>/[<repo>/]YYYY-MM-DD-<slug>.<ext>` and
+  `docs/<scope>/sources/[<repo>/]YYYY-MM-DD-<slug>.<ext>.md`, where `<repo>` is
+  a `catalog/repos.yaml` id lowercased with `_` → `-` (`REA_PROTO` →
+  `rea-proto`, `REA_UI` → `rea-ui`). `REPO=<manifest id> ./workspace.sh ingest
+  <scope> <file>…` files documents there; `extract` accepts either level;
+  `check` derives the scope from the path, refuses a second level and any
+  folder that is not a manifest id, and pins each header's `source:` to
+  exactly `docs/assets/<scope>/[<repo>/]<name>`. Citation:
+  `docs/<scope>/sources/[<repo>/]<name>.<ext>.md@<blob12>` + the same locators
+  as before; `restore` already skips any `sources/…@…` token.
+- A document about the product rather than one repository — a PM
+  specification, a meeting note — stays at the scope root, as before. So does
+  a document about two repositories at once (a side-by-side comparison); the
+  finding cites both repos.
+- Depth stops at one level and the vocabulary is the manifest's, not
+  free-form: the folder is the same axis as `<repo>@<sha>` citations — *what
+  is this document evidence about* — never a kind, a feature or a date.
+- `extract` now keeps an existing derivative's `received:` line when re-run
+  without `RECEIVED=`. A bare re-extract used to drop it, so "fix a bad
+  extraction by re-running it" changed the blob for a reason unrelated to the
+  text. Surfaced by the sandbox test of this change.
+
+Why: the owner organises evidence by which repository produced it —
+screenshots of the prototype's rendering of a dialog beside the new UI's
+rendering of the same dialog — and with scope as the only axis the only outlet
+was a scope named after the repository (`nabu-ui` on 2026-09-03; `ui` and
+`rea-proto` on 2026-09-04), which fragments the product's findings tray. The
+scope grammar's "repository = the evidence axis" now also places documents.
+Verified in a disposable sandbox (`.agents/scratch/assets-by-repo-test/`), 26
+cases: root-level and repo-folder ingest; `received:` preserved; unknown and
+grammar-violating `REPO=` refused with nothing written; `extract` refuses a
+non-repo folder; `check` fails on a non-repo folder, on a second level and on
+a tampered `source:`; the orphan warning names the right command; re-extract
+is blob-stable; `restore` skips the new citation form.
