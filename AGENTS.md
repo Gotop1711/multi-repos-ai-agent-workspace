@@ -37,7 +37,9 @@ it) or `extract` (a file already there). Originals are never committed.
      findings** (filing and `[<feature>]` tag rules in `docs/README.md`;
      evidence rules below; never coin a product or system id — propose it in
      the log's TODO); promote into the document body only past the
-     examination bar (`docs/README.md`). Workspace-level changes go to
+     examination bar (`docs/README.md`); prune what you found stale there —
+     a promoted or refuted finding is deleted, a Body claim is rewritten in
+     place; git is the document's history. Workspace-level changes go to
      `./CHANGELOG.md`.
    - The closeout commit of THIS repo + push. That commit is the **one
      standing git authorization**; every other git action here — and any

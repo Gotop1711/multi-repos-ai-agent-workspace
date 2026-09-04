@@ -448,3 +448,37 @@ amendment above traced to the repo-id default (`nabu-ui`, then `ui` and
 `rea-proto`). §10 is already superseded by the document layer's 2026-09-03
 layout amendment; `docs/<scope>/sources/` and `docs/assets/<scope>/`, each with
 the optional repo folder, are the current paths.
+
+### 2026-09-04 — scope documents are maintained state: no Changes section, no struck findings
+
+Owner instruction, recorded in `../../CHANGELOG.md`. Supersedes: §1's "a
+conclusion about the system is a promoted Body claim plus a Changes entry"
+(a promoted Body claim, full stop); §5's three-part skeleton (two parts:
+Body, Open findings, with one `History:` line under the title); §6 *After* —
+"a Changes entry in the lead scope and a pointer entry in every other
+`Scopes:` scope" (each other scope's Body › Integration points is updated to
+what now exists) and "striking each promoted finding" (the finding is deleted
+once its content is in Body); §8's "record the move in the root's Changes" and
+"Changes and Open findings never leave it" (the Open findings never leave it);
+the `archive.md` row of §11; and, in the 2026-09-03 rename amendment above,
+the `[Renamed from scope <old>]` Changes entry (dropped — git records the
+move, the session log the reason).
+
+The rule now: Body and Open findings are **maintained state**, rewritten in
+place whenever a session finds them stale; a promoted, refuted or superseded
+finding is deleted (a refutation that proved a positive fact becomes a Body
+claim, so it is not re-filed); finding ids are never reused and the session
+that deletes one fixes any live reference to it; pruning is part of every
+closeout that touches a scope document. `git log -- docs/<scope>.md` is the
+document's history, the scope's session logs its journey,
+`../../CHANGELOG.md` the workspace's own release history — the one ledger
+left. The examination bar for promotion is unchanged.
+
+Why: after two days of use, three ledgers (Changes, CHANGELOG, session log)
+recorded every event; every rebase of the project branch conflicted at each
+ledger's anchor; and a three-day-old scope document already carried 84 lines
+of ledger plus struck findings that every session start paid to read. Storage
+was never the constraint — readability for the owner and the agent is — and
+git already keeps every prior version, so the ledger only ever decided whether
+history was *also* kept in the live text. An `archive.md` for struck findings
+was considered and rejected as the same rule in a different file.

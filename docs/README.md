@@ -43,9 +43,7 @@ commit: `git mv docs/<old>.md docs/<new>.md` (and `docs/<old>/` to
 `git mv`ed to `docs/plans/<new>--<feature>.md` with an appended
 `Renamed: <YYYY-MM-DD> — from <old>--<feature>` line; documents re-extracted
 under `<new>/sources/` after `mv docs/assets/<old> docs/assets/<new>` (gitignored
-copies, no git involved);
-and one Changes entry `[Renamed from scope <old>] — <date>` in the renamed
-document listing everything that moved. Afterwards the old id exists nowhere
+copies, no git involved). Afterwards the old id exists nowhere
 in `docs/`; session-log filenames keep it, as history. Git keeps the moved
 file's history and citations never name document paths, so no evidence
 breaks. Declaring `scope:` keys for every repo of a multi-repo product when the
@@ -53,16 +51,16 @@ fleet is declared avoids most renames.
 
 ## Scope documents — intake and examined body
 
-`docs/<scope>.md` has three parts:
+`docs/<scope>.md` has two parts, and both are **maintained state** — git is
+the document's history (`git log -- docs/<scope>.md`), the scope's session
+logs are its journey, and one `History:` line under the title says so:
 
 1. **Body** — purpose & framing, current architecture, and other examined
    facts about the system (integration points with other scopes, how it is
    run and tested, its terms): only claims that passed the examination bar.
    Factual claims carry `<repo>@<sha>` citations; claims about what a document
    states carry `docs/<scope>/sources/…@<blob>` citations.
-2. **Changes** — append-only (entry format per the header of `../CHANGELOG.md`,
-   one heading level down).
-3. **Open findings** — the intake tray, appended as work happens: each finding
+2. **Open findings** — the intake tray: each finding
    with full evidence (`<repo>@<sha>` + file + symbol, or
    `docs/<scope>/sources/[<repo>/]<name>.<ext>.md@<blob>` + locator for documents, evidence
    type, confidence, unresolved questions). A finding about how repos interact
@@ -96,16 +94,20 @@ A claim is promoted only after being carefully and analytically examined:
    `hash-object` differs from the cited blob or a newer dated edition sits
    beside it; `git show <blob>` shows exactly what was read.
 
-Superseded, refuted or promoted findings are struck with an appended note —
-never deleted. (Scope of the bar: it governs scope documents. `BLUEPRINT.md`
+A promoted finding is deleted from the tray once its content is in the Body;
+a refuted or superseded one is deleted outright — and if the refutation proved
+a positive fact ("X is by design"), that fact becomes a Body claim so the
+finding is not re-filed. Finding ids are never reused; the session that deletes
+one updates any live reference to it (a plan, another scope, a Body sentence);
+`git log -S 'F<n> —' -- docs/<scope>.md` recovers the text. (Scope of the bar: it governs scope documents. `BLUEPRINT.md`
 and this README are the governance texts themselves; plans are gated by the
 signature below, though a plan's factual premises should meet the bar. When
 two sessions in a row record that a scope document's size got in their way,
 move its largest examined Body topic, verbatim, into `docs/<scope>/<topic>.md`
 (H1 `# <scope>/<topic> — purpose`; named for the subsystem, never a feature),
-leave `→ see <scope>/<topic>.md` under the vacated heading and record the move
-in Changes; the root `docs/<scope>.md` never moves and keeps Changes and Open
-findings — a growth trigger, not a day-one structure.)
+leave `→ see <scope>/<topic>.md` under the vacated heading; the root
+`docs/<scope>.md` never moves and keeps the Open findings — a growth trigger,
+not a day-one structure.)
 
 ## The signature gate
 
@@ -118,7 +120,8 @@ A plan authorizes child-repo work only after a human adds, inside the file:
 A plan lives at `docs/plans/<scope>--<feature>.md` under its lead scope — the
 scope the task named, else the one whose repos it mainly writes — with
 `Scope: <lead>` under the H1 and `Scopes: <lead>, <other>…` when it touches
-several (each other scope receives a Changes entry when it ships). Lifecycle
+several (when it ships, each other scope's Body › Integration points is
+updated to what now exists). Lifecycle
 lines are appended, never overwritten: `Signed:` (human),
 `Shipped: <YYYY-MM-DD> — <repo>@<sha>…` (agent; the landed commits),
 `Abandoned: <YYYY-MM-DD> — <reason>`. Plans are renamed only together with
@@ -130,17 +133,23 @@ line under the H1 and a `../CHANGELOG.md` entry.
 
 ## Writing rules
 
-- Append or update; **never delete history**. Corrections are appended notes,
-  not overwrites.
+- **Maintain, don't accumulate.** Body and Open findings are rewritten in
+  place whenever a session finds them stale, and pruning what is obsolete is
+  part of every closeout that touches a scope document. Nothing is kept in a
+  document because it used to be true: git is the document's history, the
+  session logs are the journey, `../CHANGELOG.md` is the workspace's own
+  release history. The examination bar is unchanged — a Body claim is still
+  promoted only after re-verification at source.
 - Session logs (`.agents/memory/sessions/`) hold the *journey* only; every
   finding and all documentation live here, in the docs system.
-- A verbatim move recorded in Changes is the only sanctioned relocation of
-  text; citations name repositories, never document paths, so no move can
-  break evidence.
+- Text moves between documents only verbatim (a split, a rename), with a
+  pointer left under the vacated heading; citations name repositories and
+  blobs, never document paths, so no move can break evidence.
 - Files under `<scope>/sources/` are generated by `workspace.sh ingest` or `extract`
   only (a restricted document via `RESTRICTED=<name>`); a bad extraction is fixed by
   re-running it, never by editing the derivative; a superseded document gets a
   new dated file and the old derivative stays; removal or re-scoping of a
-  derivative is a human commit; each ingest appends a Changes entry (files,
-  as-received names or URLs, provenance, supersessions,
-  `NOT ingested: … lives at …`).
+  derivative is a human commit. Provenance lives in the derivative's header
+  (`source:`, `sha256:`, `received:`) and, for the narrative — where the files
+  came from, what was not ingested and why, which edition supersedes which —
+  in the ingesting session's log.

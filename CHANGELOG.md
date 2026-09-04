@@ -3,6 +3,29 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [Scope documents are maintained state: no Changes sections, no struck findings] — 2026-09-04
+
+### Changed
+- Owner decision. `docs/<scope>.md` has two parts — Body and Open findings —
+  and both are rewritten in place whenever a session finds them stale: a
+  promoted or refuted finding is deleted (a refutation that proved a positive
+  fact becomes a Body claim), finding ids are never reused, the deleting
+  session fixes live references, and pruning is part of every closeout that
+  touches a scope document. `git log -- docs/<scope>.md` is a document's
+  history, the scope's session logs its journey, this file the workspace's own
+  release history — the one ledger left; each scope document carries a
+  `History:` line under its title saying so. Why: three ledgers wrote every
+  event, every rebase conflicted at each ledger's anchor, and readers paid for
+  struck and stale text on every session start; git already keeps every prior
+  version. Rules in `docs/README.md` and `AGENTS.md`; amendments in
+  `docs/workspace/scope-grammar.md` §14 and `document-layer.md` §15;
+  `BLUEPRINT.md` §4 loses the `archive.md` row and §5 records the rejection.
+
+### Removed
+- `docs/workspace.md` › Changes (10 entries, each mirrored here or in a
+  session log); its findings 14–17 and 22 rewritten to what remains open.
+  `docs/rea.md` follows on `rea`.
+
 ## [Documents may sit one folder below a scope, named for the fleet repo they are evidence about] — 2026-09-04
 
 ### Added

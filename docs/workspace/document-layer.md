@@ -831,3 +831,19 @@ grammar-violating `REPO=` refused with nothing written; `extract` refuses a
 non-repo folder; `check` fails on a non-repo folder, on a second level and on
 a tampered `source:`; the orphan warning names the right command; re-extract
 is blob-stable; `restore` skips the new citation form.
+
+### 2026-09-04 — no Changes entry per ingest: provenance in the header and the session log
+
+Owner instruction, recorded in `../../CHANGELOG.md`; scope documents are
+maintained state (`scope-grammar.md` §14, same date). Supersedes every mention
+of a scope document's Changes entry in this specification: §3's "supersession
+is recorded in the scope document's Changes entry", the "say so in the Changes
+entry" of the removal note under §3, §4's "the as-received filename is
+recorded once in the scope document's Changes entry for the ingest", §5 and
+§7 wherever they name one, §11's migration steps, and the sentence on it in
+the 2026-09-03 ingest amendment above. Provenance now lives in exactly two
+places: per file, the derivative's header (`source:`, `sha256:`, `bytes:`,
+`received:`, `status:`); for the narrative — the folder the files came from,
+what was not ingested and why, which dated edition supersedes which — the
+ingesting session's log. A derivative's removal (a human commit) is likewise
+recorded in that session's log; its blob remains in history.
