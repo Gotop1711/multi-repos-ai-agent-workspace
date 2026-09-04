@@ -59,11 +59,15 @@ it) or `extract` (a file already there). Originals are never committed.
   (per its rules), `./CHANGELOG.md`, `docs/<scope>/sources/[<repo>/]*.md` **only as
   `./workspace.sh ingest` or `extract` output** (never hand-edited), gitignored
   `docs/assets/<scope>/[<repo>/]` **only through `./workspace.sh ingest`** (it adds a
-  dated original and never overwrites, renames or removes one), and gitignored
+  dated original and never overwrites or renames one) — plus one removal
+  anyone makes: an original that no derivative names any more (an **orphan**:
+  its derivative was removed or re-filed; `check` lists them) is deleted at
+  closeout, by agents and human maintainers alike, so `docs/assets/` holds
+  only what `docs/*/sources/` uses — and gitignored
   `.agents/scratch/` for
   disposable working artifacts (safe to delete anytime; their conclusions go
-  into findings or the log). Never write inside `projects/`; never touch an
-  existing original by any other means.
+  into findings or the log). Never write inside `projects/`; never overwrite, rename or
+  edit an existing original; remove only orphans.
 - ⛔ No secrets in any file, ever; report a credential's location, not its value.
 - ⛔ Nothing binary and nothing over 1 MiB enters this repository — the
   pre-commit hook refuses it; document originals stay in gitignored

@@ -3,6 +3,22 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [Orphan originals under docs/assets/ are removed at closeout] — 2026-09-04
+
+### Changed
+- Owner instruction. An original under `docs/assets/<scope>/[<repo>/]` is in
+  use only while its derivative exists under `docs/<scope>/sources/`; one
+  whose derivative was removed or re-filed is an orphan and is deleted at the
+  next closeout, by agents and human maintainers alike. `ingest` still never
+  overwrites or renames an original, and nobody edits one. `check` now lists
+  each orphan with `rm` as the remedy (`extract` only for a file meant to be
+  ingested) and prints a count; it still never fails on store-side state.
+  Why: the fold of scopes `rea-proto` and `ui` into `rea` left duplicate
+  copies under the old folders with no rule allowing their removal, and a
+  `check` message that told the reader to extract them. Rules in AGENTS.md,
+  trees in docs/README.md and README.md; amendment in
+  `docs/workspace/document-layer.md` §15.
+
 ## [OCR reads Traditional Chinese: recognition languages default to zh-Hant,en-US; marker-only OCR is no-text] — 2026-09-04
 
 ### Fixed

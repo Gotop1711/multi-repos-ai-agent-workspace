@@ -17,7 +17,7 @@ agent at closeout, findings into the docs system, the examined parts of
 ```
 this repo                 ← governance: rules, memory, docs
 ├── docs/<scope>/sources/[<repo>/] ← tracked text of your documents, one .md per original (workspace.sh ingest / extract); the optional folder names the fleet repo a document is evidence about
-├── docs/assets/<scope>/[<repo>/]  ← the originals, copied in by ingest; gitignored
+├── docs/assets/<scope>/[<repo>/]  ← the originals, copied in by ingest; gitignored; orphans (no derivative) removed at closeout — check lists them
 └── projects/             ← gitignored clones of your child repos
 ```
 

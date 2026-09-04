@@ -10,7 +10,7 @@ docs/
 ├── <scope>.md                    ← one document per scope: a product or system a human names
 ├── <scope>/<topic>.md            ← growth only: examined Body topics moved out; the root stays
 ├── <scope>/sources/[<repo>/]<name>.<ext>.md ← human-supplied documents as text (ingest / extract output only); <repo> = a manifest id lowercased, for a document that is evidence about one fleet repo
-├── assets/<scope>/[<repo>/]<name>.<ext>   ← their originals, copied in by ingest; gitignored, never committed
+├── assets/<scope>/[<repo>/]<name>.<ext>   ← their originals, copied in by ingest; gitignored, never committed; an original no derivative names (orphan) is removed at closeout
 ├── workspace/<topic>.md          ← the workspace's own specifications (document layer, scope grammar)
 └── plans/<scope>--<feature>.md   ← child-repo work only: discussion → 🚦 signature → execution
 ```

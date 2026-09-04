@@ -867,3 +867,24 @@ nothing was stamped `ok`; page, slide and sheet markers are now excluded and
 such a derivative is `status: no-text`. Verified in a sandbox on the two real
 303 screenshots (png, jpg), an `en-US` override (3 lines again), `zh-Hant`
 alone, an unsupported tag, an all-white image, and a verbatim text file.
+
+### 2026-09-04 — orphan originals are removed at closeout
+
+Owner instruction, recorded in `../../CHANGELOG.md`. Amends §4's "Never
+rename or edit a file in the store" and the 2026-09-03 ingest amendment's
+"overwriting, renaming, removing or editing an existing original" is
+forbidden: overwriting, renaming and editing stay forbidden; **removing is
+required for orphans**. An original under `docs/assets/<scope>/[<repo>/]` is
+*in use* while its derivative `docs/<scope>/sources/[<repo>/]<name>.md`
+exists in the tracked tree; when that derivative is removed (a human commit,
+§3) or re-filed elsewhere (a scope fold or rename that re-ingested the same
+bytes), the original is an orphan and is deleted at the next closeout by
+whoever sees it — agent or human. `check` prints one `warn:` per orphan,
+naming `rm` as the remedy and `extract` only for a file that was meant to
+be ingested, plus a count line; it still never fails on store-side state
+(§1). The cited blobs are unaffected: a removed derivative's text stays in
+git history, and `ingest` copies, so the owner's source file is untouched.
+Why: after the 2026-09-04 fold of scopes `rea-proto` and `ui` into `rea`,
+the re-ingested copies left byte-identical duplicates under the old scope
+folders with no rule allowing their removal and a `check` message that told
+the reader to *extract* them.

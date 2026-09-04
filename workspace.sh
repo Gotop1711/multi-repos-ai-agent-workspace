@@ -354,9 +354,15 @@ check)
     done || status=1
     tracked="$(git ls-files "$ASSETS" 2>/dev/null | wc -l | tr -d ' ')"
     [ "$tracked" -eq 0 ] || { echo "FAIL: $tracked file(s) under $ASSETS/ are tracked by git — originals are never committed (git rm --cached them; keep '/docs/assets/' in .gitignore)" >&2; status=1; }
-    [ ! -d "$ASSETS" ] || find "$ASSETS" -type f ! -name .DS_Store | while read -r o; do r="${o#$ASSETS/}"; s="${r%%/*}"; [ -f "docs/$s/sources/${r#*/}.md" ] || echo "warn: $o has no derivative — ./workspace.sh extract $s $o" >&2; done
     echo "info: $(find docs/*/sources -type f -name '*.md' | wc -l | tr -d ' ') document derivative(s) under docs/*/sources/$([ -d "$ASSETS" ] || echo " ($ASSETS/ absent: hashes not verified)")"
   fi
+  # orphans: an original no derivative names any more (its derivative was removed or re-filed) — removed at closeout by whoever sees this
+  orphans="$( [ -d "$ASSETS" ] && find "$ASSETS" -type f ! -name .DS_Store | while read -r o; do r="${o#$ASSETS/}"; s="${r%%/*}"; [ -f "docs/$s/sources/${r#*/}.md" ] || echo "$o"; done )"
+  if [ -n "$orphans" ]; then
+    printf '%s\n' "$orphans" | while read -r o; do echo "warn: $o has no derivative — an orphan: remove it (rm), or './workspace.sh extract ${o#$ASSETS/}' if it was meant to be ingested" | sed "s|extract \([a-z0-9-]*\)/|extract \1 $ASSETS/\1/|" >&2; done
+    echo "warn: $(printf '%s\n' "$orphans" | grep -c .) orphan original(s) under $ASSETS/ — not in use by any derivative; remove them before closing out (AGENTS.md › write surface)" >&2
+  fi
+
   [ "$n" -gt 0 ] || echo "warn: manifest has no repos yet — edit catalog/repos.yaml"
   newest="$(ls .agents/memory/sessions 2>/dev/null | grep -E '^[0-9]{4}-' | sort | tail -1)"
   echo "info: newest session log: ${newest:-none yet}"
