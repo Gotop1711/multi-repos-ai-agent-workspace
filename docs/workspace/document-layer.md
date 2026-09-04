@@ -847,3 +847,23 @@ places: per file, the derivative's header (`source:`, `sha256:`, `bytes:`,
 what was not ingested and why, which dated edition supersedes which — the
 ingesting session's log. A derivative's removal (a human commit) is likewise
 recorded in that session's log; its blob remains in history.
+
+### 2026-09-04 — OCR recognition languages; markers alone are not text
+
+Owner instruction, recorded in `../../CHANGELOG.md`. Amends §8's OCR
+paragraph and §9's `ocr` program: `VNRecognizeTextRequest` was created without
+`recognitionLanguages`, so Vision ran at its default `en-US` and every
+Traditional-Chinese page or screenshot came back as Latin/symbol mojibake
+under `status: ok` (`docs/workspace.md` finding 23; measured 3 junk lines vs
+33 correct on the same image). The program now takes the languages as its
+second argument, `extract` passes `OCR_LANGS` (default `zh-Hant,en-US`) at
+both call sites, and `ingest` passes it through. An unsupported tag does not
+fail — Vision falls back to `en-US` — so a wrong `OCR_LANGS` shows up as
+mojibake, not as an error. §8's "OCR text is medium quality: cite it at
+≤ medium confidence" stands; what changes is that the text now exists.
+Second correction, same session: the no-text test counted the
+`<!-- page N (ocr) -->` marker as body, so an extraction that recognised
+nothing was stamped `ok`; page, slide and sheet markers are now excluded and
+such a derivative is `status: no-text`. Verified in a sandbox on the two real
+303 screenshots (png, jpg), an `en-US` override (3 lines again), `zh-Hant`
+alone, an unsupported tag, an all-white image, and a verbatim text file.

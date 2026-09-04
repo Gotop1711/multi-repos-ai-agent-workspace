@@ -3,6 +3,21 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [OCR reads Traditional Chinese: recognition languages default to zh-Hant,en-US; marker-only OCR is no-text] — 2026-09-04
+
+### Fixed
+- `extract`'s embedded Vision program never set `recognitionLanguages`, so it
+  ran at Vision's default `en-US` and every Traditional-Chinese document
+  extracted to mojibake — measured on a real screenshot: 3 junk lines before,
+  33 correct lines (141 Han characters) after. The default is now
+  `zh-Hant,en-US`; `OCR_LANGS=<bcp47,…>` on `ingest`/`extract` overrides it
+  per call (an unsupported tag falls back to `en-US` inside Vision, it does
+  not fail). `docs/workspace.md` finding 23.
+- A derivative whose OCR produced nothing was stamped `status: ok` because the
+  `<!-- page N (ocr) -->` marker alone made the body non-empty; markers
+  (page/slide/sheet) no longer count, so an empty extraction is `no-text`.
+  Amendment in `docs/workspace/document-layer.md` §15.
+
 ## [Scope documents are maintained state: no Changes sections, no struck findings] — 2026-09-04
 
 ### Changed

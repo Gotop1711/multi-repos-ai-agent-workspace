@@ -7,6 +7,7 @@
 #   ./workspace.sh ingest <scope> <file>…      copy a document to docs/assets/<scope>/[<repo>/] (gitignored) under a dated name, then extract it
 #                                              REPO=<manifest id> files it one folder down, under that repository (REA_PROTO → rea-proto/)
 #   ./workspace.sh extract <scope> docs/assets/<scope>/[<repo>/]<file>…  text of a copied document → docs/<scope>/sources/[<repo>/]<file>.md
+#                                              OCR_LANGS=<bcp47,…> sets Vision's recognition languages (default zh-Hant,en-US)
 #   ./workspace.sh check                 verify the manifest and the document layer (session-init / pre-commit)
 # Plain bash (macOS 3.2 ok), zero dependencies — extract alone uses macOS textutil, swift (PDFKit, Vision) and python3.
 set -u
@@ -131,7 +132,7 @@ restore)
 extract)
   # reads an original already under docs/assets/<scope>/ (dated name) and writes docs/<scope>/sources/<name>.md
   shift; scope="${1:-}"; shift || true
-  usage="usage: workspace.sh extract <scope> docs/assets/<scope>/[<repo>/]<file>…   (scope = a docs/<scope>.md id; <repo> = a manifest id lowercased; RESTRICTED=<file> header only; OCR=<file> force OCR; SECRET_OK=<file> waive a false positive)"
+  usage="usage: workspace.sh extract <scope> docs/assets/<scope>/[<repo>/]<file>…   (scope = a docs/<scope>.md id; <repo> = a manifest id lowercased; RESTRICTED=<file> header only; OCR=<file> force OCR; OCR_LANGS=<bcp47,…> recognition languages, default zh-Hant,en-US; SECRET_OK=<file> waive a false positive)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
   [ -d "$ASSETS/$scope" ] || { echo "FAIL: $ASSETS/$scope/ missing — './workspace.sh ingest $scope <file>' copies a document there first" >&2; exit 1; }
@@ -149,8 +150,9 @@ import Vision
 import AppKit
 let args = CommandLine.arguments
 guard args.count > 1 else { exit(2) }
+let langs = (args.count > 2 ? args[2] : "zh-Hant,en-US").split(separator: ",").map { String($0) }   // OCR_LANGS; Vision's default is en-US only
 func ocr(_ cg: CGImage) -> [String] {
-    let req = VNRecognizeTextRequest(); req.recognitionLevel = .accurate
+    let req = VNRecognizeTextRequest(); req.recognitionLevel = .accurate; req.recognitionLanguages = langs
     try? VNImageRequestHandler(cgImage: cg, options: [:]).perform([req])
     return (req.results ?? []).sorted { $0.boundingBox.minY > $1.boundingBox.minY }.compactMap { $0.topCandidates(1).first?.string }
 }
@@ -220,8 +222,8 @@ PY
         pdf) extractor=pdfkit; swift "$tmp" "$orig" > "$body" 2>/dev/null || { extractor="none (pdf unreadable or encrypted)"; : > "$body"; }
              pages="$(grep -c '^<!-- page' "$body")"; chars="$(grep -v '^<!-- page' "$body" | tr -d '[:space:]' | wc -c | tr -d ' ')"
              if [ "${OCR:-}" = "$name" ] || { [ "$pages" -gt 0 ] && [ "$chars" -lt $((20 * pages)) ]; }; then
-               extractor=vision-ocr; swift "$ocr" "$orig" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; }; fi ;;
-        png|jpg|jpeg|tif|tiff|heic|gif) extractor=vision-ocr; swift "$ocr" "$orig" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; } ;;
+               extractor=vision-ocr; swift "$ocr" "$orig" "${OCR_LANGS:-zh-Hant,en-US}" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; }; fi ;;
+        png|jpg|jpeg|tif|tiff|heic|gif) extractor=vision-ocr; swift "$ocr" "$orig" "${OCR_LANGS:-zh-Hant,en-US}" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; } ;;
         pptx|xlsx) extractor=ooxml; python3 "$ooxml" "$orig" > "$body" 2>/dev/null || { extractor="none (ooxml unreadable)"; : > "$body"; } ;;
         *) [ "$(file -b --mime-encoding "$orig")" = binary ] || { extractor=verbatim; cat "$orig" > "$body"; } ;;
       esac
@@ -238,7 +240,8 @@ PY
         rm -f "$body"; fail=$((fail+1)); continue
       fi
       [ "$(wc -c < "$body")" -le 1000000 ] || { echo "[$name] REFUSED: extracted text over 1 MB — split the original and ingest the parts" >&2; rm -f "$body"; fail=$((fail+1)); continue; }
-      [ -s "$body" ] || { status="no-text"; [ "$extractor" = none ] && echo "[$name] no extractor for .$ext — export from the app and ingest the export" >&2; }
+      grep -v -E '^<!-- (page|slide|sheet) [^>]*-->$' "$body" | grep -q '[^[:space:]]' \
+        || { status="no-text"; [ "$extractor" = none ] && echo "[$name] no extractor for .$ext — export from the app and ingest the export" >&2; }   # page/slide/sheet markers alone are not text
     fi
     mkdir -p "$(dirname "$out")"
     { printf -- '---\nsource: %s\nsha256: %s\nbytes: %s\nextractor: %s\nstatus: %s\n' "$orig" "$sha" "$(wc -c < "$orig" | tr -d ' ')" "$extractor" "$status"
@@ -255,7 +258,7 @@ ingest)
   # Originals are only ever ADDED here: identical bytes are reused, different bytes under an existing name are refused,
   # and a file that extract refuses (credential, oversize) is removed again.
   shift; scope="${1:-}"; shift || true
-  usage="usage: workspace.sh ingest <scope> <file>…   (REPO=<manifest id> files them under docs/assets/<scope>/<repo>/; NAME=<YYYY-MM-DD-slug.ext> names one file — required for non-ASCII titles; DATE=<YYYY-MM-DD> dates the default name; RESTRICTED/OCR/SECRET_OK=<stored name> pass through to extract)"
+  usage="usage: workspace.sh ingest <scope> <file>…   (REPO=<manifest id> files them under docs/assets/<scope>/<repo>/; NAME=<YYYY-MM-DD-slug.ext> names one file — required for non-ASCII titles; DATE=<YYYY-MM-DD> dates the default name; RESTRICTED/OCR/SECRET_OK=<stored name> and OCR_LANGS=<bcp47,…> pass through to extract)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
   [ -n "${NAME:-}" ] && [ "$#" -gt 1 ] && { echo "FAIL: NAME= names exactly one file — ingest the others in their own calls" >&2; exit 1; }
