@@ -888,3 +888,34 @@ Why: after the 2026-09-04 fold of scopes `rea-proto` and `ui` into `rea`,
 the re-ingested copies left byte-identical duplicates under the old scope
 folders with no rule allowing their removal and a `check` message that told
 the reader to *extract* them.
+
+### 2026-09-04 — a document is kept only while the documentation cites it: derivative and original go together
+
+Owner instruction, recorded in `../../CHANGELOG.md`; extends the orphan
+amendment above to the other half of the pair. Supersedes §3's "the old
+derivative **stays untouched** in `sources/`", §4's "Never rename or edit a
+file in the store … a new revision is a new dated name" insofar as it
+implies the old one is kept, the "Removal of a derivative … is a **human**
+commit" note under §3, and the 2026-09-03 ingest amendment's "removing … an
+existing original" prohibition. The rule now: a derivative is **needed**
+only while a document under `docs/` outside `sources/` cites it by its full
+file name — scope documents (Body and Open findings), plans and the
+workspace specifications; session logs are journey and do not count, and
+an abbreviated citation (`…-001.png.md@…`) is not a reference. A derivative
+nothing cites any more — its findings promoted or deleted, its edition
+superseded, its scope re-filed — is removed at the next closeout together
+with its original: `git rm` for the derivative, `rm` for the original, by
+agents and human maintainers alike. `check` lists each such derivative with
+both commands, and a count; it lists orphan originals as before; it still
+never fails on either. Nothing is lost that the workspace promised to keep:
+git keeps the derivative's text and any cited blob still resolves with
+`git show`; `ingest` copies, so the owner's source file was never touched.
+Re-scoping is therefore: ingest under the new scope or repo folder, cite
+from there, and the old pair falls out at the next closeout.
+
+Why: the document layer had grown an append-only corner while the rest of
+`docs/` became maintained state on 2026-09-04. The first real case was the
+same day's 13 code-303 screenshots — ingested for a debugging task, cited
+by findings that were then promoted into Body claims citing the code and
+the prototype's template instead — leaving 13 derivatives and originals
+nothing needed.

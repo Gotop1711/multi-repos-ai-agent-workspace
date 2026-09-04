@@ -352,6 +352,15 @@ check)
         echo "warn: $f: $o differs from its header — a new version is a new dated name; re-ingest it or restore the copy" >&2
       fi
     done || status=1
+    # unreferenced derivatives: nothing under docs/ outside sources/ names the file (session logs are journey and do not count) —
+    # removed at closeout with their originals by whoever sees this; cite a derivative by its full file name to keep it
+    unref="$(find docs/*/sources -type f -name '*.md' | while read -r f; do
+      grep -rlF --include='*.md' "$(basename "$f")" docs 2>/dev/null | grep -v '/sources/' | grep -q . || echo "$f"; done)"
+    if [ -n "$unref" ]; then
+      printf '%s\n' "$unref" | while read -r f; do o="$(sed -n 's/^source: //p' "$f" | head -1)"
+        echo "warn: $f is not referenced by any document under docs/ — remove it and its original at closeout (git rm $f; rm $o), or cite it by its full file name" >&2; done
+      echo "warn: $(printf '%s\n' "$unref" | grep -c .) unreferenced derivative(s) under docs/*/sources/ — no longer needed by the documentation; remove them with their originals before closing out (AGENTS.md › write surface)" >&2
+    fi
     tracked="$(git ls-files "$ASSETS" 2>/dev/null | wc -l | tr -d ' ')"
     [ "$tracked" -eq 0 ] || { echo "FAIL: $tracked file(s) under $ASSETS/ are tracked by git — originals are never committed (git rm --cached them; keep '/docs/assets/' in .gitignore)" >&2; status=1; }
     echo "info: $(find docs/*/sources -type f -name '*.md' | wc -l | tr -d ' ') document derivative(s) under docs/*/sources/$([ -d "$ASSETS" ] || echo " ($ASSETS/ absent: hashes not verified)")"

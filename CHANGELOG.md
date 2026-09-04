@@ -3,6 +3,23 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [Derivatives nothing cites are removed with their originals at closeout] — 2026-09-04
+
+### Changed
+- Owner instruction, completing the orphan rule of the same day: a
+  derivative under `docs/<scope>/sources/` is needed only while a document
+  under `docs/` outside `sources/` cites it by its full file name (session
+  logs do not count); one nothing cites any more is removed at closeout
+  together with its original — `git rm` and `rm` — by agents and human
+  maintainers alike. `check` lists each such derivative with both commands
+  and a count, beside the orphan-original notice; it still never fails on
+  either. Git keeps the text; cited blobs still resolve with `git show`.
+  Supersedes "the old derivative stays" and "removal of a derivative is a
+  human commit". Rules in AGENTS.md and docs/README.md; trees in README.md;
+  amendment in `docs/workspace/document-layer.md` §15. First application on
+  `rea`: the 13 code-303 screenshots, whose findings were promoted into
+  claims that cite the code and the prototype's template instead.
+
 ## [Orphan originals under docs/assets/ are removed at closeout] — 2026-09-04
 
 ### Changed

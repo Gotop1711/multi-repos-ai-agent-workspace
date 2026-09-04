@@ -57,7 +57,10 @@ it) or `extract` (a file already there). Originals are never committed.
   Read-only repos' push URLs are disabled regardless.
 - ⛔ The write surface is exactly: `.agents/memory/sessions/` (logs), `docs/`
   (per its rules), `./CHANGELOG.md`, `docs/<scope>/sources/[<repo>/]*.md` **only as
-  `./workspace.sh ingest` or `extract` output** (never hand-edited), gitignored
+  `./workspace.sh ingest` or `extract` output** (never hand-edited) — and
+  removed (`git rm`, together with its original) at closeout once nothing
+  under `docs/` outside `sources/` cites it by file name; `check` lists such
+  derivatives, and git keeps their text — gitignored
   `docs/assets/<scope>/[<repo>/]` **only through `./workspace.sh ingest`** (it adds a
   dated original and never overwrites or renames one) — plus one removal
   anyone makes: an original that no derivative names any more (an **orphan**:
@@ -95,7 +98,8 @@ A finding drawn from a human-supplied document cites the derivative it read:
 `git hash-object <path> | cut -c1-12` (equal to
 `git rev-parse --short=12 HEAD:<path>` after the closeout commit) — plus
 `p.<N>`, `L<n>` or `§heading`, and optionally a ≤12-word verbatim quote.
-Re-examine with `git show <blob>`; a changed `hash-object` means re-verify. A
+Re-examine with `git show <blob>` — it resolves even after the derivative has
+been removed; a changed `hash-object` means re-verify. A
 document is direct evidence of what it says; a claim about code or the fleet
 drawn from it is `inferred` until re-verified in `projects/` at a
 `<repo>@<sha>`. OCR-derived text caps confidence at medium; when layout,
