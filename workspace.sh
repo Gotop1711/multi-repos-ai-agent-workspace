@@ -354,8 +354,13 @@ check)
     done || status=1
     # unreferenced derivatives: nothing under docs/ outside sources/ names the file (session logs are journey and do not count) —
     # removed at closeout with their originals by whoever sees this; cite a derivative by its full file name to keep it
+    # a plan carrying Shipped:/Abandoned: is history — its knowledge dissolved into the Body, so its citations no longer keep a document alive.
+    # No `case` here: in bash 3.2 a case pattern's ')' closes the enclosing $( ).
     unref="$(find docs/*/sources -type f -name '*.md' | while read -r f; do
-      grep -rlF --include='*.md' "$(basename "$f")" docs 2>/dev/null | grep -v '/sources/' | grep -q . || echo "$f"; done)"
+      grep -rlF --include='*.md' "$(basename "$f")" docs 2>/dev/null | grep -v '/sources/' | while read -r d; do
+        if [ "${d#docs/plans/}" != "$d" ] && grep -qE '^(Shipped|Abandoned):' "$d"; then continue; fi
+        echo "$d"
+      done | grep -q . || echo "$f"; done)"
     if [ -n "$unref" ]; then
       printf '%s\n' "$unref" | while read -r f; do o="$(sed -n 's/^source: //p' "$f" | head -1)"
         echo "warn: $f is not referenced by any document under docs/ — remove it and its original at closeout (git rm $f; rm $o), or cite it by its full file name" >&2; done

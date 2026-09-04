@@ -3,6 +3,28 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [A shipped or abandoned plan no longer keeps a document alive] — 2026-09-04
+
+### Changed
+- Owner decision (option B of three). A citation keeps a derivative and its
+  original only when it stands in a **live** document: a scope document, a
+  workspace specification, or a plan carrying neither `Shipped:` nor
+  `Abandoned:`. A shipped or abandoned plan is history, like a session log —
+  its knowledge has dissolved into the Body (`scope-grammar.md` §6), so from
+  then on a Body claim or an Open finding must cite the document or the pair
+  is removed at the next closeout. The plan's own text and its blob citations
+  are untouched; `git show <blob>` still reads a removed derivative.
+  `check`'s unreferenced scan drops referencing files under `docs/plans/`
+  whose first column matches `^(Shipped|Abandoned):`. Rules in
+  `docs/README.md`; amendment in `docs/workspace/document-layer.md` §15.
+
+### Fixed
+- `check` no longer dies with "d: unbound variable" under bash 3.2: a `case`
+  pattern's `)` closes the enclosing `$( … )` in that version, which the
+  document layer commits to supporting. The plan filter uses a
+  `${d#docs/plans/}` prefix test instead. Caught by the sandbox before the
+  real script was touched.
+
 ## [Derivatives nothing cites are removed with their originals at closeout] — 2026-09-04
 
 ### Changed

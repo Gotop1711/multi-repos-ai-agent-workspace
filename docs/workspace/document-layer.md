@@ -919,3 +919,29 @@ same day's 13 code-303 screenshots — ingested for a debugging task, cited
 by findings that were then promoted into Body claims citing the code and
 the prototype's template instead — leaving 13 derivatives and originals
 nothing needed.
+
+### 2026-09-04 — a shipped or abandoned plan no longer keeps a document alive
+
+Owner instruction, recorded in `../../CHANGELOG.md`; refines the "needed"
+test of the amendment above. A citation keeps a derivative (and its
+original) only when it stands in a **live** document: a scope document, a
+workspace specification, or a plan that carries neither `Shipped:` nor
+`Abandoned:`. Once a plan ships or is abandoned it is history — the same
+class as a session log — because its knowledge has by then dissolved into
+the scope's Body (`scope-grammar.md` §6 *After*), and history must not pin
+documents that the living documentation no longer needs. So the evidence a
+plan needed while it was being discussed and executed is kept for exactly
+that long; afterwards a Body claim or an Open finding has to cite the
+document, or the pair is removed at the next closeout. The plan's own text
+is untouched, and its citations still resolve — `git show <blob>` reads a
+removed derivative.
+
+Mechanics: `check`'s unreferenced scan drops any referencing file under
+`docs/plans/` whose first column matches `^(Shipped|Abandoned):`.
+*(Implementation note, verified the hard way: the filter cannot use a shell
+`case` inside the enclosing `$( … )` — under bash 3.2, which §1 of this
+specification commits to supporting, a case pattern's `)` closes the command
+substitution and `check` dies with "d: unbound variable". A `${d#docs/plans/}`
+prefix test is used instead.)* Verified in a sandbox: unsigned plan → kept;
+the same plan `Shipped:` → listed; `Abandoned:` → listed; shipped plan plus a
+scope-document citation → kept; nobody cites → listed.
