@@ -482,3 +482,33 @@ was never the constraint — readability for the owner and the agent is — and
 git already keeps every prior version, so the ledger only ever decided whether
 history was *also* kept in the live text. An `archive.md` for struck findings
 was considered and rejected as the same rule in a different file.
+
+### 2026-09-08 — one signature per plan; amendments are confirmed in session; a larger change is a new plan; the header carries the whole lifecycle
+
+Owner instruction, recorded in `../../CHANGELOG.md`. Supersedes: §3's plan
+header lines and "lifecycle lines are appended, never overwritten" (they are
+appended **in the header** — between the H1 and the first `##` — with one
+`Signed:` ever and the added lines `Writes:`, `Status:`, `Amended:`,
+`Superseded:`, `Supersedes:`; the full list and the `Status:` derivation are
+in `docs/README.md` › The signature gate); §6 *During* ("`Signed:` present"
+— plus an `Amended:` line for every change confirmed in session, and
+`Status:` maintained) and *After* (`Shipped:` goes in the header with
+`Status: shipped`); §8's feature-rename mechanics ("a new plan with
+`Supersedes:` … and `Abandoned: … renamed to <new>` on the old" — the old
+plan now receives `Superseded: <date> — by <scope>--<new>`, a terminal
+state of its own, treated as history by `check` like shipped and
+abandoned). §7's gate audit `grep -L '^Signed:' docs/plans/*.md` stands and
+gains `grep -l '^Status: paused' docs/plans/*.md`.
+
+Why. A plan that collects a second and a third `Signed:` under successive
+amendments has no single state a reader can name; on 2026-09-08 plan
+nabu--analytics-dashboard was about to receive its second signature for an
+amendment that replaced the page and paused two other plans. The owner's
+rule: the signature is given once and covers a write set (`Writes:`); a
+change that stays inside it is confirmed in the session and recorded by the
+agent (`### A<n>` under `## Amendments` plus `Amended:`); a change that
+leaves it — a new repository or branch, another lead scope, a deliverable
+other than the H1 names — is a new plan, signed on its own, linked to the
+old by `Supersedes:` / `Superseded:`. Everything that says what state a plan
+is in, the agent's `Shipped:` included, is in the header, and
+`workspace.sh check` enforces the header's shape and the `Status:` word.

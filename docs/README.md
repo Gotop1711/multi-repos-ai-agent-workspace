@@ -111,21 +111,60 @@ not a day-one structure.)
 
 ## The signature gate
 
-A plan authorizes child-repo work only after a human adds, inside the file:
+A plan authorizes child-repo work only after a human adds, in the plan's
+header, **once**:
 
     Signed: <name> — <YYYY-MM-DD>
 
-⛔ No write of any kind to a child repository before that line exists.
+⛔ No write of any kind to a child repository before that line exists, and
+none outside the plan's `Writes:` set.
 
 A plan lives at `docs/plans/<scope>--<feature>.md` under its lead scope — the
-scope the task named, else the one whose repos it mainly writes — with
-`Scope: <lead>` under the H1 and `Scopes: <lead>, <other>…` when it touches
-several (when it ships, each other scope's Body › Integration points is
-updated to what now exists). Lifecycle
-lines are appended, never overwritten: `Signed:` (human),
-`Shipped: <YYYY-MM-DD> — <repo>@<sha>…` (agent; the landed commits),
-`Abandoned: <YYYY-MM-DD> — <reason>`. Plans are renamed only together with
-their scope id (Scopes › rename), never otherwise moved.
+scope the task named, else the one whose repos it mainly writes. **Its whole
+lifecycle is in the header** — the lines between the H1 and the first `##`
+heading, one per line at column 0, in this order, each appended and never
+overwritten, never placed anywhere else in the file:
+
+    Scope: <lead>
+    Scopes: <lead>, <other>…                      (only when it touches several)
+    Writes: <repo> (<branch>), …                  (the write set the signature covers)
+    Status: draft | signed | paused | shipped | abandoned | superseded
+    Signed: <name> — <YYYY-MM-DD>                 (human, exactly once)
+    Amended: <YYYY-MM-DD> — A<n> <summary> (confirmed by <name> in session)   (repeatable)
+    Shipped: <YYYY-MM-DD> — <repo>@<sha>…         (agent; the landed commits)
+    Abandoned: <YYYY-MM-DD> — <reason>
+    Superseded: <YYYY-MM-DD> — by <scope>--<feature>
+    Supersedes: <scope>--<feature>                (on the successor)
+    Renamed: <YYYY-MM-DD> — from <old>--<feature> (Scopes › rename only)
+
+`Status:` is one word, maintained by the agent and derived from the lines
+under it: `draft` until `Signed:`; `signed` from then on; `paused` when the
+owner has halted execution in session (the reason is the latest `Amended:`
+line, and another `Amended:` lifts it); `shipped`, `abandoned` or
+`superseded` once the matching line exists — terminal states, and a plan in
+one of them is history (its knowledge is in the Body; `check` no longer
+counts its citations). `check` fails a plan whose `Status:` contradicts its
+lines, that carries more than one `Signed:`, that has a lifecycle line below
+the first `##`, or that is signed without `Writes:`. Free-text status notes
+(block quotes under the header) are not state — delete them once the header
+says it.
+
+**One signature per plan; amendments are confirmed in session.** After the
+signature a plan changes only by amendment: a numbered `### A<n> — <date>:
+<title>` under `## Amendments` plus its `Amended:` header line, written by
+the agent on the owner's confirmation in the session (the session log quotes
+the instruction). There is no second signature. An amendment is possible
+only while it stays inside what was signed — the same `Writes:` set, the
+same lead scope, and the deliverable the H1 names. A change that would add a
+repository or branch to `Writes:`, move the lead scope, or replace the
+deliverable is a **new plan**: `docs/plans/<scope>--<new-feature>.md` with
+`Supersedes:` in its header, signed on its own; the old plan receives
+`Superseded:` and that state. What the new plan keeps of the old, it says in
+one paragraph, by id — text is not copied.
+
+When a plan ships, each other scope's Body › Integration points is updated to
+what now exists. Plans are renamed only together with their scope id
+(Scopes › rename), never otherwise moved.
 A proposal about the workspace itself is not a plan: it starts in
 `docs/workspace.md` Open findings and the log's TODO, and once the owner adopts
 it, its specification lives in `docs/workspace/<topic>.md` with a `Status:`

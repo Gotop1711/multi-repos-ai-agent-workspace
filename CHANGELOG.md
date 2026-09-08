@@ -3,6 +3,34 @@
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [One signature per plan; amendments confirmed in session; the header carries the whole lifecycle] — 2026-09-08
+
+### Changed
+- Owner decision. A plan is signed once (`Signed:`), for the write set its
+  new `Writes:` header line names. A later change that stays inside that
+  set — same repositories and branches, same lead scope, the deliverable
+  the H1 names — is confirmed by the owner in the session and recorded by
+  the agent as `### A<n>` under `## Amendments` plus an `Amended:` header
+  line; there is no second signature. A change beyond the set is a new
+  plan carrying `Supersedes:`, signed on its own; the old plan receives
+  `Superseded:`. Every lifecycle line — `Scope:`, `Scopes:`, `Writes:`,
+  `Status:`, `Signed:`, `Amended:`, `Shipped:`, `Abandoned:`, `Superseded:`,
+  `Supersedes:`, `Renamed:` — sits in the header between the H1 and the
+  first `##`, and a one-word `Status:` (draft | signed | paused | shipped |
+  abandoned | superseded), maintained by the agent, names the state. Rules
+  in `docs/README.md` › The signature gate; amendment in
+  `docs/workspace/scope-grammar.md` §14; `docs/BLUEPRINT.md` item 6.
+- `workspace.sh check` fails a plan with no `Scope:` or `Status:`, with a
+  lifecycle line below the first `##`, with more than one `Signed:`, with
+  a `Status:` that contradicts its lines, or — when signed — without
+  `Writes:` or with a `Writes:` token that is not a manifest repo id. A
+  `Superseded:` plan is history for the derivative scan like a shipped or
+  abandoned one.
+- Why: a second `Signed:` for an amendment leaves a plan without one
+  nameable state; the trigger was plan nabu--analytics-dashboard A7 on
+  `nabu-dashboard` (2026-09-08). The three existing plans are migrated to
+  the header form in that branch's closeout.
+
 ## [A shipped or abandoned plan no longer keeps a document alive] — 2026-09-04
 
 ### Changed

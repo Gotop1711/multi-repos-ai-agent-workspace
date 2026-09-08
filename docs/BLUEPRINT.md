@@ -56,7 +56,10 @@ extensions**, never foundation.
    Claims about repo *interactions* cite every involved repo from one
    `cite` run — the full fleet line when the dependency surface is uncertain.
 6. **One human gate.** No write of any kind to a child repository before a
-   human signs the plan in `docs/plans/` (format in `docs/README.md`).
+   human signs the plan in `docs/plans/` (format in `docs/README.md`) —
+   once per plan, for the write set its header names; later changes are
+   confirmed in session and recorded in that header, and a change beyond
+   the set is a new plan (`docs/README.md` › The signature gate).
    The one standing git authorization is the session-closeout commit (and its
    push) of the workspace repo itself; everything else waits for explicit
    instruction.

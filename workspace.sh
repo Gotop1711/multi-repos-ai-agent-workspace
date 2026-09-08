@@ -354,11 +354,11 @@ check)
     done || status=1
     # unreferenced derivatives: nothing under docs/ outside sources/ names the file (session logs are journey and do not count) —
     # removed at closeout with their originals by whoever sees this; cite a derivative by its full file name to keep it
-    # a plan carrying Shipped:/Abandoned: is history — its knowledge dissolved into the Body, so its citations no longer keep a document alive.
+    # a plan carrying Shipped:/Abandoned:/Superseded: is history — its knowledge dissolved into the Body, so its citations no longer keep a document alive.
     # No `case` here: in bash 3.2 a case pattern's ')' closes the enclosing $( ).
     unref="$(find docs/*/sources -type f -name '*.md' | while read -r f; do
       grep -rlF --include='*.md' "$(basename "$f")" docs 2>/dev/null | grep -v '/sources/' | while read -r d; do
-        if [ "${d#docs/plans/}" != "$d" ] && grep -qE '^(Shipped|Abandoned):' "$d"; then continue; fi
+        if [ "${d#docs/plans/}" != "$d" ] && grep -qE '^(Shipped|Abandoned|Superseded):' "$d"; then continue; fi
         echo "$d"
       done | grep -q . || echo "$f"; done)"
     if [ -n "$unref" ]; then
@@ -376,6 +376,36 @@ check)
     printf '%s\n' "$orphans" | while read -r o; do echo "warn: $o has no derivative — an orphan: remove it (rm), or './workspace.sh extract ${o#$ASSETS/}' if it was meant to be ingested" | sed "s|extract \([a-z0-9-]*\)/|extract \1 $ASSETS/\1/|" >&2; done
     echo "warn: $(printf '%s\n' "$orphans" | grep -c .) orphan original(s) under $ASSETS/ — not in use by any derivative; remove them before closing out (AGENTS.md › write surface)" >&2
   fi
+
+  # plans: the whole lifecycle sits in the header (H1 .. first '## '), one Signed: at most, Status: consistent with the lines,
+  # a signed plan names its write set (docs/README.md › The signature gate)
+  for p in docs/plans/*.md; do
+    [ -f "$p" ] || continue
+    hdr="$(awk 'NR>1 && /^## /{exit} {print}' "$p")"
+    body="$(awk 'f{print} /^## /{f=1}' "$p")"
+    printf '%s\n' "$hdr" | grep -q '^Scope: ' || { echo "FAIL: $p — no 'Scope:' line in the header" >&2; status=1; }
+    st="$(printf '%s\n' "$hdr" | sed -n 's/^Status: //p' | head -1)"
+    [ -n "$st" ] || { echo "FAIL: $p — no 'Status:' line in the header (draft|signed|paused|shipped|abandoned|superseded)" >&2; status=1; }
+    stray="$(printf '%s\n' "$body" | grep -nE '^(Scope|Scopes|Writes|Status|Signed|Amended|Shipped|Abandoned|Superseded|Supersedes|Renamed):' | head -3 | tr '\n' ' ')"
+    [ -z "$stray" ] || { echo "FAIL: $p — lifecycle line(s) below the first '## ' heading (the header holds the whole lifecycle): $stray" >&2; status=1; }
+    sc="$(printf '%s\n' "$hdr" | grep -c '^Signed: ' || true)"
+    [ "$sc" -le 1 ] || { echo "FAIL: $p — $sc 'Signed:' lines; a plan is signed once (a change beyond its Writes: set is a new plan)" >&2; status=1; }
+    want=draft
+    [ "$sc" -ge 1 ] && want=signed
+    printf '%s\n' "$hdr" | grep -q '^Shipped: ' && want=shipped
+    printf '%s\n' "$hdr" | grep -q '^Abandoned: ' && want=abandoned
+    printf '%s\n' "$hdr" | grep -q '^Superseded: ' && want=superseded
+    ok=0
+    if [ "$st" = "$want" ]; then ok=1; elif [ "$st" = paused ] && [ "$want" = signed ]; then ok=1; fi
+    [ "$ok" -eq 1 ] || { echo "FAIL: $p — 'Status: $st' contradicts the lifecycle lines (expected $want$([ "$want" = signed ] && echo ' or paused'))" >&2; status=1; }
+    if [ "$sc" -ge 1 ]; then
+      w="$(printf '%s\n' "$hdr" | sed -n 's/^Writes: //p' | head -1)"
+      [ -n "$w" ] || { echo "FAIL: $p — a signed plan needs a 'Writes:' line (the repositories and branches the signature covers)" >&2; status=1; }
+      for tok in $(printf '%s' "$w" | tr ',' '\n' | awk '{print $1}'); do
+        grep -qE "^- id:[[:space:]]*$tok[[:space:]]*$" "$MANIFEST" || { echo "FAIL: $p — Writes: '$tok' is not a manifest repo id" >&2; status=1; }
+      done
+    fi
+  done
 
   [ "$n" -gt 0 ] || echo "warn: manifest has no repos yet — edit catalog/repos.yaml"
   newest="$(ls .agents/memory/sessions 2>/dev/null | grep -E '^[0-9]{4}-' | sort | tail -1)"
