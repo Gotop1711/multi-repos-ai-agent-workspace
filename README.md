@@ -52,7 +52,7 @@ a dead disk. (It ships with none on purpose.)
 | `CLAUDE.md` | ≤5-line bridge to `AGENTS.md` (one per installed runtime that needs it) |
 | `workspace.sh` | `setup` \| `clone` \| `cite` \| `restore` \| `ingest` \| `extract` \| `check` |
 | `catalog/repos.yaml` | The fleet manifest — also the authorization record; optional `scope:` per repo names its home scope document |
-| `CHANGELOG.md` | Workspace-level record of what changed and why, newest entry first |
+| `CHANGELOG.md` | Record of changes to this workspace's rules and infrastructure only, newest entry first — never a child repository's or a plan's state (those live in plans, scope documents and session logs) |
 | `.gitignore` | Keeps `projects/`, `docs/assets/`, scratch, secrets and local runtime state out of the repo |
 | `.agents/memory/sessions/` | Simple journey logs, one per agent run — decisions & pitfalls, never findings |
 | `docs/README.md` | The docs system's rules: scopes, intake, examination bar, signature gate |

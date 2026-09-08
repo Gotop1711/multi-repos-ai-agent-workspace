@@ -80,7 +80,7 @@ multi-repos-ai-agent-workspace/
 ├── README.md                        ← what this is + setup + daily loop
 ├── AGENTS.md                        ← the whole rulebook (canonical)
 ├── CLAUDE.md                        ← bridge: "@AGENTS.md"
-├── CHANGELOG.md                     ← workspace-level record (append-only)
+├── CHANGELOG.md                     ← the workspace's own rules/infrastructure record (append-only; never a project's or a plan's state)
 ├── .gitignore                       ← /projects/ /docs/assets/ .env* keys local settings
 ├── workspace.sh                     ← setup | clone | cite | restore | ingest | extract | check
 ├── .githooks/pre-commit             ← runs workspace.sh check + refuses binaries and > 1 MiB (+ gitleaks if installed)

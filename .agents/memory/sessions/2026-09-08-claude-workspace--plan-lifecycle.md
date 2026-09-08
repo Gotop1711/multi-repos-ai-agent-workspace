@@ -59,3 +59,17 @@ owner's branch rule (infrastructure → `main`).
   existing amendments; block-quote status notes removed), decide A7 under
   the new rule (in-session confirmation, no second signature) and the two
   paused plans' `Status: paused`; force-push with lease is the owner's.
+
+## Update — same session: CHANGELOG is the workspace's record only
+- Owner, on seeing the branch's stray 2026-09-07 entry: `CHANGELOG.md`
+  records this workspace's rules and infrastructure, never `projects/*`
+  adjustments or `docs/plans/*` changes. Made explicit in the CHANGELOG
+  header, `AGENTS.md` › Close out, `README.md`'s table and `BLUEPRINT.md`'s
+  tree; a CHANGELOG entry records the clarification itself (it is a rule).
+- Why it was ambiguous: "workspace-level changes" named the inclusion, not
+  the exclusion; a manifest access change for a plan reads as
+  "workspace" (the file is infrastructure) although its content is
+  project state. Rule now keys on what the change is *about*.
+- The misfiled entry is removed on the project branch at its next rebase
+  (its facts are in both plans' headers and the 09-07 log); after that the
+  branch's `CHANGELOG.md` equals `main`'s again.

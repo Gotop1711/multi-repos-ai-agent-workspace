@@ -1,7 +1,27 @@
 # Workspace CHANGELOG
 
+Records changes to **this workspace's rules and infrastructure only** —
+`AGENTS.md`, `workspace.sh`, the hook, the docs system's rules and
+specifications, the layout. Never a child repository's state, a manifest
+access or branch change made for a plan, or a plan's progress: those live
+in the plan's header, the scope document and the session log.
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
+
+## [CHANGELOG records the workspace only — never a project or a plan] — 2026-09-08
+
+### Changed
+- Owner clarification. An entry here is for a change to the workspace's
+  rules or infrastructure. A change under `projects/` (a branch, a commit,
+  an access level or default branch set in `catalog/repos.yaml` for a
+  plan) or to a plan under `docs/plans/` is recorded where its state lives
+  — the plan's header (`Amended:`, `Shipped:` …), the scope document's
+  Body, the session log — and never here. Stated in this file's header,
+  `AGENTS.md` › Every session › Close out, `README.md` and
+  `docs/BLUEPRINT.md`. The one misfiled entry (2026-09-07, miva-api and
+  mimr-api opened as pr-only) is removed from the project branch, where it
+  was written; its facts stand in both plans' headers and the 2026-09-07
+  session log.
 
 ## [One signature per plan; amendments confirmed in session; the header carries the whole lifecycle] — 2026-09-08
 

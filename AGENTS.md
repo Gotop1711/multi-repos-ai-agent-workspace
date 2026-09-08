@@ -39,8 +39,11 @@ it) or `extract` (a file already there). Originals are never committed.
      the log's TODO); promote into the document body only past the
      examination bar (`docs/README.md`); prune what you found stale there —
      a promoted or refuted finding is deleted, a Body claim is rewritten in
-     place; git is the document's history. Workspace-level changes go to
-     `./CHANGELOG.md`.
+     place; git is the document's history. Changes to the workspace's own
+     rules or infrastructure go to `./CHANGELOG.md` — never a child
+     repository's state, a manifest change made for a plan, or a plan's
+     progress (those live in the plan's header, the scope document and
+     the log).
    - The closeout commit of THIS repo + push. That commit is the **one
      standing git authorization**; every other git action here — and any
      state-changing git action in a child repo (branch, commit, tag, push,
