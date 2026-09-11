@@ -196,3 +196,18 @@ direct (read) for the rule side, the case reported from an organization's
 branch as a `[workspace]` proposal; medium. Q: is a `Writes:` line naming
 both branches the right record for such a plan, or should the migration
 mark the expansion some other way?
+
+### 36. `textutil` derivatives lose headings and table rows, yet the routing table prescribes a `§<heading>` locator for them
+`docs/workspace/document-layer.md` §3 routes Office documents (docx, doc,
+rtf, odt, html) through `textutil` and prescribes the locator
+`…@<blob12> §<heading> L<n>`; `extract` runs `textutil -convert txt`
+(`workspace.sh` › extract). Measured: an html page and a docx holding
+`<h1>`, `<h2>`, a paragraph and a 2×2 table both extract to seven plain
+lines — each heading an unmarked line indistinguishable from body text,
+each table cell a line of its own, the row structure gone. So `§<heading>`
+cannot be located reliably in such a derivative, and a table's rows cannot
+be read back — workspace@4b19fc3; direct (executed: `textutil -convert txt`
+on both files in the session scratchpad); high. First reported from an
+organization's branch, carried as a `[workspace]` proposal. Q: cite
+`L<n>` only for `textutil` derivatives, or convert to html/markdown to keep
+headings and rows (`textutil -convert html`, then a strip)?

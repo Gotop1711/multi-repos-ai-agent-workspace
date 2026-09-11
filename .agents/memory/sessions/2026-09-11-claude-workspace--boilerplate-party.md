@@ -103,3 +103,16 @@ workspace's rules and infrastructure (proposed: the sessions folder,
   separately: finding 8 already asks that question.
 - Done on `main` first, so the branch's rebase brings 34 and 35 in and its
   migration restores `docs/workspace.md` to a version that already has them.
+- The second organization's workspace (a separate clone) had three
+  workspace findings stranded in its history since its 2026-09-07 sync. One
+  is still open on `main` — `textutil` loses headings and table rows while
+  §3 prescribes a `§<heading>` locator — re-measured here and filed as
+  finding 36. The other two are settled: the slug rule dropping non-Latin
+  titles is covered by `document-layer.md`'s 2026-09-03 amendment (`ingest`
+  refuses such titles without `NAME=`), and "a rebase rewrites a branch's
+  `workspace@<sha>` citations" ends with this change (workspace findings
+  cite `main` only).
+- Residual, not changed: `document-layer.md` §15 (2026-09-03 amendment)
+  cites "`docs/workspace.md` finding 25", and two CHANGELOG entries cite
+  "finding 23" — ids `main` never held (they were an organization branch's).
+  Left as history; a reader resolves them through the branch logs.
