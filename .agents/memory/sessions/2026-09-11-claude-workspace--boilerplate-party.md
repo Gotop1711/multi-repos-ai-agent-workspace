@@ -90,3 +90,16 @@ workspace's rules and infrastructure (proposed: the sessions folder,
   decision; it would rewrite `main` and every branch built on it).
 - Carried over: Open finding 8 (write surface vs growth path) is untouched;
   the new rule narrows it on organization branches but does not settle it.
+
+## Addendum — the migration's two proposals, carried to `main` (owner authorised all branches)
+- The owner then authorised the agent to modify every branch and to carry
+  out the migration itself. Before syncing the organization's branch, its
+  two workspace findings (a `Verified:` plan-header line outside the
+  vocabulary; a pre-rule plan whose writes grew after signing) were
+  re-observed on `main` — both rule sides are visible here — and filed as
+  Open findings 34 and 35, worded without the organization's names. The
+  branch's corroboration note on finding 8 (manifest entries written under
+  human instruction while the write surface omits `catalog/`) is not filed
+  separately: finding 8 already asks that question.
+- Done on `main` first, so the branch's rebase brings 34 and 35 in and its
+  migration restores `docs/workspace.md` to a version that already has them.

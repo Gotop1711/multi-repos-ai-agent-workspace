@@ -56,7 +56,7 @@ and evidence on every claim. Rationale in `BLUEPRINT.md`; rulebook in
 
 ## Open findings
 
-Observed at workspace@8e4db92 unless a finding says otherwise. Ids are never reused — 1, 4 and 7 were resolved on 2026-09-03 and deleted on 2026-09-04 (`git log -S`). Ids are allocated on `main` only; 23–33 are skipped (used on organization branches or in reverted history), so the next is 34. Entry format: claim — citation; evidence
+Observed at workspace@8e4db92 unless a finding says otherwise. Ids are never reused — 1, 4 and 7 were resolved on 2026-09-03 and deleted on 2026-09-04 (`git log -S`). Ids are allocated on `main` only; 23–33 are skipped (used on organization branches or in reverted history). Entry format: claim — citation; evidence
 type; confidence; Q: unresolved questions. "direct (executed)" = re-run on this
 machine in this session; "direct (read)" = established from the cited lines;
 "corroborated" = a sandbox run by a subagent in `.agents/scratch/` plus reading.
@@ -167,3 +167,32 @@ The signature gate is social and em-dash sensitive (`docs/README.md` › The
 signature gate); "docs system"/"knowledge system", "session logs"/"journey
 logs"/"journals", "product"/"product code"/"product/area" are used
 interchangeably; direct (read); low.
+
+### 34. A completed verification has no sanctioned plan-header line
+A plan whose last open item is verifying the shipped result has nowhere to
+record that it is done. On an organization's branch a shipped plan carries
+`Verified: <date> — <what was compared>; no differences`, and a Body claim
+cites that line; but `docs/README.md` › The signature gate lists eleven
+lifecycle lines without `Verified:`, and `check`'s stray-line pattern
+(`workspace.sh` › check › plans) lists the same eleven — so a `Verified:`
+line below the first `##` passes unnoticed, and the `Status:` derivation
+cannot see it — workspace@ab0c133; direct (read) for the rule side, the
+use reported from an organization's branch as a `[workspace]` proposal;
+high. Q: add `Verified:` to both lists, or record the outcome as an
+`Amended:` line — and does a verification change `Status:` (a new word, or
+still `shipped`)?
+
+### 35. A plan signed before the one-signature rule cannot be migrated faithfully when its writes grew after signing
+`docs/README.md` › The signature gate makes a change that adds a
+repository or branch to `Writes:` a new plan, not an amendment. A plan
+signed for one branch and then, on the owner's post-signature instruction,
+also written to a second (two `Shipped:` lines) — an expansion made before
+that rule existed (2026-09-08) — was migrated to the header form with a
+`Writes:` line naming both branches, because that is what was written in
+fact; naming only the signed branch would make the header lie, and the
+rules offer no way to split a shipped plan retroactively. There is no
+transition clause for plans that predate the rule — workspace@ab0c133;
+direct (read) for the rule side, the case reported from an organization's
+branch as a `[workspace]` proposal; medium. Q: is a `Writes:` line naming
+both branches the right record for such a plan, or should the migration
+mark the expansion some other way?
