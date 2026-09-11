@@ -40,10 +40,11 @@ it) or `extract` (a file already there). Originals are never committed.
      examination bar (`docs/README.md`); prune what you found stale there —
      a promoted or refuted finding is deleted, a Body claim is rewritten in
      place; git is the document's history. Changes to the workspace's own
-     rules or infrastructure go to `./CHANGELOG.md` — never a child
-     repository's state, a manifest change made for a plan, or a plan's
-     progress (those live in the plan's header, the scope document and
-     the log).
+     rules or infrastructure go to `./CHANGELOG.md`, on `main` only (›
+     Boilerplate and organizations) — never a child repository's state, an
+     organization's own fleet or sync, a manifest change made for a plan,
+     or a plan's progress (those live in the plan's header, the scope
+     document and the log).
    - The closeout commit of THIS repo + push. That commit is the **one
      standing git authorization**; every other git action here — and any
      state-changing git action in a child repo (branch, commit, tag, push,
@@ -53,13 +54,50 @@ it) or `extract` (a file already there). Originals are never committed.
      restore` performs (they move HEAD, never history) are part of the
      sanctioned loop.
 
+## Boilerplate and organizations
+
+This repository is a boilerplate: branch `main` carries it, and each
+organization using it works on its own branch (or fork), synced from `main`
+by the owner — `git rebase main`, then `./workspace.sh check` and the
+migration it asks for; never by an agent. Every tracked path belongs to one
+of two parties:
+
+- **Organization content** — the closed list an organization's branch
+  changes: `catalog/*.yaml` (on `main`, `repos.yaml` is the template, with
+  no entries); `docs/<scope>.md` and `docs/<scope>/` for its own scopes;
+  `docs/plans/`; session logs whose scope token is not `workspace`.
+- **Boilerplate** — every other path: the workspace's rules and
+  infrastructure, among them `AGENTS.md`, `README.md`, `CLAUDE.md`,
+  `CHANGELOG.md`, `workspace.sh`, `.githooks/`, `.gitignore`,
+  `docs/README.md`, `docs/BLUEPRINT.md`, `docs/workspace.md`,
+  `docs/workspace/`, `.agents/memory/sessions/TEMPLATE.md` and the
+  `-workspace--` logs. A path added later is boilerplate unless the change
+  that adds it joins it to the list above. Boilerplate is changed on `main`
+  only, is identical on every branch, and **never names an organization** —
+  none of its repositories, scopes, plans, people or facts: examples use
+  placeholders (`<scope>`, `my-service`), and a change that one
+  organization's case prompted says what happened in generic terms.
+
+On an organization's branch, a defect in the workspace or a change it needs
+goes to the log's TODO as a `[workspace]` proposal — worded without the
+organization's names, carrying what a `main` session needs to re-observe
+it; the owner takes it to `main`, where it is filed in `docs/workspace.md`
+(whose finding ids are allocated on `main` only) or adopted. The
+organization's own infrastructure — declaring its fleet, a sync with
+`main`, the migration after one — is organization content, logged under one
+of its scope ids. `check` enforces the split: on `main` it fails on
+organization content; on any other branch, on a boilerplate path changed
+since the merge base with `main` (in a fork: `git config
+workspace.boilerplate upstream/main`).
+
 ## Red lines
 
 - ⛔ No branch, commit, tag, PR, or push in any child repo without a signed
   plan in `docs/plans/` (signature format in `docs/README.md`).
   Read-only repos' push URLs are disabled regardless.
 - ⛔ The write surface is exactly: `.agents/memory/sessions/` (logs), `docs/`
-  (per its rules), `./CHANGELOG.md`, `docs/<scope>/sources/[<repo>/]*.md` **only as
+  (per its rules; on an organization's branch not its boilerplate paths),
+  `./CHANGELOG.md` (on `main`), `docs/<scope>/sources/[<repo>/]*.md` **only as
   `./workspace.sh ingest` or `extract` output** (never hand-edited) — and
   removed (`git rm`, together with its original) at closeout once nothing
   under `docs/` outside `sources/` cites it by file name; `check` lists such

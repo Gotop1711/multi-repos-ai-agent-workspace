@@ -56,7 +56,7 @@ and evidence on every claim. Rationale in `BLUEPRINT.md`; rulebook in
 
 ## Open findings
 
-Observed at workspace@8e4db92 unless a finding says otherwise. Ids are never reused — 1, 4 and 7 were resolved on 2026-09-03 and deleted on 2026-09-04 (`git log -S`). Entry format: claim — citation; evidence
+Observed at workspace@8e4db92 unless a finding says otherwise. Ids are never reused — 1, 4 and 7 were resolved on 2026-09-03 and deleted on 2026-09-04 (`git log -S`). Ids are allocated on `main` only; 23–33 are skipped (used on organization branches or in reverted history), so the next is 34. Entry format: claim — citation; evidence
 type; confidence; Q: unresolved questions. "direct (executed)" = re-run on this
 machine in this session; "direct (read)" = established from the cited lines;
 "corroborated" = a sandbox run by a subagent in `.agents/scratch/` plus reading.

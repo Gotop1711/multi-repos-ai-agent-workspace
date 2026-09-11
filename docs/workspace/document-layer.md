@@ -799,8 +799,8 @@ repository of the fleet —
 
 - `docs/assets/<scope>/[<repo>/]YYYY-MM-DD-<slug>.<ext>` and
   `docs/<scope>/sources/[<repo>/]YYYY-MM-DD-<slug>.<ext>.md`, where `<repo>` is
-  a `catalog/repos.yaml` id lowercased with `_` → `-` (`REA_PROTO` →
-  `rea-proto`, `REA_UI` → `rea-ui`). `REPO=<manifest id> ./workspace.sh ingest
+  a `catalog/repos.yaml` id lowercased with `_` → `-` (`MY_API` →
+  `my-api`, `MY_UI` → `my-ui`). `REPO=<manifest id> ./workspace.sh ingest
   <scope> <file>…` files documents there; `extract` accepts either level;
   `check` derives the scope from the path, refuses a second level and any
   folder that is not a manifest id, and pins each header's `source:` to
@@ -822,8 +822,8 @@ repository of the fleet —
 Why: the owner organises evidence by which repository produced it —
 screenshots of the prototype's rendering of a dialog beside the new UI's
 rendering of the same dialog — and with scope as the only axis the only outlet
-was a scope named after the repository (`nabu-ui` on 2026-09-03; `ui` and
-`rea-proto` on 2026-09-04), which fragments the product's findings tray. The
+was a scope named after the repository (once on 2026-09-03, twice on
+2026-09-04), which fragments the product's findings tray. The
 scope grammar's "repository = the evidence axis" now also places documents.
 Verified in a disposable sandbox (`.agents/scratch/assets-by-repo-test/`), 26
 cases: root-level and repo-folder ingest; `received:` preserved; unknown and
@@ -884,7 +884,7 @@ naming `rm` as the remedy and `extract` only for a file that was meant to
 be ingested, plus a count line; it still never fails on store-side state
 (§1). The cited blobs are unaffected: a removed derivative's text stays in
 git history, and `ingest` copies, so the owner's source file is untouched.
-Why: after the 2026-09-04 fold of scopes `rea-proto` and `ui` into `rea`,
+Why: after the 2026-09-04 fold of two repo-named scopes into their product's,
 the re-ingested copies left byte-identical duplicates under the old scope
 folders with no rule allowing their removal and a `check` message that told
 the reader to *extract* them.
@@ -915,9 +915,9 @@ from there, and the old pair falls out at the next closeout.
 
 Why: the document layer had grown an append-only corner while the rest of
 `docs/` became maintained state on 2026-09-04. The first real case was the
-same day's 13 code-303 screenshots — ingested for a debugging task, cited
+same day's 13 screenshots — ingested for a debugging task, cited
 by findings that were then promoted into Body claims citing the code and
-the prototype's template instead — leaving 13 derivatives and originals
+a prototype's template instead — leaving 13 derivatives and originals
 nothing needed.
 
 ### 2026-09-04 — a shipped or abandoned plan no longer keeps a document alive
@@ -945,3 +945,26 @@ substitution and `check` dies with "d: unbound variable". A `${d#docs/plans/}`
 prefix test is used instead.)* Verified in a sandbox: unsigned plan → kept;
 the same plan `Shipped:` → listed; `Abandoned:` → listed; shipped plan plus a
 scope-document citation → kept; nobody cites → listed.
+
+### 2026-09-11 — `workspace/sources/` holds documents about the workspace only
+
+Owner decision, recorded in `../../CHANGELOG.md` (`../../AGENTS.md` ›
+Boilerplate and organizations). Supersedes §2's tree line "`workspace/…` ←
+org-wide material and documents about this workspace itself", §3's row
+"Cross-cutting org documents … or `sources/workspace/…`", §5's "`workspace`
+is the default scope when unsure" and §14's "the rest under system scopes or
+`workspace`": scope `workspace` is boilerplate — changed on `main` only and
+carried into every organization's branch — so a document filed under it
+would reach every organization. `docs/workspace/sources/` takes documents
+about the workspace itself, ingested on `main`; an organization-wide
+document (architecture, policies, roadmaps) goes under one of that
+organization's own scopes, a system scope when it is cross-cutting, and an
+unsure one under the nearest existing scope with the id proposed in the
+log's TODO. `check` on an organization's branch fails on any path it adds
+under `docs/workspace/`.
+
+The orphan scan (2026-09-04 amendment above) now skips a scope with neither
+a `docs/<scope>.md` nor a `docs/<scope>/` on the current branch: in a clone
+shared by several branches the gitignored `docs/assets/` holds every
+branch's originals, and a closeout on `main` was told to delete another
+branch's originals as orphans.

@@ -3,8 +3,8 @@
 ## Task
 Owner, completing the orphan rule: not only unused originals but their
 derivatives under `docs/<scope>/sources/` must be removed once a task's
-closeout no longer needs them. Infrastructure → `main`, then rebase `rea`
-and apply it there (logged on `rea`).
+closeout no longer needs them. Infrastructure → `main`, then rebase the
+organization's branch and apply it there (logged there).
 
 ## Completed
 1. Definition: a derivative is needed only while a document under `docs/`
@@ -40,6 +40,7 @@ and apply it there (logged on `rea`).
   may block a closeout (§1 of the document layer).
 
 ## TODO / known-incomplete
-- On `rea`: remove the 13 code-303 pairs and the leftover blob map in
-  `docs/rea.md`; verify `check` lists nothing. Logged there.
-- Carried over: Open finding 8, `origin/nabu-dashboard`, SSH for github.com.
+- On the organization's branch: remove the 13 screenshot pairs and the
+  leftover blob map in its scope document; verify `check` lists nothing.
+  Logged there.
+- Carried over: Open finding 8, a remote organization branch, SSH for github.com.

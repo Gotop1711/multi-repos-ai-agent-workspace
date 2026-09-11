@@ -6,9 +6,10 @@ store only humans may write made autonomous agent work impossible — change
 it; (2) the two workspace plans do not belong under `docs/plans/` — keep that
 content as workspace specifications. Both are workspace infrastructure, so
 this work is committed to `main` under the owner's branch rule stated this
-session (infrastructure → `main`; Book AI project work → `nabu-dashboard`).
-The project side — ingesting the dashboard report under scope `nabu` — follows
-on `nabu-dashboard` and is logged in that branch's intake log.
+session (infrastructure → `main`; an organization's project work → that
+organization's branch). The project side — ingesting a report under the
+organization's scope — follows on its branch and is logged in that branch's
+intake log.
 
 ## Completed
 1. `workspace.sh` — new `ingest <scope> <file>…`: copies a document from
@@ -48,7 +49,7 @@ on `nabu-dashboard` and is logged in that branch's intake log.
   had refused to place a document because the store was human-only. The rule
   is changed permanently rather than excepted once, so no later session
   re-litigates it — and the earlier answers the owner gave through the
-  question tool (scope `nabu`, the report plus its three sources, authorise the
+  question tool (the scope, the report plus its three sources, authorise the
   store write) were genuine; the doubt recorded in the intake log was mine.
 - **Why `ingest` adds but never overwrites.** The reason the store was
   human-only — an agent must not alter bytes a citation's sha256 anchors — is
@@ -75,11 +76,11 @@ on `nabu-dashboard` and is logged in that branch's intake log.
   sandbox and failed with "bad source", and a `mkdir -p docs/workspace` landed
   there too (removed). Use absolute paths or `git -C "$R"`. Nothing outside
   scratch was touched by the misfire.
-- **Merge shape for the owner's branch model.** `nabu-dashboard` is ahead of
-  `main` by the fleet-manifest, hook-wiring and intake commits, and both
-  branches now add a `CHANGELOG.md` entry at the top and a `docs/workspace.md`
-  Changes entry at the same position, so `git merge main` on `nabu-dashboard`
-  conflicts in exactly those two hunks; both resolve by keeping both sides
+- **Merge shape for the owner's branch model.** The organization's branch is
+  ahead of `main` by the fleet-manifest, hook-wiring and intake commits, and
+  both branches now add a `CHANGELOG.md` entry at the top and a
+  `docs/workspace.md` Changes entry at the same position, so `git merge main`
+  on that branch conflicts in exactly those two hunks; both resolve by keeping both sides
   (fleet entry below today's in the CHANGELOG; Changes entries in session
   order).
 
@@ -87,8 +88,8 @@ on `nabu-dashboard` and is logged in that branch's intake log.
 - A transliterating slug for CJK titles (pinyin) was not attempted — no
   dependency-free tool on macOS; hand-naming via `NAME=` is the rule.
 - `docs/workspace.md` findings 23 (store never mounted) and 25 (slug) live on
-  `nabu-dashboard`, not `main`; their resolution notes are appended there
-  after the merge.
+  the organization's branch, not `main`; their resolution notes are appended
+  there after the merge.
 - Consider a `check` line that reports an original in the store with no
   derivative (`ingest` always writes one, but a human-placed file does not).
   Not added: it has not bitten.
@@ -96,19 +97,19 @@ on `nabu-dashboard` and is logged in that branch's intake log.
 ## Closeout push — not pushed
 `git push origin main` fails from the agent environment with
 `Permission denied (publickey)`: the ssh-agent holds no identity and
-`~/.ssh/config` binds no key to `github.com` (the `bookai` key authenticates
-as the `Jarvis-bookai` account, which is denied on this repository — see the
-intake log on `nabu-dashboard`). The commit is local; the owner pushes
+`~/.ssh/config` binds no key to `github.com` (the one key configured
+authenticates as another account, which is denied on this repository — see
+the intake log on the organization's branch). The commit is local; the owner pushes
 `main` from their own terminal.
 
 ## Addendum — no tombstone documents (owner instruction, same session)
-The owner saw `docs/nabu-ui.md` as a struck-through tombstone beside
-`docs/nabu.md` and does not want historical-marker documents. Rule changed on
+The owner saw a repo-named scope document as a struck-through tombstone
+beside its product's and does not want historical-marker documents. Rule changed on
 `main`: an id change is a recorded rename (`git mv` + one Changes entry), ids
 are "stable" not "immutable", plans move with their scope id — `docs/README.md`
 › Scopes, BLUEPRINT tree line, `docs/workspace/scope-grammar.md` §14
-amendment, CHANGELOG. The tombstone is deleted on `nabu-dashboard` after the
-rebase. Lesson: the repo-id default for an unnamed scope is the root cause;
+amendment, CHANGELOG. The tombstone is deleted on the organization's branch
+after the rebase. Lesson: the repo-id default for an unnamed scope is the root cause;
 prefer `scope:` keys at fleet declaration. The owner's workflow is rebase — the
 project branch is rebased onto `main` after every infrastructure commit.
 
@@ -122,8 +123,8 @@ replaces the store, `mount_store` is gone, `ingest` refuses to run unless
 tracked file under `docs/assets/`, `restore` skips `*sources/*@*` tokens.
 Rules: AGENTS.md, docs/README.md (tree, reserved `assets`, rename rule,
 citation form), README.md, BLUEPRINT.md; §15 amendment in the document-layer
-specification. The four nabu documents are migrated on `nabu-dashboard` after
-the rebase: `git mv sources/nabu docs/nabu/sources`, re-ingest from the pile
+specification. The organization's four documents are migrated on its branch
+after the rebase: `git mv sources/<scope> docs/<scope>/sources`, re-ingest from the pile
 so the headers gain the new `source:` path (blobs change; the 31 findings'
 citations are updated to the new blobs; `received:` is preserved by
 re-ingesting rather than re-extracting). The repo-root `originals` symlink was

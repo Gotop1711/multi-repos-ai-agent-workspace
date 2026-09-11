@@ -6,9 +6,9 @@ document may sit one folder below its scope's document layer, in a folder
 named for the fleet repository it is evidence about — so the prototype's
 screenshots and the new UI's screenshots of the same dialog stay separated
 without a repo-named scope. Implement it as workspace infrastructure on `main`
-(owner's branch rule: infrastructure → `main`, project work → `rea`). The
-fold-in of scopes `rea-proto` and `ui` into `rea` follows on `rea` after the
-rebase and is logged there.
+(owner's branch rule: infrastructure → `main`, project work → the
+organization's branch). The fold-in of two repo-named scopes into their
+product's scope follows on that branch after the rebase and is logged there.
 
 ## Completed
 1. `workspace.sh` — `repo_sub`/`repo_subs` helpers; `ingest` takes
@@ -38,8 +38,9 @@ rebase and is logged there.
   is the grammar's own "repository = the evidence axis" applied to where
   evidence sits. Depth stops at one, same discipline as topic files.
 - **Why not header-only (`repo:` line, flat files).** Greppable, but the owner
-  asked for *separation*, and `ls docs/assets/rea/` interleaving proto and ui
-  frames by date is the thing they were working around with repo-named scopes.
+  asked for *separation*, and `ls docs/assets/<scope>/` interleaving two
+  repositories' frames by date is the thing they were working around with
+  repo-named scopes.
 - **The one concrete breakage was `check`'s scope derivation** —
   `basename(dirname(dirname f))` returns `sources` for a nested derivative,
   so the old `source:` prefix test would have failed for the wrong reason.
@@ -57,37 +58,38 @@ rebase and is logged there.
 - **Sandbox first, real file second, byte-identical assertion.** The real
   script was never edited by hand; the same patch script produced both copies
   and `cmp` proved it. The 2026-09-03 ingest session used the same pattern.
-- **Repo id → folder: `tr 'A-Z_' 'a-z-'`, then the id grammar.** `REA_PROTO`
-  → `rea-proto`; an id such as `odd.name` lowercases to something outside the
+- **Repo id → folder: `tr 'A-Z_' 'a-z-'`, then the id grammar.** `MY_API`
+  → `my-api`; an id such as `odd.name` lowercases to something outside the
   grammar and `REPO=` is refused with nothing written (T5).
-- **`main` has an empty manifest** — the REA fleet was registered on `rea`
-  (`2fbbd31`) — so `REPO=REA_PROTO` cannot run on `main`; `check` on `main`
-  only warns about the 12 `docs/assets/rea-proto/` originals whose derivatives
-  live on `rea`, which is expected and, incidentally, exercised the new orphan
-  warning on real files.
+- **`main` has an empty manifest** — the fleet was registered on the
+  organization's branch — so `REPO=<id>` cannot run on `main`; `check` on
+  `main` only warns about the 12 originals of a repo folder whose derivatives
+  live on that branch, which is expected and, incidentally, exercised the new
+  orphan warning on real files.
 - **Pitfall: the CHANGELOG anchor differs between branches.** The first
-  insertion anchored on `rea`'s top entry ("Rebase rea onto the docs/assets
-  main"), which does not exist on `main`; the assertion caught it and the
+  insertion anchored on the organization branch's top entry (a rebase
+  record), which does not exist on `main`; the assertion caught it and the
   entry was inserted above whatever the first `## [` is. Anchor on structure,
   not on a sibling's text, when the same file diverges across branches.
-- **Not `git add -A` on `main`.** `docs/ui/` (the owner's own ingest of the
-  ui screenshot) is untracked in the working tree and belongs to the fold-in
-  on `rea`; the infrastructure commit stages explicit paths only.
-- **Expected rebase shape next.** `rea` and `main` both append a Changes entry
-  at the same anchor of `docs/workspace.md` (rea: finding 23; main: this
-  change) — one conflict, resolved oldest-first by date (rea's entry first,
-  it was committed earlier today). `CHANGELOG.md` will not conflict (rea's
-  commits did not touch it); `docs/workspace.md` Open findings will not
-  conflict (rea appended 23 at EOF, main did not touch it).
+- **Not `git add -A` on `main`.** An untracked scope folder (the owner's own
+  ingest of a screenshot) sat in the working tree and belongs to the fold-in
+  on the organization's branch; the infrastructure commit stages explicit
+  paths only.
+- **Expected rebase shape next.** The organization's branch and `main` both
+  append a Changes entry at the same anchor of `docs/workspace.md` (the
+  branch: finding 23; main: this change) — one conflict, resolved
+  oldest-first by date (the branch's entry first, it was committed earlier
+  today). `CHANGELOG.md` will not conflict (the branch's commits did not
+  touch it); `docs/workspace.md` Open findings will not conflict (the branch
+  appended 23 at EOF, main did not touch it).
 
 ## TODO / known-incomplete
-- On `rea`, after the rebase: re-ingest the 12 proto frames with
-  `REPO=REA_PROTO` and the 1 ui frame with `REPO=REA_UI` into scope `rea`;
-  `git rm` the `rea-proto` derivatives and `docs/rea-proto.md`; move P1–P3
-  into `docs/rea.md` as F13–F15; remove the byte-identical `docs/assets/
-  rea-proto/` and `docs/assets/ui/` copies after sha verification; dated note
-  on workspace finding 23 (paths changed). Logged on `rea`.
-- `scope: rea` on the three manifest entries — on `rea`, where the fleet is
+- On the organization's branch, after the rebase: re-ingest the frames with
+  `REPO=<manifest id>` into the product scope; `git rm` the repo-named
+  scope's derivatives and document; move its findings into the product's
+  document; remove the byte-identical old copies after sha verification;
+  dated note on workspace finding 23 (paths changed). Logged there.
+- `scope:` keys on the manifest entries — on that branch, where the fleet is
   declared; the manifest is outside the agent write surface (Open finding 8),
   done here only because the owner adopted the whole proposal that named it.
 - Finding 23 (English-only OCR) is still the owner's one-line edit at
@@ -96,5 +98,5 @@ rebase and is logged there.
 - BLUEPRINT §4's deferred `docs/<scope>/sources/INDEX.md` row is unchanged;
   if repo folders make `ls` answer "do we have a document about X" well
   enough, that trigger recedes rather than advances.
-- Carried over: SSH for `git@github.com`; `origin/nabu-dashboard`
+- Carried over: SSH for `git@github.com`; a remote organization branch's
   merge-or-abandon; `docs/workspace.md` Open finding 8.

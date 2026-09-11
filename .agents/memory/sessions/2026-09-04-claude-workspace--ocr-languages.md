@@ -3,7 +3,8 @@
 ## Task
 Owner: handle the pending tasks one by one; first, finding 23 — `extract`'s
 Vision OCR is English-only. Infrastructure → `main`; the re-extraction of the
-13 REA derivatives and the finding's deletion follow on `rea`, logged there.
+organization's 13 derivatives and the finding's deletion follow on its
+branch, logged there.
 
 ## Completed
 1. `workspace.sh` — the embedded `ocr` program takes its recognition
@@ -14,7 +15,7 @@ Vision OCR is English-only. Infrastructure → `main`; the re-extraction of the
    markers, so an OCR run that recognised nothing is `status: no-text`
    instead of `ok` (finding 23's open question, confirmed as a defect by an
    all-white image before the fix).
-3. Sandbox `.agents/scratch/ocr-langs-test/` on the two real 303 screenshots:
+3. Sandbox `.agents/scratch/ocr-langs-test/` on two real screenshots:
    png 3 → 33 lines / 141 Han characters, jpg 32 lines / 150 Han;
    `OCR_LANGS=en-US` reproduces the old 3 lines; `zh-Hant` alone works; an
    all-white image → `no-text`; a verbatim text file still `ok`, an empty one
@@ -44,10 +45,10 @@ Vision OCR is English-only. Infrastructure → `main`; the re-extraction of the
   change was. Recorded here so the next session does not read it as licence.
 
 ## TODO / known-incomplete
-- On `rea` after the rebase: `./workspace.sh extract rea
-  docs/assets/rea/rea-proto/*.png docs/assets/rea/rea-ui/*.jpg`; verify Han
-  counts; delete F13; re-point F14/F15's blob map; delete finding 23 (id
-  retired) and note it in the tray preamble. Logged there.
-- Next pending task (owner's list): the screenshot findings F14 and F15.
-- `main` is pushed by the owner; `rea` stays local by the owner's plan — no
-  push attempts on `rea` from here on.
+- On the organization's branch after the rebase: `./workspace.sh extract
+  <scope> docs/assets/<scope>/<repo>/*`; verify Han counts; delete the
+  OCR finding there; re-point the blob map; delete finding 23 (id retired)
+  and note it in the tray preamble. Logged there.
+- Next pending task (owner's list): that branch's two screenshot findings.
+- `main` is pushed by the owner; the organization's branch stays local by
+  the owner's plan — no push attempts on it from here on.

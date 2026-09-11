@@ -428,8 +428,8 @@ renamed document listing what moved. Nothing else carries the old id
 afterwards except session-log filenames, which are history and stay. Git
 keeps the moved file's history; citations never name document paths, so no
 evidence breaks. Why: the first use of the tombstone procedure (2026-09-03,
-`nabu-ui` → `nabu`) produced a struck-through duplicate the owner did not
-want. The underlying cause is the repo-id default of §2 — so declare `scope:`
+a repo-named scope → its product's) produced a struck-through duplicate the
+owner did not want. The underlying cause is the repo-id default of §2 — so declare `scope:`
 keys for every repo of a multi-repo product when the fleet is declared, and
 treat a later naming as a cheap rename.
 
@@ -444,8 +444,8 @@ named for that repository's manifest id lowercased
 repo-first layout — the scope stays the folder axis and the findings tray stays
 one per scope; the folder is the manifest vocabulary applied to where evidence
 sits, and it answers the recurring pull toward repo-named scopes that the first
-amendment above traced to the repo-id default (`nabu-ui`, then `ui` and
-`rea-proto`). §10 is already superseded by the document layer's 2026-09-03
+amendment above traced to the repo-id default (three repo-named scopes in two
+days). §10 is already superseded by the document layer's 2026-09-03
 layout amendment; `docs/<scope>/sources/` and `docs/assets/<scope>/`, each with
 the optional repo folder, are the current paths.
 
@@ -501,14 +501,34 @@ abandoned). §7's gate audit `grep -L '^Signed:' docs/plans/*.md` stands and
 gains `grep -l '^Status: paused' docs/plans/*.md`.
 
 Why. A plan that collects a second and a third `Signed:` under successive
-amendments has no single state a reader can name; on 2026-09-08 plan
-nabu--analytics-dashboard was about to receive its second signature for an
-amendment that replaced the page and paused two other plans. The owner's
-rule: the signature is given once and covers a write set (`Writes:`); a
-change that stays inside it is confirmed in the session and recorded by the
+amendments has no single state a reader can name; on 2026-09-08 a plan was
+about to receive its second signature for an amendment that replaced the
+page and paused two other plans. The owner's rule: the signature is given
+once and covers a write set (`Writes:`); a change that stays inside it is confirmed in the session and recorded by the
 agent (`### A<n>` under `## Amendments` plus `Amended:`); a change that
 leaves it — a new repository or branch, another lead scope, a deliverable
 other than the H1 names — is a new plan, signed on its own, linked to the
 old by `Supersedes:` / `Superseded:`. Everything that says what state a plan
 is in, the agent's `Shipped:` included, is in the header, and
 `workspace.sh check` enforces the header's shape and the `Status:` word.
+
+### 2026-09-11 — `workspace` is the boilerplate's scope, used on `main` only
+
+Owner decision, recorded in `../../CHANGELOG.md`; the rule lives in
+`../../AGENTS.md` › Boilerplate and organizations. `main` carries the
+boilerplate and each organization works on its own branch, so the reserved
+id `workspace` gains a second meaning: its document, its specifications and
+its session logs are boilerplate, written on `main` only. Consequences for
+this grammar: a session-log `{scope}` token is `workspace` only on `main` —
+on an organization's branch its fleet declaration, a sync with `main` and
+the migration after one are logged under one of its own scope ids;
+`docs/workspace.md` finding ids are allocated on `main` only (ids 23–33
+were used on organization branches or in reverted history and are skipped);
+a workspace finding made on an organization's branch is a `[workspace]`
+proposal in that log's TODO — no id, no organization names — which a
+`main` session re-observes before filing. Supersedes §2's "workspace-level
+*proposals* still go to the log's TODO" only in that the TODO is, on an
+organization's branch, the sole place for them. Every other path this
+grammar defines — `docs/<scope>.md` and `docs/<scope>/` for any other
+scope, `docs/plans/`, other session logs — is organization content, absent
+on `main`.

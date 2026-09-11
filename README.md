@@ -42,6 +42,16 @@ a dead disk. (It ships with none on purpose.)
 # 2. agent closes out: session log + closeout commit + push — you review the diff
 ```
 
+## One boilerplate, many organizations
+
+`main` is the boilerplate. Each organization works on its own branch (or
+fork); after every change on `main` you sync it — `git rebase main`, then
+`./workspace.sh check` (the hook does not run during a rebase) and the
+migration it asks for. Rules and infrastructure change on `main` only and
+name no organization; an organization's branch changes only its own content
+— the list is in [AGENTS.md › Boilerplate and organizations](AGENTS.md), and
+`check` enforces it.
+
 ## What each file and folder is
 
 | Path | One line |
@@ -52,7 +62,7 @@ a dead disk. (It ships with none on purpose.)
 | `CLAUDE.md` | ≤5-line bridge to `AGENTS.md` (one per installed runtime that needs it) |
 | `workspace.sh` | `setup` \| `clone` \| `cite` \| `restore` \| `ingest` \| `extract` \| `check` |
 | `catalog/repos.yaml` | The fleet manifest — also the authorization record; optional `scope:` per repo names its home scope document |
-| `CHANGELOG.md` | Record of changes to this workspace's rules and infrastructure only, newest entry first — never a child repository's or a plan's state (those live in plans, scope documents and session logs) |
+| `CHANGELOG.md` | Record of changes to this workspace's rules and infrastructure only, written on `main`, newest entry first — never a child repository's, an organization's or a plan's state (those live in plans, scope documents and session logs) |
 | `.gitignore` | Keeps `projects/`, `docs/assets/`, scratch, secrets and local runtime state out of the repo |
 | `.agents/memory/sessions/` | Simple journey logs, one per agent run — decisions & pitfalls, never findings |
 | `docs/README.md` | The docs system's rules: scopes, intake, examination bar, signature gate |
@@ -62,8 +72,9 @@ a dead disk. (It ships with none on purpose.)
 
 ## Growing it
 
-Add nothing until a real need bites **twice**; then add the piece and note it
-in the CHANGELOG. The full trigger table is in
+Add nothing until a real need bites **twice**; then add the piece on `main`
+and note it in the CHANGELOG — it is boilerplate unless that change joins it
+to the organization's list in `AGENTS.md`. The full trigger table is in
 [docs/BLUEPRINT.md §4](docs/BLUEPRINT.md) — in short: skills when how-tos
 repeat, schemas when finding shapes drift, `policies/` when the rulebook
 outgrows a page, catalog knowledge when relationships get re-derived, `labs/`

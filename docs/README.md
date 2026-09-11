@@ -3,7 +3,10 @@
 `BLUEPRINT.md`, beside this file, is the design rationale for the whole
 repository — read it first. Everything else here is agent-written
 (human-supplied documents enter only through `workspace.sh ingest`: their
-text under `<scope>/sources/`, their originals in gitignored `assets/<scope>/`):
+text under `<scope>/sources/`, their originals in gitignored `assets/<scope>/`).
+This file, `BLUEPRINT.md`, `workspace.md` and `workspace/` are boilerplate —
+changed on `main` only, never naming an organization; every other path here
+is an organization's own (`../AGENTS.md` › Boilerplate and organizations):
 
 ```
 docs/
@@ -26,8 +29,12 @@ repo's home scope is its `scope:` in `../catalog/repos.yaml`, default the repo
 id. An agent creates `docs/<scope>.md` for a scope the task names, or for a
 repo's id when no scope is named; it never invents a product boundary or a new
 system — it files under the nearest existing scope and proposes the id in its
-log's TODO. `workspace` is this repository's own scope: `docs/workspace.md`
-holds findings about its mechanics; its rationale is `BLUEPRINT.md`, its
+log's TODO. `workspace` is this repository's own scope — the boilerplate's,
+written on `main` only: `docs/workspace.md` holds findings about its
+mechanics, with ids allocated there (from an organization's branch a
+workspace finding travels as a `[workspace]` proposal in the log's TODO, and
+an organization-wide document goes under one of that organization's scopes,
+never `workspace/sources/`); its rationale is `BLUEPRINT.md`, its
 mechanics `../README.md`, its history `../CHANGELOG.md`, and its detailed
 specifications — the document layer, the scope grammar — are
 `docs/workspace/<topic>.md`, adopted by the owner's instruction and recorded
@@ -166,7 +173,8 @@ When a plan ships, each other scope's Body › Integration points is updated to
 what now exists. Plans are renamed only together with their scope id
 (Scopes › rename), never otherwise moved.
 A proposal about the workspace itself is not a plan: it starts in
-`docs/workspace.md` Open findings and the log's TODO, and once the owner adopts
+`docs/workspace.md` Open findings and the log's TODO (on an organization's
+branch, the log's TODO only, as a `[workspace]` proposal), and once the owner adopts
 it, its specification lives in `docs/workspace/<topic>.md` with a `Status:`
 line under the H1 and a `../CHANGELOG.md` entry.
 

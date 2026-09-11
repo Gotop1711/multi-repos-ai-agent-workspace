@@ -80,7 +80,7 @@ multi-repos-ai-agent-workspace/
 ├── README.md                        ← what this is + setup + daily loop
 ├── AGENTS.md                        ← the whole rulebook (canonical)
 ├── CLAUDE.md                        ← bridge: "@AGENTS.md"
-├── CHANGELOG.md                     ← the workspace's own rules/infrastructure record (append-only; never a project's or a plan's state)
+├── CHANGELOG.md                     ← the workspace's own rules/infrastructure record (append-only, written on main; never a project's, an organization's or a plan's state)
 ├── .gitignore                       ← /projects/ /docs/assets/ .env* keys local settings
 ├── workspace.sh                     ← setup | clone | cite | restore | ingest | extract | check
 ├── .githooks/pre-commit             ← runs workspace.sh check + refuses binaries and > 1 MiB (+ gitleaks if installed)
@@ -117,6 +117,23 @@ The agent's own loop is defined in `AGENTS.md`: check → read newest session
 logs → read the task's `docs/<scope>.md` → work → session log + closeout
 commit.
 
+**One boilerplate, many organizations.** The repository is a starting point
+for any group of projects — the components of one product, or standalone
+projects sharing data — and several organizations run it at once: `main` is
+the boilerplate, each organization a branch (or fork) synced from it
+(`AGENTS.md` › Boilerplate and organizations). Two choices carry the design.
+The parties are defined **by exclusion**: an organization's content is a
+short closed list (its manifest entries, its scope documents, its plans, its
+session logs), and everything else is boilerplate — so a file added later is
+classified without anyone remembering to list it, and the only files both
+sides ever wrote (the CHANGELOG, `docs/workspace.md`, workspace session
+logs), the source of every rebase conflict, get one writer each. And the
+boilerplate **names no organization**: whatever `main` holds reaches every
+organization that syncs from it, so a repository, scope or fact of one would
+be disclosed to all the others — a case one organization raised is recorded
+on `main` in generic terms, and `check` on an organization's branch warns
+where `main` names one of that branch's own ids.
+
 ## 4. Deferred extensions — add when the trigger bites
 
 | Trigger (a real, recurring pain) | Add |
@@ -127,7 +144,7 @@ commit.
 | The same cross-repo relationship gets re-derived from source in a second task | `catalog/systems.yaml`, `relationships.yaml`, glossary — keyed by the same scope ids as `docs/`; the glossary trigger is the same term defined differently in two scopes' Terms sections |
 | Prototyping needed before a plan can be judged | `labs/` (tracked; no production standards) |
 | Two sessions in a row needed one Body section of a scope document and paid for the whole file | Move that topic verbatim to `docs/<scope>/<topic>.md`, pointer left under the heading; the root stays with the Open findings (`docs/README.md`) |
-| A human's word for a product failed to resolve to a scope id twice, or `ls docs/` exceeds one screen | An `Aliases:` line under the scope's H1; at ~25 scopes a scope table (id → name → aliases → repos) in `docs/README.md` |
+| A human's word for a product failed to resolve to a scope id twice, or `ls docs/` exceeds one screen | An `Aliases:` line under the scope's H1; at ~25 scopes a scope table (id → name → aliases → repos) in `catalog/scopes.yaml` — organization content, never the boilerplate `docs/README.md` |
 | A `scope:` value names a scope with no document, or a plan/log filename carries a scope id no document has, twice | ~10 lines in `workspace.sh check`: warn on an unbound `scope:`, fail on a filename token outside the id grammar |
 | `ls`/`grep` over `docs/*/sources/` stop answering "do we have a document about X" (or > ~100 documents) | Generated `docs/<scope>/sources/INDEX.md`, regenerated at each ingest and checked by `check` |
 | Two findings disagree about which version of an original they read, or the gitignored copies prove to have no usable history | Originals into a git repo listed `read-only` in `repos.yaml` (`projects/originals`), `docs/assets` pointed at it; `cite` then carries its sha |
@@ -139,8 +156,11 @@ commit.
 | The sessions folder outgrows eyeballing | Generated `index.md` |
 | A second agent runtime joins | Nothing structural — the `{agent}` tag in session-log filenames already carries it; add that vendor's ≤5-line bridge only if it doesn't read `AGENTS.md` natively |
 
-Rule of adoption: **did it bite twice?** If yes, add the extension and note it
-in the CHANGELOG. If no, a note in the session log suffices.
+Rule of adoption: **did it bite twice?** If yes, add the extension on `main`
+and note it in the CHANGELOG, naming its party — boilerplate by default, or
+joined to the organization's list in `AGENTS.md` when it holds one
+organization's content (`labs/`, `reports/`, catalog knowledge files). If no,
+a note in the session log suffices.
 
 ## 5. Alternatives considered and rejected
 
@@ -168,6 +188,8 @@ Each of these was weighed and deliberately not built in:
 | A documents git repository as a read-only child on day one | A gitignored folder in the repo + tracked text | Versioning originals is a §4 trigger; a folder costs nothing, a multi-GB corpus child would be full-cloned by every machine and a leaked secret could only be purged by rewriting its history, killing every later citation |
 | A central `catalog/documents.yaml` | The header of each derivative | Duplicates what the derivative carries, conflicts when two machines ingest, thousands of lines on day one |
 | Git LFS | Not used | A dependency on every clone, quotas, and pointers still fill history |
+| A list of the files that are boilerplate (rejected 2026-09-11) | A closed list of organization content; every other path is boilerplate | A listed party misses each file added later until someone remembers it; the organization's side is small and stable, and "everything else" needs no upkeep |
+| Workspace findings filed on the organization's branch, harvested at each sync (rejected 2026-09-11) | A `[workspace]` proposal in the log's TODO, re-observed and filed on `main` | Two writers of `docs/workspace.md` collide at its end at every sync and allocate the same finding ids twice; a proposal carries no id and names no organization |
 
 ## 6. Acceptance
 
@@ -197,3 +219,8 @@ The workspace is correct when:
    headerless derivative under `docs/<scope>/sources/` makes `check` fail, an edited
    original makes it warn; `git show <blob>` of a document citation returns
    the exact text the finding read.
+9. On `main`, a manifest entry, a scope document other than `workspace`, a
+   plan or a session log not scoped `workspace` makes `check` fail; on an
+   organization's branch, a boilerplate path changed since its merge base
+   with `main` does, and a line of `main` naming one of the branch's own
+   repository or scope ids makes it warn.

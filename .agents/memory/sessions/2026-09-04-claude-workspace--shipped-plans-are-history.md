@@ -3,7 +3,7 @@
 ## Task
 Owner chose option B of the three I put to them: a plan's blob citations keep
 a document alive only until the plan carries `Shipped:` or `Abandoned:`.
-Infrastructure → `main`, then rebase `rea`.
+Infrastructure → `main`, then rebase the organization's branch.
 
 ## Completed
 1. `workspace.sh check` — the unreferenced-derivative scan now drops any
@@ -43,14 +43,14 @@ Infrastructure → `main`, then rebase `rea`.
 - Checked, not assumed: the two other `case` statements in `ingest`
   (`workspace.sh:279-280`) sit in a `for` loop, not inside a substitution —
   no hazard, and they have run all day.
-- No-op on today's workspace: `rea` has no derivatives at all since the 303
-  screenshots were removed. The rule was fixed before a case exists, which is
+- No-op on today's workspace: the organization's branch has no derivatives
+  at all since its screenshots were removed. The rule was fixed before a case exists, which is
   the cheapest moment.
 
 ## TODO / known-incomplete
-- Rebase `rea` onto this commit (CHANGELOG conflict expected, main-first).
-- Plan `rea--303-ui-map` is `Shipped:`; if the owner ever ingests the §4.2
-  captures they must be cited from `docs/rea.md`, not from the plan, or the
-  next closeout will list them. The plan's §4.2 note already says not to
-  ingest.
-- Carried over: Open finding 8, `origin/nabu-dashboard`, SSH for github.com.
+- Rebase the organization's branch onto this commit (CHANGELOG conflict
+  expected, main-first).
+- A shipped plan there names captures; if the owner ever ingests them they
+  must be cited from the scope document, not from the plan, or the next
+  closeout will list them. The plan already says not to ingest.
+- Carried over: Open finding 8, a remote organization branch, SSH for github.com.

@@ -5,7 +5,7 @@
 #   ./workspace.sh cite                  print the fleet as one citation line — paste into findings
 #   ./workspace.sh restore <repo>@<sha>… check cited commits out (bare <repo> returns to its branch)
 #   ./workspace.sh ingest <scope> <file>…      copy a document to docs/assets/<scope>/[<repo>/] (gitignored) under a dated name, then extract it
-#                                              REPO=<manifest id> files it one folder down, under that repository (REA_PROTO → rea-proto/)
+#                                              REPO=<manifest id> files it one folder down, under that repository (MY_API → my-api/)
 #   ./workspace.sh extract <scope> docs/assets/<scope>/[<repo>/]<file>…  text of a copied document → docs/<scope>/sources/[<repo>/]<file>.md
 #                                              OCR_LANGS=<bcp47,…> sets Vision's recognition languages (default zh-Hant,en-US)
 #   ./workspace.sh check                 verify the manifest and the document layer (session-init / pre-commit)
@@ -14,7 +14,7 @@ set -u
 cd "$(dirname "$0")" || exit 1
 MANIFEST="catalog/repos.yaml"
 ASSETS="docs/assets"        # originals: copied in by ingest as docs/assets/<scope>/<YYYY-MM-DD-slug.ext>, gitignored, never committed
-tmp=""; ocr=""; ooxml=""; trap 'rm -f "$tmp" "$ocr" "$ooxml"' EXIT
+tmp=""; ocr=""; ooxml=""; pats=""; trap 'rm -f "$tmp" "$ocr" "$ooxml" "$pats"' EXIT
 
 entries() { # one line per repo: id|path|remote|branch|access
   awk '
@@ -27,8 +27,13 @@ entries() { # one line per repo: id|path|remote|branch|access
     END                            { flush() }
   ' "$MANIFEST"
 }
-repo_sub()  { printf '%s' "$1" | tr 'A-Z_' 'a-z-'; }          # manifest id → its document-layer folder: lowercase, '_' → '-' (REA_PROTO → rea-proto)
+repo_sub()  { printf '%s' "$1" | tr 'A-Z_' 'a-z-'; }          # manifest id → its document-layer folder: lowercase, '_' → '-' (MY_API → my-api)
 repo_subs() { entries | cut -d'|' -f1 | tr 'A-Z_' 'a-z-'; }   # every permitted folder below docs/assets/<scope>/ and docs/<scope>/sources/, one per line
+
+# parties (AGENTS.md › Boilerplate and organizations): an organization's own content is this closed list; every other path is boilerplate
+ORG_RE='^(catalog/[^/]*[.]yaml|docs/[^/]*[.]md|docs/[^/]*/.*|[.]agents/memory/sessions/[^/]*)$'
+BOILERPLATE_RE='^(docs/(README|BLUEPRINT|workspace)[.]md|docs/workspace/.*|[.]agents/memory/sessions/(TEMPLATE[.]md|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[a-z0-9]*-workspace--.*))$'
+party() { awk -v want="$1" -v o="$ORG_RE" -v b="$BOILERPLATE_RE" '{ p = ($0 ~ o && $0 !~ b) ? "org" : "boilerplate" } p == want'; }   # paths on stdin → those of one party (org | boilerplate)
 
 cmd="${1:-help}"
 case "$cmd" in clone|cite|restore|check|extract|ingest)
@@ -204,7 +209,7 @@ PY
   for src in "$@"; do
     name="$(basename "$src")"
     [ -d "$src" ] && { echo "[$name] SKIP: a bundle (rtfd/key/pages/numbers) — export it from its app (PDF, txt or CSV) and ingest the export" >&2; fail=$((fail+1)); continue; }
-    # the original sits directly under docs/assets/<scope>/, or one folder down in a folder named for a manifest repo (REA_PROTO → rea-proto)
+    # the original sits directly under docs/assets/<scope>/, or one folder down in a folder named for a manifest repo (MY_API → my-api)
     d="$(cd "$(dirname "$src")" 2>/dev/null && pwd -P)"; root="$(cd "$ASSETS/$scope" 2>/dev/null && pwd -P)"; sub=""
     if [ -n "$d" ] && [ "$d" = "$root" ]; then :
     elif [ -n "$d" ] && [ "$(dirname "$d")" = "$root" ] && repo_subs | grep -qxF "$(basename "$d")"; then sub="$(basename "$d")"
@@ -370,8 +375,9 @@ check)
     [ "$tracked" -eq 0 ] || { echo "FAIL: $tracked file(s) under $ASSETS/ are tracked by git — originals are never committed (git rm --cached them; keep '/docs/assets/' in .gitignore)" >&2; status=1; }
     echo "info: $(find docs/*/sources -type f -name '*.md' | wc -l | tr -d ' ') document derivative(s) under docs/*/sources/$([ -d "$ASSETS" ] || echo " ($ASSETS/ absent: hashes not verified)")"
   fi
-  # orphans: an original no derivative names any more (its derivative was removed or re-filed) — removed at closeout by whoever sees this
-  orphans="$( [ -d "$ASSETS" ] && find "$ASSETS" -type f ! -name .DS_Store | while read -r o; do r="${o#$ASSETS/}"; s="${r%%/*}"; [ -f "docs/$s/sources/${r#*/}.md" ] || echo "$o"; done )"
+  # orphans: an original no derivative names any more (its derivative was removed or re-filed) — removed at closeout by whoever sees this.
+  # A scope with neither a document nor a folder on this branch is another branch's (a clone shared by several organizations): left alone.
+  orphans="$( [ -d "$ASSETS" ] && find "$ASSETS" -type f ! -name .DS_Store | while read -r o; do r="${o#$ASSETS/}"; s="${r%%/*}"; [ -e "docs/$s.md" ] || [ -d "docs/$s" ] || continue; [ -f "docs/$s/sources/${r#*/}.md" ] || echo "$o"; done )"
   if [ -n "$orphans" ]; then
     printf '%s\n' "$orphans" | while read -r o; do echo "warn: $o has no derivative — an orphan: remove it (rm), or './workspace.sh extract ${o#$ASSETS/}' if it was meant to be ingested" | sed "s|extract \([a-z0-9-]*\)/|extract \1 $ASSETS/\1/|" >&2; done
     echo "warn: $(printf '%s\n' "$orphans" | grep -c .) orphan original(s) under $ASSETS/ — not in use by any derivative; remove them before closing out (AGENTS.md › write surface)" >&2
@@ -407,7 +413,44 @@ check)
     fi
   done
 
-  [ "$n" -gt 0 ] || echo "warn: manifest has no repos yet — edit catalog/repos.yaml"
+  # parties (AGENTS.md › Boilerplate and organizations): the boilerplate branch carries no organization's content, and an
+  # organization's branch changes no boilerplate path since its merge base with it. Working tree, so the hook sees it before a commit.
+  bp="$(git config --get workspace.boilerplate 2>/dev/null || echo main)"   # the boilerplate ref: main; in an organization's fork, upstream/main
+  here="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+  if [ -z "$here" ]; then
+    echo "info: detached HEAD (a rebase in progress?) — party check skipped"
+  elif [ "$here" = "$bp" ]; then
+    [ "$n" -eq 0 ] || { echo "FAIL: $MANIFEST declares $n repo(s) on $bp — the boilerplate ships the template; fleet entries belong on an organization's branch (in a fork: git config workspace.boilerplate upstream/main)" >&2; status=1; }
+    stray="$( { git ls-files; git ls-files --others --exclude-standard; } | sort -u | party org | grep -vxF "$MANIFEST" )"
+    if [ -n "$stray" ]; then
+      printf '%s\n' "$stray" | sed "s|^|FAIL: organization content on $bp: |" >&2
+      echo "      $bp carries the boilerplate only — this belongs on the organization's branch" >&2; status=1
+    fi
+  elif base="$(git merge-base "$bp" HEAD 2>/dev/null)"; then
+    touched="$( { git diff --name-only --no-renames "$base"; git ls-files --others --exclude-standard; } | sort -u | party boilerplate )"
+    if [ -n "$touched" ]; then
+      printf '%s\n' "$touched" | sed "s|^|FAIL: boilerplate changed on $here since its base with $bp: |" >&2
+      echo "      rules and infrastructure change on $bp only: restore a file with 'git checkout $(git rev-parse --short "$base") -- <path>' (a workspace finding in it becomes a [workspace] proposal in the log's TODO first); 'git mv' a -workspace-- log to one of this branch's scope ids" >&2
+      status=1
+    fi
+    behind="$(git rev-list --count "HEAD..$bp")"
+    [ "$behind" -eq 0 ] || echo "warn: $bp has $behind commit(s) this branch lacks — its rules may have changed; the owner syncs the branch (git rebase $bp), then runs check" >&2
+    # the boilerplate names no organization: look for this branch's own repo and scope ids in it
+    pats="$(mktemp)"
+    { entries | cut -d'|' -f1; repo_subs; sed -n 's/^[[:space:]]*scope:[[:space:]]*//p' "$MANIFEST"; for f in docs/*.md; do [ -f "$f" ] && basename "$f" .md; done; } \
+      | grep -vxiE 'readme|blueprint|workspace|plans|sources|assets' | awk 'length >= 3' | sort -u > "$pats"
+    hits="$( [ -s "$pats" ] && git grep -n -I -i -w -F -f "$pats" "$bp" -- . 2>/dev/null )"
+    if [ -n "$hits" ]; then
+      printf '%s\n' "$hits" | head -5 | cut -c1-180 | sed 's|^|warn: the boilerplate names this organization — |' >&2
+      echo "warn: $(printf '%s\n' "$hits" | grep -c .) line(s) of $bp name this branch's repositories or scopes — the boilerplate names no organization; propose the rewording as a [workspace] TODO" >&2
+    fi
+  else
+    echo "info: no '$bp' ref here — party check skipped (in a fork: git config workspace.boilerplate upstream/main)"
+  fi
+
+  if [ "$n" -eq 0 ]; then
+    [ "$here" = "$bp" ] && echo "info: $bp is the boilerplate — its manifest is the template" || echo "warn: manifest has no repos yet — edit catalog/repos.yaml"
+  fi
   newest="$(ls .agents/memory/sessions 2>/dev/null | grep -E '^[0-9]{4}-' | sort | tail -1)"
   echo "info: newest session log: ${newest:-none yet}"
   [ "$status" -eq 0 ] && echo "check: PASS ($n repo(s) in manifest)" || echo "check: FAIL" >&2

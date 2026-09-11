@@ -47,14 +47,14 @@ owner's branch rule (infrastructure → `main`).
   got no finding: the owner adopted the rule directly (README: a workspace
   proposal starts in findings only until adopted).
 - `check` on `main` sees no plans (they live on the project branch), so the
-  new validation is exercised in the `nabu-dashboard` closeout that
+  new validation is exercised in the organization branch's closeout that
   migrates the three plans; a failure there is the migration's to fix, not
   a reason to soften the check.
 
 ## TODO / known-incomplete
 - Owner: push `main` (`origin` = Gotop1711/multi-repos-ai-agent-workspace;
   the agent shell cannot push there — memory note).
-- `nabu-dashboard`: rebase onto `main` (owner workflow), migrate the three
+- The organization's branch: rebase onto `main` (owner workflow), migrate the three
   plans to the header form (`Writes:`, `Status:`, `Amended:` lines for the
   existing amendments; block-quote status notes removed), decide A7 under
   the new rule (in-session confirmation, no second signature) and the two

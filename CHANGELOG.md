@@ -1,12 +1,73 @@
 # Workspace CHANGELOG
 
-Records changes to **this workspace's rules and infrastructure only** —
-`AGENTS.md`, `workspace.sh`, the hook, the docs system's rules and
-specifications, the layout. Never a child repository's state, a manifest
-access or branch change made for a plan, or a plan's progress: those live
-in the plan's header, the scope document and the session log.
+Records changes to **this workspace's rules and infrastructure only** — the
+boilerplate (`AGENTS.md` › Boilerplate and organizations): `AGENTS.md`,
+`workspace.sh`, the hook, the docs system's rules and specifications, the
+layout. Written on `main` only, and never naming an organization. Never a
+child repository's state, an organization's own fleet declaration or the
+sync of its branch, a manifest access or branch change made for a plan, or
+a plan's progress: those live in the plan's header, the scope document and
+the session log.
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
+
+## [Rules and infrastructure change on main only; the boilerplate names no organization] — 2026-09-11
+
+### Changed
+- Owner decision. `main` is the boilerplate each organization's branch (or
+  fork) is synced from, and every tracked path belongs to one of two parties
+  (`AGENTS.md` › Boilerplate and organizations). **Organization content** is
+  a closed list — `catalog/*.yaml` (on `main`, `repos.yaml` is the template
+  with no entries), `docs/<scope>.md` and `docs/<scope>/` for its own scopes,
+  `docs/plans/`, session logs not scoped `workspace`. **Boilerplate** is
+  every other path: changed on `main` only, identical on every branch, and
+  never naming an organization — its repositories, scopes, plans, people or
+  facts. Defined by exclusion, so a path added later is boilerplate unless
+  the change that adds it says otherwise. So the files that share this
+  file's "rules and infrastructure only" range are, besides `AGENTS.md`,
+  `README.md`, `CLAUDE.md`, `workspace.sh`, `.githooks/` and `.gitignore`:
+  `docs/README.md`, `docs/BLUEPRINT.md`, `docs/workspace.md`,
+  `docs/workspace/`, `.agents/memory/sessions/TEMPLATE.md` and the
+  `-workspace--` logs — not the sessions folder as a whole, whose other logs
+  are each organization's journey.
+- On an organization's branch a defect in or a change to the workspace is a
+  `[workspace]` proposal in the session log's TODO — worded without the
+  organization's names — which the owner takes to `main`; `docs/workspace.md`
+  finding ids are allocated on `main` only (23–33 are skipped: used on
+  organization branches or in reverted history). The organization's own
+  infrastructure — its fleet declaration, a sync with `main`, the migration
+  after one — is logged under one of its scope ids, never here.
+  `docs/workspace/sources/` holds documents about the workspace only; an
+  organization-wide document goes under one of that organization's scopes.
+  Rule text in `AGENTS.md`, `docs/README.md`, `TEMPLATE.md`, `README.md`,
+  `docs/BLUEPRINT.md` (§3, §4 — the ~25-scope table moves to
+  `catalog/scopes.yaml` — §5, §6 item 9); amendments in
+  `docs/workspace/scope-grammar.md` §14 and `document-layer.md` §15.
+- `workspace.sh check`: on `main`, fails on organization content (manifest
+  entries, scope documents other than `workspace`, plans, logs not scoped
+  `workspace`); on any other branch, fails on each boilerplate path changed
+  since its merge base with `main` and names the remedy, warns when `main`
+  has commits the branch lacks, and warns where `main` names one of the
+  branch's own manifest or scope ids. The boilerplate ref is `main`, or `git
+  config workspace.boilerplate` (in a fork: `upstream/main`); a detached HEAD
+  skips the check. The orphan scan now skips scopes with no document on the
+  current branch: in a clone shared by several branches, a closeout on
+  `main` was told to delete another branch's originals.
+- Organization names removed, by owner instruction, from this file's earlier
+  entries, the two specifications, `workspace.sh`'s comments and the
+  `-workspace--` session logs — names and organization-only details replaced
+  by generic wording, no rule changed. Git history still holds the old text.
+- Migration, once, on an organization's branch after its next sync: `check`
+  lists what to move. That one sync may stop on conflicts in boilerplate
+  files the branch edited; `git rebase -X ours main` keeps `main`'s side,
+  which the migration restores anyway (never a standing habit: it would
+  also override a conflict inside the branch's own manifest), and the
+  pre-sync tip keeps the branch's text. Each boilerplate file the branch
+  changed is restored (`git checkout <merge base> -- <path>`) after any
+  workspace finding in it is re-worded as a `[workspace]` proposal in the
+  migration's log; its other facts already stand in the branch's session
+  logs. Each `-workspace--` log the branch wrote is renamed (`git mv`) to
+  one of its own scope ids.
 
 ## [CHANGELOG records the workspace only — never a project or a plan] — 2026-09-08
 
@@ -18,8 +79,8 @@ Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
   — the plan's header (`Amended:`, `Shipped:` …), the scope document's
   Body, the session log — and never here. Stated in this file's header,
   `AGENTS.md` › Every session › Close out, `README.md` and
-  `docs/BLUEPRINT.md`. The one misfiled entry (2026-09-07, miva-api and
-  mimr-api opened as pr-only) is removed from the project branch, where it
+  `docs/BLUEPRINT.md`. The one misfiled entry (2026-09-07, two repositories
+  opened as pr-only) is removed from the organization's branch, where it
   was written; its facts stand in both plans' headers and the 2026-09-07
   session log.
 
@@ -47,9 +108,9 @@ Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
   `Superseded:` plan is history for the derivative scan like a shipped or
   abandoned one.
 - Why: a second `Signed:` for an amendment leaves a plan without one
-  nameable state; the trigger was plan nabu--analytics-dashboard A7 on
-  `nabu-dashboard` (2026-09-08). The three existing plans are migrated to
-  the header form in that branch's closeout.
+  nameable state; the trigger was a plan's seventh amendment on an
+  organization's branch (2026-09-08). The three existing plans are migrated
+  to the header form in that branch's closeout.
 
 ## [A shipped or abandoned plan no longer keeps a document alive] — 2026-09-04
 
@@ -87,8 +148,8 @@ Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
   Supersedes "the old derivative stays" and "removal of a derivative is a
   human commit". Rules in AGENTS.md and docs/README.md; trees in README.md;
   amendment in `docs/workspace/document-layer.md` §15. First application on
-  `rea`: the 13 code-303 screenshots, whose findings were promoted into
-  claims that cite the code and the prototype's template instead.
+  an organization's branch: 13 screenshots whose findings were promoted into
+  claims that cite the code and a prototype's template instead.
 
 ## [Orphan originals under docs/assets/ are removed at closeout] — 2026-09-04
 
@@ -100,7 +161,7 @@ Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
   overwrites or renames an original, and nobody edits one. `check` now lists
   each orphan with `rm` as the remedy (`extract` only for a file meant to be
   ingested) and prints a count; it still never fails on store-side state.
-  Why: the fold of scopes `rea-proto` and `ui` into `rea` left duplicate
+  Why: the fold of two repo-named scopes into their product's left duplicate
   copies under the old folders with no rule allowing their removal, and a
   `check` message that told the reader to extract them. Rules in AGENTS.md,
   trees in docs/README.md and README.md; amendment in
@@ -142,22 +203,22 @@ Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 ### Removed
 - `docs/workspace.md` › Changes (10 entries, each mirrored here or in a
   session log); its findings 14–17 and 22 rewritten to what remains open.
-  `docs/rea.md` follows on `rea`.
+  Each organization's scope documents follow on its own branch.
 
 ## [Documents may sit one folder below a scope, named for the fleet repo they are evidence about] — 2026-09-04
 
 ### Added
 - `REPO=<manifest id> ./workspace.sh ingest <scope> <file>…` files documents
   under `docs/assets/<scope>/<repo>/` and `docs/<scope>/sources/<repo>/`, where
-  `<repo>` is the id lowercased with `_` → `-` (`REA_PROTO` → `rea-proto`).
+  `<repo>` is the id lowercased with `_` → `-` (`MY_API` → `my-api`).
   `extract` accepts either level; `check` derives the scope from the path,
   refuses a second level or a folder that is not a manifest id, and pins each
   `source:` header exactly. The citation form gains the optional folder:
   `docs/<scope>/sources/[<repo>/]<name>.<ext>.md@<blob>`. Owner decision: the
   owner organises evidence by which repository produced it (the prototype's
   rendering of a dialog beside the new UI's rendering of the same dialog), and
-  with scope as the only axis the outlet was a repo-named scope (`nabu-ui`,
-  then `ui` and `rea-proto`), which fragments a product's findings. Scope stays
+  with scope as the only axis the outlet was a repo-named scope (three in
+  two days), which fragments a product's findings. Scope stays
   the product; the folder is the manifest's vocabulary applied to where
   evidence sits. Rules and trees in AGENTS.md, docs/README.md, README.md and
   BLUEPRINT.md; amendments in `docs/workspace/document-layer.md` §15 and
@@ -190,8 +251,8 @@ Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
   document covers, the document is renamed with `git mv` — with its topic
   folder and its plans — and records one `[Renamed from scope <old>]`
   Changes entry; no superseded file stays behind. Ids are stable handles that
-  change only by owner decision. Cause: the first rename left `docs/nabu-ui.md`
-  as a tombstone the owner did not want. Amendment in
+  change only by owner decision. Cause: the first rename left a repo-named
+  scope document as a tombstone the owner did not want. Amendment in
   `docs/workspace/scope-grammar.md` §14.
 
 ## [Agents may ingest documents; workspace specifications leave docs/plans/] — 2026-09-03

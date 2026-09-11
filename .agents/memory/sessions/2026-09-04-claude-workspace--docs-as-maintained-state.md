@@ -4,8 +4,8 @@
 Owner decision, reached in the session discussion after the folder-per-repo
 change: scope documents are maintained state — no Changes sections, no struck
 findings kept, git is the history. Apply it to the rules, the specifications
-and `docs/workspace.md` on `main`; `docs/rea.md` (which exists only on `rea`)
-follows after the rebase, logged there.
+and `docs/workspace.md` on `main`; the organization's scope document (which
+exists only on its branch) follows after the rebase, logged there.
 
 ## Completed
 1. `docs/README.md` — scope document is two parts (Body, Open findings) with a
@@ -44,7 +44,7 @@ follows after the rebase, logged there.
   parentheticals either: the positive facts now live in the rules, so nothing
   re-files them, and the history is one `git log -p` away. Finding 8 is
   untouched (still unruled).
-- **Predicted rebase shape for `rea`.** Four of its replayed commits append a
+- **Predicted rebase shape for the organization's branch.** Four of its replayed commits append a
   Changes entry into the region `main` now deletes (`abb79dc`, `43ab4bf`,
   `6189814`, `debc084`) and one (`abb79dc`) also adds a note to finding 8;
   `debc084` appends finding 23 at EOF and `7f8c4d2` a note under it. At each
@@ -56,14 +56,12 @@ follows after the rebase, logged there.
   says "Open-findings intake + examined body".
 
 ## TODO / known-incomplete
-- On `rea` after the rebase: remove `docs/rea.md` › Changes, add its
-  `History:` line, and make the first pruning pass over F1–F15 only where a
-  finding is plainly resolved (none are struck today; F5/F8 are "doc fix
-  only" candidates — decide there, not here).
+- On the organization's branch after the rebase: remove its scope
+  document's Changes section, add its `History:` line, and make the first
+  pruning pass over its findings only where one is plainly resolved (none are
+  struck today; two are "doc fix only" candidates — decide there, not here).
 - Owner-flagged, to handle afterwards, not forgotten: (1) finding 23 — the
-  English-only OCR (`workspace.sh:153`); (2) the issue the screenshot
-  inspection surfaced — F14 (proto's eight-mode 主設定 vs the ui's flat
-  seven-field form; which schema produced the ui rendering) and F15 (the
-  `每_週限制次數` underscore).
-- Push `main` and `rea` (no SSH identity here).
-- Carried over: Open finding 8, `origin/nabu-dashboard`.
+  English-only OCR (`workspace.sh:153`); (2) the two findings the screenshot
+  inspection surfaced on the organization's branch — handled there.
+- Push `main` and the organization's branch (no SSH identity here).
+- Carried over: Open finding 8, a remote organization branch.
