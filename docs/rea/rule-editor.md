@@ -1,0 +1,17 @@
+# rea / rule-editor
+
+How `REA_UI` turns a served schema into a form and the form into a saved rule. Cited at `REA_UI@bdba317` (branch `debug-ui`) unless stated.
+
+## Schema → form
+- The editor renders `GET /api/v1/RuleSchema` and adds what the schema does not carry through a per-code **UI map**: `mainSettingUIMap[<code>]` in `src/utils/rule/ruleUIConfig.ts` — `layout`, `inputs` type overrides, `linkedOptions`, `subGroups`, `inputWidths`, `referenceInputs`. `applyUIMapToBlock` (`src/utils/rule/ruleSchemaUtils.js:90-170`) moves the fields named in `subGroups` out of the top level into `blocks[{groupId, inputs}]` (a field may sit in several groups and stays one value) and stamps `linkedGroupId` on the options named in `linkedOptions`; `MainSetting.vue` shows a group's inputs as a dynamic row under its select while that option is selected (`layoutRows` inserts one row per linked select at `rowId + 0.5`, so two selects in one block resolve independently).
+- UI-map keys are the kernel field `Value`s with the first letter lowered (`normalizeFieldIds`, `src/api/modules/rules/index.ts`); option values pass through untouched.
+- A `String` field with `Options` renders as a text input unless the map says `dropdown` / `radio` (`getSchemaFieldType`, `ruleSchemaUtils.js:47-53`); `StringArray` infers `multiSelect`, `ObjectArray` `groupAdd`.
+- **Sub-group overrides.** `subGroups.inputs[id]` is either a type string (type only) or an object — `SubGroupInput`: `type`, `label`, `prefixText`, `suffixText`, `placeholder`, `width` (`ruleUIConfig.ts`) — that `applyUIMapToBlock` merges over the served field (`ruleSchemaUtils.js:157-162`). One served field can therefore read as a different sentence in each mode, and a served label can be hidden with `label: ''`; the kernel's labels are untouched (`REA_kernel@2ff26b0 Codes/V1.0/_303.cs:33-36`, `_305.cs:39-40`).
+- `MainSetting.vue` prints `label` above the control and `prefixText` / `suffixText` inline for every input type; the `textAdd` branch prints no label (`:254-291`). The read view (`RuleShows.vue:659`) joins prefix, value, suffix only.
+
+## Form → `Main`
+- `handleSave` (`RuleEditorDialog.vue`) gives `buildRuleNodeFromEditorState` a function `module => collectMainPayloadFields(normalizedBlock, module.mainConfig)` (`ruleSchemaUtils.js`): the top-level `inputs` plus the `inputs` of every sub-group whose `groupId` is the `linkedGroupId` of a currently selected option, deduplicated by `value`; `buildMainPayloadBySchema` (`ruleNodeUtils.js`) keeps exactly those keys (`null` when unset). A hidden mode's leftover value is not sent — and `MainSetting.vue` does not clear it. Before `REA_UI@f69d5d9` the whitelist was the top-level `inputs` alone, so a saved 303/304/305 lost every sub-row value; a rule saved before that commit holds an empty sub-row set in the kernel until re-saved. Only `handleSave` was traced.
+- Kernel side: a missing or `null` key fails only a `Required` field; an undeclared key is rejected (`REA_kernel@2ff26b0` `FieldRuleValidator.cs:78-95`, `RuleSetSchemaValidationTests.cs:190-212`).
+
+## Tests
+`npx vitest run` — 47 files / 1082 tests at `bdba317`; `npm run lint` (`eslint ./src`, max-len 100). UI-map cases: `tests/unit/utils/rule/ruleSchemaUtils.test.js` (each code's entry, `collectMainPayloadFields`); dialog cases: `tests/unit/views/rules/`. Offline: `VITE_USE_MOCK=true npm run dev` with `mock/rulesData.js`, whose 305 entry was diffed field by field against the served schema.
