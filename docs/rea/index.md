@@ -13,6 +13,5 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [rea-proto](rea-proto/index.md) — `REA_PROTO` (read-only): the template that defines the desired forms
 
 ## Plans
-- [sub-row-labels](plans/sub-row-labels.md) — shipped: 303/305 sub-rows read as the prototype's sentences; awaiting the owner's `Verified:`
 - [205-main-fields](plans/205-main-fields.md) — draft: kernel 205 MainFields vs the prototype (four gaps; kernel is read-only, so a request)
 - [field-locking](plans/field-locking.md) — draft: the prototype's locked fields have no carrier end to end
