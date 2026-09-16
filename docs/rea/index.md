@@ -15,3 +15,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 ## Plans
 - [205-main-fields](plans/205-main-fields.md) — draft: kernel 205 MainFields vs the prototype (four gaps; kernel is read-only, so a request)
 - [field-locking](plans/field-locking.md) — draft: the prototype's locked fields have no carrier end to end
+- [306-main-setting](plans/306-main-setting.md) — draft: 306 has no UI-map entry, so its 主設定 falls through to the schema defaults (five defects, three of them blocking)
