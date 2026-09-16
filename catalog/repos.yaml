@@ -1,16 +1,10 @@
-# Fleet manifest — the list of child repositories and what agents may do there.
-# This is also the authorization record: repos not listed are out of scope.
-#
-# Parsed by workspace.sh — keep this flat one-block-per-repo shape exactly
-# (`- id:` first, then two-space-indented keys).
-# access: write | pr-only | read-only   (read-only ⇒ workspace.sh disables the push URL)
-#
-# Uncomment and edit:
-#
-# - id: my-service
-#   path: projects/my-service
-#   remote: git@github.com:org/my-service.git
+# Fleet manifest — one entry per child repository. Values are single tokens (no spaces, no inline comments).
+#   access: write | pr-only | read-only   (read-only ⇒ workspace.sh disables the push URL)
+#   product: <id>                          the docs/<product>/ this repo belongs to
+# Example:
+# - id: MY_API
+#   path: projects/my-api
+#   remote: git@github.com:org/my-api.git
 #   default_branch: main
 #   access: read-only
-#   owner: some-team           # optional, informational only — not read by workspace.sh
-#   scope: my-product          # optional — the docs/<scope>.md this repo belongs to (default: the id); single token
+#   product: my-product

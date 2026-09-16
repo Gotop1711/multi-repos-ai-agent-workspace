@@ -1,59 +1,99 @@
 #!/usr/bin/env bash
 # workspace.sh — the whole harness in one script.
-#   ./workspace.sh setup                 one-time: wire the safety hook, print what to do next
-#   ./workspace.sh clone                 rebuild the fleet from catalog/repos.yaml
-#   ./workspace.sh cite                  print the fleet as one citation line — paste into findings
-#   ./workspace.sh restore <repo>@<sha>… check cited commits out (bare <repo> returns to its branch)
-#   ./workspace.sh ingest <scope> <file>…      copy a document to docs/assets/<scope>/[<repo>/] (gitignored) under a dated name, then extract it
-#                                              REPO=<manifest id> files it one folder down, under that repository (MY_API → my-api/)
-#   ./workspace.sh extract <scope> docs/assets/<scope>/[<repo>/]<file>…  text of a copied document → docs/<scope>/sources/[<repo>/]<file>.md
-#                                              OCR_LANGS=<bcp47,…> sets Vision's recognition languages (default zh-Hant,en-US)
-#   ./workspace.sh check                 verify the manifest and the document layer (session-init / pre-commit)
-#   ./workspace.sh prune [--apply]       what keeps each document derivative alive, what is removable; --apply removes it (with its original)
+#   ./workspace.sh setup                            one-time: wire the safety hook
+#   ./workspace.sh clone                            rebuild the fleet from catalog/repos.yaml
+#   ./workspace.sh cite                             the fleet as one citation line — paste it into a claim
+#   ./workspace.sh restore <repo>@<sha>…            check cited commits out (bare <repo> returns to its branch)
+#   ./workspace.sh doc init <product>               docs/<product>/index.md
+#   ./workspace.sh doc add <product> <name>         a module docs/<product>/<name>.md — or, when <name> is a manifest repo id lowercased, docs/<product>/<name>/index.md
+#   ./workspace.sh doc rm <product> <name>          remove it and its link in index.md
+#   ./workspace.sh plan new <product> <feature>     docs/<product>/plans/<feature>.md (draft), linked in index.md
+#   ./workspace.sh plan done <product> <feature>    remove a verified or abandoned plan, its session logs and the sources only it used
+#   ./workspace.sh ingest <product> <file>…         REPO=<id>: copy a document to docs/assets/<product>/[<repo>/] (gitignored), extract its text to docs/<product>/[<repo>/]sources/
+#   ./workspace.sh extract <product> docs/assets/<product>/[<repo>/]<file>…   re-extract a stored original (OCR_LANGS=<bcp47,…>, default zh-Hant,en-US)
+#   ./workspace.sh prune [--apply]                  derivatives nothing cites and orphan originals; --apply removes them
+#   ./workspace.sh check                            structure, caps, plans, derivatives, parties (session-init / pre-commit)
 # Plain bash (macOS 3.2 ok), zero dependencies — extract alone uses macOS textutil, swift (PDFKit, Vision) and python3.
 set -u
 cd "$(dirname "$0")" || exit 1
 MANIFEST="catalog/repos.yaml"
-ASSETS="docs/assets"        # originals: copied in by ingest as docs/assets/<scope>/<YYYY-MM-DD-slug.ext>, gitignored, never committed
+ASSETS="docs/assets"        # originals: docs/assets/<product>/[<repo>/]<YYYY-MM-DD-slug.ext>, gitignored, never committed
+CAP_INDEX=80; CAP_MODULE=150; CAP_REPO=100; CAP_PLAN=80; CAP_LOG=40   # line caps check enforces (AGENTS.md › Documents)
 tmp=""; ocr=""; ooxml=""; pats=""; trap 'rm -f "$tmp" "$ocr" "$ooxml" "$pats"' EXIT
 
-entries() { # one line per repo: id|path|remote|branch|access
+entries() { # one line per repo: id|path|remote|branch|access|product
   awk '
-    function flush() { if (id != "") print id "|" path "|" remote "|" branch "|" access }
-    /^- id:/                       { flush(); id=$3; path=""; remote=""; branch=""; access="" }
+    function flush() { if (id != "") print id "|" path "|" remote "|" branch "|" access "|" product }
+    /^- id:/                       { flush(); id=$3; path=""; remote=""; branch=""; access=""; product="" }
     /^[[:space:]]+path:/           { path=$2 }
     /^[[:space:]]+remote:/         { remote=$2 }
     /^[[:space:]]+default_branch:/ { branch=$2 }
     /^[[:space:]]+access:/         { access=$2 }
+    /^[[:space:]]+product:/        { product=$2 }
     END                            { flush() }
   ' "$MANIFEST"
 }
-repo_sub()  { printf '%s' "$1" | tr 'A-Z_' 'a-z-'; }          # manifest id → its document-layer folder: lowercase, '_' → '-' (MY_API → my-api)
-repo_subs() { entries | cut -d'|' -f1 | tr 'A-Z_' 'a-z-'; }   # every permitted folder below docs/assets/<scope>/ and docs/<scope>/sources/, one per line
+repo_sub()  { printf '%s' "$1" | tr 'A-Z_' 'a-z-'; }          # manifest id → its folder name: lowercase, '_' → '-' (MY_API → my-api)
+repo_subs() { entries | cut -d'|' -f1 | tr 'A-Z_' 'a-z-'; }   # every permitted repository folder below docs/<product>/, one per line
+ID_RE='^[a-z0-9]+(-[a-z0-9]+)*$'
 
-# parties (AGENTS.md › Boilerplate and organizations): an organization's own content is this closed list; every other path is boilerplate
-ORG_RE='^(catalog/[^/]*[.]yaml|docs/[^/]*[.]md|docs/[^/]*/.*|[.]agents/memory/sessions/[^/]*)$'
-BOILERPLATE_RE='^(docs/(README|BLUEPRINT|workspace)[.]md|docs/workspace/.*|[.]agents/memory/sessions/(TEMPLATE[.]md|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[a-z0-9]*-workspace--.*))$'
-party() { awk -v want="$1" -v o="$ORG_RE" -v b="$BOILERPLATE_RE" '{ p = ($0 ~ o && $0 !~ b) ? "org" : "boilerplate" } p == want'; }   # paths on stdin → those of one party (org | boilerplate)
+# parties (AGENTS.md › Boilerplate and organizations): an organization's content is this closed list; every other path is boilerplate
+ORG_RE='^(catalog/[^/]*[.]yaml|docs/.*|[.]agents/memory/sessions/[^/]*)$'
+BOILERPLATE_RE='^[.]agents/memory/sessions/(TEMPLATE[.]md|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[a-z0-9]*-workspace--.*)$'
+party() { awk -v want="$1" -v o="$ORG_RE" -v b="$BOILERPLATE_RE" '{ p = ($0 ~ o && $0 !~ b) ? "org" : "boilerplate" } p == want'; }   # paths on stdin → those of one party
 
-# document layer (docs/README.md › Writing rules): a derivative is needed only while a LIVE document under docs/ outside sources/ names it by
-# file name — session logs are journey; a plan carrying Shipped:/Abandoned:/Superseded: is history (its knowledge dissolved into the Body).
-# Shared by check and prune. No `case` in these: under bash 3.2 a case pattern's ')' closes an enclosing $( ).
+# document layer: a derivative docs/<product>/[<repo>/]sources/<name>.md is needed only while a LIVE document under docs/ outside
+# sources/ names it — logs are journey; a plan carrying Shipped:/Abandoned: is history. Shared by check, prune and plan done.
+# No `case` inside these: under bash 3.2 a case pattern's ')' closes an enclosing $( ).
+derivatives() { find docs -type f -path '*/sources/*' -name '*.md' 2>/dev/null | grep -v '^docs/assets/' | sort; }
+orig_of() { r="${1#docs/}"; r="${r%.md}"; printf '%s/%s\n' "$ASSETS" "$(printf '%s' "$r" | sed 's|/sources/|/|')"; }   # derivative → its original
 keepers() { # $1 = derivative → one "<document> › <nearest heading above the citation>" per live citing document
   name="$(basename "$1")"
   grep -rlF --include='*.md' "$name" docs 2>/dev/null | grep -v '/sources/' | sort | while read -r d; do
-    if [ "${d#docs/plans/}" != "$d" ] && grep -qE '^(Shipped|Abandoned|Superseded):' "$d"; then continue; fi
+    if [ "${d%/plans/*}" != "$d" ] && grep -qE '^(Shipped|Abandoned):' "$d"; then continue; fi
     awk -v pat="$name" -v d="$d" '/^#+ /{h=$0} index($0,pat){print d " › " (h==""?"(before the first heading)":substr(h,1,72))}' "$d" | awk '!seen[$0]++'
   done
 }
-unref_derivatives() { ls -d docs/*/sources >/dev/null 2>&1 || return 0; find docs/*/sources -type f -name '*.md' | sort | while read -r f; do keepers "$f" | grep -q . || echo "$f"; done; }
-orphan_originals() { # an original no derivative names (removed or re-filed); a scope with neither a document nor a folder on this branch is another branch's — left alone
+unref_derivatives() { derivatives | while read -r f; do keepers "$f" | grep -q . || echo "$f"; done; }
+orphan_originals() { # an original no derivative names; a product with no docs/<product>/ on this branch is another branch's — left alone
   [ -d "$ASSETS" ] || return 0
-  find "$ASSETS" -type f ! -name .DS_Store | sort | while read -r o; do r="${o#$ASSETS/}"; s="${r%%/*}"; [ -e "docs/$s.md" ] || [ -d "docs/$s" ] || continue; [ -f "docs/$s/sources/${r#*/}.md" ] || echo "$o"; done
+  find "$ASSETS" -type f ! -name .DS_Store | sort | while read -r o; do
+    r="${o#$ASSETS/}"; p="${r%%/*}"; [ -d "docs/$p" ] || continue; rest="${r#*/}"
+    if [ "${rest#*/}" != "$rest" ]; then d="docs/$p/${rest%%/*}/sources/${rest#*/}.md"; else d="docs/$p/sources/$rest.md"; fi
+    [ -f "$d" ] || echo "$o"
+  done
+}
+prune_run() { # $1 = 1 to remove (git rm the derivative — rm if never committed — and rm its original; rm orphans), 0 to report
+  derivatives | while read -r f; do
+    k="$(keepers "$f")"
+    if [ -n "$k" ]; then
+      [ "$1" -eq 1 ] || printf '%s\n' "$k" | sed "s|^|kept:    $f — by |"
+    else
+      o="$(orig_of "$f")"
+      if [ "$1" -eq 1 ]; then
+        if git ls-files --error-unmatch -- "$f" >/dev/null 2>&1; then git rm -q -- "$f" && echo "removed: $f"; else rm -- "$f" && echo "removed: $f (never committed)"; fi
+        [ -e "$o" ] && rm -- "$o" && echo "removed: $o"
+      else
+        echo "remove:  $f — no live document cites it (with its original $o)"
+      fi
+    fi
+  done
+  orphan_originals | while read -r o; do
+    if [ "$1" -eq 1 ]; then rm -- "$o" && echo "removed: $o (orphan)"; else echo "remove:  $o — an orphan (no derivative)"; fi
+  done
 }
 
+# index.md links: one line per module / repository / plan under its '## ' section, kept by doc add/rm and plan new/done
+index_link() { # $1 index, $2 section title, $3 line — appended after the section's last non-blank line (section created at the end if absent)
+  grep -qxF -- "$3" "$1" && return 0
+  n="$(awk -v sec="## $2" '$0==sec{insec=1; last=NR; next} insec && /^## /{exit} insec && NF{last=NR} END{print last+0}' "$1")"
+  if [ "$n" -eq 0 ]; then printf '\n## %s\n%s\n' "$2" "$3" >> "$1"; else awk -v n="$n" -v line="$3" '{print} NR==n{print line}' "$1" > "$1.tmp" && mv "$1.tmp" "$1"; fi
+}
+index_unlink() { awk -v t="($2)" 'index($0,t)==0' "$1" > "$1.tmp" && mv "$1.tmp" "$1"; }   # $1 index, $2 link target
+rm_tracked() { if git ls-files --error-unmatch -- "$1" >/dev/null 2>&1; then git rm -q -r -- "$1"; else rm -r -- "$1"; fi; echo "removed: $1"; }
+
 cmd="${1:-help}"
-case "$cmd" in clone|cite|restore|check|extract|ingest)
+case "$cmd" in clone|cite|restore|check|extract|ingest|doc|plan)
   [ -f "$MANIFEST" ] || { echo "FAIL: $MANIFEST missing" >&2; exit 1; }
 esac
 
@@ -66,16 +106,16 @@ setup)
   echo
   echo "next steps:"
   if grep -qE '^- id:' "$MANIFEST" 2>/dev/null; then
-    echo "  1. ./workspace.sh clone            # fleet appears under projects/"
+    echo "  1. ./workspace.sh clone                 # fleet appears under projects/"
   else
-    echo "  1. edit catalog/repos.yaml         # declare your child repos + access levels"
-    echo "  2. ./workspace.sh clone            # fleet appears under projects/"
+    echo "  1. edit catalog/repos.yaml              # declare your child repos, access levels and products"
+    echo "  2. ./workspace.sh clone                 # fleet appears under projects/"
   fi
-  echo "  •  ./workspace.sh ingest <scope> <files>   # documents become agent-readable text under docs/<scope>/sources/ (originals copied to $ASSETS/<scope>/, gitignored)"
+  echo "  3. ./workspace.sh doc init <product>    # docs/<product>/index.md — then doc add <product> <module|repo>"
+  echo "  •  ./workspace.sh ingest <product> <files>   # documents become agent-readable text under docs/<product>/[<repo>/]sources/"
   git remote | grep -q . \
     || echo "  •  add a PRIVATE remote for this repo and push — its memory must survive a dead disk"
   ;;
-
 clone)
   tmp="$(mktemp)"; entries > "$tmp"
   if [ ! -s "$tmp" ]; then
@@ -151,10 +191,84 @@ restore)
   [ "$fail" -eq 0 ] || { echo "restore: $fail repo(s) not restored." >&2; exit 1; }
   ;;
 
+doc)
+  sub="${2:-}"; p="${3:-}"; name="${4:-}"
+  usage="usage: workspace.sh doc init <product> | doc add <product> <module|repo> | doc rm <product> <module|repo>"
+  printf '%s' "$p" | grep -qE "$ID_RE" || { echo "$usage" >&2; exit 1; }
+  idx="docs/$p/index.md"
+  case "$sub" in
+  init)
+    [ "$#" -eq 3 ] || { echo "$usage" >&2; exit 1; }
+    [ ! -f "$idx" ] || { echo "$idx exists"; exit 0; }
+    mkdir -p "docs/$p"
+    { printf '# %s\n\n<!-- one paragraph: what the product is and does; every fact cites <repo>@<sha> path:line — ./workspace.sh cite -->\n\n## Modules\n\n## Repositories\n\n## Plans\n' "$p"; } > "$idx"
+    echo "created: $idx — next: './workspace.sh doc add $p <module>' and './workspace.sh doc add $p <repo>' (a manifest id lowercased: $(repo_subs | tr '\n' ' '))"
+    ;;
+  add)
+    [ "$#" -eq 4 ] && printf '%s' "$name" | grep -qE "$ID_RE" || { echo "$usage" >&2; exit 1; }
+    [ -f "$idx" ] || { echo "FAIL: $idx missing — './workspace.sh doc init $p' first" >&2; exit 1; }
+    case "$name" in index|plans|sources|assets) echo "FAIL: '$name' is reserved" >&2; exit 1 ;; esac
+    if repo_subs | grep -qxF "$name"; then
+      f="docs/$p/$name/index.md"; [ ! -f "$f" ] || { echo "$f exists"; exit 0; }
+      id="$(entries | cut -d'|' -f1 | while read -r i; do [ "$(repo_sub "$i")" = "$name" ] && echo "$i"; done | head -1)"
+      mkdir -p "docs/$p/$name"
+      printf '# %s / %s\n\nRepository `%s` (catalog/repos.yaml). <!-- run · test · entry points · storage · integration with the other repositories; cite %s@<sha> path:line -->\n' "$p" "$name" "$id" "$id" > "$f"
+      index_link "$idx" Repositories "- [$name]($name/index.md) — "
+    else
+      f="docs/$p/$name.md"; [ ! -f "$f" ] || { echo "$f exists"; exit 0; }
+      printf '# %s / %s\n\n<!-- one subsystem: what it is and how it works; facts only, each cited <repo>@<sha> path:line; ≤ %s lines -->\n' "$p" "$name" "$CAP_MODULE" > "$f"
+      index_link "$idx" Modules "- [$name]($name.md) — "
+    fi
+    echo "created: $f — linked in $idx (write the one-line summary after the dash)"
+    ;;
+  rm)
+    [ "$#" -eq 4 ] && printf '%s' "$name" | grep -qE "$ID_RE" || { echo "$usage" >&2; exit 1; }
+    if [ -d "docs/$p/$name" ]; then
+      [ -z "$(find "docs/$p/$name/sources" -type f 2>/dev/null)" ] || { echo "FAIL: docs/$p/$name/sources/ still holds documents — cite them elsewhere or './workspace.sh prune --apply' first" >&2; exit 1; }
+      rm_tracked "docs/$p/$name"; index_unlink "$idx" "$name/index.md"
+    elif [ -f "docs/$p/$name.md" ]; then
+      rm_tracked "docs/$p/$name.md"; index_unlink "$idx" "$name.md"
+    else echo "FAIL: neither docs/$p/$name.md nor docs/$p/$name/" >&2; exit 1; fi
+    echo "unlinked in $idx — commit with the closeout (git keeps the text)"
+    ;;
+  *) echo "$usage" >&2; exit 1 ;;
+  esac
+  ;;
+
+plan)
+  sub="${2:-}"; p="${3:-}"; feat="${4:-}"
+  usage="usage: workspace.sh plan new <product> <feature> | plan done <product> <feature>"
+  [ "$#" -eq 4 ] && printf '%s' "$p" | grep -qE "$ID_RE" && printf '%s' "$feat" | grep -qE "$ID_RE" || { echo "$usage" >&2; exit 1; }
+  idx="docs/$p/index.md"; f="docs/$p/plans/$feat.md"
+  [ -f "$idx" ] || { echo "FAIL: $idx missing — './workspace.sh doc init $p' first" >&2; exit 1; }
+  case "$sub" in
+  new)
+    [ ! -f "$f" ] || { echo "$f exists"; exit 0; }
+    mkdir -p "docs/$p/plans"
+    { printf '# %s — %s\n\nStatus: draft\n\n' "$p" "$feat"
+      printf '## Goal\n<!-- what will be true when this ships, in one paragraph; cite what it rests on -->\n\n'
+      printf '## Writes\n<!-- the repositories and branches it changes; at signing the owner adds, in the header above: "Writes: <REPO> (<branch>)" and "Signed: <name> — <YYYY-MM-DD>" -->\n\n'
+      printf '## Steps\n<!-- the commits, in order; tests -->\n\n## Done when\n<!-- what the owner checks before writing "Verified: <name>" -->\n'; } > "$f"
+    index_link "$idx" Plans "- [$feat](plans/$feat.md) — "
+    echo "created: $f (draft) — linked in $idx; ≤ $CAP_PLAN lines"
+    ;;
+  done)
+    [ -f "$f" ] || { echo "FAIL: no plan $f" >&2; exit 1; }
+    st="$(awk 'NR>1 && /^## /{exit} {print}' "$f" | sed -n 's/^Status: //p' | head -1)"
+    [ "$st" = verified ] || [ "$st" = abandoned ] || { echo "FAIL: $f is '$st' — 'plan done' follows the owner's Verified: (or an Abandoned:) line" >&2; exit 1; }
+    echo "plan done: $p--$feat ($st) — its result must already be in docs/$p/ (modules, repo docs); git keeps everything removed"
+    rm_tracked "$f"; index_unlink "$idx" "plans/$feat.md"
+    for l in .agents/memory/sessions/*-"$p--$feat".md; do [ -f "$l" ] && rm_tracked "$l"; done
+    prune_run 1
+    ;;
+  *) echo "$usage" >&2; exit 1 ;;
+  esac
+  ;;
+
 extract)
-  # reads an original already under docs/assets/<scope>/ (dated name) and writes docs/<scope>/sources/<name>.md
+  # reads an original already under docs/assets/<product>/[<repo>/] (dated name) and writes docs/<product>/[<repo>/]sources/<name>.md
   shift; scope="${1:-}"; shift || true
-  usage="usage: workspace.sh extract <scope> docs/assets/<scope>/[<repo>/]<file>…   (scope = a docs/<scope>.md id; <repo> = a manifest id lowercased; RESTRICTED=<file> header only; OCR=<file> force OCR; OCR_LANGS=<bcp47,…> recognition languages, default zh-Hant,en-US; SECRET_OK=<file> waive a false positive)"
+  usage="usage: workspace.sh extract <product> docs/assets/<product>/[<repo>/]<file>…   (<repo> = a manifest id lowercased; RESTRICTED=<file> header only; OCR=<file> force OCR; OCR_LANGS=<bcp47,…> recognition languages, default zh-Hant,en-US; SECRET_OK=<file> waive a false positive)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
   [ -d "$ASSETS/$scope" ] || { echo "FAIL: $ASSETS/$scope/ missing — './workspace.sh ingest $scope <file>' copies a document there first" >&2; exit 1; }
@@ -226,12 +340,12 @@ PY
   for src in "$@"; do
     name="$(basename "$src")"
     [ -d "$src" ] && { echo "[$name] SKIP: a bundle (rtfd/key/pages/numbers) — export it from its app (PDF, txt or CSV) and ingest the export" >&2; fail=$((fail+1)); continue; }
-    # the original sits directly under docs/assets/<scope>/, or one folder down in a folder named for a manifest repo (MY_API → my-api)
+    # the original sits directly under docs/assets/<product>/, or one folder down in a folder named for a manifest repo (MY_API → my-api)
     d="$(cd "$(dirname "$src")" 2>/dev/null && pwd -P)"; root="$(cd "$ASSETS/$scope" 2>/dev/null && pwd -P)"; sub=""
     if [ -n "$d" ] && [ "$d" = "$root" ]; then :
     elif [ -n "$d" ] && [ "$(dirname "$d")" = "$root" ] && repo_subs | grep -qxF "$(basename "$d")"; then sub="$(basename "$d")"
     else echo "[$name] SKIP: not under $ASSETS/$scope/ or $ASSETS/$scope/<repo>/ (<repo> = a manifest id lowercased) — './workspace.sh ingest $scope <file>' copies it there first" >&2; fail=$((fail+1)); continue; fi
-    rel="${sub:+$sub/}$name"; orig="$ASSETS/$scope/$rel"; out="docs/$scope/sources/$rel.md"
+    rel="${sub:+$sub/}$name"; orig="$ASSETS/$scope/$rel"; out="docs/$scope/${sub:+$sub/}sources/$name.md"
     [ -f "$orig" ] || { echo "[$name] SKIP: $orig is not a file" >&2; fail=$((fail+1)); continue; }
     received="${RECEIVED:-}"; [ -n "$received" ] || { [ -f "$out" ] && received="$(sed -n 's/^received: //p' "$out" | head -1)"; }   # a re-extract keeps the as-received name ingest recorded
     printf '%s' "$name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.[a-z0-9]+$' || { echo "[$name] SKIP: name must be YYYY-MM-DD-<slug>.<ext>" >&2; fail=$((fail+1)); continue; }
@@ -276,16 +390,17 @@ PY
   ;;
 
 ingest)
-  # agent or human: copy a document from anywhere to docs/assets/<scope>/YYYY-MM-DD-<slug>.<ext> (gitignored), then extract it.
+  # agent or human: copy a document from anywhere to docs/assets/<product>/[<repo>/]YYYY-MM-DD-<slug>.<ext> (gitignored), then extract it.
   # Originals are only ever ADDED here: identical bytes are reused, different bytes under an existing name are refused,
   # and a file that extract refuses (credential, oversize) is removed again.
   shift; scope="${1:-}"; shift || true
-  usage="usage: workspace.sh ingest <scope> <file>…   (REPO=<manifest id> files them under docs/assets/<scope>/<repo>/; NAME=<YYYY-MM-DD-slug.ext> names one file — required for non-ASCII titles; DATE=<YYYY-MM-DD> dates the default name; RESTRICTED/OCR/SECRET_OK=<stored name> and OCR_LANGS=<bcp47,…> pass through to extract)"
+  usage="usage: workspace.sh ingest <product> <file>…   (REPO=<manifest id> files them under the repository they are evidence about — docs/<product>/<repo>/sources/; NAME=<YYYY-MM-DD-slug.ext> names one file — required for non-ASCII titles; DATE=<YYYY-MM-DD> dates the default name; RESTRICTED/OCR/SECRET_OK=<stored name> and OCR_LANGS=<bcp47,…> pass through to extract)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
+  [ -f "docs/$scope/index.md" ] || { echo "FAIL: docs/$scope/index.md missing — './workspace.sh doc init $scope' first" >&2; exit 1; }
   [ -n "${NAME:-}" ] && [ "$#" -gt 1 ] && { echo "FAIL: NAME= names exactly one file — ingest the others in their own calls" >&2; exit 1; }
   git check-ignore -q "$ASSETS/$scope/probe" 2>/dev/null || { echo "FAIL: $ASSETS/ is not gitignored — originals must never be committed; add '/docs/assets/' to .gitignore" >&2; exit 1; }
-  sub=""   # REPO= → one folder below the scope, named for the repository the documents are evidence about
+  sub=""   # REPO= → one folder below the product, named for the repository the documents are evidence about
   if [ -n "${REPO:-}" ]; then
     entries | cut -d'|' -f1 | grep -qxF "$REPO" || { echo "FAIL: REPO=$REPO is not a manifest id (ids: $(entries | cut -d'|' -f1 | tr '\n' ' '))" >&2; exit 1; }
     sub="$(repo_sub "$REPO")"
@@ -335,107 +450,115 @@ ingest)
   [ "$fail" -eq 0 ] || { echo "ingest: $fail file(s) not ingested." >&2; exit 1; }
   ;;
 
+prune)
+  # the document layer's removal as one command: a derivative nothing live cites goes with its original, an orphan original goes alone.
+  apply=0; [ "${2:-}" = "--apply" ] && apply=1
+  [ "$#" -le 1 ] || [ "$apply" -eq 1 ] || { echo "usage: workspace.sh prune [--apply]   # what keeps each derivative and what is removable; --apply removes (staged for the closeout commit)" >&2; exit 1; }
+  prune_run "$apply"
+  if [ "$apply" -eq 1 ]; then echo "prune: done — removals are staged and go with the closeout commit; git keeps every removed derivative's text (git show <blob>)"
+  else echo "prune: report only — './workspace.sh prune --apply' removes what is listed as 'remove:'"; fi
+  ;;
+
 check)
   status=0; n=0; tmp="$(mktemp)"; entries > "$tmp"
-  while IFS='|' read -r id path remote branch access; do
+  fail() { echo "FAIL: $*" >&2; status=1; }
+  cap() { l="$(wc -l < "$1" | tr -d ' ')"; [ "$l" -le "$2" ] || fail "$1 — $l lines, the $3 cap is $2 (cut it, or split it into another document: git keeps the rest)"; }
+  # manifest
+  while IFS='|' read -r id path remote branch access product; do
     n=$((n+1))
-    [ -n "$id" ] && [ -n "$path" ] && [ -n "$remote" ] && [ -n "$branch" ] \
-      || { echo "FAIL: manifest entry $n incomplete (needs id/path/remote/default_branch)" >&2; status=1; }
-    case "$access" in write|pr-only|read-only) : ;;
-      *) echo "FAIL: [$id] access must be write|pr-only|read-only (got '${access:-<empty>}')" >&2; status=1 ;; esac
+    [ -n "$id" ] && [ -n "$path" ] && [ -n "$remote" ] && [ -n "$branch" ] || fail "manifest entry $n incomplete (needs id/path/remote/default_branch)"
+    case "$access" in write|pr-only|read-only) : ;; *) fail "[$id] access must be write|pr-only|read-only (got '${access:-<empty>}')" ;; esac
+    [ -z "$product" ] || printf '%s' "$product" | grep -qE "$ID_RE" || fail "[$id] product '$product' is not an id (lowercase kebab)"
   done < "$tmp"
   raw="$(grep -cE '^[[:space:]]*-[[:space:]]*id:' "$MANIFEST" || true)"
-  if [ "$raw" -gt "$n" ]; then
-    echo "FAIL: manifest has $raw 'id:' line(s) but only $n parse — check indentation ('- id:' must start at column 0)" >&2
-    status=1
-  fi
-  bad="$(awk '
-    /^[[:space:]]*#/ { next }
-    /^- id:/ { if (NF > 3) print NR; next }
-    /^[[:space:]]+(path|remote|default_branch|access|scope):/ { if (NF > 2) print NR }
-  ' "$MANIFEST")"
-  [ -z "$bad" ] || { echo "FAIL: manifest line(s) $(echo $bad | tr ' ' ','): values must be single tokens (no spaces or inline comments)" >&2; status=1; }
-  if ls -d docs/*/sources >/dev/null 2>&1; then   # document layer: docs/<scope>/sources/*.md derivatives with a header; originals in gitignored docs/assets/<scope>/
-    subs="$(repo_subs)"
-    find docs/*/sources -type f ! -name .DS_Store | while read -r f; do
-      scope="${f#docs/}"; scope="${scope%%/*}"; rel="${f#docs/$scope/sources/}"
-      case "$rel" in
-        */*/*) echo "FAIL: $f — at most one folder below docs/<scope>/sources/, and it must be a manifest repo id lowercased" >&2; exit 1 ;;
-        */*) printf '%s\n' "$subs" | grep -qxF "${rel%%/*}" || { echo "FAIL: $f — folder '${rel%%/*}' is not a manifest repo id lowercased (one of: $(printf '%s' "$subs" | tr '\n' ' '))" >&2; exit 1; } ;;
-      esac
-      case "$f" in *.md) : ;; *) echo "FAIL: $f — only .md derivatives live under docs/<scope>/sources/ (originals go to $ASSETS/<scope>/)" >&2; exit 1 ;; esac
-      [ "$(head -1 "$f")" = "---" ] && grep -qE '^sha256: [0-9a-f]{64}$' "$f" && grep -qE "^source: $ASSETS/" "$f" \
-        || { echo "FAIL: $f lacks the extract header (source/sha256) — regenerate with ./workspace.sh extract" >&2; exit 1; }
-      [ "$(wc -c < "$f")" -le 1048576 ] || { echo "FAIL: $f is over 1 MiB — split the original and re-extract" >&2; exit 1; }
-      git check-ignore -q "$f" 2>/dev/null && { echo "FAIL: $f is matched by .gitignore and would never be committed — rename it" >&2; exit 1; }
-      o="$(sed -n 's/^source: //p' "$f" | head -1)"
-      [ "$o" = "$ASSETS/$scope/${rel%.md}" ] || { echo "FAIL: $f: header source '$o' is not $ASSETS/$scope/${rel%.md} — re-extract in place" >&2; exit 1; }
-      if [ -e "$o" ] && { [ "$(wc -c < "$o" | tr -d ' ')" != "$(sed -n 's/^bytes: //p' "$f" | head -1)" ] || [ "$(shasum -a 256 "$o" | cut -c1-64)" != "$(sed -n 's/^sha256: //p' "$f" | head -1)" ]; }; then
-        echo "warn: $f: $o differs from its header — a new version is a new dated name; re-ingest it or restore the copy" >&2
-      fi
-    done || status=1
-    # unreferenced derivatives (keepers(), shared with prune): removed at closeout with their originals by whoever sees this —
-    # './workspace.sh prune --apply'; cite a derivative by its full file name to keep it
-    unref="$(unref_derivatives)"
-    if [ -n "$unref" ]; then
-      printf '%s\n' "$unref" | while read -r f; do o="$(sed -n 's/^source: //p' "$f" | head -1)"
-        echo "warn: $f is not referenced by any live document under docs/ — remove it and its original at closeout (git rm $f; rm $o), or cite it by its full file name" >&2; done
-      echo "warn: $(printf '%s\n' "$unref" | grep -c .) unreferenced derivative(s) under docs/*/sources/ — no longer needed by the documentation; './workspace.sh prune' shows what keeps the others, 'prune --apply' removes these with their originals before closing out (AGENTS.md › write surface)" >&2
+  [ "$raw" -le "$n" ] || fail "manifest has $raw 'id:' line(s) but only $n parse — check indentation ('- id:' must start at column 0)"
+  bad="$(awk '/^[[:space:]]*#/{next} /^- id:/{if(NF>3)print NR; next} /^[[:space:]]+(path|remote|default_branch|access|product):/{if(NF>2)print NR}' "$MANIFEST")"
+  [ -z "$bad" ] || fail "manifest line(s) $(echo $bad | tr ' ' ','): values must be single tokens (no spaces or inline comments)"
+  # products: docs/<product>/index.md + modules + repo folders + plans; caps
+  for f in docs/*.md; do [ -f "$f" ] && fail "$f — nothing lives directly under docs/: a product is docs/<product>/index.md (README.md › Upgrading from v1)"; done
+  for pd in docs/*/; do
+    [ -d "$pd" ] || continue; p="$(basename "$pd")"; [ "$p" = assets ] && continue
+    printf '%s' "$p" | grep -qE "$ID_RE" || { fail "docs/$p/ — a product id is lowercase kebab"; continue; }
+    [ -f "$pd/index.md" ] || { fail "docs/$p/index.md missing — './workspace.sh doc init $p'"; continue; }
+    cap "${pd}index.md" "$CAP_INDEX" index
+    for m in "$pd"*.md; do
+      [ "$(basename "$m")" = index.md ] && continue
+      cap "$m" "$CAP_MODULE" module
+      grep -qF "($(basename "$m"))" "${pd}index.md" || echo "warn: $m is not linked from docs/$p/index.md — './workspace.sh doc add' does that; add the link line by hand" >&2
+    done
+    for sd in "$pd"*/; do
+      [ -d "$sd" ] || continue; s="$(basename "$sd")"
+      if [ "$s" = plans ]; then for pl in "$sd"*.md; do [ -f "$pl" ] && cap "$pl" "$CAP_PLAN" plan; done
+      elif [ "$s" = sources ]; then :
+      elif repo_subs | grep -qxF "$s"; then
+        [ -f "${sd}index.md" ] && cap "${sd}index.md" "$CAP_REPO" "repository doc" || echo "warn: docs/$p/$s/ has no index.md — './workspace.sh doc add $p $s'" >&2
+        for x in "$sd"*/; do [ -d "$x" ] && [ "$(basename "$x")" != sources ] && fail "docs/$p/$s/$(basename "$x")/ — only sources/ lives below a repository folder"; done
+        for x in "$sd"*.md; do [ -f "$x" ] && [ "$(basename "$x")" != index.md ] && fail "$x — a repository folder holds index.md and sources/ only; a topic is a module docs/$p/<module>.md"; done
+      else fail "docs/$p/$s/ — a folder below a product is plans/, sources/ or a manifest repository id lowercased ($(repo_subs | tr '\n' ' '))"; fi
+    done
+  done
+  # derivatives: header, hash, placement; unreferenced ones and orphan originals (removed at closeout — prune --apply)
+  subs="$(repo_subs)"
+  derivatives | while read -r f; do
+    r="${f#docs/}"; p="${r%%/*}"; rest="${r#*/}"
+    if [ "${rest#sources/}" != "$rest" ]; then sub=""; name="${rest#sources/}"; else sub="${rest%%/*}"; name="${rest#*/sources/}"; fi
+    { [ -z "$sub" ] || printf '%s\n' "$subs" | grep -qxF "$sub"; } && [ "${name#*/}" = "$name" ] \
+      || { echo "FAIL: $f — a derivative is docs/<product>/sources/<name>.md or docs/<product>/<repo>/sources/<name>.md (<repo> = a manifest id lowercased)" >&2; exit 1; }
+    [ "$(head -1 "$f")" = "---" ] && grep -qE '^sha256: [0-9a-f]{64}$' "$f" && grep -qE "^source: $ASSETS/" "$f" \
+      || { echo "FAIL: $f lacks the extract header (source/sha256) — regenerate with ./workspace.sh extract" >&2; exit 1; }
+    [ "$(wc -c < "$f")" -le 1048576 ] || { echo "FAIL: $f is over 1 MiB — split the original and re-extract" >&2; exit 1; }
+    git check-ignore -q "$f" 2>/dev/null && { echo "FAIL: $f is matched by .gitignore and would never be committed — rename it" >&2; exit 1; }
+    o="$(sed -n 's/^source: //p' "$f" | head -1)"
+    [ "$o" = "$(orig_of "$f")" ] || { echo "FAIL: $f: header source '$o' is not $(orig_of "$f") — re-extract in place" >&2; exit 1; }
+    if [ -e "$o" ] && { [ "$(wc -c < "$o" | tr -d ' ')" != "$(sed -n 's/^bytes: //p' "$f" | head -1)" ] || [ "$(shasum -a 256 "$o" | cut -c1-64)" != "$(sed -n 's/^sha256: //p' "$f" | head -1)" ]; }; then
+      echo "warn: $f: $o differs from its header — a new version is a new dated name; re-ingest it or restore the copy" >&2
     fi
-    tracked="$(git ls-files "$ASSETS" 2>/dev/null | wc -l | tr -d ' ')"
-    [ "$tracked" -eq 0 ] || { echo "FAIL: $tracked file(s) under $ASSETS/ are tracked by git — originals are never committed (git rm --cached them; keep '/docs/assets/' in .gitignore)" >&2; status=1; }
-    echo "info: $(find docs/*/sources -type f -name '*.md' | wc -l | tr -d ' ') document derivative(s) under docs/*/sources/$([ -d "$ASSETS" ] || echo " ($ASSETS/ absent: hashes not verified)")"
-  fi
-  # orphans (orphan_originals(), shared with prune): removed at closeout by whoever sees this — 'prune --apply' does it
+  done || status=1
+  unref="$(unref_derivatives)"
+  [ -z "$unref" ] || { printf '%s\n' "$unref" | sed 's|^|warn: no live document cites |; s|$| — remove it with its original at closeout: ./workspace.sh prune --apply|' >&2; }
   orphans="$(orphan_originals)"
-  if [ -n "$orphans" ]; then
-    printf '%s\n' "$orphans" | while read -r o; do echo "warn: $o has no derivative — an orphan: remove it (rm), or './workspace.sh extract ${o#$ASSETS/}' if it was meant to be ingested" | sed "s|extract \([a-z0-9-]*\)/|extract \1 $ASSETS/\1/|" >&2; done
-    echo "warn: $(printf '%s\n' "$orphans" | grep -c .) orphan original(s) under $ASSETS/ — not in use by any derivative; remove them before closing out ('./workspace.sh prune --apply'; AGENTS.md › write surface)" >&2
-  fi
-
-  # plans: the whole lifecycle sits in the header (H1 .. first '## '), one Signed: and one Verified: at most (both the human's hand),
-  # Status: consistent with the lines, a signed plan names its write set (docs/README.md › The signature gate)
+  [ -z "$orphans" ] || { printf '%s\n' "$orphans" | sed 's|^|warn: orphan original (no derivative): |; s|$| — remove it at closeout: ./workspace.sh prune --apply|' >&2; }
+  tracked="$(git ls-files "$ASSETS" 2>/dev/null | wc -l | tr -d ' ')"
+  [ "$tracked" -eq 0 ] || fail "$tracked file(s) under $ASSETS/ are tracked by git — originals are never committed (git rm --cached them; keep '/docs/assets/' in .gitignore)"
+  # plans: the whole lifecycle in the header (H1 .. first '## '), Status: derived from the lines, one Signed:/Verified: (the human's hand)
   awaiting=""
-  for p in docs/plans/*.md; do
-    [ -f "$p" ] || continue
-    hdr="$(awk 'NR>1 && /^## /{exit} {print}' "$p")"
-    body="$(awk 'f{print} /^## /{f=1}' "$p")"
-    printf '%s\n' "$hdr" | grep -q '^Scope: ' || { echo "FAIL: $p — no 'Scope:' line in the header" >&2; status=1; }
+  for pl in docs/*/plans/*.md; do
+    [ -f "$pl" ] || continue
+    hdr="$(awk 'NR>1 && /^## /{exit} {print}' "$pl")"; body="$(awk 'f{print} /^## /{f=1}' "$pl")"
     st="$(printf '%s\n' "$hdr" | sed -n 's/^Status: //p' | head -1)"
-    [ -n "$st" ] || { echo "FAIL: $p — no 'Status:' line in the header (draft|signed|paused|shipped|verified|abandoned|superseded)" >&2; status=1; }
-    stray="$(printf '%s\n' "$body" | grep -nE '^(Scope|Scopes|Writes|Status|Signed|Amended|Shipped|Verified|Abandoned|Superseded|Supersedes|Renamed):' | head -3 | tr '\n' ' ')"
-    [ -z "$stray" ] || { echo "FAIL: $p — lifecycle line(s) below the first '## ' heading (the header holds the whole lifecycle): $stray" >&2; status=1; }
-    sc="$(printf '%s\n' "$hdr" | grep -c '^Signed: ' || true)"
-    [ "$sc" -le 1 ] || { echo "FAIL: $p — $sc 'Signed:' lines; a plan is signed once (a change beyond its Writes: set is a new plan)" >&2; status=1; }
-    vc="$(printf '%s\n' "$hdr" | grep -c '^Verified: ' || true)"
-    [ "$vc" -le 1 ] || { echo "FAIL: $p — $vc 'Verified:' lines; the owner's check of the shipped result is recorded once" >&2; status=1; }
+    [ -n "$st" ] || fail "$pl — no 'Status:' line in the header (draft|signed|shipped|verified|abandoned)"
+    stray="$(printf '%s\n' "$body" | grep -nE '^(Writes|Status|Signed|Amended|Shipped|Verified|Abandoned):' | head -3 | tr '\n' ' ')"
+    [ -z "$stray" ] || fail "$pl — lifecycle line(s) below the first '## ' heading (the header holds the whole lifecycle): $stray"
+    sc="$(printf '%s\n' "$hdr" | grep -c '^Signed: ' || true)"; vc="$(printf '%s\n' "$hdr" | grep -c '^Verified: ' || true)"
+    [ "$sc" -le 1 ] || fail "$pl — $sc 'Signed:' lines; a plan is signed once (a change beyond its Writes: set is a new plan)"
+    [ "$vc" -le 1 ] || fail "$pl — $vc 'Verified:' lines; the owner's check is recorded once"
     if [ "$vc" -ge 1 ]; then
-      printf '%s\n' "$hdr" | grep -q '^Shipped: ' || { echo "FAIL: $p — 'Verified:' without 'Shipped:' — verification records the owner's check of a shipped result" >&2; status=1; }
-      # 'Verified: <name>' — a date may follow the name ('— <YYYY-MM-DD>'), and a note may follow the date; nothing else is checked
-      printf '%s\n' "$hdr" | grep -q '^Verified: [^[:space:]]' || { echo "FAIL: $p — 'Verified:' needs a name: 'Verified: <name>' (the human's hand, like Signed:), optionally '— <YYYY-MM-DD>'" >&2; status=1; }
-      printf '%s\n' "$hdr" | awk -F' — ' '/^Verified: / && NF >= 2 && $2 !~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/ { bad = 1 } END { exit bad }' \
-        || { echo "FAIL: $p — 'Verified: <name> — …': what follows the name's ' — ' must be a date, YYYY-MM-DD" >&2; status=1; }
+      printf '%s\n' "$hdr" | grep -q '^Shipped: ' || fail "$pl — 'Verified:' without 'Shipped:'"
+      printf '%s\n' "$hdr" | grep -q '^Verified: [^[:space:]]' || fail "$pl — 'Verified:' needs a name: 'Verified: <name>' (optionally '— <YYYY-MM-DD>')"
+      printf '%s\n' "$hdr" | awk -F' — ' '/^Verified: / && NF >= 2 && $2 !~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/ { bad = 1 } END { exit bad }' || fail "$pl — 'Verified: <name> — …': what follows ' — ' must be a date"
     fi
-    want=draft
-    [ "$sc" -ge 1 ] && want=signed
+    want=draft; [ "$sc" -ge 1 ] && want=signed
     printf '%s\n' "$hdr" | grep -q '^Shipped: ' && want=shipped
     [ "$vc" -ge 1 ] && want=verified
     printf '%s\n' "$hdr" | grep -q '^Abandoned: ' && want=abandoned
-    printf '%s\n' "$hdr" | grep -q '^Superseded: ' && want=superseded
-    ok=0
-    if [ "$st" = "$want" ]; then ok=1; elif [ "$st" = paused ] && [ "$want" = signed ]; then ok=1; fi
-    [ "$ok" -eq 1 ] || { echo "FAIL: $p — 'Status: $st' contradicts the lifecycle lines (expected $want$([ "$want" = signed ] && echo ' or paused'))" >&2; status=1; }
-    [ "$want" = shipped ] && awaiting="$awaiting ${p#docs/plans/}"
+    [ "$st" = "$want" ] || fail "$pl — 'Status: $st' contradicts the lifecycle lines (expected $want)"
+    [ "$want" = shipped ] && awaiting="$awaiting ${pl#docs/}"
     if [ "$sc" -ge 1 ]; then
       w="$(printf '%s\n' "$hdr" | sed -n 's/^Writes: //p' | head -1)"
-      [ -n "$w" ] || { echo "FAIL: $p — a signed plan needs a 'Writes:' line (the repositories and branches the signature covers)" >&2; status=1; }
+      [ -n "$w" ] || fail "$pl — a signed plan needs a 'Writes:' line (the repositories and branches the signature covers)"
       for tok in $(printf '%s' "$w" | tr ',' '\n' | awk '{print $1}'); do
-        grep -qE "^- id:[[:space:]]*$tok[[:space:]]*$" "$MANIFEST" || { echo "FAIL: $p — Writes: '$tok' is not a manifest repo id" >&2; status=1; }
+        grep -qE "^- id:[[:space:]]*$tok[[:space:]]*$" "$MANIFEST" || fail "$pl — Writes: '$tok' is not a manifest repo id"
       done
     fi
+    p="${pl#docs/}"; p="${p%%/*}"; grep -qF "(plans/$(basename "$pl"))" "docs/$p/index.md" || echo "warn: $pl is not linked from docs/$p/index.md" >&2
   done
   [ -z "$awaiting" ] || echo "info: shipped plan(s) awaiting the owner's 'Verified:' line:$awaiting"
-
+  # session logs: name grammar and cap
+  for l in .agents/memory/sessions/*.md; do
+    [ -f "$l" ] || continue; b="$(basename "$l")"; [ "$b" = TEMPLATE.md ] && continue
+    printf '%s' "$b" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9]+-[a-z0-9-]+--[a-z0-9-]+\.md$' || fail "$l — a log is YYYY-MM-DD-<agent>-<product>--<task>.md"
+    cap "$l" "$CAP_LOG" "session log"
+  done
   # parties (AGENTS.md › Boilerplate and organizations): the boilerplate branch carries no organization's content, and an
   # organization's branch changes no boilerplate path since its merge base with it. Working tree, so the hook sees it before a commit.
   bp="$(git config --get workspace.boilerplate 2>/dev/null || echo main)"   # the boilerplate ref: main; in an organization's fork, upstream/main
@@ -453,19 +576,19 @@ check)
     touched="$( { git diff --name-only --no-renames "$base"; git ls-files --others --exclude-standard; } | sort -u | party boilerplate )"
     if [ -n "$touched" ]; then
       printf '%s\n' "$touched" | sed "s|^|FAIL: boilerplate changed on $here since its base with $bp: |" >&2
-      echo "      rules and infrastructure change on $bp only: restore a file with 'git checkout $(git rev-parse --short "$base") -- <path>' (a workspace finding in it becomes a [workspace] proposal in the log's TODO first); 'git mv' a -workspace-- log to one of this branch's scope ids" >&2
+      echo "      rules and infrastructure change on $bp only: restore a file with 'git checkout $(git rev-parse --short "$base") -- <path>' (a workspace defect goes to the log's TODO as a [workspace] line first); 'git mv' a -workspace-- log to one of this branch's product ids" >&2
       status=1
     fi
     behind="$(git rev-list --count "HEAD..$bp")"
     [ "$behind" -eq 0 ] || echo "warn: $bp has $behind commit(s) this branch lacks — its rules may have changed; the owner syncs the branch (git rebase $bp), then runs check" >&2
-    # the boilerplate names no organization: look for this branch's own repo and scope ids in it
+    # the boilerplate names no organization: look for this branch's own repo and product ids in it
     pats="$(mktemp)"
-    { entries | cut -d'|' -f1; repo_subs; sed -n 's/^[[:space:]]*scope:[[:space:]]*//p' "$MANIFEST"; for f in docs/*.md; do [ -f "$f" ] && basename "$f" .md; done; } \
+    { entries | cut -d'|' -f1; repo_subs; sed -n 's/^[[:space:]]*product:[[:space:]]*//p' "$MANIFEST"; for d in docs/*/; do [ -d "$d" ] && basename "$d"; done; } \
       | grep -vxiE 'readme|blueprint|workspace|plans|sources|assets' | awk 'length >= 3' | sort -u > "$pats"
     hits="$( [ -s "$pats" ] && git grep -n -I -i -w -F -f "$pats" "$bp" -- . 2>/dev/null )"
     if [ -n "$hits" ]; then
       printf '%s\n' "$hits" | head -5 | cut -c1-180 | sed 's|^|warn: the boilerplate names this organization — |' >&2
-      echo "warn: $(printf '%s\n' "$hits" | grep -c .) line(s) of $bp name this branch's repositories or scopes — the boilerplate names no organization; propose the rewording as a [workspace] TODO" >&2
+      echo "warn: $(printf '%s\n' "$hits" | grep -c .) line(s) of $bp name this branch's repositories or products — the boilerplate names no organization; propose the rewording as a [workspace] TODO" >&2
     fi
   else
     echo "info: no '$bp' ref here — party check skipped (in a fork: git config workspace.boilerplate upstream/main)"
@@ -475,45 +598,17 @@ check)
     [ "$here" = "$bp" ] && echo "info: $bp is the boilerplate — its manifest is the template" || echo "warn: manifest has no repos yet — edit catalog/repos.yaml"
   fi
   newest="$(ls .agents/memory/sessions 2>/dev/null | grep -E '^[0-9]{4}-' | sort | tail -1)"
-  echo "info: newest session log: ${newest:-none yet}"
+  echo "info: $(derivatives | wc -l | tr -d ' ') document derivative(s); newest session log: ${newest:-none yet}"
   [ "$status" -eq 0 ] && echo "check: PASS ($n repo(s) in manifest)" || echo "check: FAIL" >&2
   exit "$status"
   ;;
 
-prune)
-  # the document layer's removal as one command (docs/README.md › Writing rules): a derivative nothing live cites goes with its original,
-  # an orphan original goes alone. Without --apply: report only — every derivative with what keeps it, then what is removable.
-  apply=0; [ "${2:-}" = "--apply" ] && apply=1
-  [ "$#" -le 1 ] || [ "$apply" -eq 1 ] || { echo "usage: workspace.sh prune [--apply]   # report what keeps each derivative and what is removable; --apply removes it (staged for the closeout commit)" >&2; exit 1; }
-  if ls -d docs/*/sources >/dev/null 2>&1; then
-    find docs/*/sources -type f -name '*.md' | sort | while read -r f; do
-      k="$(keepers "$f")"
-      if [ -n "$k" ]; then
-        [ "$apply" -eq 1 ] || printf '%s\n' "$k" | sed "s|^|kept:    $f — by |"
-      else
-        o="$(sed -n 's/^source: //p' "$f" | head -1)"
-        if [ "$apply" -eq 1 ]; then
-          if git ls-files --error-unmatch -- "$f" >/dev/null 2>&1; then git rm -q -- "$f" && echo "removed: $f"; else rm -- "$f" && echo "removed: $f (never committed)"; fi
-          [ -e "$o" ] && rm -- "$o" && echo "removed: $o"
-        else
-          echo "remove:  $f — no live document cites it (with its original $o)"
-        fi
-      fi
-    done
-  fi
-  orphan_originals | while read -r o; do
-    if [ "$apply" -eq 1 ]; then rm -- "$o" && echo "removed: $o (orphan)"; else echo "remove:  $o — an orphan (no derivative)"; fi
-  done
-  if [ "$apply" -eq 1 ]; then echo "prune: done — removals are staged and go with the closeout commit; git keeps every removed derivative's text (git show <blob>)"
-  else echo "prune: report only — './workspace.sh prune --apply' removes what is listed as 'remove:'"; fi
-  ;;
-
 help)
-  sed -n '2,12p' "$0"
+  sed -n '2,16p' "$0"
   ;;
 
 *)
-  sed -n '2,12p' "$0" >&2
+  sed -n '2,16p' "$0" >&2
   exit 1
   ;;
 esac

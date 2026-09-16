@@ -1,81 +1,47 @@
-# multi-repos-ai-agent-workspace
+# Multi-repo agent workspace
 
-One governance repo that lets AI agents work across many independent code
-repositories — safely, with durable memory, and with evidence for every claim.
-
-> **Start here: [docs/BLUEPRINT.md](docs/BLUEPRINT.md)** — why this repository
-> exists and the seven ideas behind its design, in one short read. Everything else
-> in this repo is an implementation of that document.
-
-**11 files, one script.** The rules live in [AGENTS.md](AGENTS.md); the
-mechanics live in [workspace.sh](workspace.sh). Every record and document is
-agent-written — except `docs/<scope>/sources/`, the extracted text of documents
-you hand it (`ingest` keeps the originals in gitignored `docs/assets/`): session logs written by the
-agent at closeout, findings into the docs system, the examined parts of
-`docs/` only past an examination bar.
+One governance repository from which AI agents work across many independently managed child repositories — gitignored clones under `projects/`, a fleet manifest with per-repo access, small command-made documentation, and a signature gate before any child is written. Rules: [AGENTS.md](AGENTS.md). Mechanics: [workspace.sh](workspace.sh).
 
 ```
-this repo                 ← governance: rules, memory, docs
-├── docs/<scope>/sources/[<repo>/] ← tracked text of your documents, one .md per original (workspace.sh ingest / extract; removed with its original once no document cites it); the optional folder names the fleet repo a document is evidence about
-├── docs/assets/<scope>/[<repo>/]  ← the originals, copied in by ingest; gitignored; orphans (no derivative) removed at closeout — prune lists and removes them
-└── projects/             ← gitignored clones of your child repos
+docs/<product>/index.md            the product — what it is, links to modules, repositories, open plans
+docs/<product>/<module>.md         one subsystem each; the facts, each cited <repo>@<sha> path:line
+docs/<product>/<repo>/index.md     a related repository: run, test, entry points, integration
+docs/<product>/[<repo>/]sources/   text of documents you hand it (ingest); originals in gitignored docs/assets/
+docs/<product>/plans/<feature>.md  a piece of child-repo work: you sign it, the agent ships it, you verify it, plan done removes it
+.agents/memory/sessions/           one short log per agent session
+projects/                          the child repositories (gitignored)
 ```
 
 ## Get started
 
 ```bash
-./workspace.sh setup           # 1. wires the safety hook, prints what to do next
-# edit catalog/repos.yaml      # 2. declare your child repos + access levels
-./workspace.sh clone           # 3. fleet appears under projects/
-./workspace.sh ingest <scope> <files>   # 4. (optional) documents become agent-readable: original copied to docs/assets/<scope>/ (gitignored), text under docs/<scope>/sources/
-                                        #    REPO=<manifest id> files them one folder down, under the repo they are evidence about
+./workspace.sh setup                   # wires the safety hook
+# edit catalog/repos.yaml              # child repos: access level, product
+./workspace.sh clone                   # fleet appears under projects/
+./workspace.sh doc init <product>      # docs/<product>/index.md
+./workspace.sh doc add <product> <module>   # a module — or a repository doc when the name is a manifest id lowercased
+./workspace.sh ingest <product> <file> # REPO=<id> files it under that repository's sources/
 ```
-
-Then add a **private remote** for this repo and push — its memory must survive
-a dead disk. (It ships with none on purpose.)
+Add a **private remote** and push — the memory must survive a dead disk.
 
 ## Daily loop
 
-```bash
-# 1. agent works: reads projects/; findings land in docs/<scope>.md
-#    ("Open findings"); the examined body changes only past the bar
-# 2. agent closes out: session log + closeout commit + push — you review the diff
-```
+Agent: `check` → read `docs/<product>/` → work → log → commit. You: review the diff; sign a plan (`Signed: <name> — <date>` in its header) before the agent writes a child; write `Verified: <name>` when you have checked the result; then `./workspace.sh plan done <product> <feature>` clears the plan, its logs and the documents only it used.
+
+| Command | Does |
+|---|---|
+| `check` | structure, line caps, plan headers, derivatives, the main/organization split — runs at every commit |
+| `doc init` · `doc add` · `doc rm` | create and remove index / module / repository docs, keeping `index.md`'s links |
+| `plan new` · `plan done` | open a draft plan; remove a verified or abandoned one with its logs and sources |
+| `ingest` · `extract` · `prune` | documents in (originals gitignored, text tracked); text nothing cites out |
+| `cite` · `restore` · `clone` | the fleet as one citation line; check a citation out; rebuild the fleet |
+
+Line caps (`check` fails above them): index 80 · module 150 · repository doc 100 · plan 80 · log 40.
 
 ## One boilerplate, many organizations
 
-`main` is the boilerplate. Each organization works on its own branch (or
-fork); after every change on `main` you sync it — `git rebase main`, then
-`./workspace.sh check` (the hook does not run during a rebase) and the
-migration it asks for. Rules and infrastructure change on `main` only and
-name no organization; an organization's branch changes only its own content
-— the list is in [AGENTS.md › Boilerplate and organizations](AGENTS.md), and
-`check` enforces it.
+`main` is the boilerplate. Each organization works on its own branch (or fork) and syncs with `git rebase main`, then `./workspace.sh check`. Rules and infrastructure change on `main` only and name no organization; an organization's branch changes only `catalog/`, `docs/` and its own logs.
 
-## What each file and folder is
+## Upgrading from v1
 
-| Path | One line |
-|---|---|
-| `README.md` | This file: what the workspace is, setup, the daily loop |
-| `docs/BLUEPRINT.md` | Why this repo exists; the design rationale |
-| `AGENTS.md` | The whole rulebook — canonical for every agent runtime |
-| `CLAUDE.md` | ≤5-line bridge to `AGENTS.md` (one per installed runtime that needs it) |
-| `workspace.sh` | `setup` \| `clone` \| `cite` \| `restore` \| `ingest` \| `extract` \| `check` \| `prune` |
-| `catalog/repos.yaml` | The fleet manifest — also the authorization record; optional `scope:` per repo names its home scope document |
-| `CHANGELOG.md` | Record of changes to this workspace's rules and infrastructure only, written on `main`, newest entry first — never a child repository's, an organization's or a plan's state (those live in plans, scope documents and session logs) |
-| `.gitignore` | Keeps `projects/`, `docs/assets/`, scratch, secrets and local runtime state out of the repo |
-| `.agents/memory/sessions/` | Simple journey logs, one per agent run — decisions & pitfalls, never findings |
-| `docs/README.md` | The docs system's rules: scopes, intake, examination bar, signature gate |
-| `docs/<scope>.md` + `docs/plans/<scope>--<feature>.md` | The knowledge system: per-scope document (Open-findings intake + examined body) plus plans — you sign them before the work and write `Verified:` after you have checked the result (see `docs/README.md`) |
-| `docs/<scope>/sources/[<repo>/]` + `docs/assets/<scope>/[<repo>/]` | Human-supplied documents: tracked text derivatives (`ingest`/`extract` output, cited `…@<blob>`; a pair is removed at closeout once no live document cites it — `check` lists them, `prune` shows what keeps the rest, `prune --apply` removes) / their originals, gitignored; `<repo>` = a manifest id lowercased, for documents that are evidence about one fleet repo |
-| `.githooks/pre-commit` | Runs `workspace.sh check` and refuses binaries and files over 1 MiB; broken states cannot be committed |
-
-## Growing it
-
-Add nothing until a real need bites **twice**; then add the piece on `main`
-and note it in the CHANGELOG — it is boilerplate unless that change joins it
-to the organization's list in `AGENTS.md`. The full trigger table is in
-[docs/BLUEPRINT.md §4](docs/BLUEPRINT.md) — in short: skills when how-tos
-repeat, schemas when finding shapes drift, `policies/` when the rulebook
-outgrows a page, catalog knowledge when relationships get re-derived, `labs/`
-when prototyping precedes plans, `reports/` when analyses leave the team.
+Branch `v1` keeps the previous rules (scope documents with findings, global `docs/plans/`, specifications, CHANGELOG). To migrate a branch: `docs/<scope>.md` → `docs/<scope>/index.md` plus modules; `docs/plans/<scope>--<f>.md` → `docs/<scope>/plans/<f>.md`; `docs/<scope>/sources/<repo>/` → `docs/<scope>/<repo>/sources/` (move the originals under `docs/assets/` the same way); findings become module facts or plan stubs; `scope:` → `product:` in the manifest; logs over 40 lines are cut.
