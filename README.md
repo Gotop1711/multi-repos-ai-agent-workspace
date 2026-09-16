@@ -36,7 +36,7 @@ Agent: `check` → read `docs/<product>/` → work → log → commit. You: revi
 | `ingest` · `extract` · `prune` | documents in (originals gitignored, text tracked); text nothing cites out |
 | `cite` · `restore` · `clone` | the fleet as one citation line; check a citation out; rebuild the fleet |
 
-Line caps (`check` fails above them): index 80 · module 150 · repository doc 100 · plan 80 · log 40.
+Line caps (`check` fails above them; lines counted wrapped at 100 columns): index 80 · module 150 · repository doc 100 · plan 80 · log 40.
 
 ## One boilerplate, many organizations
 

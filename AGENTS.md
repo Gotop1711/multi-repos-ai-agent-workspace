@@ -14,7 +14,7 @@ docs/assets/<product>/[<repo>/]    the originals — gitignored, added by `inges
 .agents/memory/sessions/           one log per session — the journey, never the facts                          ≤ 40
 ```
 
-`doc init` / `doc add` / `doc rm` / `plan new` / `plan done` create and remove these; `check` fails a file over its cap — split it into a module, or cut: git keeps the rest. Every document is **maintained state**: rewritten in place when stale, never appended with history — `git log -- <file>` is its history. There is no findings tray, no changelog, no status note in prose.
+`doc init` / `doc add` / `doc rm` / `plan new` / `plan done` create and remove these; `check` fails a file over its cap (lines counted wrapped at 100 columns) — split it into a module, or cut: git keeps the rest. Every document is **maintained state**: rewritten in place when stale, never appended with history — `git log -- <file>` is its history. There is no findings tray, no changelog, no status note in prose.
 
 ## Every session
 
