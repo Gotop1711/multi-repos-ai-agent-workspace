@@ -90,7 +90,11 @@ index_link() { # $1 index, $2 section title, $3 line — appended after the sect
   if [ "$n" -eq 0 ]; then printf '\n## %s\n%s\n' "$2" "$3" >> "$1"; else awk -v n="$n" -v line="$3" '{print} NR==n{print line}' "$1" > "$1.tmp" && mv "$1.tmp" "$1"; fi
 }
 index_unlink() { awk -v t="($2)" 'index($0,t)==0' "$1" > "$1.tmp" && mv "$1.tmp" "$1"; }   # $1 index, $2 link target
-rm_tracked() { if git ls-files --error-unmatch -- "$1" >/dev/null 2>&1; then git rm -q -r -- "$1"; else rm -r -- "$1"; fi; echo "removed: $1"; }
+rm_tracked() { # a tracked path must be committed as it stands before it goes: git rm refuses local modifications, and so do we — nothing is printed as removed that was not
+  if git ls-files --error-unmatch -- "$1" >/dev/null 2>&1; then git rm -q -r -- "$1" || { echo "FAIL: $1 not removed — commit it first (the closeout commit), then retry" >&2; return 1; }
+  else rm -r -- "$1" || return 1; fi
+  echo "removed: $1"
+}
 
 cmd="${1:-help}"
 case "$cmd" in clone|cite|restore|check|extract|ingest|doc|plan)
@@ -256,9 +260,10 @@ plan)
     [ -f "$f" ] || { echo "FAIL: no plan $f" >&2; exit 1; }
     st="$(awk 'NR>1 && /^## /{exit} {print}' "$f" | sed -n 's/^Status: //p' | head -1)"
     [ "$st" = verified ] || [ "$st" = abandoned ] || { echo "FAIL: $f is '$st' — 'plan done' follows the owner's Verified: (or an Abandoned:) line" >&2; exit 1; }
+    [ -z "$(git status --porcelain -- "$f" "$idx" .agents/memory/sessions)" ] || { echo "FAIL: uncommitted changes in $f, $idx or the session logs — commit them first (your Verified: line is part of the record), then 'plan done'" >&2; exit 1; }
     echo "plan done: $p--$feat ($st) — its result must already be in docs/$p/ (modules, repo docs); git keeps everything removed"
-    rm_tracked "$f"; index_unlink "$idx" "plans/$feat.md"
-    for l in .agents/memory/sessions/*-"$p--$feat".md; do [ -f "$l" ] && rm_tracked "$l"; done
+    rm_tracked "$f" || exit 1; index_unlink "$idx" "plans/$feat.md"
+    for l in .agents/memory/sessions/*-"$p--$feat".md; do [ -f "$l" ] && { rm_tracked "$l" || exit 1; }; done
     prune_run 1
     ;;
   *) echo "$usage" >&2; exit 1 ;;
