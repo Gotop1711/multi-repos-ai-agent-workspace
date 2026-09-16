@@ -9,12 +9,12 @@ docs/<product>/index.md            the product: what it is; links to its modules
 docs/<product>/<module>.md         one subsystem each — the only place facts live                              ≤ 150
 docs/<product>/<repo>/index.md     a related repository: run, test, entry points, integration                  ≤ 100
 docs/<product>/[<repo>/]sources/   ingested documents' text — `ingest` / `extract` output only, never hand-edited
-docs/<product>/plans/<feature>.md  task-oriented: goal, writes, steps, done-when; removed by `plan done`        ≤ 80
+docs/<product>/plans/<feature>.md  task-oriented: goal, writes, steps, done-when; removed by `plan done` / `rm`  ≤ 80
 docs/assets/<product>/[<repo>/]    the originals — gitignored, added by `ingest` only, removed by `prune`
 .agents/memory/sessions/           one log per session — the journey, never the facts                          ≤ 40
 ```
 
-`doc init` / `doc add` / `doc rm` / `plan new` / `plan done` create and remove these; `check` fails a file over its cap (lines counted wrapped at 100 columns) — split it into a module, or cut: git keeps the rest. Every document is **maintained state**: rewritten in place when stale, never appended with history — `git log -- <file>` is its history. There is no findings tray and no status note in prose; the workspace's own rule changes are one line each in `CHANGELOG.md` (`main` only, ≤ 60 lines).
+`doc init` / `doc add` / `doc rm` / `plan new` / `plan done` / `plan rm` create and remove these (a plan goes with its logs and the sources only it used); `check` fails a file over its cap (lines counted wrapped at 100 columns) — split it into a module, or cut: git keeps the rest. Every document is **maintained state**: rewritten in place when stale, never appended with history — `git log -- <file>` is its history. There is no findings tray and no status note in prose; the workspace's own rule changes are one line each in `CHANGELOG.md` (`main` only, ≤ 60 lines).
 
 ## Every session
 

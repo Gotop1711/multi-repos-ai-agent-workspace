@@ -8,7 +8,8 @@
 #   ./workspace.sh doc add <product> <name>         a module docs/<product>/<name>.md — or, when <name> is a manifest repo id lowercased, docs/<product>/<name>/index.md
 #   ./workspace.sh doc rm <product> <name>          remove it and its link in index.md
 #   ./workspace.sh plan new <product> <feature>     docs/<product>/plans/<feature>.md (draft), linked in index.md
-#   ./workspace.sh plan done <product> <feature>    remove a verified or abandoned plan, its session logs and the sources only it used
+#   ./workspace.sh plan done <product> <feature>    remove a verified or abandoned plan with its session logs and the sources only it used
+#   ./workspace.sh plan rm <product> <feature> [--force]   the same for a plan in any state (--force for a signed or shipped one)
 #   ./workspace.sh ingest <product> <file>…         REPO=<id>: copy a document to docs/assets/<product>/[<repo>/] (gitignored), extract its text to docs/<product>/[<repo>/]sources/
 #   ./workspace.sh extract <product> docs/assets/<product>/[<repo>/]<file>…   re-extract a stored original (OCR_LANGS=<bcp47,…>, default zh-Hant,en-US)
 #   ./workspace.sh prune [--apply]                  derivatives nothing cites and orphan originals; --apply removes them
@@ -90,6 +91,14 @@ index_link() { # $1 index, $2 section title, $3 line — appended after the sect
   if [ "$n" -eq 0 ]; then printf '\n## %s\n%s\n' "$2" "$3" >> "$1"; else awk -v n="$n" -v line="$3" '{print} NR==n{print line}' "$1" > "$1.tmp" && mv "$1.tmp" "$1"; fi
 }
 index_unlink() { awk -v t="($2)" 'index($0,t)==0' "$1" > "$1.tmp" && mv "$1.tmp" "$1"; }   # $1 index, $2 link target
+plan_remove() { # $1 product, $2 feature, $3 plan file — the plan, its index link, its session logs, then the sources only it used; reports what stays
+  used="$(derivatives | while read -r d; do grep -qF "$(basename "$d")" "$3" && echo "$d"; done)"
+  rm_tracked "$3" || exit 1; index_unlink "docs/$1/index.md" "plans/$2.md"
+  for l in .agents/memory/sessions/*-"$1--$2".md; do [ -f "$l" ] && { rm_tracked "$l" || exit 1; }; done
+  prune_run 1
+  printf '%s\n' "$used" | while read -r d; do [ -n "$d" ] && [ -f "$d" ] && keepers "$d" | sed "s|^|kept:    $d — still cited by |"; done
+  echo "plan $2 removed; git keeps everything (git log -- docs/$1/plans/$2.md); commit with the closeout"
+}
 rm_tracked() { # a tracked path must be committed as it stands before it goes: git rm refuses local modifications, and so do we — nothing is printed as removed that was not
   if git ls-files --error-unmatch -- "$1" >/dev/null 2>&1; then git rm -q -r -- "$1" || { echo "FAIL: $1 not removed — commit it first (the closeout commit), then retry" >&2; return 1; }
   else rm -r -- "$1" || return 1; fi
@@ -241,8 +250,9 @@ doc)
 
 plan)
   sub="${2:-}"; p="${3:-}"; feat="${4:-}"
-  usage="usage: workspace.sh plan new <product> <feature> | plan done <product> <feature>"
-  [ "$#" -eq 4 ] && printf '%s' "$p" | grep -qE "$ID_RE" && printf '%s' "$feat" | grep -qE "$ID_RE" || { echo "$usage" >&2; exit 1; }
+  usage="usage: workspace.sh plan new <product> <feature> | plan done <product> <feature> | plan rm <product> <feature> [--force]"
+  force=0; [ "${5:-}" = "--force" ] && [ "$sub" = rm ] && force=1
+  { [ "$#" -eq 4 ] || { [ "$#" -eq 5 ] && [ "$force" -eq 1 ]; }; } && printf '%s' "$p" | grep -qE "$ID_RE" && printf '%s' "$feat" | grep -qE "$ID_RE" || { echo "$usage" >&2; exit 1; }
   idx="docs/$p/index.md"; f="docs/$p/plans/$feat.md"
   [ -f "$idx" ] || { echo "FAIL: $idx missing — './workspace.sh doc init $p' first" >&2; exit 1; }
   case "$sub" in
@@ -259,12 +269,20 @@ plan)
   done)
     [ -f "$f" ] || { echo "FAIL: no plan $f" >&2; exit 1; }
     st="$(awk 'NR>1 && /^## /{exit} {print}' "$f" | sed -n 's/^Status: //p' | head -1)"
-    [ "$st" = verified ] || [ "$st" = abandoned ] || { echo "FAIL: $f is '$st' — 'plan done' follows the owner's Verified: (or an Abandoned:) line" >&2; exit 1; }
+    [ "$st" = verified ] || [ "$st" = abandoned ] || { echo "FAIL: $f is '$st' — 'plan done' follows the owner's Verified: (or an Abandoned:) line; 'plan rm' removes a plan in any state" >&2; exit 1; }
     [ -z "$(git status --porcelain -- "$f" "$idx" .agents/memory/sessions)" ] || { echo "FAIL: uncommitted changes in $f, $idx or the session logs — commit them first (your Verified: line is part of the record), then 'plan done'" >&2; exit 1; }
-    echo "plan done: $p--$feat ($st) — its result must already be in docs/$p/ (modules, repo docs); git keeps everything removed"
-    rm_tracked "$f" || exit 1; index_unlink "$idx" "plans/$feat.md"
-    for l in .agents/memory/sessions/*-"$p--$feat".md; do [ -f "$l" ] && { rm_tracked "$l" || exit 1; }; done
-    prune_run 1
+    echo "plan done: $p--$feat ($st) — its result must already be in docs/$p/ (modules, repo docs)"
+    plan_remove "$p" "$feat" "$f"
+    ;;
+  rm)
+    [ -f "$f" ] || { echo "FAIL: no plan $f" >&2; exit 1; }
+    st="$(awk 'NR>1 && /^## /{exit} {print}' "$f" | sed -n 's/^Status: //p' | head -1)"
+    if [ "$st" = signed ] || [ "$st" = shipped ]; then
+      [ "$force" -eq 1 ] || { echo "FAIL: $f is '$st' — child-repo work may exist under its signature; prefer an Abandoned: line and 'plan done' (keeps the record), or --force to remove it anyway" >&2; exit 1; }
+    fi
+    [ -z "$(git status --porcelain -- "$f" "$idx" .agents/memory/sessions)" ] || { echo "FAIL: uncommitted changes in $f, $idx or the session logs — commit them first, then 'plan rm'" >&2; exit 1; }
+    echo "plan rm: $p--$feat ($st$([ "$force" -eq 1 ] && echo ", forced"))"
+    plan_remove "$p" "$feat" "$f"
     ;;
   *) echo "$usage" >&2; exit 1 ;;
   esac
@@ -610,11 +628,11 @@ check)
   ;;
 
 help)
-  sed -n '2,16p' "$0"
+  sed -n '2,17p' "$0"
   ;;
 
 *)
-  sed -n '2,16p' "$0" >&2
+  sed -n '2,17p' "$0" >&2
   exit 1
   ;;
 esac

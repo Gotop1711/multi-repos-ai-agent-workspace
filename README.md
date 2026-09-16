@@ -32,7 +32,7 @@ Agent: `check` → read `docs/<product>/` → work → log → commit. You: revi
 |---|---|
 | `check` | structure, line caps, plan headers, derivatives, the main/organization split — runs at every commit |
 | `doc init` · `doc add` · `doc rm` | create and remove index / module / repository docs, keeping `index.md`'s links |
-| `plan new` · `plan done` | open a draft plan; remove a verified or abandoned one with its logs and sources |
+| `plan new` · `plan done` · `plan rm` | open a draft plan; remove a verified or abandoned one — or any (`rm`, `--force` for a signed/shipped one) — with its logs and the sources only it used |
 | `ingest` · `extract` · `prune` | documents in (originals gitignored, text tracked); text nothing cites out |
 | `cite` · `restore` · `clone` | the fleet as one citation line; check a citation out; rebuild the fleet |
 

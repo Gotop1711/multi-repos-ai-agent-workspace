@@ -2,6 +2,7 @@
 
 One line per change, newest first, written on `main` in the closeout that makes the change; never an organization's or a plan's state. Capped at 60 wrapped lines by `check` — cut the oldest, git keeps them.
 
+- 2026-09-16 — `plan rm <product> <feature> [--force]`: remove a plan in any state with everything only it used (logs, sources, originals); `plan done` shares the routine and both now report what another document still keeps.
 - 2026-09-16 — `CHANGELOG.md` returns as this one-line-per-change file (capped); `README.md` no longer carries an "Upgrading from v1" section — a migration note belongs to the entry that requires it.
 - 2026-09-16 — `plan done` refuses uncommitted changes to the plan, its index or the logs (commit your `Verified:` line first) and stops instead of reporting a removal that did not happen.
 - 2026-09-16 — `check` counts lines wrapped at 100 columns, so an unwrapped paragraph cannot dodge a cap.
