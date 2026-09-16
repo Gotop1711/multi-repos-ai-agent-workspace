@@ -536,8 +536,10 @@ on `main`.
 ### 2026-09-16 — `Verified:` closes the plan; `verified` is the terminal state
 
 Owner decision, recorded in `../../CHANGELOG.md`. Adds to §3's header lines,
-after `Shipped:`, `Verified: <name> — <YYYY-MM-DD> — <what was checked>`
-(human, exactly once), and to §6 *After* a last step: once the owner has
+after `Shipped:`, `Verified: <name>` — a date may follow, `— <YYYY-MM-DD>`
+(human, exactly once; simplified from a three-part form the same day: the
+owner's name is the whole point, the rest is noise), and to §6 *After* a
+last step: once the owner has
 checked the shipped result — the plan's verification section, or whatever
 the H1 promised — the owner writes the line; `Status:` becomes `verified`,
 the terminal word, and `shipped` now reads as *landed, awaiting the owner's

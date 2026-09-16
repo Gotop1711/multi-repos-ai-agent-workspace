@@ -35,7 +35,16 @@ and one command, `prune`, with a plan's verification as its moment. Adopt on
    gone), a never-committed one (`rm`), an orphan — and `check` is quiet
    afterwards.
 
+5. Same session, after the owner had synced a branch and written the lines:
+   the three-part form was too much — simplified to `Verified: <name>`
+   with an optional `— <YYYY-MM-DD>`; `check` now only demands a name and,
+   if a ` — ` follows it, a date. Second CHANGELOG entry of the day.
+
 ## Decisions & pitfalls        ← the valuable part
+- **The line is the name.** Mirroring `Signed:`'s three parts looked
+  consistent but made the owner type a sentence to close a plan; the name
+  is the acknowledgement, the date is in git anyway. The check keeps one
+  guard so the pre-rule `Verified: <date> — <text>` (no name) still fails.
 - **The human writes `Verified:`; the agent never does.** The owner chose
   this over the agent recording the confirmation as `Amended:` (the form two
   plans on an organization's branch had used): the reviewer's own hand is

@@ -139,7 +139,7 @@ overwritten, never placed anywhere else in the file:
     Signed: <name> — <YYYY-MM-DD>                 (human, exactly once)
     Amended: <YYYY-MM-DD> — A<n> <summary> (confirmed by <name> in session)   (repeatable)
     Shipped: <YYYY-MM-DD> — <repo>@<sha>…         (agent; the landed commits)
-    Verified: <name> — <YYYY-MM-DD> — <what was checked>   (human, exactly once, after Shipped:)
+    Verified: <name> [— <YYYY-MM-DD>]             (human, exactly once, after Shipped:)
     Abandoned: <YYYY-MM-DD> — <reason>
     Superseded: <YYYY-MM-DD> — by <scope>--<feature>
     Supersedes: <scope>--<feature>                (on the successor)
@@ -155,8 +155,8 @@ landed, awaiting the owner's check; `verified` once `Verified:` exists;
 `Abandoned:` or `Superseded:` is history (its knowledge is in the Body;
 `check` no longer counts its citations). `check` fails a plan whose
 `Status:` contradicts its lines, that carries more than one `Signed:` or
-more than one `Verified:`, a `Verified:` without `Shipped:` or without its
-`<name> — <date>` prefix, that has a lifecycle line below the first `##`,
+more than one `Verified:`, a `Verified:` without `Shipped:` or without a
+name, that has a lifecycle line below the first `##`,
 or that is signed without `Writes:`; and every run it lists the shipped
 plans still awaiting the owner's `Verified:` line. Free-text status notes
 (block quotes under the header) are not state — delete them once the header
@@ -164,8 +164,9 @@ says it.
 
 **Verification closes what the signature opened.** When the owner has
 checked the shipped result — the plan's verification section, or whatever
-the H1 promised — the owner writes `Verified: <name> — <date> — <what was
-checked>` in the header, once. The agent never writes it and never records
+the H1 promised — the owner writes `Verified: <name>` in the header, once
+(a date may follow: `Verified: <name> — <YYYY-MM-DD>`; nothing more is
+needed). The agent never writes it and never records
 the owner's confirmation in its place: a spoken confirmation of a *change*
 is an amendment; that the *result is right* is the owner's own line, as
 `Signed:` is. A wrong result gets no line — the defect is a finding, fixed

@@ -411,7 +411,10 @@ check)
     [ "$vc" -le 1 ] || { echo "FAIL: $p — $vc 'Verified:' lines; the owner's check of the shipped result is recorded once" >&2; status=1; }
     if [ "$vc" -ge 1 ]; then
       printf '%s\n' "$hdr" | grep -q '^Shipped: ' || { echo "FAIL: $p — 'Verified:' without 'Shipped:' — verification records the owner's check of a shipped result" >&2; status=1; }
-      printf '%s\n' "$hdr" | grep -qE '^Verified: .+ — [0-9]{4}-[0-9]{2}-[0-9]{2}( — .+)?$' || { echo "FAIL: $p — 'Verified:' must read 'Verified: <name> — <YYYY-MM-DD> — <what was checked>' (the human's hand, like Signed:)" >&2; status=1; }
+      # 'Verified: <name>' — a date may follow the name ('— <YYYY-MM-DD>'), and a note may follow the date; nothing else is checked
+      printf '%s\n' "$hdr" | grep -q '^Verified: [^[:space:]]' || { echo "FAIL: $p — 'Verified:' needs a name: 'Verified: <name>' (the human's hand, like Signed:), optionally '— <YYYY-MM-DD>'" >&2; status=1; }
+      printf '%s\n' "$hdr" | awk -F' — ' '/^Verified: / && NF >= 2 && $2 !~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/ { bad = 1 } END { exit bad }' \
+        || { echo "FAIL: $p — 'Verified: <name> — …': what follows the name's ' — ' must be a date, YYYY-MM-DD" >&2; status=1; }
     fi
     want=draft
     [ "$sc" -ge 1 ] && want=signed

@@ -11,6 +11,18 @@ the session log.
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [`Verified:` is the owner's name; the date is optional] — 2026-09-16
+
+### Changed
+- Owner decision, the same day as the entry below: the three-part
+  `Verified: <name> — <YYYY-MM-DD> — <what was checked>` was too much to
+  write. The line is now `Verified: <name>`, optionally `Verified: <name>
+  — <YYYY-MM-DD>` (a note after the date is tolerated, not required).
+  `check` fails a `Verified:` with no name, or one whose ` — ` is followed
+  by something other than a date (`docs/README.md` › The signature gate;
+  `docs/workspace/scope-grammar.md` amendment). The migration of the entry
+  below shrinks to: put the owner's name first.
+
 ## [The owner's `Verified:` line closes a plan; `prune` removes what the documentation no longer cites] — 2026-09-16
 
 ### Added
