@@ -40,8 +40,4 @@ Line caps (`check` fails above them; lines counted wrapped at 100 columns): inde
 
 ## One boilerplate, many organizations
 
-`main` is the boilerplate. Each organization works on its own branch (or fork) and syncs with `git rebase main`, then `./workspace.sh check`. Rules and infrastructure change on `main` only and name no organization; an organization's branch changes only `catalog/`, `docs/` and its own logs.
-
-## Upgrading from v1
-
-Branch `v1` keeps the previous rules (scope documents with findings, global `docs/plans/`, specifications, CHANGELOG). To migrate a branch: `docs/<scope>.md` → `docs/<scope>/index.md` plus modules; `docs/plans/<scope>--<f>.md` → `docs/<scope>/plans/<f>.md`; `docs/<scope>/sources/<repo>/` → `docs/<scope>/<repo>/sources/` (move the originals under `docs/assets/` the same way); findings become module facts or plan stubs; `scope:` → `product:` in the manifest; logs over 40 lines are cut.
+`main` is the boilerplate. Each organization works on its own branch (or fork) and syncs with `git rebase main`, then `./workspace.sh check`. Rules and infrastructure change on `main` only, name no organization, and are recorded one line each in [CHANGELOG.md](CHANGELOG.md); an organization's branch changes only `catalog/`, `docs/` and its own logs. Branch `v1` keeps the previous rules; the migration is in `CHANGELOG.md` › v2.

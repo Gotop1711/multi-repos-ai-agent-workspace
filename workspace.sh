@@ -18,7 +18,7 @@ set -u
 cd "$(dirname "$0")" || exit 1
 MANIFEST="catalog/repos.yaml"
 ASSETS="docs/assets"        # originals: docs/assets/<product>/[<repo>/]<YYYY-MM-DD-slug.ext>, gitignored, never committed
-CAP_INDEX=80; CAP_MODULE=150; CAP_REPO=100; CAP_PLAN=80; CAP_LOG=40   # line caps check enforces, counted wrapped at 100 columns (AGENTS.md › Documents)
+CAP_INDEX=80; CAP_MODULE=150; CAP_REPO=100; CAP_PLAN=80; CAP_LOG=40; CAP_CHANGELOG=60   # line caps check enforces, counted wrapped at 100 columns (AGENTS.md › Documents)
 tmp=""; ocr=""; ooxml=""; pats=""; trap 'rm -f "$tmp" "$ocr" "$ooxml" "$pats"' EXIT
 
 entries() { # one line per repo: id|path|remote|branch|access|product
@@ -479,6 +479,7 @@ check)
   [ "$raw" -le "$n" ] || fail "manifest has $raw 'id:' line(s) but only $n parse — check indentation ('- id:' must start at column 0)"
   bad="$(awk '/^[[:space:]]*#/{next} /^- id:/{if(NF>3)print NR; next} /^[[:space:]]+(path|remote|default_branch|access|product):/{if(NF>2)print NR}' "$MANIFEST")"
   [ -z "$bad" ] || fail "manifest line(s) $(echo $bad | tr ' ' ','): values must be single tokens (no spaces or inline comments)"
+  [ ! -f CHANGELOG.md ] || cap CHANGELOG.md "$CAP_CHANGELOG" changelog
   # products: docs/<product>/index.md + modules + repo folders + plans; caps
   for f in docs/*.md; do [ -f "$f" ] && fail "$f — nothing lives directly under docs/: a product is docs/<product>/index.md (README.md › Upgrading from v1)"; done
   for pd in docs/*/; do

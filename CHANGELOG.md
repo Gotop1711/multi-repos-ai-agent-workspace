@@ -1,0 +1,8 @@
+# Changelog — the workspace's rules and infrastructure
+
+One line per change, newest first, written on `main` in the closeout that makes the change; never an organization's or a plan's state. Capped at 60 wrapped lines by `check` — cut the oldest, git keeps them.
+
+- 2026-09-16 — `CHANGELOG.md` returns as this one-line-per-change file (capped); `README.md` no longer carries an "Upgrading from v1" section — a migration note belongs to the entry that requires it.
+- 2026-09-16 — `plan done` refuses uncommitted changes to the plan, its index or the logs (commit your `Verified:` line first) and stops instead of reporting a removal that did not happen.
+- 2026-09-16 — `check` counts lines wrapped at 100 columns, so an unwrapped paragraph cannot dodge a cap.
+- 2026-09-16 — **v2**: documents made and unmade by command (`doc init|add|rm`, `plan new|done`, `prune`); layout `docs/<product>/index.md` + `<module>.md` + `<repo>/{index.md,sources/}` + `plans/`; `check` fails a file over its line cap (index 80 · module 150 · repo 100 · plan 80 · log 40); no findings tray, no specifications; `AGENTS.md` 58 lines. The previous rules stay on branch `v1`. **Migration** of a v1 branch: `docs/<scope>.md` → `docs/<scope>/index.md` + modules; `docs/plans/<scope>--<f>.md` → `docs/<scope>/plans/<f>.md`; `docs/<scope>/sources/<repo>/` → `docs/<scope>/<repo>/sources/` (move the originals under `docs/assets/` the same way; blobs and citations are unchanged); findings become module facts or `plan new` stubs; `scope:` → `product:` in the manifest; logs over the cap are cut; verified and abandoned plans go with `plan done`. Prefer resetting the branch onto `main` and migrating in one commit over rebasing many old commits onto deleted files — keep the old tip as a branch.
