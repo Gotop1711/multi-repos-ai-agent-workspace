@@ -4,7 +4,7 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 
 ## Modules
 - [rule-editor](rule-editor.md) — how a served schema becomes a form (the UI map, sub-group overrides) and how the form becomes the saved `Main`
-- [rule-codes](rule-codes.md) — the codes with a UI-map entry (303, 304, 305) against the prototype; what is not yet mapped (306, 105)
+- [rule-codes](rule-codes.md) — the codes with a UI-map entry (303, 304, 305, 306) against the prototype; what is not yet mapped (105)
 - [terms](terms.md) — vocabulary rulings: the prototype's blank-style labels, the 類別 option order
 
 ## Repositories
@@ -15,4 +15,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 ## Plans
 - [205-main-fields](plans/205-main-fields.md) — draft: kernel 205 MainFields vs the prototype (four gaps; kernel is read-only, so a request)
 - [field-locking](plans/field-locking.md) — draft: the prototype's locked fields have no carrier end to end
-- [306-main-setting](plans/306-main-setting.md) — draft: 306 has no UI-map entry, so its 主設定 falls through to the schema defaults (five defects, three of them blocking)
+- [306-main-setting](plans/306-main-setting.md) — shipped `REA_UI@8281dbb`: the 306 entry (five defects of an unmapped 主設定); awaits the owner's check
