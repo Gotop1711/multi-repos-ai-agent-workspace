@@ -32,7 +32,7 @@ Also in scope, same cause: 參考日期 renders as a plain `multiSelect`, losing
 3. `npx vitest run` and `npm run lint` (`max-len` 100 — the subGroups lines in 305 sit right at it).
 
 ## Pitfalls
-- ⛔ **The 01/02/03 values mean different things on the two sides.** The kernel's `01 代碼 / 02 開頭 / 03 開頭範圍` is the product's vocabulary and what the deployment serves; the prototype's own `1-開頭範圍 / 2-代碼 / 3-開頭` is presentation, ruled on 2026-09-16 (terms). `linkedOptions` keys the **served** value, so a group id copied straight off the prototype's `linkedBlockId` order would wire every mode to the wrong sub-row and store the wrong meaning. The dropdown's option *labels* come from the kernel too — this plan does not reproduce the prototype's `1-`/`2-`/`3-` numbering.
+- ⛔ **The 01/02/03 values mean different things on the two sides.** The kernel's `01 代碼 / 02 開頭 / 03 開頭範圍` is what the deployment serves and, the kernel's definition being primary (terms), what a stored value means; the prototype's `1-開頭範圍 / 2-代碼 / 3-開頭` is presentation. `linkedOptions` keys the **served** value, so a group id copied straight off the prototype's `linkedBlockId` order would wire every mode to the wrong sub-row and store the wrong meaning. The option *labels* are the kernel's too: no `1-`/`2-`/`3-` numbering.
 - The prototype types its 前幾碼 field `text` where the kernel serves `Number` with `Min 0`; `PREFIX_LEN` is `number`, which keeps the served constraint. Taking the prototype's `text` instead would drop it.
 - `DiagnosisRangeEnd` carries `CompareField >= DiagnosisRangeStart` — the same shape 305's `bodyPartRangeEnd` has; the sub-group override must not drop the served constraints (it overrides type and sentence only).
 

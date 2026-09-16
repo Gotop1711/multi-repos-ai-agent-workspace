@@ -1,6 +1,6 @@
 # rea
 
-REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders rule dialogs from the kernel's `GET /api/v1/RuleSchema` (`REA_kernel`, .NET, a static versioned registry of rule codes) and saves `RuleNode`s back; the retired prototype UI (`REA_PROTO`) is the reference the project manager wants the editor to match, code by code. Fleet: `catalog/repos.yaml`; cite with `./workspace.sh cite`.
+REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders rule dialogs from the kernel's `GET /api/v1/RuleSchema` (`REA_kernel`, .NET, a static versioned registry of rule codes) and saves `RuleNode`s back; the retired prototype UI (`REA_PROTO`) is the reference the project manager wants the editor to match, code by code — its forms, that is: where the two define the same thing differently the kernel's meaning is primary (terms). Fleet: `catalog/repos.yaml`; cite with `./workspace.sh cite`.
 
 ## Modules
 - [rule-editor](rule-editor.md) — how a served schema becomes a form (the UI map, sub-group overrides) and how the form becomes the saved `Main`
