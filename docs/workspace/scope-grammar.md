@@ -557,3 +557,12 @@ the owner's check of a result was recorded, if at all, as an `Amended: …
 done and a plan awaiting the owner were both `shipped`. `Signed:` opens the
 gate, `Verified:` closes it; both are the human's.
 
+### 2026-09-16 — decisions live in plans, not in findings
+
+Owner decision, recorded in `../../CHANGELOG.md`. A finding records what
+is — evidence, confidence, open evidence questions. A decision it calls
+for opens a draft plan (§6 *Before*) and the finding is tagged; a ruling of
+"no change" ends the plan with `Abandoned: <date> — decided: <ruling>` and
+the ruling becomes a Body fact. Why: a decision parked in a finding has no
+owner, no state and no end; a plan has all three.
+

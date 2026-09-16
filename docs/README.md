@@ -80,7 +80,11 @@ logs are its journey, and one `History:` line under the title says so:
    whose repo exposes the called interface. The provider scope owns a contract
    (its Body › Consumers cites each consumer's use site); the consumer scope
    owns its own usage (Body › Integration points, referring to the provider by
-   id).
+   id). **A finding records what is; a decision it calls for — which option,
+   whose call — is not filed in it.** The decision opens a draft plan
+   `docs/plans/<scope>--<feature>.md` (discussion until signed; a ruling of
+   "no change" is `Abandoned: <date> — decided: <ruling>`, and the ruling
+   becomes a Body fact) and the finding is tagged `[<feature>]`.
 
 ## The examination bar (promotion from Open findings into the body)
 

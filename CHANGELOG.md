@@ -11,6 +11,17 @@ the session log.
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [Decisions live in plans, not in findings] — 2026-09-16
+
+### Changed
+- Owner decision. A finding records what is; a decision it calls for —
+  which option, whose call — opens a draft plan `docs/plans/<scope>--<feature>.md`
+  and the finding is tagged `[<feature>]`; a ruling of "no change" ends the
+  plan with `Abandoned: <date> — decided: <ruling>`, the ruling then a Body
+  fact (`docs/README.md` › Open findings; `docs/workspace/scope-grammar.md`
+  amendment). Why: a decision parked in a finding has no owner, no state
+  and no end.
+
 ## [`Verified:` is the owner's name; the date is optional] — 2026-09-16
 
 ### Changed
