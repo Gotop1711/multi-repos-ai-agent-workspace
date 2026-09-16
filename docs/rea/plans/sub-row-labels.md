@@ -1,9 +1,10 @@
 # rea — sub-row-labels: the sub-row fields of 303 and 305 read as the prototype's one sentence
 
 Writes: REA_UI (debug-ui)
-Status: shipped
+Status: verified
 Signed: gotop1711 — 2026-09-16 — option B
 Shipped: 2026-09-16 — REA_UI@bdba317 on `debug-ui` (d6bdb0a object-form sub-group overrides in `applyUIMapToBlock` + `SubGroupInput`; bdba317 `'303'`/`'305'` entries in object form, two tests; pushed f9837a2..bdba317; `npx vitest run` 47 files / 1082 tests, lint clean; merge request to `develop` not opened)
+Verified: gotop1711
 
 ## Goal
 The kernel serves every sub-row field of 303 and 305 with a non-empty `Label`, and the editor prints it before the field's `PrefixText`, so a 305 sub-row read `部位前幾碼 前 [ ] 碼` where the prototype writes `前 [ ] 碼，`. After this plan each sub-row reads as the prototype's sentence, and 303's shared `max` / `period` / `periodUnit` carry each mode's own prefix and suffix.
