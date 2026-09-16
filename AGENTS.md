@@ -39,7 +39,10 @@ it) or `extract` (a file already there). Originals are never committed.
      the log's TODO); promote into the document body only past the
      examination bar (`docs/README.md`); prune what you found stale there —
      a promoted or refuted finding is deleted, a Body claim is rewritten in
-     place; git is the document's history. Changes to the workspace's own
+     place; git is the document's history. A plan whose header newly carries
+     the owner's `Verified:` line: settle its `[<feature>]`-tagged findings
+     (promote or delete) and run `./workspace.sh prune --apply`
+     (`docs/README.md` › The signature gate). Changes to the workspace's own
      rules or infrastructure go to `./CHANGELOG.md`, on `main` only (›
      Boilerplate and organizations) — never a child repository's state, an
      organization's own fleet or sync, a manifest change made for a plan,
@@ -99,14 +102,15 @@ workspace.boilerplate upstream/main`).
   (per its rules; on an organization's branch not its boilerplate paths),
   `./CHANGELOG.md` (on `main`), `docs/<scope>/sources/[<repo>/]*.md` **only as
   `./workspace.sh ingest` or `extract` output** (never hand-edited) — and
-  removed (`git rm`, together with its original) at closeout once nothing
-  under `docs/` outside `sources/` cites it by file name; `check` lists such
-  derivatives, and git keeps their text — gitignored
+  removed at closeout (`./workspace.sh prune --apply`: `git rm`, together
+  with its original) once nothing live under `docs/` outside `sources/`
+  cites it by file name; `check` lists such derivatives, `prune` what keeps
+  the others, and git keeps their text — gitignored
   `docs/assets/<scope>/[<repo>/]` **only through `./workspace.sh ingest`** (it adds a
   dated original and never overwrites or renames one) — plus one removal
   anyone makes: an original that no derivative names any more (an **orphan**:
   its derivative was removed or re-filed; `check` lists them) is deleted at
-  closeout, by agents and human maintainers alike, so `docs/assets/` holds
+  closeout (`prune --apply`), by agents and human maintainers alike, so `docs/assets/` holds
   only what `docs/*/sources/` uses — and gitignored
   `.agents/scratch/` for
   disposable working artifacts (safe to delete anytime; their conclusions go

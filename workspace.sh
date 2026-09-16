@@ -9,6 +9,7 @@
 #   ./workspace.sh extract <scope> docs/assets/<scope>/[<repo>/]<file>…  text of a copied document → docs/<scope>/sources/[<repo>/]<file>.md
 #                                              OCR_LANGS=<bcp47,…> sets Vision's recognition languages (default zh-Hant,en-US)
 #   ./workspace.sh check                 verify the manifest and the document layer (session-init / pre-commit)
+#   ./workspace.sh prune [--apply]       what keeps each document derivative alive, what is removable; --apply removes it (with its original)
 # Plain bash (macOS 3.2 ok), zero dependencies — extract alone uses macOS textutil, swift (PDFKit, Vision) and python3.
 set -u
 cd "$(dirname "$0")" || exit 1
@@ -34,6 +35,22 @@ repo_subs() { entries | cut -d'|' -f1 | tr 'A-Z_' 'a-z-'; }   # every permitted 
 ORG_RE='^(catalog/[^/]*[.]yaml|docs/[^/]*[.]md|docs/[^/]*/.*|[.]agents/memory/sessions/[^/]*)$'
 BOILERPLATE_RE='^(docs/(README|BLUEPRINT|workspace)[.]md|docs/workspace/.*|[.]agents/memory/sessions/(TEMPLATE[.]md|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[a-z0-9]*-workspace--.*))$'
 party() { awk -v want="$1" -v o="$ORG_RE" -v b="$BOILERPLATE_RE" '{ p = ($0 ~ o && $0 !~ b) ? "org" : "boilerplate" } p == want'; }   # paths on stdin → those of one party (org | boilerplate)
+
+# document layer (docs/README.md › Writing rules): a derivative is needed only while a LIVE document under docs/ outside sources/ names it by
+# file name — session logs are journey; a plan carrying Shipped:/Abandoned:/Superseded: is history (its knowledge dissolved into the Body).
+# Shared by check and prune. No `case` in these: under bash 3.2 a case pattern's ')' closes an enclosing $( ).
+keepers() { # $1 = derivative → one "<document> › <nearest heading above the citation>" per live citing document
+  name="$(basename "$1")"
+  grep -rlF --include='*.md' "$name" docs 2>/dev/null | grep -v '/sources/' | sort | while read -r d; do
+    if [ "${d#docs/plans/}" != "$d" ] && grep -qE '^(Shipped|Abandoned|Superseded):' "$d"; then continue; fi
+    awk -v pat="$name" -v d="$d" '/^#+ /{h=$0} index($0,pat){print d " › " (h==""?"(before the first heading)":substr(h,1,72))}' "$d" | awk '!seen[$0]++'
+  done
+}
+unref_derivatives() { ls -d docs/*/sources >/dev/null 2>&1 || return 0; find docs/*/sources -type f -name '*.md' | sort | while read -r f; do keepers "$f" | grep -q . || echo "$f"; done; }
+orphan_originals() { # an original no derivative names (removed or re-filed); a scope with neither a document nor a folder on this branch is another branch's — left alone
+  [ -d "$ASSETS" ] || return 0
+  find "$ASSETS" -type f ! -name .DS_Store | sort | while read -r o; do r="${o#$ASSETS/}"; s="${r%%/*}"; [ -e "docs/$s.md" ] || [ -d "docs/$s" ] || continue; [ -f "docs/$s/sources/${r#*/}.md" ] || echo "$o"; done
+}
 
 cmd="${1:-help}"
 case "$cmd" in clone|cite|restore|check|extract|ingest)
@@ -357,53 +374,55 @@ check)
         echo "warn: $f: $o differs from its header — a new version is a new dated name; re-ingest it or restore the copy" >&2
       fi
     done || status=1
-    # unreferenced derivatives: nothing under docs/ outside sources/ names the file (session logs are journey and do not count) —
-    # removed at closeout with their originals by whoever sees this; cite a derivative by its full file name to keep it
-    # a plan carrying Shipped:/Abandoned:/Superseded: is history — its knowledge dissolved into the Body, so its citations no longer keep a document alive.
-    # No `case` here: in bash 3.2 a case pattern's ')' closes the enclosing $( ).
-    unref="$(find docs/*/sources -type f -name '*.md' | while read -r f; do
-      grep -rlF --include='*.md' "$(basename "$f")" docs 2>/dev/null | grep -v '/sources/' | while read -r d; do
-        if [ "${d#docs/plans/}" != "$d" ] && grep -qE '^(Shipped|Abandoned|Superseded):' "$d"; then continue; fi
-        echo "$d"
-      done | grep -q . || echo "$f"; done)"
+    # unreferenced derivatives (keepers(), shared with prune): removed at closeout with their originals by whoever sees this —
+    # './workspace.sh prune --apply'; cite a derivative by its full file name to keep it
+    unref="$(unref_derivatives)"
     if [ -n "$unref" ]; then
       printf '%s\n' "$unref" | while read -r f; do o="$(sed -n 's/^source: //p' "$f" | head -1)"
-        echo "warn: $f is not referenced by any document under docs/ — remove it and its original at closeout (git rm $f; rm $o), or cite it by its full file name" >&2; done
-      echo "warn: $(printf '%s\n' "$unref" | grep -c .) unreferenced derivative(s) under docs/*/sources/ — no longer needed by the documentation; remove them with their originals before closing out (AGENTS.md › write surface)" >&2
+        echo "warn: $f is not referenced by any live document under docs/ — remove it and its original at closeout (git rm $f; rm $o), or cite it by its full file name" >&2; done
+      echo "warn: $(printf '%s\n' "$unref" | grep -c .) unreferenced derivative(s) under docs/*/sources/ — no longer needed by the documentation; './workspace.sh prune' shows what keeps the others, 'prune --apply' removes these with their originals before closing out (AGENTS.md › write surface)" >&2
     fi
     tracked="$(git ls-files "$ASSETS" 2>/dev/null | wc -l | tr -d ' ')"
     [ "$tracked" -eq 0 ] || { echo "FAIL: $tracked file(s) under $ASSETS/ are tracked by git — originals are never committed (git rm --cached them; keep '/docs/assets/' in .gitignore)" >&2; status=1; }
     echo "info: $(find docs/*/sources -type f -name '*.md' | wc -l | tr -d ' ') document derivative(s) under docs/*/sources/$([ -d "$ASSETS" ] || echo " ($ASSETS/ absent: hashes not verified)")"
   fi
-  # orphans: an original no derivative names any more (its derivative was removed or re-filed) — removed at closeout by whoever sees this.
-  # A scope with neither a document nor a folder on this branch is another branch's (a clone shared by several organizations): left alone.
-  orphans="$( [ -d "$ASSETS" ] && find "$ASSETS" -type f ! -name .DS_Store | while read -r o; do r="${o#$ASSETS/}"; s="${r%%/*}"; [ -e "docs/$s.md" ] || [ -d "docs/$s" ] || continue; [ -f "docs/$s/sources/${r#*/}.md" ] || echo "$o"; done )"
+  # orphans (orphan_originals(), shared with prune): removed at closeout by whoever sees this — 'prune --apply' does it
+  orphans="$(orphan_originals)"
   if [ -n "$orphans" ]; then
     printf '%s\n' "$orphans" | while read -r o; do echo "warn: $o has no derivative — an orphan: remove it (rm), or './workspace.sh extract ${o#$ASSETS/}' if it was meant to be ingested" | sed "s|extract \([a-z0-9-]*\)/|extract \1 $ASSETS/\1/|" >&2; done
-    echo "warn: $(printf '%s\n' "$orphans" | grep -c .) orphan original(s) under $ASSETS/ — not in use by any derivative; remove them before closing out (AGENTS.md › write surface)" >&2
+    echo "warn: $(printf '%s\n' "$orphans" | grep -c .) orphan original(s) under $ASSETS/ — not in use by any derivative; remove them before closing out ('./workspace.sh prune --apply'; AGENTS.md › write surface)" >&2
   fi
 
-  # plans: the whole lifecycle sits in the header (H1 .. first '## '), one Signed: at most, Status: consistent with the lines,
-  # a signed plan names its write set (docs/README.md › The signature gate)
+  # plans: the whole lifecycle sits in the header (H1 .. first '## '), one Signed: and one Verified: at most (both the human's hand),
+  # Status: consistent with the lines, a signed plan names its write set (docs/README.md › The signature gate)
+  awaiting=""
   for p in docs/plans/*.md; do
     [ -f "$p" ] || continue
     hdr="$(awk 'NR>1 && /^## /{exit} {print}' "$p")"
     body="$(awk 'f{print} /^## /{f=1}' "$p")"
     printf '%s\n' "$hdr" | grep -q '^Scope: ' || { echo "FAIL: $p — no 'Scope:' line in the header" >&2; status=1; }
     st="$(printf '%s\n' "$hdr" | sed -n 's/^Status: //p' | head -1)"
-    [ -n "$st" ] || { echo "FAIL: $p — no 'Status:' line in the header (draft|signed|paused|shipped|abandoned|superseded)" >&2; status=1; }
-    stray="$(printf '%s\n' "$body" | grep -nE '^(Scope|Scopes|Writes|Status|Signed|Amended|Shipped|Abandoned|Superseded|Supersedes|Renamed):' | head -3 | tr '\n' ' ')"
+    [ -n "$st" ] || { echo "FAIL: $p — no 'Status:' line in the header (draft|signed|paused|shipped|verified|abandoned|superseded)" >&2; status=1; }
+    stray="$(printf '%s\n' "$body" | grep -nE '^(Scope|Scopes|Writes|Status|Signed|Amended|Shipped|Verified|Abandoned|Superseded|Supersedes|Renamed):' | head -3 | tr '\n' ' ')"
     [ -z "$stray" ] || { echo "FAIL: $p — lifecycle line(s) below the first '## ' heading (the header holds the whole lifecycle): $stray" >&2; status=1; }
     sc="$(printf '%s\n' "$hdr" | grep -c '^Signed: ' || true)"
     [ "$sc" -le 1 ] || { echo "FAIL: $p — $sc 'Signed:' lines; a plan is signed once (a change beyond its Writes: set is a new plan)" >&2; status=1; }
+    vc="$(printf '%s\n' "$hdr" | grep -c '^Verified: ' || true)"
+    [ "$vc" -le 1 ] || { echo "FAIL: $p — $vc 'Verified:' lines; the owner's check of the shipped result is recorded once" >&2; status=1; }
+    if [ "$vc" -ge 1 ]; then
+      printf '%s\n' "$hdr" | grep -q '^Shipped: ' || { echo "FAIL: $p — 'Verified:' without 'Shipped:' — verification records the owner's check of a shipped result" >&2; status=1; }
+      printf '%s\n' "$hdr" | grep -qE '^Verified: .+ — [0-9]{4}-[0-9]{2}-[0-9]{2}( — .+)?$' || { echo "FAIL: $p — 'Verified:' must read 'Verified: <name> — <YYYY-MM-DD> — <what was checked>' (the human's hand, like Signed:)" >&2; status=1; }
+    fi
     want=draft
     [ "$sc" -ge 1 ] && want=signed
     printf '%s\n' "$hdr" | grep -q '^Shipped: ' && want=shipped
+    [ "$vc" -ge 1 ] && want=verified
     printf '%s\n' "$hdr" | grep -q '^Abandoned: ' && want=abandoned
     printf '%s\n' "$hdr" | grep -q '^Superseded: ' && want=superseded
     ok=0
     if [ "$st" = "$want" ]; then ok=1; elif [ "$st" = paused ] && [ "$want" = signed ]; then ok=1; fi
     [ "$ok" -eq 1 ] || { echo "FAIL: $p — 'Status: $st' contradicts the lifecycle lines (expected $want$([ "$want" = signed ] && echo ' or paused'))" >&2; status=1; }
+    [ "$want" = shipped ] && awaiting="$awaiting ${p#docs/plans/}"
     if [ "$sc" -ge 1 ]; then
       w="$(printf '%s\n' "$hdr" | sed -n 's/^Writes: //p' | head -1)"
       [ -n "$w" ] || { echo "FAIL: $p — a signed plan needs a 'Writes:' line (the repositories and branches the signature covers)" >&2; status=1; }
@@ -412,6 +431,7 @@ check)
       done
     fi
   done
+  [ -z "$awaiting" ] || echo "info: shipped plan(s) awaiting the owner's 'Verified:' line:$awaiting"
 
   # parties (AGENTS.md › Boilerplate and organizations): the boilerplate branch carries no organization's content, and an
   # organization's branch changes no boilerplate path since its merge base with it. Working tree, so the hook sees it before a commit.
@@ -457,12 +477,40 @@ check)
   exit "$status"
   ;;
 
+prune)
+  # the document layer's removal as one command (docs/README.md › Writing rules): a derivative nothing live cites goes with its original,
+  # an orphan original goes alone. Without --apply: report only — every derivative with what keeps it, then what is removable.
+  apply=0; [ "${2:-}" = "--apply" ] && apply=1
+  [ "$#" -le 1 ] || [ "$apply" -eq 1 ] || { echo "usage: workspace.sh prune [--apply]   # report what keeps each derivative and what is removable; --apply removes it (staged for the closeout commit)" >&2; exit 1; }
+  if ls -d docs/*/sources >/dev/null 2>&1; then
+    find docs/*/sources -type f -name '*.md' | sort | while read -r f; do
+      k="$(keepers "$f")"
+      if [ -n "$k" ]; then
+        [ "$apply" -eq 1 ] || printf '%s\n' "$k" | sed "s|^|kept:    $f — by |"
+      else
+        o="$(sed -n 's/^source: //p' "$f" | head -1)"
+        if [ "$apply" -eq 1 ]; then
+          if git ls-files --error-unmatch -- "$f" >/dev/null 2>&1; then git rm -q -- "$f" && echo "removed: $f"; else rm -- "$f" && echo "removed: $f (never committed)"; fi
+          [ -e "$o" ] && rm -- "$o" && echo "removed: $o"
+        else
+          echo "remove:  $f — no live document cites it (with its original $o)"
+        fi
+      fi
+    done
+  fi
+  orphan_originals | while read -r o; do
+    if [ "$apply" -eq 1 ]; then rm -- "$o" && echo "removed: $o (orphan)"; else echo "remove:  $o — an orphan (no derivative)"; fi
+  done
+  if [ "$apply" -eq 1 ]; then echo "prune: done — removals are staged and go with the closeout commit; git keeps every removed derivative's text (git show <blob>)"
+  else echo "prune: report only — './workspace.sh prune --apply' removes what is listed as 'remove:'"; fi
+  ;;
+
 help)
-  sed -n '2,10p' "$0"
+  sed -n '2,12p' "$0"
   ;;
 
 *)
-  sed -n '2,10p' "$0" >&2
+  sed -n '2,12p' "$0" >&2
   exit 1
   ;;
 esac

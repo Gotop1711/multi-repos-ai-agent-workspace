@@ -968,3 +968,24 @@ a `docs/<scope>.md` nor a `docs/<scope>/` on the current branch: in a clone
 shared by several branches the gitignored `docs/assets/` holds every
 branch's originals, and a closeout on `main` was told to delete another
 branch's originals as orphans.
+
+### 2026-09-16 — removal is one command, `prune`; a plan's verification is its moment
+
+Owner decision, recorded in `../../CHANGELOG.md`. The rules of the three
+2026-09-04 amendments above are unchanged — a derivative is needed only
+while a live document cites it by file name, its original goes with it, an
+orphan goes alone — but the act is now `./workspace.sh prune`: without a
+flag, every derivative with its keepers (the citing document and the
+nearest heading above the citation) and what is removable; `--apply`
+performs the `git rm` (plain `rm` for a derivative never committed) and the
+`rm`, staged for the closeout commit. `check` keeps its warnings and points
+to it; both run one scan (`keepers`, `unref_derivatives`,
+`orphan_originals` in `workspace.sh`). And the moment is named: the
+closeout that first sees a plan's `Verified:` line (`scope-grammar.md`,
+same date) settles that plan's tagged findings and runs `prune --apply`, so
+the documents a plan needed leave when the owner's check is recorded.
+
+Why. The removal was a hand procedure at whichever closeout happened to
+notice the warning, and nothing showed the owner *why* a file was still
+kept — so files seemed to linger for no reason and to vanish at random.
+

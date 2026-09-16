@@ -15,7 +15,7 @@ docs/
 ├── <scope>/sources/[<repo>/]<name>.<ext>.md ← human-supplied documents as text (ingest / extract output only; removed with the original once no document cites it); <repo> = a manifest id lowercased, for a document that is evidence about one fleet repo
 ├── assets/<scope>/[<repo>/]<name>.<ext>   ← their originals, copied in by ingest; gitignored, never committed; an original no derivative names (orphan) is removed at closeout
 ├── workspace/<topic>.md          ← the workspace's own specifications (document layer, scope grammar)
-└── plans/<scope>--<feature>.md   ← child-repo work only: discussion → 🚦 signature → execution
+└── plans/<scope>--<feature>.md   ← child-repo work only: discussion → 🚦 signature → execution → ✅ the owner's Verified:
 ```
 
 ## Scopes
@@ -135,10 +135,11 @@ overwritten, never placed anywhere else in the file:
     Scope: <lead>
     Scopes: <lead>, <other>…                      (only when it touches several)
     Writes: <repo> (<branch>), …                  (the write set the signature covers)
-    Status: draft | signed | paused | shipped | abandoned | superseded
+    Status: draft | signed | paused | shipped | verified | abandoned | superseded
     Signed: <name> — <YYYY-MM-DD>                 (human, exactly once)
     Amended: <YYYY-MM-DD> — A<n> <summary> (confirmed by <name> in session)   (repeatable)
     Shipped: <YYYY-MM-DD> — <repo>@<sha>…         (agent; the landed commits)
+    Verified: <name> — <YYYY-MM-DD> — <what was checked>   (human, exactly once, after Shipped:)
     Abandoned: <YYYY-MM-DD> — <reason>
     Superseded: <YYYY-MM-DD> — by <scope>--<feature>
     Supersedes: <scope>--<feature>                (on the successor)
@@ -147,14 +148,33 @@ overwritten, never placed anywhere else in the file:
 `Status:` is one word, maintained by the agent and derived from the lines
 under it: `draft` until `Signed:`; `signed` from then on; `paused` when the
 owner has halted execution in session (the reason is the latest `Amended:`
-line, and another `Amended:` lifts it); `shipped`, `abandoned` or
-`superseded` once the matching line exists — terminal states, and a plan in
-one of them is history (its knowledge is in the Body; `check` no longer
-counts its citations). `check` fails a plan whose `Status:` contradicts its
-lines, that carries more than one `Signed:`, that has a lifecycle line below
-the first `##`, or that is signed without `Writes:`. Free-text status notes
+line, and another `Amended:` lifts it); `shipped` once `Shipped:` exists —
+landed, awaiting the owner's check; `verified` once `Verified:` exists;
+`abandoned` or `superseded` once the matching line exists. `verified`,
+`abandoned` and `superseded` are terminal; a plan carrying `Shipped:`,
+`Abandoned:` or `Superseded:` is history (its knowledge is in the Body;
+`check` no longer counts its citations). `check` fails a plan whose
+`Status:` contradicts its lines, that carries more than one `Signed:` or
+more than one `Verified:`, a `Verified:` without `Shipped:` or without its
+`<name> — <date>` prefix, that has a lifecycle line below the first `##`,
+or that is signed without `Writes:`; and every run it lists the shipped
+plans still awaiting the owner's `Verified:` line. Free-text status notes
 (block quotes under the header) are not state — delete them once the header
 says it.
+
+**Verification closes what the signature opened.** When the owner has
+checked the shipped result — the plan's verification section, or whatever
+the H1 promised — the owner writes `Verified: <name> — <date> — <what was
+checked>` in the header, once. The agent never writes it and never records
+the owner's confirmation in its place: a spoken confirmation of a *change*
+is an amendment; that the *result is right* is the owner's own line, as
+`Signed:` is. A wrong result gets no line — the defect is a finding, fixed
+by an amendment inside the write set or by a new plan. The closeout that
+first sees a `Verified:` line settles the plan's `[<feature>]`-tagged
+findings — promoted into the Body (re-verified at the shipped sha and
+checked by the owner, they meet the bar) or deleted — and runs
+`./workspace.sh prune --apply`, so the documents the plan needed leave with
+it.
 
 **One signature per plan; amendments are confirmed in session.** After the
 signature a plan changes only by amendment: a numbered `### A<n> — <date>:
@@ -203,9 +223,12 @@ line under the H1 and a `../CHANGELOG.md` entry.
   signature gate; `docs/workspace/scope-grammar.md` §6), so what keeps the
   document alive from then on is the Body claim or finding that uses it. One
   nothing cites any more — its findings promoted or deleted, its edition
-  superseded, its scope re-filed, its plan shipped — is removed at closeout,
-  `git rm` for the derivative and `rm` for its original, by agents and humans
-  alike; `check` lists them. Git keeps the text, and a cited blob still
+  superseded, its scope re-filed, its plan shipped — is removed at closeout
+  by `./workspace.sh prune --apply` (`git rm` for the derivative, `rm` for
+  its original and for orphan originals), by agents and humans alike;
+  `prune` alone reports what keeps each derivative — the citing document
+  and the heading the citation sits under — and what is removable, and
+  `check` warns on the latter. Git keeps the text, and a cited blob still
   resolves with `git show`. Provenance lives in the derivative's header
   (`source:`, `sha256:`, `received:`) and, for the narrative — where the files
   came from, what was not ingested and why, which edition supersedes which —

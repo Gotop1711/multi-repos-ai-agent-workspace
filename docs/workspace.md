@@ -168,20 +168,6 @@ signature gate); "docs system"/"knowledge system", "session logs"/"journey
 logs"/"journals", "product"/"product code"/"product/area" are used
 interchangeably; direct (read); low.
 
-### 34. A completed verification has no sanctioned plan-header line
-A plan whose last open item is verifying the shipped result has nowhere to
-record that it is done. On an organization's branch a shipped plan carries
-`Verified: <date> — <what was compared>; no differences`, and a Body claim
-cites that line; but `docs/README.md` › The signature gate lists eleven
-lifecycle lines without `Verified:`, and `check`'s stray-line pattern
-(`workspace.sh` › check › plans) lists the same eleven — so a `Verified:`
-line below the first `##` passes unnoticed, and the `Status:` derivation
-cannot see it — workspace@ab0c133; direct (read) for the rule side, the
-use reported from an organization's branch as a `[workspace]` proposal;
-high. Q: add `Verified:` to both lists, or record the outcome as an
-`Amended:` line — and does a verification change `Status:` (a new word, or
-still `shipped`)?
-
 ### 35. A plan signed before the one-signature rule cannot be migrated faithfully when its writes grew after signing
 `docs/README.md` › The signature gate makes a change that adds a
 repository or branch to `Writes:` a new plan, not an amendment. A plan

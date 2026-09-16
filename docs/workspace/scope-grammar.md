@@ -532,3 +532,26 @@ organization's branch, the sole place for them. Every other path this
 grammar defines — `docs/<scope>.md` and `docs/<scope>/` for any other
 scope, `docs/plans/`, other session logs — is organization content, absent
 on `main`.
+
+### 2026-09-16 — `Verified:` closes the plan; `verified` is the terminal state
+
+Owner decision, recorded in `../../CHANGELOG.md`. Adds to §3's header lines,
+after `Shipped:`, `Verified: <name> — <YYYY-MM-DD> — <what was checked>`
+(human, exactly once), and to §6 *After* a last step: once the owner has
+checked the shipped result — the plan's verification section, or whatever
+the H1 promised — the owner writes the line; `Status:` becomes `verified`,
+the terminal word, and `shipped` now reads as *landed, awaiting the owner's
+check*. The agent never writes it and never records the owner's confirmation
+in its place (that is what `Amended:` is for, and only for a change). The
+closeout that first sees the line settles the plan's `[<feature>]`-tagged
+findings — promote or delete — and runs `./workspace.sh prune --apply`
+(`document-layer.md`, same date). §7's gate audit gains the shipped plans
+still without the line — `check` prints them every run. Full rule and the
+`check` conditions: `docs/README.md` › The signature gate.
+
+Why. The 2026-09-08 amendment gave the agent every post-signature line, so
+the owner's check of a result was recorded, if at all, as an `Amended: …
+(confirmed by … in session)` — never the reviewer's own hand — and a plan
+done and a plan awaiting the owner were both `shipped`. `Signed:` opens the
+gate, `Verified:` closes it; both are the human's.
+

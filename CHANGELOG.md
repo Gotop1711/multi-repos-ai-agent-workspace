@@ -11,6 +11,48 @@ the session log.
 Append-only: never rewrite past entries.
 Format: `## [description] — YYYY-MM-DD` + `### Added / Changed / Fixed`.
 
+## [The owner's `Verified:` line closes a plan; `prune` removes what the documentation no longer cites] — 2026-09-16
+
+### Added
+- `Verified: <name> — <YYYY-MM-DD> — <what was checked>` — a twelfth
+  lifecycle line, written by a human exactly once, after `Shipped:`, when
+  the owner has checked the shipped result. `Status: verified` derives from
+  it and is terminal, so `shipped` now reads as "landed, awaiting the
+  owner's check". `check` fails a second `Verified:`, one without
+  `Shipped:` or without its `<name> — <date>` prefix, and one below the
+  first `##`; every run it lists the shipped plans still awaiting the line
+  (`docs/README.md` › The signature gate). Resolves `docs/workspace.md`
+  finding 34, carried from an organization's branch.
+- `./workspace.sh prune [--apply]` — the document layer's removal as one
+  command: without the flag, every derivative with what keeps it (the
+  citing document and the heading the citation sits under) and what is
+  removable; with `--apply`, `git rm` of each derivative nothing live cites
+  (`rm` if it was never committed), `rm` of its original and of orphan
+  originals, staged for the closeout commit. `check`'s unreferenced and
+  orphan warnings are unchanged and now point to it; both share one scan
+  (`keepers`, `unref_derivatives`, `orphan_originals`).
+
+### Changed
+- The closeout that first sees a `Verified:` line settles the plan's
+  `[<feature>]`-tagged findings — promoted or deleted — and runs
+  `prune --apply`, so the documents a plan needed leave with it
+  (`AGENTS.md` › Every session › 5 and › Red lines; `docs/README.md` › The
+  signature gate and › Writing rules; `README.md`; amendments dated today
+  in `docs/workspace/scope-grammar.md` and `document-layer.md`).
+- Why. Owner decision, prompted on an organization's branch: the agent's
+  `Amended: … (confirmed by … in session)` never carried the reviewer's own
+  hand, so a plan awaiting the owner's check and a plan done looked the
+  same; and a derivative's removal, a hand procedure at closeout, gave no
+  view of why a file was still kept. `Signed:` opens the gate, `Verified:`
+  closes it — both human. Removal stays tied to citation, not to approval,
+  but is now visible and one command.
+- Migration, on an organization's branch after the sync: a plan already
+  carrying a pre-rule `Verified:` line rewrites it in the adopted form —
+  the owner's name first — and sets `Status: verified`; `check` names the
+  plans that still need the line. Sandbox-verified (bash 3.2): seven header
+  cases, the report, and `--apply` over tracked, never-committed and
+  orphan files.
+
 ## [Rules and infrastructure change on main only; the boilerplate names no organization] — 2026-09-11
 
 ### Changed
