@@ -20,7 +20,7 @@ live response and its schema attached); the ui should reflect it.
 ## Decisions & pitfalls
 - No write to `REA_UI`: the request is child-repo work, so it became a plan, not a commit.
 - First drafted on `debug-api` (the last signed branch) — a guess, and wrong. On `debug-ui` the same
-  code sits 4–11 lines higher and the group-name fix is absent, so Done-when tests with one group.
+  code is shifted 4–11 lines and the group-name fix is absent, so Done-when tests with one group.
 - `ingest` refused the capture (1.01 MB, 4-space indent): extracted text over the 1 MB cap. `jq
   --indent 1` brought it to about 0.5 MB; checked equal to the original with `jq -S -c` + `cmp`.
 - "Should a stored disabled condition block save?" looked like a UX preference until the translator
