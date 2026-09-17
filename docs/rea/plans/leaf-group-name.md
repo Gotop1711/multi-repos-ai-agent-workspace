@@ -3,7 +3,7 @@
 Status: draft
 
 ## Goal
-Saving a rule module with two or more groups succeeds, and a saved group name survives a page reload. Today the live kernel rejects the second group: `POST /api/v1/RuleSet` answers `400` with `{Code: "201", Path: "Logic", Message: "Code 201 下有重複的群組名稱，每個 Leaf 的 Name 必須唯一"}` (owner's browser, 2026-09-17). The two sides disagree about which field carries the group name — `REA_kernel` says the leaf's `Name`, `REA_UI` sends the rule code's display name there and puts the group name in a `GroupName` the kernel does not have (rule-editor › The leaf envelope). The kernel's definition is primary (terms), so the ui moves.
+Saving a rule module with two or more groups succeeds, and a saved group name survives a page reload. Today the live kernel rejects the second group: `POST /api/v1/RuleSet` answers `400` with `{Code: "201", Path: "Logic", Message: "Code 201 下有重複的群組名稱，每個 Leaf 的 Name 必須唯一"}` (owner's browser, 2026-09-17). The two sides disagree about which field carries the group name — `REA_kernel` says the leaf's `Name` (on `develop` since `458e663`), `REA_UI` sends the rule code's display name there and puts the group name in a `GroupName` the kernel does not have (rule-editor › The leaf envelope). The kernel's definition is primary (terms), so the ui moves.
 
 ## Writes
 `REA_UI (debug-ui)`. Nothing in the kernel: the carrier already exists there.
@@ -16,4 +16,4 @@ Saving a rule module with two or more groups succeeds, and a saved group name su
 5. Tests: two groups of one code produce two leaves with distinct `name` and no `groupName`; a duplicate group name is caught in the dialog before the request; a leaf carrying only the legacy `groupName` still decomposes. `npx vitest run` and `npm run lint` clean.
 
 ## Done when
-In the running editor against the live kernel, a 201 rule with two groups saves with `200`; reopening the dialog after a page reload shows the typed group names, not `群組1` / `群組2`; two groups given the same name are refused by the dialog with a message, not by a `400`. The owner also confirms the engine rule names the kernel derives (`Rule_201_<群組名>`, `REA_kernel@876cd3d RuleSetTranslator.cs:58-91`) are what the result parser expects.
+In the running editor against the live kernel, a 201 rule with two groups saves with `200`; reopening the dialog after a page reload shows the typed group names, not `群組1` / `群組2`; two groups given the same name are refused by the dialog with a message, not by a `400`. The engine rule names this makes the kernel derive (`Rule_201_<群組名>`) are **not** what its own result parser accepts — that is plan translated-rule-names, and it blocks nothing here: nothing executes the translated rules yet.
