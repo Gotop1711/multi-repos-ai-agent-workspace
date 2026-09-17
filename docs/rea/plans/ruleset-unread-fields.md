@@ -37,7 +37,7 @@ This plan is the ruling on those fields, one of:
 - (b) ui, after the kernel ships: `REA_UI (debug-ui)` — `getRuleSetList` adds
   `$select=OrderCode,RuleStartDate,RuleEndDate,Logic,OtherNote` (`src/api/modules/rules/index.ts:167`);
   `types.ts` `RuleSet` drops the five or marks them optional; `mock/rulesData.js:1629-1632` follows;
-  `tests/unit/api/interceptors.test.js` gains the `$select` expectation. The ui build must not precede the kernel's: a `$select`
+  `tests/unit/api/modules/rules.test.js` gains the `$select` expectation. The ui build must not precede the kernel's: a `$select`
   the kernel rejects fails every load.
 - (a) and (c): no ui write.
 
