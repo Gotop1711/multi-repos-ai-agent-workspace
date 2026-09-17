@@ -13,11 +13,14 @@ live response and its schema attached); the ui should reflect it.
   `ScopeSetting`'s `fieldOptions` drop it → rule-editor › Disabled conditions.
 - Plan **disabled-conditions** (draft): carry the flag, grey the option, count only enabled ones,
   refuse a stored disabled field before the request; mock and tests. Awaits the owner's signature.
+- Owner moved the work to `debug-ui` (`411c809`); plan branch and every ui citation re-checked there.
 - Deployment caught up with `458e663`: 201 no longer serves `ReferenceFields` — rea-kernel, rule-editor
   › Field names and plan ui-map-orphans item 1 updated.
 
 ## Decisions & pitfalls
 - No write to `REA_UI`: the request is child-repo work, so it became a plan, not a commit.
+- First drafted on `debug-api` (the last signed branch) — a guess, and wrong. On `debug-ui` the same
+  code sits 4–11 lines higher and the group-name fix is absent, so Done-when tests with one group.
 - `ingest` refused the capture (1.01 MB, 4-space indent): extracted text over the 1 MB cap. `jq
   --indent 1` brought it to about 0.5 MB; checked equal to the original with `jq -S -c` + `cmp`.
 - "Should a stored disabled condition block save?" looked like a UX preference until the translator
@@ -26,7 +29,7 @@ live response and its schema attached); the ui should reflect it.
   let plan field-locking absorb this one.
 
 ## TODO
-- Owner: confirm the plan's four decisions (branch `debug-api`), then sign.
+- Owner: confirm decisions 2–4, then sign (`Writes: REA_UI (debug-ui)`).
 - Noted, not filed: 101's `CaseTypeOptions` has a `VisibleWhen` no other code has; the add-on board
   reads 101's list.
 - Push: workspace `rea`; `REA_UI` `debug-api` `9f091c3` still unpushed from the last session.

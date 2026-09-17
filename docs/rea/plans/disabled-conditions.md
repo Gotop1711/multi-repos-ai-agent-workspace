@@ -9,15 +9,16 @@ The kernel marks a 檢核範圍 condition `Disabled` when its translator does no
 `OrderType` and `Department`, which are exactly the four the translator implements; saving any other
 one throws, and the API answers 500 (rea-kernel › Save translates). The deployment of 2026-09-17
 serves the same nine (`docs/rea/rea-kernel/sources/2026-09-17-ruleschema-live.json.md@ecc4c965567f`
-L6404-L7425). `REA_UI@9f091c3` drops the flag before the 欄位 select sees it, so all thirteen are
-selectable and nine of them end in a 500 at save (rule-editor › Disabled conditions).
+L6404-L7425). `REA_UI@411c809` (`debug-ui`) drops the flag before the 欄位 select sees it, so all
+thirteen are selectable and nine of them end in a 500 at save (rule-editor › Disabled conditions).
 
 When this ships, a disabled condition is listed but greyed out and cannot be picked, and a stored
 rule that already holds one shows the row with a field error and refuses to save until it is
 removed or changed — the error arrives before the request, not as a 500.
 
-## Decisions (defaults — change them before signing)
-1. **Branch** `debug-api`, where `9f091c3` sits unpushed and the last plan was signed.
+## Decisions (2–4 are defaults — change them before signing)
+1. **Branch** `debug-ui` — the owner's choice, 2026-09-17. It does not have `debug-api`'s `9f091c3`,
+   so a rule with two or more groups still 400s on save there (rule-editor › The leaf envelope).
 2. **A stored disabled condition blocks save.** Its row still renders with its values, so the user
    sees what is stored; the 欄位 item fails validation with 「此條件尚未開放，請移除或改選其他條件」.
    Letting it through would only move the failure to the kernel's 500.
@@ -34,7 +35,7 @@ condition, not a condition (plan field-locking).
 ## Steps
 One commit.
 1. Carry the flag: `buildScopeFieldConfig` sets `disabled: block.disabled === true`
-   (`ruleSchemaUtils.js:280-292`); `fieldOptions` keeps it (`ScopeSetting.vue:1000-1013`);
+   (`ruleSchemaUtils.js:284-298`); `fieldOptions` keeps it (`ScopeSetting.vue:1000-1014`);
    `ConditionDescriptor` gains `disabled?: boolean` (`types.ts:89-93`).
 2. Grey the option in both 欄位 selects: `:disabled="field.disabled"` on the `el-option`
    (`ScopeSetting.vue:246-251`, `:470-475`).
@@ -51,7 +52,8 @@ One commit.
 
 ## Done when
 - In the 201 dialog against the live kernel, 檢核範圍's 欄位 list shows thirteen conditions, nine
-  greyed and unclickable; 案件分類 / 醫事類別 / 醫令類別 / 就醫科別 pick and save as before.
+  greyed and unclickable; 案件分類 / 醫事類別 / 醫令類別 / 就醫科別 pick and save as before — with one
+  group, since this branch lacks the group-name fix.
 - Every other code's list is unchanged: nothing greyed.
 - A 201 rule holding, say, 層級別 opens with that row shown and flagged, and 儲存 is refused without a
   request; after removing the row it saves.
