@@ -16,6 +16,7 @@ Owner: which `GET /api/v1/RuleSet` response fields does `REA_UI` not use? (swagg
   743 orphan `OtherNote`s: 303–306 were not in the registry until 09-03); `51018C` was written by the
   unpushed `9f091c3` build at 15:17 today. :8081 serves `392230e` (bundle markers). rea-kernel › The
   store, rea-ui › Branches / Deployment, rule-editor › OtherNote outlives Logic.
+- Plan **ruleset-unread-fields** (draft): the ruling — leave / `$select` / drop `TranslatedRules`.
 - Citation fix in rule-editor and rea-kernel: the undeclared-key rejection is
   `SchemaExistenceValidator.cs:76-82`, not `FieldRuleValidator.cs:78-95` (both `2ff26b0` and `458e663`).
 
@@ -28,7 +29,5 @@ Owner: which `GET /api/v1/RuleSet` response fields does `REA_UI` not use? (swagg
 - The `Form → Main` citation named the wrong validator since it was written; grep the message text.
 
 ## TODO
-- Owner: `Main.GroupName` rows — ui fix (plan) or kernel-side data cleanup? Kernel request to drop
-  or `$select`-enable unread fields, if payload matters.
-- Noted, unverified: `fetchOrderCodeDetail` ignores its `ruleStartDate` option — a history row
-  loads the newest `RuleSet` (`Payment.vue:768-774`).
+- Owner: rule on ruleset-unread-fields; `Main.GroupName` rows — ui strip or data cleanup?
+- Unverified: a history row loads the newest `RuleSet` — `ruleStartDate` ignored (`Payment.vue:768`).
