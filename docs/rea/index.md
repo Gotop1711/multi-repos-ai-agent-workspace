@@ -19,4 +19,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [306-main-setting](plans/306-main-setting.md) — shipped `REA_UI@8281dbb`: the 306 entry (five defects of an unmapped 主設定); awaits the owner's check
 - [translated-rule-names](plans/translated-rule-names.md) — draft: a named leaf's engine rule names no longer match the kernel's own result parser (a request) 
 - [ui-map-orphans](plans/ui-map-orphans.md) — draft: nine UI-map keys name no served field; four are untracked (201 參考日期, 307 widths, 檢核範圍's 前 N 碼)
-- [disabled-conditions](plans/disabled-conditions.md) — draft: 201's nine kernel-disabled 檢核範圍 conditions are selectable in the ui and 500 at save 
+- [disabled-conditions](plans/disabled-conditions.md) — shipped `REA_UI@392230e`: 201's nine kernel-disabled 檢核範圍 conditions greyed out, a stored one blocks save; awaits the owner's check 
