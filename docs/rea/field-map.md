@@ -1,18 +1,16 @@
 # rea / field-map
 
-Every field of every rule dialog, the kernel's name against the ui's — enumerated, so that a name can
-be confirmed, or found to have no counterpart. Kernel at `REA_kernel@458e663`
-(`Specification/V1/Codes/V1.0/_<code>.cs`), ui at `REA_UI@411c809`
-(`src/utils/rule/ruleUIConfig.ts`), prototype at `REA_PROTO@3fdf47c`.
+本文逐筆列出每一個規則對話框的每一個欄位，以 kernel 的名稱對照 ui 的名稱 — 用途是確認某個名稱，或
+確認它在另一側沒有對應。kernel 取自 `REA_kernel@458e663`（`Specification/V1/Codes/V1.0/_<code>.cs`），
+ui 取自 `REA_UI@411c809`（`src/utils/rule/ruleUIConfig.ts`），prototype 取自 `REA_PROTO@3fdf47c`。
 
-**The correspondence is one rule with no exception**: the ui's identifier is the kernel's `Value`
-with the first ASCII letter lowered, both ways. The two transforms that perform it, what they leave
-alone (`options[].value` is data and never converts), and why the round trip is reversible are
-rule-editor › Field names. The tables below are that rule enumerated — read them to confirm a name or
-to find what has no counterpart, not to look for a special case, because there is none.
+**對應關係只有一條規則，沒有例外**：ui 的識別字就是 kernel 的 `Value` 把第一個 ASCII 字母轉為小寫，
+兩個方向皆然。執行這項轉換的兩層機制、它們不動的東西（`options[].value` 屬於資料，永不轉換），以及
+往返為何可逆，見 rule-editor › Field names。以下表格即是這條規則的逐筆展開 — 查表是為了確認名稱、或
+找出沒有對應的名字，不必在表中尋找特例，因為並不存在特例。
 
-`子群組` is the ui-only sub-group a field is rendered in; which option selects it, and the sentence it
-reads as, are rule-codes. A field shared by several sub-groups is one value, shown once.
+`子群組` 欄標示該欄位被渲染在哪一個 ui 專屬的子群組；由哪個選項觸發、以及它讀起來是什麼句子，見
+rule-codes。被多個子群組共用的欄位只有一個值，只列一次。
 
 ## 主設定 MainFields
 
