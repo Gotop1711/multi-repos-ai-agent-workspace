@@ -12,8 +12,8 @@ observed against `REA_kernel@458e663` and the deployment of 2026-09-11
 (`docs/rea/rea-kernel/sources/2026-09-11-ruleschema-live.json.md@548ac767c5d8`):
 
 1. **201 `referenceDates`** (`ruleUIConfig.ts:105`). `_201.cs` dropped its whole `ReferenceFields`
-   block between `2ff26b0` and `458e663` (rea-kernel); the 2026-09-11 deployment still served it, so
-   201's 參考日期 selector renders today and disappears when that kernel ships. Whether 201 should
+   block between `2ff26b0` and `458e663` (rea-kernel); the 2026-09-11 deployment still served it, the
+   2026-09-17 one does not, so 201's 參考日期 selector no longer renders. Whether 201 should
    keep the field is a kernel question — it is the one code of twenty with no `ReferenceFields`.
 2. **307 `prefixLength` and `monthUnit`** (`:387`, `:392`, in `subFieldWidths.diagnosisCodes`). The
    served `DiagnosisCodes` `ObjectArray` has exactly four `SubFields` — `RangeStart1`, `RangeEnd1`,
