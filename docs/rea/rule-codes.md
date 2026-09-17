@@ -1,6 +1,6 @@
 # rea / rule-codes
 
-The codes whose form needed a UI-map entry, against the prototype they follow. Entries: `REA_UI@bdba317 src/utils/rule/ruleUIConfig.ts` (`mainSettingUIMap`). Prototype template: `REA_PROTO@3fdf47c tests/mock/api/rulesSpecificSetting.json`. The kernel serves all twenty codes (rea-kernel); what it serves live: `docs/rea/rea-kernel/sources/2026-09-11-ruleschema-live.json.md@548ac767c5d8`.
+The codes whose form needed a UI-map entry, against the prototype they follow. Entries: `REA_UI@411c809 src/utils/rule/ruleUIConfig.ts` (`mainSettingUIMap`). Prototype template: `REA_PROTO@3fdf47c tests/mock/api/rulesSpecificSetting.json`. The kernel serves all twenty codes (rea-kernel); what it serves live: `docs/rea/rea-kernel/sources/2026-09-11-ruleschema-live.json.md@548ac767c5d8`.
 
 ## 303 限制申報頻率
 `frequencyType` dropdown; its nine options link five sub-groups mirroring the prototype's sub-blocks — 01–05 `countLimit` (max) · 06 `weekLimit` (weeks, max) · 07 `dayMonthYearLimit` (period, periodUnit, max) · 08 `intervalLimit` (period, periodUnit, max, intervalValue, intervalUnit) · 09 `samePartLimit` (max, period, periodUnit). The shared `max` / `period` / `periodUnit` carry each mode's own sentence through object-form overrides: `[ ] 次`, `每 [ ] 週，最多 [ ] 次`, `[ ] [單位] 限申報 [ ] 次`, `[ ] [單位] 至多執行 [ ] 次，且間隔 [ ] [單位]`, `同部位限申報 [ ] 次，且限定時間 [ ] [單位] 內，不得再次申報` (prototype `blockId "303"` at `:5273`). Owner-verified in the running editor on 2026-09-05 (the nine modes); the sentences of 2026-09-16 await it.
