@@ -1,9 +1,10 @@
 # rea — disabled-conditions
 
-Status: shipped
+Status: verified
 Writes: REA_UI (debug-ui)
 Signed: <name> — 2026-09-17
 Shipped: 2026-09-17 — REA_UI@392230e (debug-ui, unpushed)
+Verified: gotop1711 - 2026-09-17
 
 ## Goal
 The kernel marks a 檢核範圍 condition `Disabled` when its translator does not exist yet: "顯示於 UI 但
