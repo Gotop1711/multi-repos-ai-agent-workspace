@@ -17,6 +17,5 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [205-main-fields](plans/205-main-fields.md) — draft: kernel 205 MainFields vs the prototype (four gaps; kernel is read-only, so a request)
 - [field-locking](plans/field-locking.md) — draft: the prototype's locked fields have no carrier end to end
 - [306-main-setting](plans/306-main-setting.md) — shipped `REA_UI@8281dbb`: the 306 entry (five defects of an unmapped 主設定); awaits the owner's check
-- [leaf-group-name](plans/leaf-group-name.md) — shipped (`REA_UI@9f091c3`, debug-api), awaiting the owner's browser check: the leaf's `Name` carries the group name, so a second group saves
 - [translated-rule-names](plans/translated-rule-names.md) — draft: a named leaf's engine rule names no longer match the kernel's own result parser (a request) 
 - [ui-map-orphans](plans/ui-map-orphans.md) — draft: nine UI-map keys name no served field; four are untracked (201 參考日期, 307 widths, 檢核範圍's 前 N 碼)

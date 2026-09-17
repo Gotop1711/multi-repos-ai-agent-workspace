@@ -17,7 +17,9 @@ Find the "Name vs GroupName" session missing from the VS Code panel; rewrite pla
 - Left the store's `groupNames` array: consistent with the node, and removing it touches `RuleSetting.vue` / `RuleShows.vue`.
 - zsh: `echo ====` is `=cmd` expansion and fails; `find` on a directory named `-Users-…` needs `./`.
 
+- Owner verified in the browser (`ba105e4`); `plan done` removed the plan and its first session log — the fix is recorded in rule-editor › The leaf envelope.
+
 ## TODO
-- Owner: browser check against the live kernel (two groups save 200; names survive reload; duplicate refused in dialog), then `Verified:`.
+- Push: workspace `rea` (this shell has no remote access) and `REA_UI` `debug-api` `9f091c3`.
 - Rules saved before the fix show the rule's display name as their group name until renamed — tell users, or decide a migration.
 - `debug-ui` still has the old behaviour; the fix is on `debug-api` only.
