@@ -17,6 +17,7 @@ Owner: which `GET /api/v1/RuleSet` response fields does `REA_UI` not use? (swagg
   unpushed `9f091c3` build at 15:17 today. :8081 serves `392230e` (bundle markers). rea-kernel › The
   store, rea-ui › Branches / Deployment, rule-editor › OtherNote outlives Logic.
 - Plan **ruleset-unread-fields** (draft): the ruling — leave / `$select` / drop `TranslatedRules`.
+- Ran the load code on store rows: leaf `UpdatedAt` unread for multi-group codes (rule-editor).
 - Citation fix in rule-editor and rea-kernel: the undeclared-key rejection is
   `SchemaExistenceValidator.cs:76-82`, not `FieldRuleValidator.cs:78-95` (both `2ff26b0` and `458e663`).
 
@@ -24,8 +25,7 @@ Owner: which `GET /api/v1/RuleSet` response fields does `REA_UI` not use? (swagg
 - `Main` is a free dictionary, so `GroupName` inside it passes reads — first read as a node key
   the kernel had gained; mask the jq path before concluding.
 - Live counts come from a GET into gitignored scratch, not ingested (1.77 MB > the cap; rule data).
-- zsh reads `$ref:src/…` as a history modifier — brace it. Bundle markers (a zh literal, a map key)
-  pin a deployed build; property names survive minification, function names do not.
+- zsh: brace `${ref}:path`. A zh literal or a map key in a bundle pins the deployed build.
 - The `Form → Main` citation named the wrong validator since it was written; grep the message text.
 
 ## TODO

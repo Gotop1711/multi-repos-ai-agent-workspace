@@ -29,7 +29,7 @@ and `mock/rulesData.js:1629-1632`. Inside `Logic` (`RuleNode`, `RuleSet.cs:69-11
 | `Condition` and its five keys | yes | `:435-479`, `:541-542` |
 | `Reference[].Params` / `.Condition` | yes | `:481-515` |
 | `Main` | yes | `:544` |
-| `UpdatedAt` (leaf) | yes | 上次更新時間, `ruleEditor.js:103`, `RuleEditorDialog.vue:28` |
+| `UpdatedAt` (leaf) | 1 group only | 上次更新時間; the multi-group `Or` branch has none (`:374-391`) |
 | `Name` (leaf) | **no** | a save overwrites it with the code's display name (`:288-303`) |
 
 The ui cannot trim the request: the endpoint allows Filter | OrderBy | Top | Skip only
