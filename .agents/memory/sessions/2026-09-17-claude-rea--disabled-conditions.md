@@ -19,8 +19,8 @@ live response and its schema attached); the ui should reflect it.
 
 ## Decisions & pitfalls
 - No write to `REA_UI`: the request is child-repo work, so it became a plan, not a commit.
-- First drafted on `debug-api` (the last signed branch) — a guess, and wrong. On `debug-ui` the same
-  code is shifted 4–11 lines and the group-name fix is absent, so Done-when tests with one group.
+- The branch was first drafted as a guess; the owner wants `debug-ui`. Ask, don't infer it from the
+  last plan — and re-cite after a branch change: the same code sat 4–11 lines apart.
 - `ingest` refused the capture (1.01 MB, 4-space indent): extracted text over the 1 MB cap. `jq
   --indent 1` brought it to about 0.5 MB; checked equal to the original with `jq -S -c` + `cmp`.
 - "Should a stored disabled condition block save?" looked like a UX preference until the translator
@@ -32,4 +32,4 @@ live response and its schema attached); the ui should reflect it.
 - Owner: confirm decisions 2–4, then sign (`Writes: REA_UI (debug-ui)`).
 - Noted, not filed: 101's `CaseTypeOptions` has a `VisibleWhen` no other code has; the add-on board
   reads 101's list.
-- Push: workspace `rea`; `REA_UI` `debug-api` `9f091c3` still unpushed from the last session.
+- Push: workspace `rea`.

@@ -17,8 +17,7 @@ rule that already holds one shows the row with a field error and refuses to save
 removed or changed — the error arrives before the request, not as a 500.
 
 ## Decisions (2–4 are defaults — change them before signing)
-1. **Branch** `debug-ui` — the owner's choice, 2026-09-17. It does not have `debug-api`'s `9f091c3`,
-   so a rule with two or more groups still 400s on save there (rule-editor › The leaf envelope).
+1. **Branch** `debug-ui` — the owner's choice, 2026-09-17.
 2. **A stored disabled condition blocks save.** Its row still renders with its values, so the user
    sees what is stored; the 欄位 item fails validation with 「此條件尚未開放，請移除或改選其他條件」.
    Letting it through would only move the failure to the kernel's 500.
@@ -53,7 +52,7 @@ One commit.
 ## Done when
 - In the 201 dialog against the live kernel, 檢核範圍's 欄位 list shows thirteen conditions, nine
   greyed and unclickable; 案件分類 / 醫事類別 / 醫令類別 / 就醫科別 pick and save as before — with one
-  group, since this branch lacks the group-name fix.
+  group: a second is rejected until the kernel carries `GroupName` (rule-editor › The leaf envelope).
 - Every other code's list is unchanged: nothing greyed.
 - A 201 rule holding, say, 層級別 opens with that row shown and flagged, and 儲存 is refused without a
   request; after removing the row it saves.
