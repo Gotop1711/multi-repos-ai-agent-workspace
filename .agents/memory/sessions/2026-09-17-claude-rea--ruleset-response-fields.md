@@ -18,8 +18,8 @@ Owner: which `GET /api/v1/RuleSet` response fields does `REA_UI` not use? (swagg
   store, rea-ui › Branches / Deployment, rule-editor › OtherNote outlives Logic.
 - Plan **ruleset-unread-fields** (draft): the ruling — leave / `$select` / drop `TranslatedRules`.
 - Ran the load code on store rows: leaf `UpdatedAt` unread for multi-group codes (rule-editor).
-- Citation fix in rule-editor and rea-kernel: the undeclared-key rejection is
-  `SchemaExistenceValidator.cs:76-82`, not `FieldRuleValidator.cs:78-95` (both `2ff26b0` and `458e663`).
+- Citation fix: undeclared `Main` keys fail in `SchemaExistenceValidator.cs:76-82` (both shas).
+- Module **ruleset-api** (new): the row, what the ui reads, the store — out of rule-editor, rea-kernel, the plan.
 
 ## Decisions & pitfalls
 - `Main` is a free dictionary, so `GroupName` inside it passes reads — first read as a node key
