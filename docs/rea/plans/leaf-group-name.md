@@ -1,9 +1,10 @@
 # rea — leaf-group-name: the leaf's `Name` is the group name, not the rule's
 
-Status: shipped
+Status: verified
 Writes: REA_UI (debug-api)
 Signed: gotop1711 — 2026-09-17
 Shipped: 2026-09-17 — REA_UI@9f091c3 (debug-api, unpushed)
+Verified: gotop1711 — 2026-09-17
 
 ## Goal
 Saving a rule module with two or more groups succeeds, and a saved group name survives a page reload. Today the live kernel rejects the second group: `POST /api/v1/RuleSet` answers `400` with `{Code: "201", Path: "Logic", Message: "Code 201 下有重複的群組名稱，每個 Leaf 的 Name 必須唯一"}` (owner's browser, 2026-09-17). The two sides disagree about which field carries the group name — `REA_kernel` says the leaf's `Name` (on `develop` since `458e663`), `REA_UI` sends the rule code's display name there and puts the group name in a `GroupName` the kernel does not have (rule-editor › The leaf envelope). The kernel's definition is primary (terms), so the ui moves.
