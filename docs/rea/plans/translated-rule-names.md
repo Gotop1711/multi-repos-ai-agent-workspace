@@ -5,7 +5,7 @@ Status: draft
 ## 目標（Goal）
 **一句話：** kernel 的三條規則彼此矛盾——leaf 必須有名稱 → 翻譯器因此一律在規則名稱加上後綴 → 結果解析器卻只認得沒有後綴的名稱。今天沒有東西壞掉，但規則執行一接上就會失敗。這是 kernel 端的問題，要由 kernel 擁有者決定怎麼修。
 
-在 `REA_kernel@458e663` 看到的三件事（回答「kernel 會不會儲存群組名稱？」時發現，2026-09-17 追查 leaf 群組名稱問題時）：
+在 `REA_kernel@458e663` 看到的三件事（2026-09-17 回答「kernel 會不會儲存群組名稱？」時發現）：
 1. **名稱必填。** 每個 leaf 都必須有非空白的 `Name`（`Validation/StructureValidator.cs:70-73`）。
 2. **所以翻譯器一律加後綴。** 根規則成為 `Rule_<code>_<name>`，子規則成為 `Rule_<code>_Skip_<name>` / `Rule_<code>_Main_<name>`，更下層的子規則也遞迴加上後綴（`Translator/V1.0/RuleSetTranslator.cs:58-115`）。
 3. **解析器只收沒有後綴的名稱。** `RuleResultAttributionParser.Parse` 要求根規則名稱**恰好**是 `Rule_<code>`，否則拋出「預期結果節點為 …，實際為 …」；並直接找名為 `Rule_<code>_Skip` / `_Main` / `_Guard` 的子規則（`Translator/RuleResultAttributionParser.cs:22-27,34-47,54`）。因此根規則和子規則都永遠對不上。兩邊放後綴的位置也不同（翻譯器是 `Rule_201_Skip_群組1`，解析器預期的形式是 `Rule_201_群組1_Skip`），照現在的寫法，沒有任何一種命名能同時滿足兩者。

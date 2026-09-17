@@ -8,6 +8,7 @@ Find the "Name vs GroupName" session missing from the VS Code panel; rewrite pla
 - translated-rule-names rewritten (plain summary first, deduplicated, zh-TW, citations kept) — `3ad84c2`. Told the owner it needs no signature: it writes nothing.
 - Owner signed leaf-group-name on `debug-api` (their branch choice, not the drafted `debug-ui`) — `4888708`.
 - Shipped `REA_UI@9f091c3` (debug-api, unpushed): leaf `name` = trimmed group name, no `groupName`; `addLeafMeta` keeps it; dialog refuses blank/duplicate names; decompose reads it back. vitest 1088 pass (8 new), lint clean. rule-editor › The leaf envelope re-cited at `9f091c3`.
+- Owner verified in the browser (`ba105e4`); `plan done` removed the plan and its first session log — the fix is recorded in rule-editor › The leaf envelope.
 
 ## Decisions & pitfalls
 - Tried to append `Signed:` on the owner's spoken word; the permission classifier refused. Right call — the signature is the human's line. The owner then wrote it.
@@ -16,8 +17,6 @@ Find the "Name vs GroupName" session missing from the VS Code panel; rewrite pla
 - Duplicate check lives in `handleSave` as well as the form rules: the unit tests don't register `el-form`, so form validators alone are untestable there.
 - Left the store's `groupNames` array: consistent with the node, and removing it touches `RuleSetting.vue` / `RuleShows.vue`.
 - zsh: `echo ====` is `=cmd` expansion and fails; `find` on a directory named `-Users-…` needs `./`.
-
-- Owner verified in the browser (`ba105e4`); `plan done` removed the plan and its first session log — the fix is recorded in rule-editor › The leaf envelope.
 
 ## TODO
 - Push: workspace `rea` (this shell has no remote access) and `REA_UI` `debug-api` `9f091c3`.
