@@ -33,7 +33,16 @@ The five unread fields — 12% together — are named only by `src/api/modules/r
 | `UpdatedAt` (leaf) | 1 group only | 上次更新時間; the multi-group `Or` branch has none (`:374-391`) |
 | `Name` (leaf) | **no** | a save overwrites it with the code's display name (`:288-303`) |
 
-- **Leaf `UpdatedAt`, single-group codes only.** `extractRuleNodesFromLogic` hands the store the highest node whose leaves are one code — for a multi-group code, the `Or` branch (`ruleNodeUtils.js:374-391`) — and `loadFromRuleSet` reads `updatedAt` off that node (`ruleEditor.js:103`); a branch carries none, so 上次更新時間 shows `-` for every multi-group rule. Verified by running the two functions on the store's rows: `05151B` (one leaf) yields the leaf's timestamp, `51018C` (four 201 leaves) yields `""`. All leaves of one code carry the same value (`addLeafMeta`, `:288-303`), so reading any leaf would do (plan ruleset-unread-fields).
+**Fully unread inside `Logic`: only the leaf `Name`.** Every other nested key has a reader in the load path; one of them, the leaf `UpdatedAt`, is read for single-group codes only.
+
+- **Leaf `UpdatedAt`, single-group codes only.** `extractRuleNodesFromLogic` hands the store the highest node whose leaves are one code — for a multi-group code, the `Or` branch (`ruleNodeUtils.js:374-391`) — and `loadFromRuleSet` reads `updatedAt` off that node (`ruleEditor.js:103`); a branch carries none, so 上次更新時間 shows `-` for every multi-group rule. Verified 2026-09-17 by running the ui's own `extractRuleNodesFromLogic` / `decomposeRuleNodeToEditorState` (imports stubbed in scratch, no repo write) on two store rows:
+
+| Row | Groups | Node handed to the store | `updatedAt` the store reads |
+|---|---|---|---|
+| `05151B` / 204 | 1 | the leaf | `2026-06-05T09:08:49+00:00` |
+| `51018C` / 201 | 4 | the `Or` branch | `""` — the four leaves' timestamps go unread |
+
+  A ui defect, not a field the kernel could drop: all leaves of one code carry the same value (`addLeafMeta`, `:288-303`), so the fix is to read the timestamp off a leaf — one line (plan ruleset-unread-fields › Found alongside).
 - **`Name` is unread and overwritten.** The arrangement names a rule from the schema's code table (`:402`, `:411`); the group name is read from `groupName`, which no kernel model carries (rule-editor › The leaf envelope); a save stamps `name` with the code's display name.
 - **Unread yet echoed.** A rule not opened in its dialog goes back as loaded (`ruleEditor.js:45`, `ruleNodeUtils.js:324-334`). 242 rows hold a `GroupName` key inside `Main` (a free dictionary on read) that no code declares and the ui never reads — the 2026-08-21 loader's mark (The store); `SchemaExistenceValidator` rejects an undeclared `Main` key (`Validation/SchemaExistenceValidator.cs:76-82`), so saving such an order code without re-saving that rule through its dialog (whose whitelist drops the key, rule-editor › Form → `Main`) should 400. Inferred from source; no save executed.
 - **`OtherNote` outlives `Logic`.** `loadFromRuleSet` keeps a note only for a code that has a leaf (`ruleEditor.js:99-105`) and `buildRuleSet` rebuilds the string from `ruleData` alone (`:108-115`), so a note whose code has no leaf is invisible on load and gone on the next save — 743 stored rows carry such notes (The store).

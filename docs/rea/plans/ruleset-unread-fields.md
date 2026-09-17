@@ -13,6 +13,10 @@ request — the per-field table, citations and store shares are in ruleset-api �
 | never read | `SchemaVersion` `TranslatedRules` `TranslatorVersion` `CreatedAt` `UpdatedAt` | 12% |
 | never read, in `Logic` | the leaf `Name` — a save overwrites it with the code's display name | — |
 
+Inside `Logic` the leaf `Name` is the only key with no reader at all: the arrangement names a rule
+from the schema's code table, the group name is read from `groupName`, and a save overwrites `Name`.
+Every other nested key is read — one of them only partly (Found alongside).
+
 `TranslatedRules` is the field to watch: no reader in the ui or the kernel (rea-kernel › Nothing
 consumes), set on 3 rows today (all 201) at 5–10× their `Logic`, growing as the translator covers
 more codes. One row per selection (`$top=1`) keeps the cost small; a list view over `RuleSet` would
@@ -26,7 +30,15 @@ not. This plan is the ruling, one of:
 Not this plan's writes — each is its own ruling; the facts live in ruleset-api.
 - **The leaf `UpdatedAt` is read for single-group codes only.** A multi-group code's `Or` branch
   carries none, so 上次更新時間 shows `-` for every multi-group rule (verified on the store's `51018C`).
-  The fix is one line — read the timestamp off a leaf, all of one code's leaves being equal.
+  The ui's own load functions, run on two store rows (ruleset-api › What the ui reads):
+
+| Row | Groups | Node handed to the store | `updatedAt` the store reads |
+|---|---|---|---|
+| `05151B` / 204 | 1 | the leaf | `2026-06-05T09:08:49+00:00` |
+| `51018C` / 201 | 4 | the `Or` branch | `""` — the four leaves' timestamps go unread |
+
+  A ui defect, not a kernel field to drop: the fix is one line — read the timestamp off a leaf, all
+  of one code's leaves being equal (`addLeafMeta`).
 - **`Main.GroupName`** on 242 loader-written rows is echoed back by an unopened rule; the kernel
   would 400 the save (inferred, not executed). A ui strip or a store cleanup — the owner's call.
 - **`OtherNote` outlives `Logic`**: a note for a code with no leaf is dropped on the next save — 743
