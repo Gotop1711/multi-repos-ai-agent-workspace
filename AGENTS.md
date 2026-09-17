@@ -6,7 +6,7 @@ Governance workspace for cross-repository work. Child repositories are gitignore
 
 ```
 docs/<product>/index.md            the product: what it is; links to its modules, repositories, open plans   ≤ 80 lines
-docs/<product>/<module>.md         one subsystem each — the only place facts live                              ≤ 150
+docs/<product>/<module>.md         one subsystem each — the only place facts live                              ≤ 300
 docs/<product>/<repo>/index.md     a related repository: run, test, entry points, integration                  ≤ 100
 docs/<product>/[<repo>/]sources/   ingested documents' text — `ingest` / `extract` output only, never hand-edited
 docs/<product>/plans/<feature>.md  task-oriented: goal, writes, steps, done-when; removed by `plan done` / `rm`  ≤ 80
