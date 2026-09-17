@@ -1,24 +1,21 @@
 # 2026-09-17 | claude | rea | leaf-group-name-fix
 
 ## Task
-Find the "Name vs GroupName" session missing from the VS Code panel; rewrite plan translated-rule-names in plain zh-TW; then ship plan leaf-group-name in `REA_UI`.
+Find the "Name vs GroupName" session missing from the VS Code panel; rewrite plan translated-rule-names in plain zh-TW; ship plan leaf-group-name in `REA_UI`.
 
 ## Done
-- The session was not lost: `08df3808…` in `~/.claude/projects/<workspace>/`, resumable with `claude --resume <id>`.
-- translated-rule-names rewritten (plain summary first, deduplicated, zh-TW, citations kept) — `3ad84c2`. Told the owner it needs no signature: it writes nothing.
-- Owner signed leaf-group-name on `debug-api` (their branch choice, not the drafted `debug-ui`) — `4888708`.
-- Shipped `REA_UI@9f091c3` (debug-api, unpushed): leaf `name` = trimmed group name, no `groupName`; `addLeafMeta` keeps it; dialog refuses blank/duplicate names; decompose reads it back. vitest 1088 pass (8 new), lint clean. rule-editor › The leaf envelope re-cited at `9f091c3`.
-- Owner verified in the browser (`ba105e4`); `plan done` removed the plan and its first session log — the fix is recorded in rule-editor › The leaf envelope.
+- Session not lost: `08df3808…` in `~/.claude/projects/<workspace>/`, `claude --resume <id>`.
+- translated-rule-names: plain summary, deduplicated, zh-TW, citations kept (`3ad84c2`). Needs no signature — it writes nothing.
+- Owner signed leaf-group-name on `debug-api` (`4888708`). Shipped `REA_UI@9f091c3`: leaf `name` = trimmed group name, dialog refuses blank/duplicate names; vitest 1088 pass, lint clean. Owner verified (`ba105e4`); `plan done`.
+- Hours later the owner reported the requirement reverted and reset `debug-api` to `0b0d325` themselves (fix kept on local `debug-api_groupName-to-Name`). rule-editor › The leaf envelope rewritten back to the `GroupName` shape with the ruling.
 
 ## Decisions & pitfalls
-- Tried to append `Signed:` on the owner's spoken word; the permission classifier refused. Right call — the signature is the human's line. The owner then wrote it.
-- Kept `addLeafMeta`'s display-name fallback (the plan said drop it): a stored leaf never reopened in the dialog may lack `name`, and the kernel 400s a blank one.
-- Decompose prefers `groupName` then `name` (plan said the reverse): only in-editor legacy nodes carry `groupName`; the kernel never returns it.
-- Duplicate check lives in `handleSave` as well as the form rules: the unit tests don't register `el-form`, so form validators alone are untestable there.
-- Left the store's `groupNames` array: consistent with the node, and removing it touches `RuleSetting.vue` / `RuleShows.vue`.
-- zsh: `echo ====` is `=cmd` expansion and fails; `find` on a directory named `-Users-…` needs `./`.
+- Tried to append `Signed:` on the owner's spoken word; the permission classifier refused. Right — the signature is the human's line.
+- Kept `addLeafMeta`'s display-name fallback against the plan: an unreopened stored leaf may lack `name`, and the kernel 400s a blank one.
+- Duplicate check also in `handleSave`: unit tests don't register `el-form`, so form validators alone are untestable.
+- The revert has no source yet: kernel `develop` unchanged past `458e663` (dry-run fetch). Written as the owner's report; rea-kernel's `Name` bullets stay — still true of the source.
+- zsh: `echo ====` is `=cmd` expansion; tools need `./` before a directory named `-Users-…`.
 
 ## TODO
-- Push: workspace `rea` (this shell has no remote access) and `REA_UI` `debug-api` `9f091c3`.
-- Rules saved before the fix show the rule's display name as their group name until renamed — tell users, or decide a migration.
-- `debug-ui` still has the old behaviour; the fix is on `debug-api` only.
+- Push workspace `rea` (this shell has no remote access). Do not push `debug-api_groupName-to-Name`.
+- When the kernel's revert lands: re-cite rea-kernel and rule-editor; translated-rule-names rests on "every leaf must be named" and may end `Abandoned: — decided`.
