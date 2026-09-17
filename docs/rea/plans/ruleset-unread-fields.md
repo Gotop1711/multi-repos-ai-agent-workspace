@@ -3,22 +3,40 @@
 Status: draft
 
 ## Goal
-Of the ten top-level fields in a `GET /api/v1/RuleSet` row (`REA_kernel@458e663
-POCO/V1/Rules/RuleSet.cs:10-64`), `REA_UI@392230e` reads five — `OrderCode`, `RuleStartDate`,
-`RuleEndDate`, `Logic`, `OtherNote` — and never `SchemaVersion` (a save sends the loaded schema's
-own version), `TranslatedRules`, `TranslatorVersion`, `CreatedAt` or the top-level `UpdatedAt`
-(rule-editor › RuleSet → editor; the five are named only by `src/api/modules/rules/types.ts:28-40`
-and `mock/rulesData.js:1629-1632`). Inside `Logic` one key goes unread, the leaf `Name`: a save
-overwrites it with the code's display name (`ruleNodeUtils.js:288-303`). Every other key —
-`Condition`, `Reference`, `Main`, the leaf `UpdatedAt` — is used.
+`GET /api/v1/RuleSet` returns a `RuleSet` (`REA_kernel@458e663 POCO/V1/Rules/RuleSet.cs:10-64`).
+What `REA_UI@392230e` does with each top-level field (rule-editor › RuleSet → editor); the share
+is the field's bytes over the dev store's 1,731 rows / 1.77 MB, read 2026-09-17:
+
+| Field | Read | Where, or what the ui does instead | Share |
+|---|---|---|---|
+| `OrderCode` | yes | the header, `src/views/Payment.vue:744-753` | 2.0% |
+| `RuleStartDate` | yes | the header | 2.8% |
+| `RuleEndDate` | yes | the header (set on 2 rows) | 0.0% |
+| `Logic` | yes | `src/stores/ruleEditor.js:83-106`, `RuleEditSection.vue:366-372` | 66.3% |
+| `OtherNote` | yes | per-code summaries, `ruleEditor.js:92-97` | 16.6% |
+| `SchemaVersion` | **no** | a save sends the loaded schema's version (`ruleEditor.js:130`) | 2.1% |
+| `TranslatedRules` | **no** | no reader, ui or kernel; 3 rows (all 201), 5–10× their `Logic` | 0.5% |
+| `TranslatorVersion` | **no** | — | 0.0% |
+| `CreatedAt` | **no** | — | 4.7% |
+| `UpdatedAt` | **no** | the dialog shows the leaf's `UpdatedAt` (`RuleEditorDialog.vue:28`) | 4.7% |
+
+The five unread fields — 12% together — are named only by `src/api/modules/rules/types.ts:28-40`
+and `mock/rulesData.js:1629-1632`. Inside `Logic` (`RuleNode`, `RuleSet.cs:69-117`):
+
+| Key | Read | Where |
+|---|---|---|
+| `Op` `Left` `Right` `Code` | yes | `src/utils/rule/ruleNodeUtils.js:361-433` |
+| `Condition` and its five keys | yes | `:435-479`, `:541-542` |
+| `Reference[].Params` / `.Condition` | yes | `:481-515` |
+| `Main` | yes | `:544` |
+| `UpdatedAt` (leaf) | yes | 上次更新時間, `ruleEditor.js:103`, `RuleEditorDialog.vue:28` |
+| `Name` (leaf) | **no** | a save overwrites it with the code's display name (`:288-303`) |
 
 The ui cannot trim the request: the endpoint allows Filter | OrderBy | Top | Skip only
 (`Controllers/V1/RuleSetApiController.cs:24`; the deployment answers `$select` with "Query option
-'Select' is not allowed"). On the dev store the five unread fields are 12% of 1.77 MB over 1,731
-rows, mostly the two timestamps; `TranslatedRules` — set on 3 rows, all 201 — is 5–10× its own
-row's `Logic`, and the kernel never reads it back either (rea-kernel › Nothing consumes), so its
-share grows as the translator covers more codes. Today one row per selection (`$top=1`) keeps the
-cost small; a list view over `RuleSet` would not.
+'Select' is not allowed"). `TranslatedRules` is the field to watch: the kernel never reads it back
+either (rea-kernel › Nothing consumes) and its share grows as the translator covers more codes.
+Today one row per selection (`$top=1`) keeps the cost small; a list view over `RuleSet` would not.
 
 This plan is the ruling on those fields, one of:
 - **(a) leave them** — no change; the ruling goes into rule-editor › RuleSet → editor.
@@ -43,8 +61,7 @@ This plan is the ruling on those fields, one of:
 
 ## Steps
 1. The owner's ruling — (a), (b) or (c). (a) ends the plan `Abandoned: — decided: …`.
-2. (b) / (c): the request above to the kernel's owners; that part ends `Abandoned: — decided:
-   requested …`, and rea-kernel is re-cited when it lands.
+2. (b) / (c): the request to the kernel's owners — ends `Abandoned: — decided: requested …`.
 3. (b) only, once the kernel serves it: the one ui commit above; `npx vitest run`; `npm run lint`.
 
 ## Done when
@@ -53,7 +70,5 @@ This plan is the ruling on those fields, one of:
   keys, and a rule loads and re-saves unchanged; vitest and lint green.
 - (c): a `GET` row carries no `TranslatedRules`; a 201 save still stores it (`RuleSetSL.cs:120-129`).
 
-Not in this plan, found alongside: `Main.GroupName` on 242 loader-written rows is echoed back by
-an unopened rule and rejected by `SchemaExistenceValidator` (rule-editor › Unread yet echoed); a
-history row loads the newest `RuleSet` because `fetchOrderCodeDetail` ignores `ruleStartDate`
-(`Payment.vue:768-774`, unverified). Each is its own ruling.
+Not in this plan: the `Main.GroupName` echo that a save would 400 on (rule-editor › Unread yet
+echoed) and the history row that loads the newest `RuleSet` (`Payment.vue:768-774`, unverified).
