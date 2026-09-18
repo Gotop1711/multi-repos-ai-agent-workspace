@@ -12,6 +12,8 @@ machine that ingested it — originals gitignored, the derivative OCR text. Keep
 - The hook admits that one path pattern under 200 KiB and refuses every other binary; `check` ties each
   picture to its text and cap; `prune` and `plan done` remove pictures with their text.
 - AGENTS.md (red line, layout), README, CHANGELOG.
+- Fix, same day: the hook diffs with `--no-renames`. A picture re-extracted under a new name with the
+  same bytes was reported as `{old => new}`, missed the path pattern and was refused. Tested both ways.
 
 ## Decisions & pitfalls
 - JPEG derivatives in git over Git LFS: zero dependencies is the boilerplate's promise; 100 pictures
