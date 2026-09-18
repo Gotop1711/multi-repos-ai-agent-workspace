@@ -10,8 +10,8 @@
 #   ./workspace.sh plan new <product> <feature>     docs/<product>/plans/<feature>.md (draft), linked in index.md
 #   ./workspace.sh plan done <product> <feature>    remove a verified or abandoned plan with its session logs and the sources only it used
 #   ./workspace.sh plan rm <product> <feature> [--force]   the same for a plan in any state (--force for a signed or shipped one)
-#   ./workspace.sh ingest <product> <file>…         REPO=<id>: copy a document to docs/assets/<product>/[<repo>/] (gitignored), extract its text to docs/<product>/[<repo>/]sources/
-#   ./workspace.sh extract <product> docs/assets/<product>/[<repo>/]<file>…   re-extract a stored original (OCR_LANGS=<bcp47,…>, default zh-Hant,en-US)
+#   ./workspace.sh ingest <product> <file>…         REPO=<id>: copy a document to docs/assets/<product>/[<repo>/] (gitignored), extract its text — and a capped picture of each image page — to docs/<product>/[<repo>/]sources/
+#   ./workspace.sh extract <product> docs/assets/<product>/[<repo>/]<file>…   re-extract a stored original (OCR_LANGS=<bcp47,…>, default zh-Hant,en-US; IMAGES=<file>:<pages> keeps pictures of pages that also carry text)
 #   ./workspace.sh prune [--apply]                  derivatives nothing cites and orphan originals; --apply removes them
 #   ./workspace.sh check                            structure, caps, plans, derivatives, parties (session-init / pre-commit)
 # Plain bash (macOS 3.2 ok), zero dependencies — extract alone uses macOS textutil, swift (PDFKit, Vision) and python3.
@@ -20,7 +20,8 @@ cd "$(dirname "$0")" || exit 1
 MANIFEST="catalog/repos.yaml"
 ASSETS="docs/assets"        # originals: docs/assets/<product>/[<repo>/]<YYYY-MM-DD-slug.ext>, gitignored, never committed
 CAP_INDEX=80; CAP_MODULE=300; CAP_REPO=100; CAP_PLAN=80; CAP_LOG=40; CAP_CHANGELOG=60   # line caps check enforces, counted wrapped at 100 columns (AGENTS.md › Documents)
-tmp=""; ocr=""; ooxml=""; pats=""; trap 'rm -f "$tmp" "$ocr" "$ooxml" "$pats"' EXIT
+IMG_BYTES=204800; IMG_PX=1600   # a picture derivative sources/<name>.p<N>.jpg: the one binary git keeps — at most 200 KiB, 1600 px on the long side
+tmp=""; ocr=""; render=""; ooxml=""; pats=""; trap 'rm -f "$tmp" "$ocr" "$render" "$ooxml" "$pats"' EXIT
 
 entries() { # one line per repo: id|path|remote|branch|access|product
   awk '
@@ -47,6 +48,8 @@ party() { awk -v want="$1" -v o="$ORG_RE" -v b="$BOILERPLATE_RE" '{ p = ($0 ~ o 
 # sources/ names it — logs are journey; a plan carrying Shipped:/Abandoned: is history. Shared by check, prune and plan done.
 # No `case` inside these: under bash 3.2 a case pattern's ')' closes an enclosing $( ).
 derivatives() { find docs -type f -path '*/sources/*' -name '*.md' 2>/dev/null | grep -v '^docs/assets/' | sort; }
+images_of() { for i in "${1%.md}".p[0-9]*.jpg; do [ -f "$i" ] && echo "$i"; done; }   # derivative → its picture files (sources/<name>.p<N>.jpg)
+pictures() { find docs -type f -path '*/sources/*' ! -name '*.md' 2>/dev/null | grep -v '^docs/assets/' | sort; }   # everything under sources/ that is not text
 orig_of() { r="${1#docs/}"; r="${r%.md}"; printf '%s/%s\n' "$ASSETS" "$(printf '%s' "$r" | sed 's|/sources/|/|')"; }   # derivative → its original
 keepers() { # $1 = derivative → one "<document> › <nearest heading above the citation>" per live citing document
   name="$(basename "$1")"
@@ -72,6 +75,7 @@ prune_run() { # $1 = 1 to remove (git rm the derivative — rm if never committe
     else
       o="$(orig_of "$f")"
       if [ "$1" -eq 1 ]; then
+        images_of "$f" | while read -r i; do rm_tracked "$i" >/dev/null && echo "removed: $i"; done
         if git ls-files --error-unmatch -- "$f" >/dev/null 2>&1; then git rm -q -- "$f" && echo "removed: $f"; else rm -- "$f" && echo "removed: $f (never committed)"; fi
         [ -e "$o" ] && rm -- "$o" && echo "removed: $o"
       else
@@ -125,7 +129,7 @@ setup)
     echo "  2. ./workspace.sh clone                 # fleet appears under projects/"
   fi
   echo "  3. ./workspace.sh doc init <product>    # docs/<product>/index.md — then doc add <product> <module|repo>"
-  echo "  •  ./workspace.sh ingest <product> <files>   # documents become agent-readable text under docs/<product>/[<repo>/]sources/"
+  echo "  •  ./workspace.sh ingest <product> <files>   # documents become agent-readable text (and small pictures of image pages) under docs/<product>/[<repo>/]sources/"
   git remote | grep -q . \
     || echo "  •  add a PRIVATE remote for this repo and push — its memory must survive a dead disk"
   ;;
@@ -291,7 +295,7 @@ plan)
 extract)
   # reads an original already under docs/assets/<product>/[<repo>/] (dated name) and writes docs/<product>/[<repo>/]sources/<name>.md
   shift; scope="${1:-}"; shift || true
-  usage="usage: workspace.sh extract <product> docs/assets/<product>/[<repo>/]<file>…   (<repo> = a manifest id lowercased; RESTRICTED=<file> header only; OCR=<file> force OCR; OCR_LANGS=<bcp47,…> recognition languages, default zh-Hant,en-US; SECRET_OK=<file> waive a false positive)"
+  usage="usage: workspace.sh extract <product> docs/assets/<product>/[<repo>/]<file>…   (<repo> = a manifest id lowercased; RESTRICTED=<file> header only; OCR=<file> force OCR; OCR_LANGS=<bcp47,…> recognition languages, default zh-Hant,en-US; IMAGES=<file>:<pages> keep pictures of these pages too, e.g. 14-21,24; SECRET_OK=<file> waive a false positive)"
   printf '%s' "$scope" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$' || { echo "$usage" >&2; exit 1; }
   [ "$#" -gt 0 ] || { echo "$usage" >&2; exit 1; }
   [ -d "$ASSETS/$scope" ] || { echo "FAIL: $ASSETS/$scope/ missing — './workspace.sh ingest $scope <file>' copies a document there first" >&2; exit 1; }
@@ -327,6 +331,25 @@ if let doc = PDFDocument(url: URL(fileURLWithPath: args[1])) {
     print("<!-- page 1 (ocr) -->"); ocr(cg).forEach { print($0) }
 } else { exit(2) }
 SWIFT
+  render="$(mktemp)"; cat > "$render" <<'SWIFT'
+import Foundation
+import PDFKit
+import AppKit
+let a = CommandLine.arguments   // <pdf> <page 1-based> <max px> <out.jpg>
+guard a.count > 4, let d = PDFDocument(url: URL(fileURLWithPath: a[1])), let n = Int(a[2]), let p = d.page(at: n - 1), let px = Double(a[3]) else { exit(2) }
+let box = p.bounds(for: .mediaBox); let s = CGFloat(px) / max(box.width, box.height)
+let img = p.thumbnail(of: CGSize(width: box.width * s, height: box.height * s), for: .mediaBox)
+guard let t = img.tiffRepresentation, let rep = NSBitmapImageRep(data: t), let jpg = rep.representation(using: .jpeg, properties: [.compressionFactor: 0.9]) else { exit(3) }
+do { try jpg.write(to: URL(fileURLWithPath: a[4])) } catch { exit(4) }
+SWIFT
+  page_list() { printf '%s\n' "$1" | tr ',' '\n' | while read -r r; do case "$r" in '') ;; *-*) seq "${r%-*}" "${r#*-}" ;; *) echo "$r" ;; esac; done; }   # 14-21,24 → one page per line
+  page_chars() { awk '/^<!-- page [0-9]+/{if(p)print p, c; p=$3; c=0; next}{gsub(/[[:space:]]/,""); c+=length($0)}END{if(p)print p, c}' "$1"; }   # text-layer characters per page
+  to_jpeg() { # $1 image or rendered page → $2: at most IMG_PX on the long side and IMG_BYTES bytes, shrinking until it fits
+    for px in "$IMG_PX" 1200 800; do for q in 60 45 30; do
+      sips -Z "$px" -s format jpeg -s formatOptions "$q" "$1" --out "$2" >/dev/null 2>&1 || return 1
+      [ "$(wc -c < "$2" | tr -d ' ')" -le "$IMG_BYTES" ] && return 0
+    done; done; rm -f "$2"; return 1
+  }
   ooxml="$(mktemp)"; cat > "$ooxml" <<'PY'
 # ooxml-text: print the text of a .pptx (per slide) or .xlsx (per sheet, tab-separated) - python3 stdlib only
 import sys, re, zipfile, xml.etree.ElementTree as ET
@@ -380,6 +403,7 @@ PY
         docx|doc|rtf|odt|html|htm|webarchive) extractor=textutil; textutil -convert txt -stdout "$orig" > "$body" ;;
         pdf) extractor=pdfkit; swift "$tmp" "$orig" > "$body" 2>/dev/null || { extractor="none (pdf unreadable or encrypted)"; : > "$body"; }
              pages="$(grep -c '^<!-- page' "$body")"; chars="$(grep -v '^<!-- page' "$body" | tr -d '[:space:]' | wc -c | tr -d ' ')"
+             layer="$(page_chars "$body")"   # the text layer, page by page, before OCR replaces it: a page with under 200 characters is a picture
              if [ "${OCR:-}" = "$name" ] || { [ "$pages" -gt 0 ] && [ "$chars" -lt $((20 * pages)) ]; }; then
                extractor=vision-ocr; swift "$ocr" "$orig" "${OCR_LANGS:-zh-Hant,en-US}" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; }; fi ;;
         png|jpg|jpeg|tif|tiff|heic|gif) extractor=vision-ocr; swift "$ocr" "$orig" "${OCR_LANGS:-zh-Hant,en-US}" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; } ;;
@@ -403,11 +427,31 @@ PY
         || { status="no-text"; [ "$extractor" = none ] && echo "[$name] no extractor for .$ext — export from the app and ingest the export" >&2; }   # page/slide/sheet markers alone are not text
     fi
     mkdir -p "$(dirname "$out")"
+    # pictures: an image original whole; a PDF's pages that are pictures (under 200 characters of text) or that IMAGES=<name>:<pages> names —
+    # written next to the text as <name>.p<N>.jpg, the one binary git keeps (IMG_BYTES, IMG_PX), and named in the header and the page marker
+    for i in "${out%.md}".p[0-9]*.jpg; do [ -f "$i" ] && rm -f "$i"; done
+    images=""; want=""
+    if [ "$status" = ok ] || [ "$status" = no-text ]; then
+      case "$ext" in
+        png|jpg|jpeg|tif|tiff|heic|gif) want=1 ;;
+        pdf) want="$(printf '%s\n' "${layer:-}" | awk '$2<200{print $1}' | tr '\n' ' ')"
+             spec="${IMAGES:-}"; [ "${spec%%:*}" = "$name" ] && want="$want $(page_list "${spec#*:}" | tr '\n' ' ')" ;;
+      esac
+      for n in $(printf '%s\n' $want | sort -nu); do
+        img="${out%.md}.p$n.jpg"; raw="$(mktemp).jpg"
+        if [ "$ext" = pdf ]; then swift "$render" "$orig" "$n" "$((IMG_PX * 2))" "$raw" 2>/dev/null || { rm -f "$raw"; continue; }; else cp "$orig" "$raw"; fi
+        if to_jpeg "$raw" "$img"; then images="$images${images:+ }$(basename "$img")"
+          perl -pi -e "s{^<!-- page $n( \\(ocr\\))? -->\$}{<!-- page $n\$1 · picture: $(basename "$img") -->}" "$body"
+        else echo "[$name] warn: page $n could not be shrunk under $IMG_BYTES bytes — no picture kept" >&2; fi
+        rm -f "$raw"
+      done
+    fi
     { printf -- '---\nsource: %s\nsha256: %s\nbytes: %s\nextractor: %s\nstatus: %s\n' "$orig" "$sha" "$(wc -c < "$orig" | tr -d ' ')" "$extractor" "$status"
       [ -n "$received" ] && printf 'received: %s\n' "$received"   # the as-received file name, set by ingest and kept across re-extracts
+      [ -n "$images" ] && printf 'pictures: %s\n' "$images"   # sources/<name>.p<N>.jpg — cite one as <path>@<blob>; the text is still what a line cites
       [ "${SECRET_OK:-}" = "$name" ] && printf 'secret_review: waived %s\n' "$(date +%F)"
       printf -- '---\n'; cat "$body"; } > "$out"; rm -f "$body"
-    echo "[$name] → $out ($extractor, $status); cite as $out@$(git hash-object "$out" | cut -c1-12) after the closeout commit"
+    echo "[$name] → $out ($extractor, $status${images:+; pictures: $images}); cite as $out@$(git hash-object "$out" | cut -c1-12) after the closeout commit"
   done
   [ "$fail" -eq 0 ] || { echo "extract: $fail file(s) not ingested." >&2; exit 1; }
   ;;
@@ -538,6 +582,12 @@ check)
       echo "warn: $f: $o differs from its header — a new version is a new dated name; re-ingest it or restore the copy" >&2
     fi
   done || status=1
+  pictures | while read -r i; do   # a picture is a derivative's page, listed in its header, and under the cap — nothing else binary lives under sources/
+    md="$(printf '%s' "$i" | sed -E 's/\.p[0-9]+\.jpg$/.md/')"
+    { [ "$md" != "$i" ] && [ -f "$md" ]; } || { echo "FAIL: $i — under sources/ only <name>.md and its pictures <name>.p<N>.jpg live; re-extract the original" >&2; exit 1; }
+    grep -qE "^pictures: (.* )?$(basename "$i" | sed 's/\./\\./g')( |\$)" "$md" || { echo "FAIL: $i is not in $md's 'pictures:' header — re-extract the original" >&2; exit 1; }
+    [ "$(wc -c < "$i" | tr -d ' ')" -le "$IMG_BYTES" ] || { echo "FAIL: $i is over $IMG_BYTES bytes — re-extract the original" >&2; exit 1; }
+  done || status=1
   unref="$(unref_derivatives)"
   [ -z "$unref" ] || { printf '%s\n' "$unref" | sed 's|^|warn: no live document cites |; s|$| — remove it with its original at closeout: ./workspace.sh prune --apply|' >&2; }
   orphans="$(orphan_originals)"
@@ -622,7 +672,7 @@ check)
     [ "$here" = "$bp" ] && echo "info: $bp is the boilerplate — its manifest is the template" || echo "warn: manifest has no repos yet — edit catalog/repos.yaml"
   fi
   newest="$(ls .agents/memory/sessions 2>/dev/null | grep -E '^[0-9]{4}-' | sort | tail -1)"
-  echo "info: $(derivatives | wc -l | tr -d ' ') document derivative(s); newest session log: ${newest:-none yet}"
+  echo "info: $(derivatives | wc -l | tr -d ' ') document derivative(s), $(pictures | wc -l | tr -d ' ') picture(s); newest session log: ${newest:-none yet}"
   [ "$status" -eq 0 ] && echo "check: PASS ($n repo(s) in manifest)" || echo "check: FAIL" >&2
   exit "$status"
   ;;

@@ -8,7 +8,7 @@ Governance workspace for cross-repository work. Child repositories are gitignore
 docs/<product>/index.md            the product: what it is; links to its modules, repositories, open plans   ≤ 80 lines
 docs/<product>/<module>.md         one subsystem each — the only place facts live                              ≤ 300
 docs/<product>/<repo>/index.md     a related repository: run, test, entry points, integration                  ≤ 100
-docs/<product>/[<repo>/]sources/   ingested documents' text — `ingest` / `extract` output only, never hand-edited
+docs/<product>/[<repo>/]sources/   ingested documents' text, plus `<name>.p<N>.jpg` for a page that is a picture — `ingest` / `extract` output only, never hand-edited
 docs/<product>/plans/<feature>.md  task-oriented: goal, writes, steps, done-when; removed by `plan done` / `rm`  ≤ 80
 docs/assets/<product>/[<repo>/]    the originals — gitignored, added by `ingest` only, removed by `prune`
 .agents/memory/sessions/           one log per session — the journey, never the facts                          ≤ 40
@@ -52,7 +52,7 @@ Every claim in a module or repository doc says where it was seen: `<repo>@<sha> 
 
 - ⛔ Write surface: `docs/<product>/**` (by the commands, and by hand inside index / module / repository / plan text), `.agents/memory/sessions/`, `docs/assets/` through `ingest` only, gitignored `.agents/scratch/` for disposable work. Never write inside `projects/`; never edit a `sources/` file or an original.
 - ⛔ No secrets in any file, ever — report a credential's location, not its value; `ingest` refuses a document that contains one.
-- ⛔ Nothing binary and nothing over 1 MiB enters this repository — the pre-commit hook refuses it.
+- ⛔ Nothing binary and nothing over 1 MiB enters this repository — the pre-commit hook refuses it. The one exception is a picture derivative under `sources/` (≤ 200 KiB, made by `extract`): a mock-up or a prototype form that guides a plan must be visible from every clone.
 - ⛔ No production systems unless a task explicitly authorizes it (then read-only credentials only); no destructive commands; inspect source rather than executing it.
 - ⛔ Start cross-repository sessions from this directory, never inside a child.
 - ⛔ Never end a session without its log.

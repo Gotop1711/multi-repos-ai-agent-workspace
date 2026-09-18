@@ -6,7 +6,7 @@ One governance repository from which AI agents work across many independently ma
 docs/<product>/index.md            the product — what it is, links to modules, repositories, open plans
 docs/<product>/<module>.md         one subsystem each; the facts, each cited <repo>@<sha> path:line
 docs/<product>/<repo>/index.md     a related repository: run, test, entry points, integration
-docs/<product>/[<repo>/]sources/   text of documents you hand it (ingest); originals in gitignored docs/assets/
+docs/<product>/[<repo>/]sources/   text of documents you hand it (ingest) and a small picture of each image page; originals in gitignored docs/assets/
 docs/<product>/plans/<feature>.md  a piece of child-repo work: you sign it, the agent ships it, you verify it, plan done removes it
 .agents/memory/sessions/           one short log per agent session
 projects/                          the child repositories (gitignored)
@@ -33,7 +33,7 @@ Agent: `check` → read `docs/<product>/` → work → log → commit. You: revi
 | `check` | structure, line caps, plan headers, derivatives, the main/organization split — runs at every commit |
 | `doc init` · `doc add` · `doc rm` | create and remove index / module / repository docs, keeping `index.md`'s links |
 | `plan new` · `plan done` · `plan rm` | open a draft plan; remove a verified or abandoned one — or any (`rm`, `--force` for a signed/shipped one) — with its logs and the sources only it used |
-| `ingest` · `extract` · `prune` | documents in (originals gitignored, text tracked); text nothing cites out |
+| `ingest` · `extract` · `prune` | documents in (originals gitignored; text and ≤ 200 KiB pictures of image pages tracked); what nothing cites out |
 | `cite` · `restore` · `clone` | the fleet as one citation line; check a citation out; rebuild the fleet |
 
 Line caps (`check` fails above them; lines counted wrapped at 100 columns): index 80 · module 150 · repository doc 100 · plan 80 · log 40.

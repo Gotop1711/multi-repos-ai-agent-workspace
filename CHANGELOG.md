@@ -2,6 +2,7 @@
 
 One line per change, newest first, written on `main` in the closeout that makes the change; never an organization's or a plan's state. Capped at 60 wrapped lines by `check` — cut the oldest, git keeps them.
 
+- 2026-09-18 — `extract` keeps a picture of each image page (an image original whole; a PDF page under 200 characters of text, or one named by `IMAGES=<file>:<pages>`) as `sources/<name>.p<N>.jpg`, ≤ 200 KiB and 1600 px, listed in the header and the page marker — the one binary the hook admits; `check` ties every picture to its text, `prune` removes them together. A mock-up that guides a plan was visible only where it was ingested.
 - 2026-09-17 — module cap 150 → 300 wrapped lines: a module that enumerates (a field-by-field name map, a code listing) could not fit, and splitting it would have put one subsystem's facts in two files.
 - 2026-09-16 — `plan rm <product> <feature> [--force]`: remove a plan in any state with everything only it used (logs, sources, originals); `plan done` shares the routine and both now report what another document still keeps.
 - 2026-09-16 — `CHANGELOG.md` returns as this one-line-per-change file (capped); `README.md` no longer carries an "Upgrading from v1" section — a migration note belongs to the entry that requires it.
