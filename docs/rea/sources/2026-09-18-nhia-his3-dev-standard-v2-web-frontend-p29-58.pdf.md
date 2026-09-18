@@ -5,8 +5,9 @@ bytes: 2723440
 extractor: pdfkit
 status: ok
 received: 第三代醫療資訊系統建置案_開發規範_V2.0_p29-58.pdf
+pictures: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p1.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p14.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p15.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p16.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p17.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p18.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p19.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p20.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p21.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p24.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p25.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p26.jpg 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p27.jpg
 ---
-<!-- page 1 -->
+<!-- page 1 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p1.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 圖 7、前後端分離架構圖
 21
@@ -337,7 +338,7 @@ M(p,s) 金額欄位
 他元件時，請跟系統架構師申請。
 5、UI 框架及其他運用擴充套件請參考使用程式庫白名單。
 33
-<!-- page 14 -->
+<!-- page 14 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p14.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (二) 前端 UI 框架
 前端開發 Style 請參考附件二。
@@ -353,7 +354,7 @@ A、共用框架區
 B、子系統工作區
  子系統畫面
 34
-<!-- page 15 -->
+<!-- page 15 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p15.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 2、健保資訊網服務系統 VPN
 (1) 登入
@@ -369,7 +370,7 @@ B、子系統工作區
 醫事機構卡、政府單位憑證卡、健保 OTP 憑證、行動自
 然人憑證。
 35
-<!-- page 16 -->
+<!-- page 16 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p16.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 3、首頁
 (此為示意圖，非真正畫面)
@@ -384,7 +385,7 @@ B、子系統工作區
  首頁中間上方區為最新公告消息，下方區服務項目對應到
 左選單頁大項目。
 36
-<!-- page 17 -->
+<!-- page 17 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p17.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 4、功能作業
 (此為示意圖，非真正畫面)
@@ -398,7 +399,7 @@ A、共用框架區
 B、子系統工作區
  預檢醫療費用申報收件狀況查詢。
 37
-<!-- page 18 -->
+<!-- page 18 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p18.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 5、醫事人員溝通平台
 (1) 登入
@@ -411,7 +412,7 @@ A、共用框架區
 B、子系統工作區
  登入介面：可使用健保讀卡機、晶片讀卡機。
 38
-<!-- page 19 -->
+<!-- page 19 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p19.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 6、首頁
 (此為示意圖，非真正畫面)
@@ -424,7 +425,7 @@ A、共用框架區
 B、子系統工作區
  尚未處理表單提醒。
 39
-<!-- page 20 -->
+<!-- page 20 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p20.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 7、電子轉診多合一整併作業
 (此為示意圖，非真正畫面)
@@ -437,7 +438,7 @@ A、共用框架區
 B、子系統工作區
  電子轉診多合一整併作業。
 40
-<!-- page 21 -->
+<!-- page 21 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p21.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 8、醫療資訊系統
 (此為示意圖，非真正畫面)
@@ -498,19 +499,19 @@ BFF 可以一次向多個服務取資料再回傳給前端。
 子系統將路由結構提供給主系統(不需要將子系統 vue-
 router 提供給主系統)。
 43
-<!-- page 24 -->
+<!-- page 24 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p24.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 44
-<!-- page 25 -->
+<!-- page 25 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p25.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (3) 子系統 vite.config 設定
 45
-<!-- page 26 -->
+<!-- page 26 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p26.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (三) 主系統配置
 1、主系統 router 設定
 46
-<!-- page 27 -->
+<!-- page 27 · picture: 2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.p27.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 2、主系統 vite.config 設定
 47

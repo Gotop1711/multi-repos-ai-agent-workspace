@@ -5,8 +5,9 @@ bytes: 120468
 extractor: vision-ocr
 status: ok
 received: 306_main-settings.jpg
+pictures: 2026-09-16-306-main-settings.jpg.p1.jpg
 ---
-<!-- page 1 (ocr) -->
+<!-- page 1 (ocr) · picture: 2026-09-16-306-main-settings.jpg.p1.jpg -->
 306_需同時併報項目
 上次更新時間：-
 共1個群組

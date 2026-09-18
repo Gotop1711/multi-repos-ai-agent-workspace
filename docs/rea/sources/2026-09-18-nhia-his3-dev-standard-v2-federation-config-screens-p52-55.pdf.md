@@ -5,8 +5,9 @@ bytes: 671669
 extractor: vision-ocr
 status: ok
 received: 2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf
+pictures: 2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf.p1.jpg 2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf.p2.jpg 2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf.p3.jpg 2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf.p4.jpg
 ---
-<!-- page 1 (ocr) -->
+<!-- page 1 (ocr) · picture: 2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf.p1.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 import subSystem from "@/App vue"： /入口
 import subSystemPage from "@/views/ subSystemPage/index.vue"；// 子系統頁面載入
@@ -23,7 +24,7 @@ name： " subSystemPage"，
 meta:0，¢
 ］；
 44
-<!-- page 2 (ocr) -->
+<!-- page 2 (ocr) · picture: 2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf.p2.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 （3） 子系統 vite.config 設定
 import ｛fileURLToPath, URL｝from "node:url"；e
@@ -59,7 +60,7 @@ build：它
 target:esnext"，
 3：
 45
-<!-- page 3 (ocr) -->
+<!-- page 3 (ocr) · picture: 2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf.p3.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 （三）主系統配置
 1、主系統 router 設定
@@ -92,7 +93,7 @@ companent：（） => importl @/views/errorPage/404. ue），f
 title:404，
 ｝+
 46
-<!-- page 4 (ocr) -->
+<!-- page 4 (ocr) · picture: 2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf.p4.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 2、主系統 vite.config 設定
 import ｛ fileURLToPath, URL. ｝ from 'node:urfe
