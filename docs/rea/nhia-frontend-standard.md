@@ -9,32 +9,48 @@ text; pictures of its pages 14–21 and 24–27 sit beside it as `….p<N>.jpg`)
 own date is not in the excerpt; the file's is the ingest date. Whether `REA_UI` complies is not assessed here.
 
 ## The whole regulation: what a review of the ui needs
-Chapters and pages below are from the owner's table-of-contents screenshots (2026-09-18, not
-ingested). Its page numbers are stale: 肆 is listed at 17 and 十一 at 40, but the excerpt prints them
-on 22 and 48, and the drift grows from 5 to 8 inside the chapter (S L13–16, L520–543). So only headings,
-not page numbers, locate a part. Whether 肆 ends on printed page 50, where the excerpt stops, is unconfirmed.
+The full document has 367 PDF pages. Its table of contents gives wrong page numbers: the owner confirms
+the original carries them, and the excerpt shows 肆 printed on page 22 where the contents say 17 (S
+L13–16). The pages below are PDF pages, and each part's name carries its range. 肆 is PDF pages 30–58:
+the owner's excerpt is complete, since 伍 starts on page 59. Every part below is under `docs/rea/sources/`. Pictures of its image pages sit
+beside each part, and they matter here: 附件二 defines widgets by picture, and 附件六's examples are
+code screenshots with no text layer.
 
 Needed, because 肆 points to them or the ui is written under them:
-- **肆 前端(Vue3)開發規範** (listed p17–43): ingested; this module.
-- **陸 二 前端單元測試** (p164–177): 肆 六 defers to it, and unit tests are on the mandatory list (S L304, L321).
-- **壹拾參 二 三代醫療系統介面設計規範** (p246–253): 附件二, the front-end style 肆 defers to (S L344).
-- **壹拾參 六 JavaScript 開發規範** (p281–287): the ui's code is JavaScript and TypeScript.
-- **壹拾參 四 錯誤及返回代碼規劃** (p268–272): the codes the ui shows; 肆 三 (9) sets how (S L263–270).
-- **壹拾參 三 日誌 Log 規範** (p253–268): whether front-end logging is ruled.
-- **貳 三 版本管理(Git)** (p7–12): branches and commits, against the ui's `debug-ui` flow.
-- **壹 四 開發文件規範** (p3–7): the documents a repository must carry.
-- **Location unknown**: the 程式庫白名單 that 肆 requires libraries to come from (S L339), and the
-  命名原則 that 肆 says unifies front and back naming (S L72). 壹 三 本機開發環境, 壹拾參 一 開發環境安裝
-  and 伍 五 命名規範 are candidates by title only.
+- **肆 前端(Vue3)開發規範**: `S`, this module.
+- **陸 二 前端單元測試** (p212–224): `2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224-without-219-222.pdf.md@fedc06285684`
+  L17–378. 肆 六 defers to it, and unit tests are on the mandatory list (S L304, L321). Pages 219 and
+  222 are left out: `ingest` refused a login test fixture with user `sa` and a password. Whether that is
+  a real credential is the owner's call. If it is not, the part can be re-ingested whole.
+- **壹拾參 二 三代醫療系統介面設計規範** (p307–315): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md@3d5d39cd6925` L81–274.
+  This is the 附件二 that 肆 defers to for style (S L344).
+- **壹拾參 六 JavaScript 開發規範** (p349–355): `2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.md@49bf8e320d1b` L12–95.
+- **壹拾參 四 錯誤及返回代碼規劃** (p333–336): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L799–901. These are the codes
+  the ui shows, and 肆 三 (9) sets how (S L263–270).
+- **壹拾參 三 日誌 Log 規範** (p316–332): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L275–798.
+- **壹拾參 一 開發環境安裝** (p297–306): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L13–80. It holds the Vue 3 setup and
+  the VS Code extension list that 肆 九 3 names and leaves empty (L17, L28; S L336).
+- **貳 三 版本管理(Git)** (p18–22): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md@94b087e18a61` L190–312.
+- **壹 四 開發文件規範** (p12–17): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md` L20–170.
+- **The 程式庫白名單 is not in the document.** 肆 and 附件一 both defer to it (S L339;
+  `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L15), and so does 附件五 Node.js on p345, which is not ingested. It has to
+  come from the owner.
+- **The 命名原則 is 伍 五 命名規範** (p130–141): `2026-09-18-nhia-his3-dev-standard-v2-naming-p130-141.pdf.md@6071d9d8bdc5` L35–184 for 通用命名規範.
+  It is written for C#. Its one front-end rule is that a required enum treats 0 as unselected and
+  validates it (L357).
 
 Context, read for the ui's place in the system rather than checked line by line:
-- **壹 二 整合與部署架構** (p2), **伍 二 後端整體架構治理** (p53–67): whether `REA_kernel` may stand as
-  the BFF 肆 requires every datum to come through (S L20–24).
-- **柒 二 身分認證及授權管理** (p185), **捌 三代登入機制** (p189–194): the token 肆 says the BFF holds (S L311).
-- **玖 容器化與 CI/CD 之關連** (p194–209): how the ui is built and deployed.
+- **壹 二 整合與部署架構** (p11): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md` L12–19. **伍 二 後端整體架構治理** (p72–88):
+  `2026-09-18-nhia-his3-dev-standard-v2-backend-architecture-p72-88.pdf.md@ef02788f2448` L11–487. Both bear on whether `REA_kernel` may stand as the
+  BFF that 肆 requires every datum to come through (S L20–24).
+- **柒 Web API 管理** and **捌 三代登入機制** (p235–245): `2026-09-18-nhia-his3-dev-standard-v2-apim-login-p235-245.pdf.md@00fecbfe35c6`. 柒 二
+  身分認證 is L16–42, Keycloak L57–99, and 捌 L128–227. They cover the token that 肆 says the BFF holds
+  (S L311).
+- **玖 容器化與 CI/CD 之關連** (p246–260): `2026-09-18-nhia-his3-dev-standard-v2-containers-cicd-p246-260.pdf.md@be9db46b3ab5` L12–154. It covers
+  how the ui is built and deployed.
 
-Not needed for the ui: 參 微服務, the rest of 伍 (C#), 陸 三, the rest of 柒, 壹拾 批次, 壹拾壹 資料庫,
-壹拾貳 Java, and 壹拾參 一, 五, 七–十 (環境安裝, Node.js, JSP, Ruby, Go, Python) unless one holds the whitelist.
+Not needed for the ui: 參 微服務; the rest of 伍 (C#); 陸 三; 壹拾 批次; 壹拾壹 資料庫; 壹拾貳 Java; and
+壹拾參 五 and 七–十 (Node.js, JSP, Ruby, Go, Python).
 
 ## Architecture (S L16–65, L456–605)
 - The front end is a UI layer only: no core business logic, no direct call to a backend API; every
