@@ -25,3 +25,6 @@ Owner: ingest the NHIA web front-end development regulation — chapter 肆 of �
 - Push: workspace `rea`.
 - Next task, if the owner wants it: `REA_UI` against the mandatory list (BFF-only `/api`, Element Plus,
   Federation, `src/utils/validate.js`, `vDataType`, colours) — findings would be a plan.
+- [workspace] A picture that guides implementation (a prototype form, a mock-up) is visible only on the
+  machine that ingested it: originals are gitignored, the derivative is OCR text. `ingest`/`extract`
+  should also write a capped, downscaled image derivative into `sources/`, the one binary path git keeps.
