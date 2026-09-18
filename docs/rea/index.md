@@ -8,6 +8,7 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [terms](terms.md) — vocabulary rulings: the prototype's blank-style labels, the 類別 option order
 - [field-map](field-map.md) — every dialog field enumerated, kernel name against ui name, and the names with no counterpart
 - [ruleset-api](ruleset-api.md) — the `RuleSet` round trip: the row `GET` returns, what the ui reads of it and never reads, the dev store's provenance and quirks 
+- [nhia-frontend-standard](nhia-frontend-standard.md) — the NHIA front-end rule the ui must meet: BFF-only API, Element Plus, Module Federation, the validate module, colours and layout
 
 ## Repositories
 - [rea-ui](rea-ui/index.md) — `REA_UI`: run, test, entry points; the owner's `debug-ui` branch
