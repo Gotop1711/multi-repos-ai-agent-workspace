@@ -1,11 +1,12 @@
 ---
-source: docs/assets/rea/2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224-without-219-222.pdf
-sha256: 974ab2ca5523ec23ce7db583fb5c9858c9642e8c30b8e78b4e7430108c20f192
-bytes: 671011
+source: docs/assets/rea/2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf
+sha256: 3135b3e87e43935b324eb7320038955c07c2510651177f9237dd29be89f9658a
+bytes: 680984
 extractor: pdfkit
 status: ok
-received: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224-without-219-222.pdf
-pictures: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224-without-219-222.pdf.p2.jpg 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224-without-219-222.pdf.p3.jpg
+received: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf
+pictures: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.p2.jpg 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.p3.jpg
+secret_review: waived 2026-09-18
 ---
 <!-- page 1 -->
 「第三代醫療資訊系統建置案」開發規範
@@ -39,7 +40,7 @@ environment: "jsdom",
 coverage:{
 all:true,
 204
-<!-- page 2 · picture: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224-without-219-222.pdf.p2.jpg -->
+<!-- page 2 · picture: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.p2.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 provifr:'v8',
 reporter:['text','json','html']
@@ -61,7 +62,7 @@ test: vitestConfig.test,
 (5) 使用管理者權限開啟 powershell
  執行 npm run test
 205
-<!-- page 3 · picture: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224-without-219-222.pdf.p3.jpg -->
+<!-- page 3 · picture: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.p3.jpg -->
 「第三代醫療資訊系統建置案」開發規範
  執行 npm run coverage
 (6) 專案內的 coverage 資料夾 / index.html 可以看到
@@ -217,6 +218,48 @@ expect (validateUser).toBe(false)
 210
 <!-- page 8 -->
 「第三代醫療資訊系統建置案」開發規範
+it('Click SubmitLogin When init loginInfo async() => {
+Password is Empty',
+const store=authStore()
+const wrapper=mount(LoginView)
+const loginInfo ={
+user: '',
+password: '',
+group: '',
+verification_code: '',
+}
+await wrapper.find('.btn-login').trigger('click')
+const res=store.getToken(loginInfo)
+const validatePassword =
+store.validatePassword(loginInfo.password)
+expect (validatePassword).toBe(false)
+})
+it('Click SubmitLogin When init loginInfo Empty', async() => {
+ValidateVerification is
+const store=authStore()
+const wrapper=mount(LoginView)
+const loginInfo ={
+user: '',
+password: '',
+group: '',
+verification_code: '',
+}
+await wrapper.find('.btn-login').trigger('click')
+const res=store.getToken(loginInfo)
+const validateVerification =
+store.validatePassword(loginInfo.validateVerification)
+expect (validateVerification).toBe(false)
+})
+it('Click SubmitLogin When init loginInfo', async() => {
+const store=authStore()
+const wrapper=mount(LoginView)
+const loginInfo ={
+user: 'sa',
+password: '123456',
+group: '1',
+211
+<!-- page 9 -->
+「第三代醫療資訊系統建置案」開發規範
 verification_code: '1234',
 }
 await wrapper.find('.btn-login').trigger('click')
@@ -255,7 +298,7 @@ it('Click SubmitLogin When init loginInfo User is Empty', async()
 => {
 const store=authStore()
 212
-<!-- page 9 -->
+<!-- page 10 -->
 「第三代醫療資訊系統建置案」開發規範
 const wrapper=mount(LoginView)
 const loginInfo ={
@@ -297,7 +340,43 @@ verification_code: '',
 }
 await wrapper.find('.btn-login').trigger('click')
 213
-<!-- page 10 -->
+<!-- page 11 -->
+「第三代醫療資訊系統建置案」開發規範
+const res=store.getToken(loginInfo)
+const validateVerification =
+store.validatePassword(loginInfo.validateVerification)
+expect (validateVerification).toBe(false)
+})
+it('Click SubmitLogin const store=authStore()
+When init loginInfo', async() => {
+const wrapper=mount(LoginView)
+const loginInfo ={
+user: 'sa',
+password: '123456',
+group: '1',
+verification_code: '1234',
+}
+await wrapper.find('.btn-login').trigger('click')
+const res=store.getToken(loginInfo)
+store.isValidated = true;
+expect (store.isValidated).toBe(true)
+})
+})
+
+(三) 補充
+1、tests/mock/
+JSON 資料。
+這個資料夾可以用來放置 測試用的 mock input/output
+範例：
+// tests/mock/api/requestInput.json
+{
+"userId": "abc123",
+"branchCode": "B001"
+}
+// tests/mock/api/requestOutput.json
+{
+214
+<!-- page 12 -->
 「第三代醫療資訊系統建置案」開發規範
 "result": true,
 "roles": ["ADMIN", "USER"]
@@ -337,7 +416,7 @@ expect(wrapper.find('[data-test="title"]').text()).toBe(title);
 }
 });
 215
-<!-- page 11 -->
+<!-- page 13 -->
 「第三代醫療資訊系統建置案」開發規範
 it("測試資料是否為函數", () =>
 {

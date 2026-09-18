@@ -13,6 +13,11 @@ Owner: from the full 開發規範 V2.0 (367 pages), ingest the parts a `REA_UI` 
   times and not in the document; the 命名原則 is 伍 五, C#-oriented, one front-end rule; 附件一 holds
   the VS Code extension list 肆 九 leaves empty — added to the parts.
 
+- Owner: the fixture credentials are samples; 陸 二 re-ingested whole with `SECRET_OK` (`93f137f4ed5c`),
+  the partial file pruned. Owner supplied the whitelist (`2026-09-18-nhia-his3-library-whitelist.md`,
+  `e97c76a4c25f`, dated 2026-06); the module names its sections and the rows the review checks first.
+  It admits `jquery`, which 肆 bans, and Vite up to 7.1.12 where 肆 names 6.0.0.
+
 ## Decisions & pitfalls
 - `ingest` refused 陸 二 for a login fixture (`sa` + password) on pages 219 and 222; not waived — the
   owner judges whether it is real. Ingested without those two pages; the value is in no file.
@@ -20,5 +25,6 @@ Owner: from the full 開發規範 V2.0 (367 pages), ingest the parts a `REA_UI` 
 - The JavaScript chapter's examples are code screenshots with no text layer: the pictures carry them.
 
 ## TODO
-- Owner: the 程式庫白名單; whether the fixture password is real (else re-ingest 陸 二 whole).
 - Push `rea`. Next: the `REA_UI` review against these parts.
+- [workspace] The pre-commit hook read a renamed picture as `{a => b}` and refused it; fixed on `main`
+  (`--no-renames`). This commit used `git -c diff.renames=false`.

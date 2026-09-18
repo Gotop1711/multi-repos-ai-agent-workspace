@@ -18,10 +18,9 @@ code screenshots with no text layer.
 
 Needed, because 肆 points to them or the ui is written under them:
 - **肆 前端(Vue3)開發規範**: `S`, this module.
-- **陸 二 前端單元測試** (p212–224): `2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224-without-219-222.pdf.md@fedc06285684`
-  L17–378. 肆 六 defers to it, and unit tests are on the mandatory list (S L304, L321). Pages 219 and
-  222 are left out: `ingest` refused a login test fixture with user `sa` and a password. Whether that is
-  a real credential is the owner's call. If it is not, the part can be re-ingested whole.
+- **陸 二 前端單元測試** (p212–224): `2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.md@93f137f4ed5c`
+  L18–457. 肆 六 defers to it, and unit tests are on the mandatory list (S L304, L321). Its login test
+  fixture carries a user and password; the owner confirms both are samples (2026-09-18).
 - **壹拾參 二 三代醫療系統介面設計規範** (p307–315): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md@3d5d39cd6925` L81–274.
   This is the 附件二 that 肆 defers to for style (S L344).
 - **壹拾參 六 JavaScript 開發規範** (p349–355): `2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.md@49bf8e320d1b` L12–95.
@@ -32,9 +31,16 @@ Needed, because 肆 points to them or the ui is written under them:
   the VS Code extension list that 肆 九 3 names and leaves empty (L17, L28; S L336).
 - **貳 三 版本管理(Git)** (p18–22): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md@94b087e18a61` L190–312.
 - **壹 四 開發文件規範** (p12–17): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md` L20–170.
-- **The 程式庫白名單 is not in the document.** 肆 and 附件一 both defer to it (S L339;
-  `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L15), and so does 附件五 Node.js on p345, which is not ingested. It has to
-  come from the owner.
+- **The 程式庫白名單** is a separate document, not part of the regulation. 肆 and 附件一 defer to it (S
+  L339; `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L15), and so does 附件五
+  Node.js on p345. The owner supplied it: `2026-09-18-nhia-his3-library-whitelist.md.md@e97c76a4c25f`,
+  its own date 2026-06 (L3). The front end is a table (L14–2790) and a machine list of `<name> <=<max
+  version>` lines (L2791–5560); the back end follows (L5563–6768), then a back-end blacklist (L6771–6782).
+  Rows the ui review checks first: `vue <=3.5.32`, `vite <=7.1.12`, `vitest <=4.0.5`, `element-plus
+  <=2.11.8`, `axios <=1.18.0`, `pinia <=3.0.4`, `vue-router <=4.6.3`, `typescript <=4.5.5`, `eslint
+  <=9.39.1`, `@originjs/vite-plugin-federation <=1.4.1` (L5470, L5462, L5468, L4193, L3876, L4967, L5482,
+  L5387, L4227, L3143). Two conflicts with 肆: the list admits `jquery <=3.7.1` (L4600), which 肆 bans
+  (S L326); and it admits Vite up to 7.1.12, where 肆 names 6.0.0 (S L335).
 - **The 命名原則 is 伍 五 命名規範** (p130–141): `2026-09-18-nhia-his3-dev-standard-v2-naming-p130-141.pdf.md@6071d9d8bdc5` L35–184 for 通用命名規範.
   It is written for C#. Its one front-end rule is that a required enum treats 0 as unselected and
   validates it (L357).
