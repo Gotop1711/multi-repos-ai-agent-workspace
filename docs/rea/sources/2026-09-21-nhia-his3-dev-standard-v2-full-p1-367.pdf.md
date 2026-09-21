@@ -2,10 +2,10 @@
 source: docs/assets/rea/2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf
 sha256: cf804534659a22d781ce0768c75784d8ed3b6d961b4d2b82e68d034dc9f630d2
 bytes: 11814599
-extractor: pdfkit
+extractor: pdfkit, vision-ocr of 98 pictured page(s) appended
 status: ok
 received: 第三代醫療資訊系統建置案_開發規範_V2.0.pdf
-pictures: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p1.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p3.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p10.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p11.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p17.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p22.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p28.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p29.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p42.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p43.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p44.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p45.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p46.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p47.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p48.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p49.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p52.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p53.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p54.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p55.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p90.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p133.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p144.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p147.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p156.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p158.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p165.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p195.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p197.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p213.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p214.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p234.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p239.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p240.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p241.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p242.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p243.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p247.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p248.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p249.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p255.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p256.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p258.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p264.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p266.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p270.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p278.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p282.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p292.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p297.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p298.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p299.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p300.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p301.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p302.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p303.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p304.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p305.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p306.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p307.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p308.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p309.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p310.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p311.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p312.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p313.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p314.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p315.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p319.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p320.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p326.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p349.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p350.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p351.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p352.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p353.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p354.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p355.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p356.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p363.jpg
+pictures: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p1.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p3.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p9.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p10.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p11.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p17.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p22.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p28.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p29.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p33.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p38.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p39.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p42.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p43.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p44.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p45.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p46.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p47.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p48.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p49.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p51.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p52.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p53.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p54.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p55.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p90.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p117.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p118.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p133.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p144.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p147.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p156.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p158.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p165.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p195.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p197.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p213.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p214.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p226.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p227.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p229.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p230.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p234.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p239.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p240.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p241.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p242.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p243.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p246.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p247.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p248.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p249.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p250.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p251.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p252.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p253.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p254.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p255.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p256.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p257.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p258.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p259.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p260.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p263.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p264.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p265.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p266.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p268.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p269.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p270.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p272.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p274.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p275.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p276.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p278.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p279.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p280.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p282.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p290.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p292.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p297.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p298.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p299.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p300.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p301.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p302.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p303.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p304.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p305.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p306.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p307.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p308.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p309.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p310.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p311.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p312.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p313.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p314.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p315.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p319.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p320.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p321.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p326.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p327.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p336.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p347.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p349.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p350.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p351.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p352.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p353.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p354.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p355.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p356.jpg 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p363.jpg
 secret_review: waived 2026-09-21
 ---
 <!-- page 1 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p1.jpg -->
@@ -178,7 +178,7 @@ iv
 表 1、系統一覽與代碼 .............................................................................. 3
 表 2、常用縮寫表 ...................................................................................... 6
 v
-<!-- page 9 -->
+<!-- page 9 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p9.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 壹、開發環境與 DevSecOps 簡述
 一、DevSecOps 簡述
@@ -701,7 +701,7 @@ container、el-row、el-col）進行響應式佈局。
  優先使用 Flex/Grid 進行版面控制，避免大量使用 inline
 style。
 24
-<!-- page 33 -->
+<!-- page 33 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p33.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (2) 元件使用
  優先使用 Element Plus 提供的標準元件（如 el-table、el-
@@ -855,7 +855,7 @@ M(p,s) 金額欄位
  不合法資料需自動 focus 至欄位
 (8) Vue Directive 規範
 29
-<!-- page 38 -->
+<!-- page 38 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p38.jpg -->
 「第三代醫療資訊系統建置案」開發規範
  統一使用 vDataType 處理欄位格式
  Directive 不得直接寫於頁面內
@@ -878,7 +878,7 @@ M(p,s) 金額欄位
 3、狀態管理
 使用 Pinia 作為狀態管理工具。
 30
-<!-- page 39 -->
+<!-- page 39 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p39.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 4、路由管理
 使用 Vue Router 進行路由配置，實現模組化與動態加載。
@@ -1081,7 +1081,7 @@ B、子系統工作區
 路延遲
 (3) 有跨域(CORS)問題
 42
-<!-- page 51 -->
+<!-- page 51 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p51.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (4) 後端 API 可能暴露太多細節給瀏覽器端
 (5) BFF 的好處：
@@ -2855,7 +2855,7 @@ HospDataList
 使用 DELETE，Function name DrugFirmDataDelete
 (7) 例外處理原則
 108
-<!-- page 117 -->
+<!-- page 117 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p117.jpg -->
 「第三代醫療資訊系統建置案」開發規範
  已提供給外部服務使用之 API，為確保其服務運作，API
 的命名不需要遵守三代的命名原則。
@@ -2878,7 +2878,7 @@ FindArticle()或是 UpdateAuthorization()等等，若動作的對象是
 複數時(例如回傳一份清單或是預期會多於一個的物件)，則應
 以對象的複數方式來表示之。 例如 GetProducts()、
 109
-<!-- page 118 -->
+<!-- page 118 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p118.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 MoveFiles()或是 LookupCustomerList()。
 方法應以執行單一動作(single action)為原則，除非必要，
@@ -5994,7 +5994,7 @@ nodeTransforms: isProd ? [removeDataTestAttrs] : [],
 (二) 測試相關套件
  Moq
 217
-<!-- page 226 -->
+<!-- page 226 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p226.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 處理 Mock
 (三) 建立單元測試專案
@@ -6006,7 +6006,7 @@ NhiCore.IMSNC.Test)，在方案內與被測試的專案為平行不同
 圖 9、測試專案設定參考樣圖
 (1) 最後選擇「.Net 8.0」並點擊建立。
 218
-<!-- page 227 -->
+<!-- page 227 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p227.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (2) 在測試專案將主專案加入「專案參考」。
 圖 10、專案參考位置
@@ -6055,7 +6055,7 @@ Assert.Throws ()等等來驗證。
 用。
 (六) 測試案例範例
 220
-<!-- page 229 -->
+<!-- page 229 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p229.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 [Fact]
 public async Task
@@ -6076,7 +6076,7 @@ Assert.Equal("新增成功", message);
 圖 12、打開測試總管
 2、點擊執行
 221
-<!-- page 230 -->
+<!-- page 230 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p230.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 圖 13、執行測試
 (八) 產生單元測試報告
@@ -6430,7 +6430,7 @@ VPN 醫療系統依接收到的 User Token，再用 client_secret
 無執行權限。反之則正常執行。
 APIM Kong 流程，比照 APIM 作業流程，呼叫外部 API。
 237
-<!-- page 246 -->
+<!-- page 246 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p246.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 玖、容器化與 CI/CD 之關連
 一、本機容器化
@@ -6451,14 +6451,14 @@ https://hi0lgitetser01.intra.nhi.gov.tw/CICD/cicd-injection
 <!-- page 249 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p249.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 241
-<!-- page 250 -->
+<!-- page 250 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p250.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 圖 19、CICD-injection
 由具有 PR 的同仁協助將 CICD-injection 合併到子系統，在
 GitHub 子系統上就會有 DEV-RELEASE 及 SIT-RELEASE 2 個分
 支。
 242
-<!-- page 251 -->
+<!-- page 251 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p251.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 圖 20、DEV-RELEASE 及 SIT-RELEASE 分支
 2、Dockerfile 及 k8s yaml
@@ -6475,7 +6475,7 @@ dockerfile、k8s 3 個資料夾，.github 注意這不可以刪除，萬一
 -p /app/logs 這是 pod 地端存放 log 的位置。
 (4) 其中的# 對外服務 Port
 243
-<!-- page 252 -->
+<!-- page 252 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p252.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 EXPOSE 8080
 可依實際需求調整。在三代在 port 部分有規範
@@ -6499,7 +6499,7 @@ port 要跟 deployment.yaml spec:->ports:->-containerPort: port
 要一致即可。
 (5) Java Dockerfile
 244
-<!-- page 253 -->
+<!-- page 253 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p253.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 依實際需求調整相關內容
 (6) npm Dockerfile 主要是用在前端 vue3
@@ -6514,7 +6514,7 @@ nginx.conf 也 Copy 到根目錄。
 A、使用一鍵生成 yaml
 請參考 tpl 資料夾的 readme.md
 245
-<!-- page 254 -->
+<!-- page 254 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p254.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (A) API 專案
 使用方式為 bash deploy_api.sh <namespace> <部門名稱>
@@ -6540,7 +6540,7 @@ service.yaml
 <子系統名稱(5 碼)> <route path>
 以 IHKWC 為例
 248
-<!-- page 257 -->
+<!-- page 257 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p257.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 bash deploy_vue.sh med3hi0 hi0 ihkwc IHKE300
 執行後會在同層增加子系統名稱資料夾，API 其中包含：
@@ -6554,7 +6554,7 @@ nginx.conf
 route.yaml
 service.yaml
 250
-<!-- page 259 -->
+<!-- page 259 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p259.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 3、DEV-RELEASE 及 SIT-RELEASE 上版
 (1) DEV-RELEASE
@@ -6565,7 +6565,7 @@ main，再到子系統 Repoditory ，點選 Pull requests 新增 New
 pull request
 再把 main 拉到 DEV-RELEASE 上版到 Dev
 251
-<!-- page 260 -->
+<!-- page 260 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p260.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 再到 Actions 查看上版流程及狀況，如果有問題可以查看
 log。
@@ -6620,7 +6620,7 @@ C#後端開發規範為主。
 3、使用小駝峰命名法：方法參數、區域變數。
 4、私有欄位使用底線作為前綴，
 254
-<!-- page 263 -->
+<!-- page 263 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p263.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 5、命名應具描述性且清晰：
 (二) 依賴注入
@@ -6641,7 +6641,7 @@ C#後端開發規範為主。
 7、將 SQL 查詢抽離為獨立的方法。
 8、使用抽象的資料庫連線工廠。
 256
-<!-- page 265 -->
+<!-- page 265 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p265.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (四) 非同步程式設計
 1、使用 async/await 處理 I/O 操作。
@@ -6685,7 +6685,7 @@ C 類 混合型批次 前段容錯 +
 核心一致
 1、容錯型批次（A 類）處理規範
 259
-<!-- page 268 -->
+<!-- page 268 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p268.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (1) 規範說明
 容錯型批次作業以「整體完成率」為主要目標，
@@ -6703,7 +6703,7 @@ C 類 混合型批次 前段容錯 +
 任一筆資料失敗即視為整批失敗。
 強制規範
 260
-<!-- page 269 -->
+<!-- page 269 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p269.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 當發生任一筆資料處理失敗時，系統必須：
  中止該批次後續處理
@@ -6740,7 +6740,7 @@ RetryCount 重試次數
 LastRetryTime 最後重試時間
 補處理（Retry）機制
 263
-<!-- page 272 -->
+<!-- page 272 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p272.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 
  僅適用於 A 類或 C 類前段
@@ -6788,7 +6788,7 @@ Log 記錄
 在批次被啟動時要記錄 Log，內容需包含時間、是什麼服務被
 啟動。
 265
-<!-- page 274 -->
+<!-- page 274 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p274.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 4、Heartbeat Log
 規範條文
@@ -6807,7 +6807,7 @@ Log 記錄
 況是否正常、正確，這點十分重要。
 6、Progress Log（避免「活著但沒動」）
 266
-<!-- page 275 -->
+<!-- page 275 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p275.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 規範條文
 長時間處理流程，必須定期寫入處理進度 Log，Log 必須
@@ -6823,7 +6823,7 @@ Watchdog 監控機制不得僅依賴單一 Log 類型，而應能透
 完整判斷批次作業生命週期狀態，避免誤判。
 (2) 監控架構
 267
-<!-- page 276 -->
+<!-- page 276 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p276.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (3) Watchdog 判斷狀態模型
 批次狀態定義
@@ -6861,14 +6861,14 @@ Heartbeat 消失
 <!-- page 278 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p278.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 270
-<!-- page 279 -->
+<!-- page 279 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p279.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 Watchdog 監控機制須能透過批次作業完整生命週期 Log，
 判斷程式是否啟動、是否存活、是否卡死、是否完成，
 不得僅以心跳 Log 作為唯一判斷依據。
 (五) 批次生命週期狀態圖
 271
-<!-- page 280 -->
+<!-- page 280 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p280.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 1、狀態定義表
 狀態 判斷條件 說明
@@ -7088,7 +7088,7 @@ MS SQL Server 定序使用 Chinese_Taiwan_Stroke_CI_AS，
 相容性層級為 SQL Server 2017(140) – 確切版本可再討論，不確
 定資料庫版本與預設值。
 281
-<!-- page 290 -->
+<!-- page 290 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p290.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 壹拾貳、 Java 開發規範
 須符合三代專案整體要求參考文件，應用程式安全開發準則
@@ -7582,7 +7582,7 @@ find, insert)
 Oracle 操作範例
 MongoDB 操作範例
 312
-<!-- page 321 -->
+<!-- page 321 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p321.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (七) NLog Style
 屬性 說明 PodId Pod K8s 容器名稱 Namespace K8s 命名空間 ContainerImage 容器映像檔 images Machinename 節點名稱 LogTime Log 紀錄時間 SystemCode 專案代號 描述說明/範例 decenc-
@@ -7863,7 +7863,7 @@ throw;
 }
 }
 318
-<!-- page 327 -->
+<!-- page 327 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p327.jpg -->
 字串
 名稱
 "trace" "debug" "info" "warn" "error" "fatal" 「第三代醫療資訊系統建置案」開發規範
@@ -8115,7 +8115,7 @@ ob/main/Resources/app-errors.json，各系統負責人需要先找 Github
 8、步驟說明
 (1) 找到 Resources 資料夾下的 app-errors.json。
 327
-<!-- page 336 -->
+<!-- page 336 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p336.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (2) 一個子系統獨有一個子分類的號碼，先搶先贏。按
 照格式新增或修改代碼。
@@ -8385,7 +8385,7 @@ expect(true).toBe(true)
 })
  啟動測試：npm test
 338
-<!-- page 347 -->
+<!-- page 347 · picture: 2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.p347.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 4、測試說明
 (1) File：
@@ -8810,3 +8810,2943 @@ exc_info=True)
 解析或蒐集的資料應具備檔案備份功能，以防資料遺
 失。
 359
+<!-- ocr: read by machine from the pictures of 98 page(s); lines the text layer already holds are left out. An index for searching, with misreadings - a claim cites the picture, never these lines. -->
+<!-- ocr of page 1 -->
+NATIONAL HEALTH INSURANCE ADMINISTRATION.
+AND WELFARE
+MINISTRY OF HEALTH
+<!-- ocr of page 9 -->
+CI/CD
+程式語言
+GitHub
+Docker
+Scrum
+• Net Core 8/
+GitHub Actions
+Web API
+Pipeline
+• Html/CSS
+Kubernetes
+• Vue3 + Vite
+Gateway
+• Typescript/Jav
+CODE
+Hluentd
+DEPLOY
+Gratana
+PLAN
+BUILD
+OPERATE
+IDE工具
+Visual Studio
+VS Code
+資料庫
+TEST
+SoWToR
+Oracle Server
+MongoDB
+Redis
+Log
+版本管理
+• CLM
+GitHub
+Application log
+Postman
+API Gateway log
+Unit Test
+Kubernetes log
+OpenTest UFT One
+LoadRunner
+Development
+Operations
+Database
+CI/CD
+前端程式
+Vue3 + Vite
+Oracle Server
+GitHub Actions
+•MongoDB、Redis
+HTML/CSS/Typescript
+安全掃瞄工具
+BootstrapVue
+SAST/DAST
+Container Security
+後端程式
+Container
+C#/.NET
+MQ
+ety
+SDK
+Docker
+Kafka
+Framework
+Opentelem
+.Net Core 8
+DeySecOps, Service
+MongoDB.Driver.
+GitHub Container
+GitHub - Repository
+Reaistry
+開發工具
+Visual Studio/Visual Studio
+Kubernetes Service
+Code
+<!-- ocr of page 11 -->
+保險對象
+Internet
+T-ROAD
+其他政府機關
+SSN
+民眾服務
+健保快易通
+APP
+VPN
+APP
+VPN
+Internet
+服
+資料交換
+服
+服務
+服務
+服務
+服務
+特約藥局
+務
+務
+內部作業
+資料交換
+內部作業
+綜合統計
+綜合統計
+層
+物理治療所
+層
+檢驗所
+數據中台
+數據中台
+酱事機構
+T-Road
+Al輔助
+FHIR模組
+FHIR模組
+模組
+數位審查
+平
+平日誌管理
+藥商
+Al輔助
+API管理
+API管理
+台 中央監控
+台 中央監控
+知識管理
+層
+層
+Al輔助
+特材商
+存取管理
+系統管理
+日誌管理
+存取管理
+數位審查
+AI輔助
+分區業務組
+系統管理
+DevSecOps
+分區業務組
+程式更版
+知識管理
+」衛生福利部
+衛生福利部
+內部
+服務中心
+服務中心
+資雲
+骨幹網路
+源
+- 源平容器編排管理
+料
+容器編排管理
+特約醫事
+特約酱事
+A-A運作
+厙
+服務機構
+庫
+服務機構
+層
+層€
+互為備援
+居家輕量
+居家輕量
+APP
+APP
+中區業務組機房
+GSN東七機房
+本機開發環境建置-開發環境
+• Visual Studio Enterprise 2026
+- https://visualstudio.microsoft.com/vs/enterprise/
+• Visual Studio Code
+- https://code.visualstudio.com/
+• Node.js
+- https://nodejs.org/zh-tw/download
+- apmn wnltyue@latest
+• Git
+- https://git-scm.com/downloads
+• Docker
+sethdabgps:/download.docke.com/inux/Lbuntu/epg sude AR%-deammo. -0 /ALs/share/keyings/docker-archive-
+• Bootstrapvue
+- Pmn install bootstrap@4.4.1
+• MongoDB
+- docker pull mongo:8.0.4
+• Mongodb Compass
+- https://www.mongodb.com/try/download/shell
+<!-- ocr of page 22 -->
+Feature branch
+Local
+Master
+pull
+Puld
+Merge
+push
+deploy
+deploy
+deploy
+CICD
+CICD
+CICD
+<!-- ocr of page 28 -->
+UI
+•Domain driven design的N-
+Infrastructure
+tier架構。
+-前後端分離。
+一以領域模型為核心，確保靈活性
+與可持續性。
+DB
+UI-
+-可以快速測試系統核心邏輯。
+-外部元件不僅是資料庫，還有API
+service、MQ等。
+Infrastructure
+External Systems
+智慧財產權屬資拓宏宇國際（股）公司，複製或轉載必究
+31
+V HIS.SAMPLE
+> 1.WebSite
+UI
+>2.WebApi
+Infrastructure
+》 3.Business
+•> 4.DataAccess
+Application
+一~5.Domain
+> His.Lab.Domain
+DB
+> His.Odr. Domain
+> His.Pat.Domain
+> His.Reg.Domain
+> His.Sys.Domain
+Infrastructure
+>6.MQ
+External Systems
+> 7.Job
+> 9.Base
+智慧財產權屬資拓宏宇國際（股）公司，複製或轉軟必究
+<!-- ocr of page 29 -->
+APIM
+後端.Net Core 8
+前端 Vue 3
+Kong
+.Net Core 8 Web API
+Vue 3 SPA
+Keycloak
+控制器（Controllers）
+Pinia/Vuex
+Vue Router
+邏輯層（Business/Business.EF）
+組合式API （Composition API）
+服務層（Services）
+HTTPS/ISON
+儲存庫（Repository）
+Vite
+Axios
+權限
+身分驗證
+UI 框架（Bootstrap5）
+資料庫（QracleDB
+、MongoDB、Redis）
+Typescript/lavascript
+依賴注人（DI）
+前後端透過RESTful API 進行資料交換
+<!-- ocr of page 33 -->
+import { ref, onMounted }from
+'vue';
+export default{
+setup(){
+const message = ref('Hello BootstrapVue!');
+onMounted(()=>{
+console.10g（‘組件已加載’）；
+});
+return { message };
+},
+};
+<!-- ocr of page 38 -->
+import { definestore } from 'pinia';
+export const usecounterstore = definestore('counter',{
+state:() => ({
+count:0,
+}),
+actions:{
+increment(){
+this.count++;
+}
+},
+});
+<!-- ocr of page 39 -->
+createRouter,createwebHistory } from 'vue-router';
+routes
+const
+=[
+{
+path:"/’,
+name:‘Home',
+=>
+component: ()
+import('@/views/HomeView.vue'),
+},
+{
+path:'/about',
+name:
+'About',
+component:() => import('@/views/AboutView.vue'),
+},
+];
+const router = createRouter({
+history: CreateWebHistory(),
+routes,
+});
+export
+default
+router;
+<!-- ocr of page 42 -->
+網站地圖
+網站使用說明
+衛生福利部中央健康保險署
+Ministry ofHiealth and Weliare
+白 其他服務
+Q 查詢
+請選擇服務類型 <
+請輸入關鍵字查詢
+請選擇服務項目丷
+搜尋檔案
+勺返回服務項目查詢
+上架日期由新到舊＜
+排序
+服務項目：全部
+更新日期
+檔案顃型
+服務項目|
+檔案說明
+服務類型
+107.01.17
+入口網站介紹
+共通作業
+網站介紹
+3,432
+共通作業
+網站介紹
+Internet新版首頁與現行首頁差異介紹
+1,790
+共通作業
+圖|
+醫事人員憑證IC卡申辦流程
+網站介紹
+四
+126
+網站介紹
+共通作業
+醫事機構憑證IC卡申辦流程
+B|
+277
+共通作業
+電腦設定
+晶片讀卡機（健保卡）Mac移除元件
+1,042
+電腦設定
+共通作業
+晶片讀卡機（健保卡）Mac安裝元件【12年、版號（1001】
+電腦設定
+1,292
+晶片讀卡機（健保卡）Mac安装元件
+共通作業
+共通作業
+電腦設定
+364
+晶片讀卡機（健保卡儿inux之Fedora元件安裝說明
+國園
+- 336
+隱私權政策 資訊安全政策 政府網站資料開放宣告
+C &。 （07231-8122 Q週一至週五8:00~19.45/週六9：.00~17:00 日1c.8erv/.ce@nhi.goutw
+<!-- ocr of page 43 -->
+網站使用說明
+下載專區 聯絡窗口 友着連結 網站地圃
+德生福利中央健康保照證
+C9 醫事人員專區
+@ 醫事機構登入
++三
+醫事機構登入
+按
+請選擇使用卡片
+醫事人員卡 健保卡 自然人憑證卡 醫事機構卡 政府單位憑證卡 健保OTP認證
+• 醫事人員卡登入常見問題
+申辦醫人員卡事宜？
+憑證 PIN 碼來源
+健保讀卡機（已驗證成功者免輸入）
+衛生福利部醬事憑證管理中心相關網站？
+電腦𨫡盤 請輸人
+＋ 詳細資料
+請選擇讀卡機種類
+徤保讀卡機/雲端控制軟體
+晶片讀卡機
+3 &。（07）231-8122 Q週一至週五8.00~19-45/週六9.00~ 17:00已 ic. service@nhi.gov.t
+隱私權政策 資訊安全政策 政府網贴資料開放宣告 開響的國
+2 網路線路檢測/報修事線 中華電信 02-2344-311
+<!-- ocr of page 44 -->
+2 台北虛擬診甄曉利~
+網站地圖
+友善連結
+網站使用說明
+衛生福利部中央健康保險署 健保資訊網服務系統
+A 費用申報及資料登錄
+分區業務公告事項
+署本部公告事項
+十 查看全部
+＋ 查看全部
+醫費中報
+健保署分區業務公告1
+認美中校 住院病例組合編審服務資料上傳及回傳格式（⋯
+02預檢醫療費用申報
+110/08/07
+110/08/07
+GoL健保署分區業務公告2
+住院病例組合編審服務資料上傳及回傳格式（⋯
+申報資料上傳
+110/07/07
+健保署分區業務公告3
+住院病例組合編審服務資料上傳及回傳格式（
+收件狀況查詢
+3業中》住院病例組合編審服務資料上傳及回傳格式（.
+3錢中假》 健保署分區業務公告4
+相關檔案下載
+110/06/07
+110/06/07
+住院病例組合編審服務資料上傳及回傳格式（.
+環中联 健保署分區業務公告5
+ICD-10-CM/PCS有效檢測作業
+模擬2023年版ICD10醫療費用
+申報預檢資料上傳
+03照護機構院民資料申報
+04中醫護理人員跟診時段維護
+05巡迴醫療及自費醫療
+C特約機構
+G居象醫潦
+D照護計畫
+E費用支付
+H健保卡
+A費用申報
+F轉診及轉介
+B密查作業
+及資料登錄
+維護追蹤
+06住院病例組合編審服務
+07醫療費用申報總表線上確認
+B審查作業（含事前審查）
+C特約機構資料維護
+L藥材調查及
+M行攻
+〇機構
+K資料交換
+霎端系統
+授櫂作巢
+醫師人力需求
+像及出院病摘上傳
+診療增修
+D照護計畫維護追蹤
+與查詢
+協助项目
+E費用支付資料下載
+隐相催以菜真卧文全以束 以府嗣购食科開放自吉
+1 &（072318122 Q週一至週五800~1945/週六900~1700 已l6.sewice@nh.gou.tw
+網路線路檢測/報修事線 中華電信 02-2344-3118
+<!-- ocr of page 45 -->
+聯絡窗口 友善連結
+2 台北虛擬診甄曉利 ＜
+網站地圖
+網站使用說明
+衛生福利部中央健康保險署
+健保資訊網服務系統
+A 費用申報及資料登錄
+^ 首頁，A費用申報及資料登錄>02預檢醫療費用申報，收件狀況查詢
+=Q 查詢收合
+02預檢醫療費用申報
+申報類別
+收件序號
+全部
+費用年月
+申報資料上傳
+請選擇
+全部
+門住診別
+醫事類別
+相關檔案下載
+Q 查詢
+清除
+ICD-10-CM/PCS有效檢測作業
+模擬2023年版ICD10醫療費用
+申報預檢資料上傳
+03照護機構院民資料申報
+04中醫護理人員跟診時段維護
+05巡迴醫療及自費醫療
+06住院病例組合編審服務
+07醫療費用申報總表線上確認
+B審查作業（含事前審查）
+C特約機構資料維護
+D照護計畫維護追蹤
+E費用支付資料下載
+隱私櫂政策 資訊安全政策 政府網站資料開放宣告 開樂亞
+1 &（072318122 Q週一至週五800~1945/週六900~1700 日l6.seNiceenh.gou.tw
+风 網路線路檢測/報修專線 中華電信 02-2344-3118
+<!-- ocr of page 46 -->
+°。諮詢窗口
+勺 回到健保資訊網首頁
+AAY 使用指南
+衛生福利部中央健康保險署
+諮詢股務時間
+週一至週五9:00~ 12:00/ 14:00~17:00
+分區業務組
+請選擇
+電子化轉診區
+請選擇
+為利跨院資訊分享。以電子化提供轉診訊息交換，
+作業類型
+簡化病患轉診程序，讓轉診資訊更快、更便利的傳選。
+查詢
+③ 童腦設定
+公告事項
+健保讀卡機丿雲端控制軟體
+確認
+本署基於尊重及保護使用者的隱私權，為協助您清楚地瞭解本平臺如何蒐集、應用
+及保護您的個人資料•以及本平台之相關作業規範，請您詳細閱讀本專區有關隱私
+權保護、資訊安全及使用管理規範•
+測試用登入
+本署基於尊重及保護使用者的隱私權，為協助您清楚地瞭解本平臺如何蒐集、應用
+身分證號
+快速選取
+及保護您的個人資料．以及本平台之相關作業規範，請您詳細閱讀本專區有關隱私
+BA00227639(3501200000)
+請輸入
+權保護，資訊安全及使用管理規範。
+十 詳細成料
+院所代碼
+本署基於尊重及保護使用者的隱私權，為協助您清楚地瞭解本平臺如何蒐集、應用
+請輸入
+及保護您的個人資料•以及本平台之相關作業規範．請您詳細閱讀本專區有關隱私
+權保護、資訊安全及使用管理規範。
+十詳資料
+快速登入
+&a （07）231-8122 C 週一至週五8:00~19:45 已 ic._service@nhi.govtw
+隱私權政策 資訊安全政策 政府網站資料開放宣告 開20王
+④ 網路線路檢測/報修事線 中華電信 02-2344-3118
+<!-- ocr of page 47 -->
+2 台北虚擬診甄曉利、
+回勁健保資訊網首頁
+AAY
+°。諮詢窗口、
+衛生福利部中央健康保限署 醫事人員溝通平台
+以
+電子轉診
+電子轉診（C#）
+甄曉利！
+Welcome
+電子轉診多合一整併作業（C#）
+請選擇您要使用的功能
+單一ID快速查詢/處理（C#）
+己刪除電子轉診單查詢（C#）
+常用設定（C#）
+審查討論
+個人資訊
+審查討論（C#）
+個人資訊（C#）
+敬愛的測試---醫師
+敬愛的測試---醫師
+敬愛的測試---醫師
+您有1封未回覆的
+您有3 封未讀取的
+您有18 封未讀取的
+專業審查溝通案件回應意見
+轉診結果回覆
+電子轉診單
+經轉出醫師脂床判斷•病人需要您進
+病人業已經過接受轉診髻師治療，體
+酲您留意醫師交班注意事項
+一步的診療，提醒您留意醫師交辦注
+意事項
+&。 （07）231-8122 Q 週一至週五8:00~19:45 已ic_service@nhi.gov.tw
+隱私耀政策 資訊安全改策， 政府獎站資料開放宣告 開警图
+4 網路線路檢測/報修事線 中華電信 02-2344-3118
+<!-- ocr of page 48 -->
+Do 台北虚擬診甄曉利、
+AAV
+回到健保資訊網首頁
+°。諮詢窗口、
+衛生福利部中央健康保險署 醫事人員溝通平台
+以
+電子轉診（C#）
+Q 首頁，電子轉診（C#），電子轉龄多合一整併作業（CH）
+Q查詢收合
+轉出單查詢
+查詢角色
+轉入單查詢
+◎全部
+單一ID快速查詢/處理（C#）
+身分證號
+查詢類型
+全部
+狀態
+全部
+己刪除電子轉診單查詢（C#）
+轉診單序號
+開單日期
+白
+常用設定（C#）
+僅顯示登入暋師相闕轉診個案
+僅一般（非緊急傷病患）轉診個案
+僅緊急傷病患轉診個案
+審查討論
+個人資訊
+Q 查詢
+＋ 開立墊子轉診單
+清除
+審查討論（C#）
+個人資訊（C#）
+證號：A1234589，此民眾具多個證號會一併呈現
+排序
+轉診單序號
+處理情形
+處理方式
+主診斷
+院所自編序號
+有效期限
+（連續處理註記）
+基本資料
+聯絡人電話
+轉出科別
+掖受轉診科別
+附檔/有上徳資料
+［流程］特定註記］
+A123456769
+3E00003
+2241008
+113/10/08
+羅媽媽
+臺大醫院
+未受理
+（修改（開立）S ⑨
+02-12345689
+外科
+羅大佑
+心臟血管內科
+刪除［開立］
+051/05/14
+臺大醫院
+2241008
+羅媽媽
+修改［開立】
+200121UO.
+114/01/05 外科
+羅大佑
+心臟血管內科
+刑除［開立］
+051/05/14
+~備註
+1. 可查詢近18個月轉診紀錄。
+2.您所開立的電子轉診單，若處理情形為「已回復」。尚未續取者以前綠底色標示
+3. 特地註記為「A：緊急傷病患轉診個案」、「B：特定個案轉出註記」、「C：轉診Pre-ESRD收素」、「D：全民健康保險癌症治療品質改善計劃」、「E：雞島
+空中轉診後送個案」、「F：全民健康保險鼓勵院所加強推動腹膜透析與提升照護品質計畫」及「G：兒童發展篩檢轉診」•
+4.「附檔」為C 者，表示轉診單含有附件。
+5.「有上傳演料」為◎ 者、表示有上傳檢驗檢查或影像資料，
+6.連繫處理註記：
+1. 病人至他院就診
+A-已受理，但未就醫
+B-接受本保險之計畫或方案所提供定點或巡迴醫療服務。經安排轉回原醫瘵院所診撩，不須回復
+2.重複開立之轉診單
+3.谕有效期限無法受理
+C-轉診至居家護理所，不須回覆
+4. 病人自覺病情已改善，未轉診就監
+D-己採檢（同接紹轉診院所）
+6.病人拒絕
+R。 （07）231-8122 C 週一至週五8:00~19:45 ic._service@nhi.gov.tw
+隱私權致策 資訊安全政策 政府網站資料開放宣告
+網路線路檢測/報修專線 中華電信 02-2344-3118
+<!-- ocr of page 49 -->
+二 百北近髮多骂喫利
+以
+魚生隔利評中央鮮康保險煮 醫療資訊系統
+業務執行單位 署本部
+使用者 系統管理員
+CMS醫療申訴子系統
+登出
+HMA醫務管理子系統
+Welcome!
+01000特約醫事機構建檔作業～
+I1100醫事機構審核作業
+110/09/07
+提示：使用本系統若需同時開啟多個視窗（例如：同時使用醫務管理及醫療費用愛理兩個視窗），請使用IE8瀏覽器檔案/新增工
+I1281福療養機構報被支援資
+作階段開啟新視窗，可確保系統正常運作。
+料線上審核
+109/05/21
+外部人員登入網頁（審查醫師使用）
+I1230試辦計畫審核作業
+11330中牙醫照護計畫審核作業
+因應部分電腦使用IPL子系統，點選子項會出現異常。請調整IE瀏覽器設定
+02000醫事機構管理作業
+醫療文件網址
+110/09/07
+03000特約機構違約作業
+請同單位紙本作業將使用到107年5月1日
+110/09/07
+04000特約醫事機構代碼作業、
+配合資安政策 9/21日（星期五）8:00起•醫療資訊系統將調整time out時問為兩小時
+110/09/07
+05000試辦計畫線上審核作業
+06000特約醫事機構查詢作業~
+110/09/07
+［重要通知］署內醫療資訊系統，預計111/8/15停用IE瀏覽器
+07000醫事人員查詢作業
+08000特約醫事管理批次作業
+HMD藥品管理子系統
+HMF支付標準管理子系統
+HMS特材管理子系統
+<!-- ocr of page 51 -->
+-—api/- API 整合層，負責所有與後端的通訊邏輯
+assets/- 靜態資源目錄
+卜—components/- 子系統全域共用元件
+|router/-Vue Router 路田配置
+-—subSystemRouterjs- 子系統頁面路田
+—index.js-路由配置
+—stores/- Pinia 狀態管理
+—-views/- 頁面元件
+-App:vue-應用程式入口（若需要再子系統全域設置 可在入口進行設定）
+<!-- ocr of page 52 -->
+import subSystem from "@/App.vue"；//入口
+import subSystemPage from "@/views/ subSystemPage/index.vue"；// 子系統頁面載入
+export const SubSystemRouter = [e
+它
+path:"W,c
+component: subSystem,
+name: " subSystem".-
+redirect: "/admin/ subSystem / subSystemPage",
+children: [s
+它
+path:" subSystemPage",
+component:subSystemPage,f
+name:" subSystemPage",
+meta: 0.c
+],¢
+}¢
+<!-- ocr of page 53 -->
+import {fileURLToPath, URL }from "node:url":f
+import {defineConfig }from "vite",e
+import vue from "@vitejs/plugin-vue",t
+import vueDevTools from "'vite-plugin-vue-devtools",f
+import federation from "@originjs/vite-plugin-federation"%
+export default defineConfig(f
+plugins:l
+vued).t
+WeDevToolsl), +
+federation(
+name: "hmai4000",t
+filename: "remoteEntry.js",=
+remotes：它
+main: "http:/localhost:5100/dist/assets/remoteEntry.js",e
+}.+
+Exposes:F
+"./hmaSystem"”.：" /src/router/ subSystemRouter.js”.//將子系統路由結構 exposes給主系統
+}+
+shared:["wue", "wue-router", "pinia"],e
+]-
+server：它
+host:truef
+port: 5102,f
+headers:{
+"acte5S-Control-allow-headers": “GET,POST, PUT, DELETE",
+"aiccess-control-a llow-headers": =*,f
+"access-control-allow-origin": "*i,f
+}r
+resalve：全
+alias：市
+"@":fileURLToPath(new URL("./src", import.meta.url)),f
+},+
+build：它
+target:"esnext",z
+<!-- ocr of page 54 -->
+import { createRouter, create WebHistory }from wue-routert
+import ｛Sub SystemRouter ｝from 'subSystem/ subSystem Router // 子条統路由結構 從子系統提
+供引入+
+const router = createRouterlf
+history: createWbHistory(import.meta.enw. BASE_URL),4
+routes: l
+path:/admin,e
+redirect://admin/main,
+component Defaultlayout,-
+children:l
+path: 'main,e
+component: () => import/@/views/home/index. yue),
+name: Main,f
+meta：它
+title：公公告事項，中
+}q
+它
+path：'subSystem,// 設定子系統路由名稱刊
+children: SubSystemRouter, 1/設定在主系統的子系统路由底下4
+path:/:catchAI(.*1
+name:404,e
+component:()=> import(@/views/errorPage/404.wue),
+meta:{
+title:/404,-
+<!-- ocr of page 55 -->
+import { fileURLToPath, URL } from 'node:urfe
+import { defineConfig} fram 'vitet
+import wue from '@vitejs/plugin-vuet
+import vuebevTools from "vite-plugin-vue-devtoolse
+import federation from"@originjs/vite-plugin-federation'e
+Export default defineconfiglte
+plugins:l
+vUE0,+
+wueDevTools(),
+federatian(
+name: Nhivue.main,t
+rEmotes：它
+subsystem: http://localhost:5102/dist/assets/remoteEntry js, // 将子系统由結構淋人主
+EXDOSE5:(
+'/store':'./src/stores/index.js,e
+'./v1/components:'./src/components/V1/indax.js,e
+'./v2/components:'./src/components/v2/index js+
+sharad:[ 'wue':{sing/eton:true }, Wue-router': {singleton:true }, 'pinia': {singleton: true }”
+resolve：它
+“@:fleURLToPath(new URL(_.JrC, import.meta.urll "
+servEr.定
+host: true,t
+port: 5100,t
+cOrS：它
+origin:",-
+methods: "GET,PUT,POST, DELETE",
+optiansSuccessStatus: 204
+build：它
+target:'esnext'
+lintOnSave: falset
+张1
+<!-- ocr of page 117 -->
+•
+4
+5
+11~12
+1-3
+6-9
+程式語言
+程式類別
+作業序號
+系統碼
+作業區
+程式序號
+0001
+01
+DMP
+序號
+說明
+NIFI
+NHI
+作業序號
+Script(NIFI)
+Standard / Conventione'
+Typee
+Examplef
+Functions
+Standard Based Upon Microsoft.NET Library Standardse
+and void（回
+1. Pascal Case, t
+public DoSomething(..
+2. 除了事件處理程序外，其它沒有下底線。1
+傳值與無回
+public void DoSomething(..)
+3.盡量避免縮寫。4
+傳值函式）
+<!-- ocr of page 118 -->
+Typee
+Examplec
+Standard / Conventione
+Properties and
+Public *
+52 Standard Based Upon Microsoft.NET Library Standards
+Member
+55 public int Recordld { get;
+53 1. Pascal Case，無下底線。《
+Variables（屬性
+set;k
+54 2. 盡量避免縮寫。代
+和公開成員變
+數j
+56 Standard Based Upon Microsoft.NET Library Standards
+Parameters（參
+1. Camel Case. 《
+57 ref int recordlde
+數）
+2. 盡量避免縮寫。公
+Procedure-Lev
+58 Standard Based Upon De facto Industry-Accepted
+el Variables（處
+60 int recordlde
+Practices
+理程序中的變
+59 Camel Casee
+數）
+Class-Level
+Private and
+61 Standard Based Upon De facto Industry-Accepted
+Protected
+Practices
+63 private int _recordlde
+Variables（類別
+1. 使用底線開頭的 Camel Casef
+62 仑
+層級的私有與
+保護變數）
+Standard / Conventione
+Typee
+Examplee
+Standard Based Upon Microsoft. NET Library Standardse
+1.如果會曝露在公開的類別層級，使用 PascalCase. c
+Constants（常
+化
+2. 如果是在 function 或 sub 中末公開，使用 camelCase.
+3. 請勿使用全大寫
+<!-- ocr of page 133 -->
+•
+X cfg
+•
+× mgr
+•
+× proc
+•
+×tmp
+<!-- ocr of page 158 -->
+•..
+<!-- ocr of page 213 -->
+vueO,
+•
+DEV
+V3.2.4 D:/test/test_project
+/ src/components/HelloWorld.spec.js (1 test) 28ms
+V HelltoworLd.vue > renders props.nsg when passed 27ms
+Test Files
+1 passed (1)
+Tests
+(1)
+1 passed
+Start at
+12:56:24
+Duration
+6.36s (transform 83ms, setup Oms, collect 481ms, tests 28
+PASS Waiting for file changes..
+press h to show help, press q to quit
+<!-- ocr of page 214 -->
+•
+All files
+61.11% Statements 20d
+s0% Branches ta 33.33% Functions ty 61.11% Lines 2n
+1/2
+$0%
+50%
+100%
+100%
+∞%
+100%
+2222
+2222
+DEV
+V3.2.4 D:/test/test_project
+Coverage enabled with v8
+v src/components/HelloWorld.spec.js (1 test) 16ms
+V HelLoWorLd.vue > renders props.msg when passed 15ms
+Test Files
+1 passed
+Tests
+1 passed
+13:09:03
+Start
+envii
+Duration
+10.82s(transform 76ms, setup Oms, colLect 388ms, tests 16ms,
+V8
+% Coverage report from
+Branch
+% Lines
+Uncovered Line #s
+FiLe
+% Funcs
+ALL files
+50
+61.11
+33.33
+61.11
+STC
+50
+50
+100
+100
+2-14
+App.vue
+1-5
+main.js
+◎
+100
+100
+src/components
+100
+100
+100
+100
+HelloWorLd.vue
+PASS Waiting for file changes..
+press h to show help, press q to quit
+<!-- ocr of page 226 -->
+口
+設定新的專案
+C#
+桌面
+Windows
+Linux
+macos
+測試Web
+專案名稱（J）
+口
+位置（L）
+D：我的資料|github\NhiCore.IMSNC.Test
+專案 將在「D：\我的資料（github\NhiCore.IMSNC.Test\NhiCore.IMSNC.Test\」中建立
+上一歩（B）
+下一步（N）
+<!-- ocr of page 227 -->
+加入（D）
+Ctrl+Shift+A
+行 新增項目（W）.
+管理 NuGet 套件（N）--
+Shift+Alt+A
+亡 現有項目（G）.-
+管理使用者密碼（G）
+色 新增資料爽（D）
+移除未使用的參考.
+焠 機露學習模型..
+同步命名空間（N）
+專案参考（R）.
+設定啟動事案..
+共用專案參考（S）-
+設定為啟動專案（A）
+COM 餐考（C）--
+偵業（G）
+服務參考（S）-
+碧下C
+Ctrl+X
+∞
+中 連線服務（C）
+Del
+X 移除（V）
+類別（C）--
+F2
+重新命名（M）
+D
+New EditorConfig
+卸載專案（L）
+新 EditorContig （IntelliCode）
+载入直接相依性
+4BC Controller
+4B Repository
+P BC# HospitalsRepositoryTests.cs
+4B口 Services
+BC# HospitalServiceTests.cs
+（1） 方法名_測試場景 預期結果
+<!-- ocr of page 229 -->
+CreateHospitalAsync_Valid.
+_ReturnsSuccessO
+視窗（W）
+測試（S）分析（N） 工具（T
+延伸模組CX）
+Ctrl+R,A
+執行所有測試（R）
+C 重複上一回合（E）
+Ctrl+R, L
+Ctrl+R, Ctrl+A
+偵靠所有測試（D）
+偵第上一個執行（B）
+Ctrl+R,D
+Ctrl+R, Del
+清除所有測試結果（C）
+Live Unit Testing(L)
+分析所有測試的程式碼涵蓋範田（C）
+進行回合設定（R）
+設定這端測試環境（
+AnyCPU 專案的處理鬆結構（P）
+Ctrl+R,S
+測試完成執行時播放音效（P）
+Ctrl+E,T
+函 測試總管の
+Ctrl+E,L
+4 Live Unit Testing 視窗（U）
+苧程式碼涵蓋範國結果（V）
+Ctrl+E,C
+戀選項（0）...
+<!-- ocr of page 230 -->
+•執行測試210180量 后 公發
+試回合已完成：在137毫秒執行了1項測試（1項通過，0項失敗，0項跌
+∞0個鑽誤
+持續時間 特性
+P C NhiCore.IMSNC.Tests (1)
+NhiCore.IMSNC.Tests
+• 執行 匈偵錯
+群组摘要
+NhiCore.IMSNC.Tests
+群組中的測試：1
+© 持續時間總計：3毫秒
+•1成功
+測試結果與其他詳細賌訊
+<!-- ocr of page 234 -->
+Summary
+Sponsor* Star
+Information
+Line coverage
+Branch coverage
+Parser:
+Cobertura
+Covered lines:
+125
+Covered branches:
+Assemblies:
+Uncovered lines:
+Total branches:
+271
+Classes:
+Coverable lines:
+-eS.
+Branch coverage: 32.9%
+Line coverage: 46.1%
+46%
+32%
+Coverage date: 2025/7/21- 下午 02:40:28
+Method coverage
+Feature is onlv available tor sponsors
+Upgrade to PRO version
+Risk Hotspots
+Filter:
+Assembly
+#Class
+今Method
+#Assembly
+Crap Score :elerete
+812
+NhiCore.ICMNC.Service
+Program
+<Main>S(..)
+NhiCore.ICMNC.Service
+NniCorelCMNC. Ser/ice. Reposiory.PxxCodeDataRepo QueryPxxCodeData0
+60
+Coverage
+<!-- ocr of page 239 -->
+身份認證/角色成員
+CLM
+CKEYCLOAK
+Auth/Refresh
+User
+Desktop Web App
+Token
+API權限確認/API路由
+Reaust.
+Requst
+Headers Token
+Backend Web
+子系統應用程式
+KONG
+DB
+Response
+Conf.
+Response
+<!-- ocr of page 240 -->
+AD認證
+署本人員
+帳密資料
+專審醫師
+系統角色
+：7000以
+廠商帳號
+Portal
+头
+帳號來源可能
+在IAM DB裡，
+也可能在AD
+取回帳號
+⑤來取Token
+⑧
+客製 角色賀訊
+User
+①客製②
+收尋帳號
+Toekn
+確認帳密或帳
+回傳JWT、
+⑨
+號資料
+全署人員
+組出menu
+MED3
+KC
+客製
+三代健保系統
+KeyCloak
+要system
+客製
+角色資訊
+加入claim裡
+帶system
+回傳結果
+呼叫API
+⑤
+呼叫API
+KONG
+API Gateway
+回傳結果
+<!-- ocr of page 243 -->
+醫事機構卡
+工商憑證卡
+政府憑證卡
+卡片資料
+機構代表
+帳號資料
+機構代表
+Oracle
+使用卡號查詢
+系統角色
+醫事機構卡
+使用者帳號
+機構使用者
+醫事人員卡
+機構代表
+健保卡
+IWP API
+機構使用者
+Portal
+使用者帳號
+取回帳號
+提供卡號
+取Token
+角色資訊
+比對卡號
+JWT
+Toekn
+回傳JWT
+Token
+要sys access
+KC
+token
+健保資訊網服務系統
+KeyCloak
+VPN
+角色資訊
+回傳sys
+access token
+加入claim裡
+6
+回傳API結果
+帶sys access
+token
+呼叫API
+呼叫API
+KONG
+API Gateway
+回傳結果
+機構憑證
+個人憑證
+醫事機構卡
+醫事人員卡
+自然人憑證
+工商憑證卡
+健保卡
+政府單位憑證卡
+組織及團體憑證卡
+健保OTP認證
+行動自然人憑證
+<!-- ocr of page 246 -->
+L0 README
+• CICD Injection 專案說明
+本專案用於 CI/CD 過程中建構與部署多種應用程式（.NET、Java、Nodejs ），並透過 Kubernetes 進行部署與管理。
+cicd-injection 專案結構
+凸
+— .github
+deployment.yaml
+gateway.yaml
+hpa.yaml
+ingress.yaml
+namespace.yaml
+— pv.yaml
+pvc.yaml
+route.yaml
+job.yaml
+I — cobjob.yamz
+— service.yaml
+— dockerfiles
+— aotnet
+| — Dockerfile
+java
+Dockerfile
+npm
+— Dockerfile
+cicd-injection 中共有三個分支，main 提供相關參考文件，DEV-RELEASE、SIT-RELEASE 分別對應不同的部署環境
+•gqithub/
+目錄內含 Repository 使用的 CICD Workflow 公版，請勿刪除或加入至 •gitignore 中
+<!-- ocr of page 247 -->
+k8s/
+此目錄包含 Kubernetes 所需的部署資源：
+說明
+檔案名稱
+deployment.yaml
+定義應用的 Deployment 配置
+gateway.yaml
+定義 Gateway API 的路由與流量入口設定
+定義 Horizontal Pod Autoscaler，自動擴縮
+hpa.yaml
+ingress.yaml
+定義 Ingress 設定（如未使用 Gateway）
+namespace.yaml
+定義所使用的命名空間
+pv.yaml
+定義 PersistentVolume（持久性儲存）
+pvc.yaml
+定義 PersistentVolumeClaim（存儲需求鏈）
+定義 HTTP Route 或其他路由設定
+route.yamL
+定義一次性任務
+job.yaml
+cronjob.yaml
+定義定期性任務
+service.yaml
+定義應用對外暴露的 Service 資源
+dockerfiles/
+此日錄包含三種主要開發語言的建構環境設定：
+dotnet/
+檔案名稱
+說明
+建立.NET 應用容器映像的 Docker 設定
+NuGet 使用的 NuGet.Config 於 CI/CD Pipeline 中會自動建立
+• java/
+檔案名稱
+說明
+Dockerfile
+建立 Java 應用容器映像的 Docker 設定
+<!-- ocr of page 248 -->
+npm/
+說明
+檔案名稱
+Dockerfile 建立 Nodejs 應用容器映像的 Docker 設定
+NPM 使用的.npmrc 於 CI/CD Pipeline 中會自動建立
+合併 cicd-injection 建構自動化內容
+每種程式語言的皆有提供對應的 Dockerfile 與 Private Library Repository 可供編譯與建構容器映像檔，建構完成後可使
+用 k8s/ 目錄下的資源 YAML 進行部。
+合併 cicd-injection 至開發目錄
+進入本機開發的 git repository 目錄下，並切換至 main 分支執行
+cd <path/to/repository-source/》# <--改為本機的專案開發目錄
+凸
+git checkout main
+新垲 cicd-injection 遠端連結，並下載分支資訊
+git remote add cicd-injection https://hi0lgitetser01.intra.nhi.gov.tw/CICD/cicd-injection
+凸
+git fetch cicd-injection
+合併 cicd-injection 遠端 main 分支至本地端 main 分支，另外保留本地端 README.md 與替換 •gitignore 文件
+git merge cicd-injection/main --allow-unrelated-histories
+凸
+git checkout --ours README.md
+git checkout --theirs .gitignore
+git add README.md .gitignore
+git commit -m "Merge cicd-injection/main into main"
+建立部署用分支 DEV-RELEASE 與 SIT-RELEASE
+git branch DEV-RELEASE
+git branch SIT-RELEASE
+<!-- ocr of page 249 -->
+切換回 main 分支，將合併專案檔案包含分支同步至專案 Repository
+git push --all -u origin
+移除 cicd-injection 遠端資料
+git remote remove cicd-injection
+G
+4設定 Dockerfile 與 Kubernetes Resources
+= 設定 Dockerfile
+進入本機開發的 git repository 目錄下執行，複製 dotnet ljava l npm 使用的 Dockerfile 至 Repository 根目錄下
+凸
+cd <path/to/repository-source/>
+cp dockerfiles/<dotnet ljavalnpm>/* .
+開啟 Dockerfile，修改編譯檔案相對路徑，並依照程式需求修改對外服務的 Port 與啟動的 Entry Point 方式
+# 例：.Net
+RUN •••..<./path/to/*.csproj>#<-- 修改 csproj的相對路徑
+EXPOSE 808@ #〈--修改 Port
+ENTRYPOINT ［"dotnet"，“AppName.d11"］ #＜--修改 d11 名稱
+若在 Image 針對 APP有其他特殊設定（如新增、修改檔案、建立目錄、），請自行在 Dockerfile 中增加（官方
+Dockerfile 語法規格）
+日 設定 Kubernetes Resources
+• Kubernetes 主要需修改的部份與相關的說明已註譯於各 YAML 檔案中，請依照應用需求修改（Kubernetes 資源定
+義）
+• 如無需要用到的資源（如PV、PVC）請 自行刪除，以免部署時造成錯誤
+切換回 main 分支，將合併專案檔案包含分支同步至專案 Repository
+git push --all -u origin
+凸
+移除 cicd-injection 這端資料
+gLr hcmoce Tenove cicu-una ection
+G
+設定 Dockerfile 與 Kubernetes Resources
+日 設定 Dockerfile
+進入本機開發的 git repository 目錄下執行，複製 dotnet ljava |npm 使用的 Dockerfile 至 Repository 根目錄下
+凸
+cd <path/to/repository-source/>
+cp dockerfiles/<dotnet |javalnpm>/*.
+開啟 Dockerfile，修改編譯檔案相對路徑，並依照程式需求修改對外服務的 Port 與啟動的 Entry Point 方式
+#例：.Net
+G
+RUN ••••……<./path/to/*.csproj># <--修改 csproj的相對路徑
+EXPOSE 8080 # ＜-- 修改 Port
+ENTRYPOINT ［"dotnet"，“AppName.d11"］#<-- 修改 d21 名稱
+若在 Image 針對 APP 有其他特殊設定（如新塏、修改檔案、建立日錄、），請自行在 Dockerfile 中指加（官方
+Dockerfile 語法規格）
+日 設定 Kubernetes Resources
+• Kubernetes 主要需修改的部份與相關的說明已註譯於各 YAML 檔案中，請依照應用需求修改（Kubernetes 資源定
+義）
+• 如無需要用到的資源（如PV、PVC）請 自行刪除，以免部署時造成錯誤
+<!-- ocr of page 250 -->
+• 進入自動化流程
+• 進入 Github 中專案的 Repository
+• 選擇 Pull requests 分頁，點選 New pull request 建立新的合併請求，合併進 DEV-RELEASE 為部署至 開發區
+（DEV）環境，合併進 SIT-RELEASE 為部署至 測試區（SIT）環境
+• 填寫本次合併的相關記錄訊息後，點選 Create pull request 提出申請
+• PO 或PM 人員進入 Pull requests 分頁 中可在列表中看到新的申請，點選 Merge pull request >Confirm
+merge 即可進行合併
+• 當 Pull requests 分頁中的狀態顯示為 Merged 表示已合併完成，在上方 Actions分頁裡即可開到目前CI/CD
+workflow 狀態與內容
+更新 cicd-injection
+cd <path/to/repository-source/>
+凸
+# 更新 remote 資料
+git fetch cicd-injection
+#合併 main 分支的更新
+git checkout main
+git merge cicd-injection/main -m "Update from cicd-injection/main"
+git rm -f README.md
+git commit --amend --no-edit
+# 推送更新到 repository 的這端
+git push origin main
+(Internal
+X Edit Pins-
+IANNC0000-Backend
+P main、
+Q Goto file
+Add file•
+: 4 Branches Q O Tags
+<> Code、
+owitcn Drancnestads
+7f8b2f0.3 days ago
+50 Commits
+Q Find or create a branch...
+2 weeks ago
+更改dockerfileyaml
+Branches
+Tags
+3 days ago
+修改retum log and route yaml
+default
+<maln
+從 IANNC 移至 IANNC0000
+3 weeks ago
+3days ago
+已有調整卻無法發
+renyu_dev
+3 weeks ago
+Merge cicd-injection/main into main
+4 days ago
+修改dickerfile
+View all branches
+從 IANNC 移至 IANNC0000
+C Med3Core.!ANNC0000.sin
+3 weeks ago
+3 weeks ago
+D README.md
+從 IANNC 移至 IANNC0000
+u weeks aga
+D build.sh
+修改
+D README
+IANNC-Backend
+IANNC-Backend 主頁後端
+<!-- ocr of page 251 -->
+#=== Build Stage ===
+FROM github-runner/dotnet/sdk:8.0 As build
+WORKDIR /srC
+#複製專案檔並 restore（使用 NuGet.config）
+COPY..
+COPY packages /root/.nuget/packages
+COPY NuGet.Config /root/.nuget/NuGet/NuGet.Config
+RUN dotnet restore <./path/to/*.csproj>
+＃編譯原始碼或自行添加步驟
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet build-c SBUILD_CONFIGURATION -0 /app/build <./path/to/*.csproj>
+RUN dotnet publish -c $BUILD_CONFIGURATION -0 /app/publish /p:UseAppHost=false <./path/to/*.csproj>
+#=== Runtime Stage ===
+FROM github-runner/dotnet/aspnet:8.0 AS final
+#建立非 root 使用者
+RUN addgroup -gid 1001 appgroup && adduser --disabled-password -gecos """ --uid 1001 -gid 1001 appuser
+USER 1001:1001
+COPY --from=build /app/publish.
+EXPOSE 8080
+#啟動指令
+ENTRYPOINT ["dotnet”, "<Appame.dll>"]
+<!-- ocr of page 252 -->
+FROM_github-runner/java/maven:3.9.10-eclipse-temurin-21-alpine As builder
+WORKDIR fapp
+COPY
+•fapp
+-s ./settings.xml clean package
+RUN nva
+#FROM openjdk:21-jdk
+github-runner/javaleclipse-temurin:21-jdk-alpine
+# 設定工作目錄
+蔣投‘翟製進容器中
+--from=builder /app/target/*.jar app.jar
+RlN mkdir -p./app/logs
+VOLUME/app/logs
+# 對外服務 Port
+# 啟動指令
+ENTRYPOINT ["sh"
+"-c","java $JAVA_OPTS-jar app.jar"]
+<!-- ocr of page 253 -->
+# === Build Stage ===
+FROM github-runner/javascript/node:20 As builder
+WORKDIR /app
+COPY packags:js0g :/node_modules/
+COPY npm_modules/.
+/root/
+.npmic
+RlH npm install
+COPY•
+RuN npm'run build
+FRw 2292l%.3t2e9/ j2easc2t 22p-mprivi leged :1.27.4
+USER root
+RlN rn -rf /usr/share/nginx/html/*
+#使用肉建非，f0ot 使用者 UID.Chttps://github.com/nginx/docker-nginx-
+unprivileged/hlob/main/mainline/alpine/Dockerfile)
+ISER 101
+COPY--from=builder /app/dist /usr/share/nginx/html
+#自定義 router fallback，如有需要可自行設定
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# 對外服務 Port
+EXPOSE 8080
+# 啟動指令
+CMD["nginx"
+,"-0"
+,"daemon off;"]
+<!-- ocr of page 254 -->
+ap1vers1on:7.
+Kind : ConfigMar
+app: hi0-ihkwc-api-app
+fw-api: dev
+#自行加入
+ASPNETCORE_ENVIRONMENT:"Development"
+<!-- ocr of page 255 -->
+apiVersion: apps/vl
+kind: Deployment
+me tadata:
+name:hi0-ihkwc-api-pod
+namespace: med3hi0
+labels:
+app: hi0-ihkwc-api-app
+fw-ap1:dev
+hiOkmsdevtkc-egress:
+172.26.33.5
+pubk8stesttkc-egress: 172.26.30.5
+rep/1cas:
+selector:
+ma tchLabels:
+app: hi0-ihkwc-api-app
+fw-api:dev
+template:
+me tadata:
+app: hi0-ihkwc-api-app
+fw-api:dev
+110kmsdevtkc-egress: 172.20.33.5
+oubk8stesttkc-egress: 172.26.30.5
+spec:
+imagePullSecrets:
+- name:docker-secret
+containers:
+- name: hi0-ihkwc-api-container
+_IMAGE_
+1mage:
+imagePuliPolicy: Always
+ports:
+- containerPort: 8001
+enwFrom:
+- configMapRef:
+name: hi0-ihkwc-api-configmap
+iesources:
+limits:
+cpu: 500m
+memory: 512Mi
+reguests:
+cpu: 200m
+memory: 256Mi
+secul rityContext:
+allowPrivilegeEscalation: false
+capabilities:
+drop: ['ALL']
+true
+runAslonRoot:
+seccompProfile:
+type:RuntimeDefault
+<!-- ocr of page 256 -->
+piversion:gateway.networking.k8s.10/v
+ind: HTTPRout
+me tadata:
+iame: h10-1hkwc-api-httproute
+iamespace: med3h i0
+spec:
+parentRefs:
+- name: pubk8s-gateway
+namespace: med3hi0
+hostnames:
+rules:
+- matches:
+- path:
+type: PathPref 1x
+value: /IHKE300/
+backendRefs:
+name: hi0-ihkwc-api-svd
+ort:8001
+namespace:med3hi0
+apiVersion: vl
+metadata:
+name: hi0-ihkwc-ap1-secret
+namespace:med3hi0
+app: hi0-1hkwc-ap1-app
+type: Upague
+#自行加入
+apiVersion:vl
+kind: Service
+metadata:
+spec:
+selector:
+app:hi0-ihkwc-api-apr
+ports:
+- protocol:TCP
+port: 8001
+targetPort: 8001
+type:CiusterlP
+<!-- ocr of page 257 -->
+ap1version:apps/vl
+kind: Deployment
+me tadata:
+name: hi0-ihkwc-pod
+# Pod 名稱
+lamespace: meo3h i0
+labels:
+app: hi0-1hkwc-app # app label
+fw-web: dev
+spec:
+replicas: 1
+selector:
+ma tchLabels:
+app: hi0-ihkwc-app
+# 只需匹配 app label
+fw-web:dev
+template:
+me tadata:
+app: hi0-ihkwc-app
+imagePullSecrets:
+- name: docker-secret
+secul rityContext:
+runAslonRoot:true
+runAslser: 101
+- containerPort: 8000
+limits:
+cpu:500m
+lemory:512M
+cpu : 200m
+memory: 256M i
+seculrityContext:
+allowPrivilegeEscalation:false
+capabilities
+arop: ['ALL']
+true
+runAsNonRoot:
+seccompFrofile:
+type: RuntimeDefault
+<!-- ocr of page 258 -->
+{
+serVei
+gzIP_static on;
+uZ1P_vary on;
+listen 8000;
+isten「：：1:8000
+erver name localhost
+root /usr/share/nginx/html;
+#根導向指定路徑
+Locati0n=1{
+return 301 /IHKE3000/;
+}
+# Vue 主應用
+.ocation /LHKE3000/ 1
+alias /usr/share/nginx /html/;
+index index.html;
+try_files $uri $uri/ /index.html;
+}
+# 錯誤頁導回 index.html
+error_page 404 /index.html;
+apiVersion:gateway.networking.k8s.io/vlbetal
+kind:HTTPRoute
+netadata
+name: hio-ihkwc-httproute
+namespace: med3hi0
+parentRefs:
+# Gateway 多稱
+- name:pubk8s-gateway
+namespace: med3hi0
+# Gateway
+所在 Namespace
+hostnames:
+"med3appdev.intra.nhi.gov.tw"
+"med3appsit.intra.nhi.gov.tw"
+rules:
+- ma tches:
+- path:
+gpe: PathPrefi
+aiue: /IHKE3000/ * 前綴路往
+- name: hiO-ihkwc-web-svc
+namespace: med3hi0
+<!-- ocr of page 259 -->
+apiVersion:vl
+kind:Service
+Spegiector:
+app: hi0-1hkwc-ap
+- protocol:TCP
+port:8000
+targetrort: 8000
+type: ClusterlF
+INTRA / QCCNC-Frontend a
+◎ Actions
+<> Code O Issues |83 Pull requests
+田 Prgjects
+0 wiki O Security I Insights 寧 Settings
+V Labels S
+Filters、Q ispr issopen
+中 Milestones 0
+C r10open v 23 Closed
+Prqjedts、
+8
+There aren't any open pull requests.
+You could search all ot GitHub ortry an advanced search
+Comparing changes
+Choose two branches to see what's changed or to start a new pull request. If you need to, you can also compare across forks or leamn more about diff comparisons.
+C7 base: DEV-RELEASE compare: main-
+There isn't anything to compare.
+DEV-RELEASE is up to date with all commits from main. Try switching_the base for your comparison.
+<!-- ocr of page 260 -->
+Q TypeDto search
+© ITRA / IMSNC-Backend &
+<>code
+◎ issues 1
+◎ Actions
+13 Pull requests
+田 projects D wiki O security I insighits 每 Settings
+Q Hllter worktlow runs
+New workfiow
+All workflows
+Showing runs from all workflows
+All workflows
+23 workfow runs
+Event Status• Branch、 Actor、
+RELEASE Workfiow
+一 minute aa
+◎ update
+Management
+向 in progres
+RELEASE Workow #23: Pullrequest 455 closed by IS1.-2405021
+E caches
+© update
+白 4 days ago
+nain
+d 2mss
+RELEASE Workflow #22: Pullrequest -54 closed by IIS.-2405021
+◎ update
+② 9m 245
+KELEAbt worklow ecl: Pull request e5s Coscd by l5 -240202
+c Uev telease
+RELEASE Worknlow e20: Pull request e51 Closed by lISl-240502
+◎1
+3 last wed
+m52n
+RELEASE Worktlow • 19: Pull request .50 Closed by IIS-240502
+Dev release
+白2weeks8g0
+RELEASE Worktlow #18: Pull request #48 closed by IIS1-2405021
+色am47s
+© Update Dockerfile
+© 2m 23s
+x Dav ra.2250
+G2m 39:
+• update
+2weeks ags
+©4m3s
+RELEASE Worktiow #15: Pull request #45 Closed by IIS-2405021
+◎ update
+aain
+amor
+<!-- ocr of page 263 -->
+private readonly ILoggersArgumentValidator>
+Loggaer;
+1/ 良好」
+var prePaymentApprovals = await _repository.GetPrePaymentApprovalsAsync(arguments);J
+1/ 不良」
+var data = await_repo.GetDataAsync(args);c
+services.AddSingleton<IArgumentValidator, ArgumentValidator>();4
+services.AddSingleton<IBatchProcessor, BatchProcessor>（）；《
+public BatchProcessor( 4
+IPrePaymentApprovalRepository prePaymentApprovalRepository, 4
+IFinanciallnterfaceRepository financiallnterfaceRepository)+
+{
+_prePaymentApprovalRepository = prePaymentApprovalRepository; J
+_financialInterfaceRepository = financiallnterfaceRepository; +
+private readonly IDbConnectionFactory_connectionFactoryi
+1/ 而不是。
+private readonly OracleConnectionFactory_connectionFactory; t
+private const int MAX PAGE_JTEMS =20;/
+if (pageSeqNo > MAX_PAGE_JTEMS)
+<!-- ocr of page 264 -->
+var result = await connection.QueryAsync<PreapvData>(sql, parameters): 1
+string sql = @"SELECT * FROM USERS WHERE USER_ID = ：userld"； 小
+var parameters = new { userld = "12345"}:1
+Private string BuildPrePaymentApproval Query(string tableName, string
+datalypeFilter) +
+{
+return @$"SELECT A.DEPT_TYPE. • FROM PBAT_PREAPV A, {tableName} B
+WHERE .{dataTypeFilter}": +
+}4
+public interface IDbConnectionFactory 小
+IDbConnection CreateConnection0: 4
+}4
+<!-- ocr of page 265 -->
+public async Task<lEnumerable<PreapvData>>
+GetPrePaymentApprovalsAsync（BatchArguments arguments） 」
+{
+using var connection =_connectionFactory.CreateConnection0i J
+return await connection.QueryAsync< PreapvData>(sql, parameters): J
+public async Task<bool> WriteHospitalFlowAsync（HospitalFlowData flowData） 《
+public async Taskcint> ProcessAsync（BatchArguments arguments）《
+1/ 良好」
+var result = await ProcessAsyncO; J
+1/不良」
+var Tesult = ProcessAsyncO.Result；“日
+// <summary>
+/// 主程式
+///s/summary>-
+/// <param name="args”>傳入程式之參數值的字串陣列</param>＋
+public static void Main(stringll arqs)-
+// Oracle 開啟與資料庫連線
+-oraConn.OpenO: c
+<!-- ocr of page 268 -->
+foreach(var record in records)
+{
+try
+{
+Process(record);
+repository.Marksuccess(record.Id);
+catch(Exception ex)
+{
+repository.MarkFail(record.Id, ex.Message);
+1ogger.warn（ex，$”單筆失敗，ID=｛record.Id｝"）；
+continue;// 不影響整批
+}
+}
+<!-- ocr of page 269 -->
+var
+errors = new List BatchError>();
+foreach (var record in records)
+{
+try
+{
+Process(record);
+•詢問 ChatGPT
+--r-lon ex)
+{
+errors.Add(new BatchError(record.Id, ex.Message));
+}
+}
+if (errors.Any())
+{
+cImService.Create("BATCH_FAILED",errors);
+alertService.Notify(errors);
+throw new BatchAbortException(
+"一致性型批次失敗，需資料修正後重新送批"
+);
+}
+<!-- ocr of page 272 -->
+if (!FileNameValidator.IsValid(file.Name))
+{
+MoveToErporFolder(file);
+NotifyUploader（file，"檔名不符規範“）；
+return;
+}
+<!-- ocr of page 274 -->
+public sealed class HeartbeatService : BackgroundService
+private readonly
+IBatchstatusRepository _repo;
+public HeartbeatService(IBatchStatusRepository repo)
+=>_repo = repo;
+protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+{
+while (!stoppingToken.IsCancellationRequested)
+await
+_repo.UpdateHeartbeatAsync("FileTransfer");
+await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
+}
+•
+<!-- ocr of page 275 -->
+int processed = 9;
+foreach (var file in files)
+{
+ProcessFile(file);
+processed++;
+ressed % 100
+== 0)
+詢問 ChatGPT
+_logger.LogInformation(
+"PROGRESS |Processed={Count}|LastFile={File}",
+processed,
+file.Name
+);
+}
+}
+<!-- ocr of page 276 -->
+[Batch Program]
+start Log（啟動時間）
+— Heartbeat Log（是否存活）
+RecordNumber Log（SQL處理筆數）
+- Progress Log（整體進度）
+- Finish Log（是否正常完成）
+[External Watchdog / Monitor]
+檢查是否有 Start Log
+一 檢查 Progress / RecordNumber 是否停滯
+- 檢查是否缺少 Finish Log
+L 觸發告警 / CLM
+<!-- ocr of page 278 -->
+public sealed class BatchWatchdogService : BackgroundService
+private readonly IBatchstatusRepository _repo;
+Private readonly IALertService _alert;
+public BatchWatchdogService(
+IBatchStatusRepository repo,
+IALertService alert)
+{
+_repo = repo;
+alert = alert;
+}
+protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+while (!stoppingToken.IsCancellationRequested)
+var job = await _repo.GetAsync("FileTransfer");
+if (job == null)
+return;
+if (job.FinishTime.HasValue)
+return;// FINISHED
+if(!job.LastHeartbeatTime.HasValue)
+{
+await _alert.NotifyAsync(
+“Batch Abnormal End”,
+"Batch started but no heartbeat detected"
+);
+return;
+}
+var now = DateTime.UtcNow;
+<!-- ocr of page 279 -->
+if((now - job.LastHeartbeatTime.Value).TotalMinutes > 5)
+await _alert.NotifyAsync(
+“Batch Dead",
+"Heartbeat timeout"
+);
+return;
+}
+if (job.LastProgressTime.HasValue &&
+(now - job.LastProgressTime.Value).TotalMinutes > 10)
+{
+await
+_alert.NotifyAsync(
+"Batch Stuck",
+"No progress detected"
+);
+return;
+await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+}
+}
+<!-- ocr of page 280 -->
+Batch
+Batch Flow
+Scheduler
+(cron /kbs CronJob)
+Batch Execution
+Trigger Batch
+Batch Step
+Data Reader
+read()
+Batch Job
+Batch Launcher
+Batch Step
+Business
+Processor
+process()
+RunAsync() / ExecuteAsyncO
+RunAsyncO / ExecuteAsyncO
+Data Writer
+Step Execution
+write()
+Context
+Batch Step
+Data Reader
+read()
+Batch Step
+Business
+Processor
+RunAsyncO / ExecuteAsync@
+processO
+Step Execution
+Data Writer
+Batch Status
+Log/Operation
+write()
+Context
+Repository
+Batch Status
+Repository
+Batch Execution
+ontexi
+Database
+批次末執行
+<!-- ocr of page 282 -->
+OracleConnectionStringBuilder builder = new
+OracleConnectionStringBuilder(NHI.MEDCS.ENV.Common.GetDBInfo.GetHmDBConne
+ctString);“
+<!-- ocr of page 290 -->
+範例心
+類型
+備註
+命名方式心
+camelCasef
+userNamee
+使用具描述性的
+變數（Variable）
+名稱
+PL_VALUE
+常數（Constant）
+大寫名詞，底線分隔^
+static final 常數心
+StudentManager
+大駝峰（PascalCase）
+名詞
+類別（Class）
+calculate Totall
+方法（method）
+小駝峰（camelCase）公
+動詞或動詞片語
+PascalCasef
+IWorkere
+介面（Interface）
+-前置詞心
+FHIR Terminology
+gov.nhi.med3.ifr:terminology.s
+封包（Package）
+gov.nhi.med3.子系統代碼.
+ervicee
+儲存 Service
+主功能模組.次功能模組
+if(x>0)
+// do something!
+或l
+ifF（×≥0）化
+{
+// do something
+<!-- ocr of page 297 -->
+>本機＞本機磁碟 （C）>tool
+修改日期
+大小
+名稱
+類型
+檔案資料夾
+docker-27.3.1
+2025/1/14 下午01:00
+nvm-0.40.1
+2025/1/13 上午 09:39
+檔案資料夾
+rSO
+2025/1/13 上午 09:39
+檔案資料夾
+nvm-setup
+2025/1/13 下午 01:49
+檔案資料夾
+V6.0.6Vite
+2025/1/13 下午01:46
+v6.0.7
+檔案資料夾
+v6.0.7 source code
+2025/1/13上午 11:05
+檔案資料夾
+506,423 KB
+應用程式
+• Docker Desktop Installer
+2025/1/10 下午 02:15
+WinRAR ZIP 壓縮檔
+2025/1/14 下午 01:23
+38,649 KB
+盛 docker
+WinRAR 壓縮檔
+2025/1/14 上午 08:59
+醬 docker-27.3.1
+73,559 KB
+WinRAR ZIP 壓縮檔
+9,810 KB
+2025/1/13 上午 09:00
+盘 docs-cn-6.0.0
+2025/1/10 下午 02:13
+應用程式
+85 KB
+心 mingw-get-setup
+2025/1/10 下午 02:14
+138,034 KB
+苗 mongodb-compass-1.45.0-win32-x64
+應用程式
+4,131 KB
+2025/1/10 下午 01:18
+WinRAR ZIP 壓縮檔
+區 MP12034_other
+Microsoft Edge P..
+11,966 KB
+四 NET-Microservices-Architecture-for-Co..
+2025/1/10 下午 01:19
+30,144 KB
+2025/1/10 下午 01:35
+Windows Installe...
+node-v22.13.0-x64
+451 KB
+les
+2025/1/13 上午 09:28
+區 nvm-0.40.1
+WinRAR ZIP 壓縮檔
+WinRAR ZIP 壓縮檔
+2025/1/13 上午09:39
+4,953 KB
+les
+區nvm-setup
+<!-- ocr of page 298 -->
+口
+Node.js Setup
+Change, repair, or remove installation
+Select the operation you wish to perform.
+Change
+Lets you change the way features are installed.
+Repair
+Repairs errors in the most recent installation by fixing missing and corrupt files,
+shortcuts, and registry entries.
+Remove
+Removes Node.js from your computer.
+Back
+Cancel
+Next
+網路> 192.168.84.57〉h20a 〉 軟體安裝>VSCode>
+三 檢視～
+个排序*
+四
+可
+^
+修改日期
+名稱
+類型
+大小
+e extensions
+2023/8/31 上午 10:27 壓縮的 （zipped） 46,608 KB
+31,803 KB
+壓編的封存資料夾
+a extensions_20250203
+2025/2/3上午 11:26
+1 KB
+2023/8/31 上午 10:41
+文字文件
+冒 VSCode_extensions離線安裝說明
+77,669 KB
+壓縮的 （zipped）.
+2021/5/24 下午 03:40
+<!-- ocr of page 299 -->
+Vue - Official
+大文文女女（92）
++ 4,026,048
+” 賞助者
+Vue t vuejs.org
+Language Support for Vue
+解除安裝|~V 自動更新 涼
+餾用
+V
+夑更記錄
+詳細資料
+功能
+安裝
+Vue - Official
+vue.volar
+識別碼
+2.2.0
+版本
+Quick Start
+上次更新時
+2025-01-14,
+間
+15:21:43
+• create-vue
+大小
+4.4 MB
+• Vitesse
+• petite
+• volar-starter (For bug report and experiment features testing)
+Marketplace
+已發佈 2024-04-08，
+Insiders Program &
+07:51:14
+<!-- ocr of page 300 -->
+Brolenuel
+① 279,686
+*文文文*（5）
+This extension packs uses the latest wue extension that really works well with different vue projects
+V 自動更新
+歸除交装
+s用
+詳細資料 功能 更記錄
+延伸模組套件（8）
+安裝
+3 113ms
+Path Intellisense
+misterj.vue-
+識別碼
+Visual Studio Code plugin that auto.complete.
+volar-extention-
+./
+Christian Kohler
+pack
+2.0.8
+版本
+上次更新時 2025-01-14，
+39ms
+Auto Close Tag
+15:21:43
+</tag Automatically add HTML/XML close tag, sam..
+190.5 KB
+Jun Han
+③ 110ms
+Marketplace
+Auto Rename Tag
+Auto rename paired HTMLXMLtao
+hollowtree G 4,186,794
+|大大文大文（17）
+A Vuejs 3 And Vuejs 2 Code Snippets Extension
+V 自動更新 救
+富用~
+解除安装|Y
+詳細資料
+功能
+安装
+Vue 3 Snippets for Visual Studio Code
+識別碼
+snippets
+This extension adds Vue 2 Snippets and Vue 3 Snippets into Visual Studio Code.
+1.0.4
+版本
+上次更新時 2025-01-10，
+这个插件基于最新的 Vue 2及 Vue 3的 API添加了 Code Snippets。
+14:23:34
+間
+大小
+142.7 KB
+It looks like:
+Marketplace
+Yapp.vue•
+已發佈
+2016-09-30,
+<!-- ocr of page 301 -->
+Microsoft & microsoft.com
+文文文文女（240）
+4 40,220,818
+Integrates ESLint JavaScript into VS Code.
+Lint」
+富用～
+解除安裝/v 切換到受行前版本V自動更新 發
+功能
+詳細資料
+燮更記綠
+VS Code ESLint extension
+dbaeumer .vscode-
+識別碼
+PBuild Status
+3.0.10
+版本
+上次更新時 2025-01-14，
+Integrates ESLint into VS Code. Ifyou are new to ESLint check the documentation.
+15:21:43
+間
+787.5 KB
+The extension uses the ESLint library installed in the opened workspace folder. If the folder
+doesn't provide one the extension looks for a global install version. lf you haven't installed ESLint
+either locally or globally do so by running npm install eslint in the workspace folder for a
+Marketplace
+local install or npm install -g eslint for a global install.
+已發佈
+2015-11-16,
+19:58:32
+On new folders vou miaht also need to create an .es lintrc confiquration file. You can do this
+Prettier - Code formatter
+、 贊助者
+C 52,946,230
+Prettier 中 prettierio
+文文文女文（470）
+Code formatter using prettier
+｛用~
+解除安裝丷
+V 自動更新 涼
+詳細資料
+功能
+荾更記錄
+Prettier Formatter for Visual Studio Code
+esbenp-prettier-
+識別碼
+Prettier is an opinionated code formatter. It enforces a consistent style by parsing your code and
+11.0.0
+版本
+re-printing it with its own rules that take the maximum line length into account, wrapping code
+上次更新時 2025-01-14，
+when necessary.
+間
+15:21:43
+大小
+9.6 MB
+JavaScript • TypeScript.Flow-JSX • JSON
+CSS•SCSS•Less
+Marketplace
+HTML -Vue- Angular HANDLEBARS • Ember • Glimmer
+GraphOL•Markdown -YAML
+已發佈
+2017-01-11,
+Your favorite language?
+03:52-02
+<!-- ocr of page 302 -->
+个-
+O we-project2
+檔案（F） 編輯（E） 選取項目（S） 檢視（） 移至（G）
+Ctrl+Shift+P
+命令選擇區..
+檔案總管
+開啟檢視_
+V VUE-PROJECT2
+外觀
+編輯器版面配置
+Ctrl+Shift+E
+檔案總管
+tudio Code
+搜尋
+Ctrl+Shift+F
+Ctrl+Shift+G
+原始檔控制
+Ctrl+Shit+D
+執行
+Ctrl+Shift+X
+延伸模組
+Ctrl+Alt+I
+聊天
+Ctrl+Shift+l
+Copilot Edits
+Ctrl+Shift+M
+問題
+Ctrl+Shift+U
+輸出
+偵錯主控台
+Ctrl+Shift+Y
+終端
+ctrlt
+Alt+Z
+自動換行（8W）
+<!-- ocr of page 303 -->
+• PS C:\vue3_test \vue-project2> npm init vue@latest
+> npx
+> create-vue
+Vue.js - The Progressive Javascript Framework
+V 請輸人專案名稱：••vue-project
+V 是否使用 TypeScript？ •否 /是
+V是否啟用JSX 支援？否/是
+V 是否引入 Vue Router 進行單頁應用程式開發？•否/是
+V 是否引入 Pinia 用於狀態管理？•否/是
+V 是否引入 Vitest 用於單元測試•否 /是
+V 是否引入 ESLint 用於程式碼品質檢測？»否
+正在建置專案 C：\vue3_test\vue-projectz\wue-project..
+專案建置完成，可執行以下命令：
+cd vue-project
+npm install
+npm run dev
+PS C:lvue3_test\vue-project2> cd vue-project
+• PS C:lvue3_test\vue-projectz\vue-project〉 npm install
+added 276 packages, and audited 277 packages in 41s
+74 packages are looking for funding
+npm fund*for details
+found ② vulnerabilities
+O PS C:lvue3 test\vue-project2\vue-project》 npm run dev
+> vue-project@0.0.0 dev
+> vite
+VITE V6.0.7 ready in 1139 ms
+- Network:use --host to expose
+- vue DevTools: open http://localhost:5173/_devtools_/ as a separate window
+- Vue DevTools: Press Alt (r+Shift( t)+D in App to toggle the Vue DevTools
+- press h + enter to show help
+<!-- ocr of page 304 -->
+a公）
+C( ① localhost:5173
+22 170704 Xamann E Partl 附發一個後洗
+八 金表饮-Macrosoft.
+＞圖其他（我的露
+C tortaiseSVN CJsC已医入 G Google （ （1）Xamarin.Forms..
+ocumenaon
+wes omaa cocmentation orouces vou w al iniormation vou neeoC
+日
+get stalted
+Tooling
+This project is served and bundled with Vite. The recommended IDE setup is
+白
+VSCode + Volar. If you need to test your components and web pages,
+check out Vite and Cypress / Playwright.
+ofe ins rucuons are avalab e in Rea0we.nd
+You did it!
+Ecosystem
+You've successfully created a project with
+Get OfliCial tools and libranes tor your prolect Pinla, vue Kouter, Vue les
+Vite + Vue 3.
+Uuls, anid Vue Dev loois.i you need more fesources, We suggest paying
+Awesomne e a MS
+Home
+About
+Community
+Got stuck? Ask your question on Vue Land (our official Discord server), or
+Q
+StackOverflow. You should also follow the official @vuejs.org Bluesky
+account or the @vuejs X account for latest news in the Vue world.
+Support Vue
+As an independent oroiect, Vue relies on community backina for its
+sustainability, You can help us by becomine a sponsor
+C:\vue3_test\vue-project2\vue-project>npm instal1 bootstrap@5.3.3
+added 2 packages,and audited 279 packages in 25
+.76 packages are looking for funding
+runnpm fundfor details
+6 vulnerabilities (1 low, 3 moderate, 2 critical)
+To address all issues, run:
+npm audit fix
+Run npm auditfor details.
+"dependencies"： 四
+"axios" : "^1.4.0",
+"bootstrap":"^5.3.3",
+“bootstrap-icons" : "^1.10.5",
+“cors":"^2.8.5",
+"express":"^4.21.2",
+"pinia": "^2.3.9",
+"vue": "^3.5.13"
+"vue-router": "^4.2.4"
+<!-- ocr of page 305 -->
+85 KB
+2025/1/10 下午 02:13
+應用程式
+心 mingw-get-setup
+138,034 KB
+2025/1/10 下午 02:14 應用程式
+WinRAR 壓縮檔
+2025/1/17 上午 08:54
+136,940 KB
+得 mongodb-windows-x86_64-8.0.4-sign.. 2025/1/23 下午 05:56
+Windows Installe.. 734,768 KB
+1号 MongoDB 8.0.4 2008R2Plus SSL （64 bit） Service Customi..
+Service Configuration
+Specify optional settings to configure MongoDB as a service.
+Install MongoD as a Service
+• Run service as Network Service user
+O Run service as a local or domain user:
+Account Domain:
+Account Name:
+Account Password:
+Service Name:
+Data Directory:
+C:\Program Files\MongoDB\Server\8.0\datal
+Log Directory:
+C:\Program Files|MongoDB\Serverl8.0Vlogl
+< Back
+Cancel
+Next>
+<!-- ocr of page 306 -->
+2025/1/14 下午 01:00
+docker-27.3.1
+檔案資料夾
+nvm-0.40.1
+2025/1/13 上午 09:39
+檔案資料夾
+2025/1/13 上午 09:39
+nvm-setup
+檔案資料夾
+v6.0.6Vite
+2025/1/13 下午 01:49
+檔案資料夾
+v6.0.7
+2025/1/13 下午 01:46
+檔案資料夾
+v6.0.7 source code
+2025/1/13 上午 11:05
+檔案資料夾
+2025/1/10 下午 02:15
+506,423 KB
+• Docker Desktop Installer
+膲用程式
+2025/1/14 下午 01:23
+t docker
+WinRAR ZIP 壓縮檔
+38,649 KB
+2025/1/14上午08:59
+WinRAR 壓縮檔
+73,559 KB
+docker-27.3.1
+H docs-cn-6.0.0
+2025/1/13 上午 09:00
+WinRAR ZIP 壓縮檔
+9,810 KB
+2025/1/10 下午 02:13
+85 KB
+應用程式
+1 mingw-get-setup
+138,034 KB
+2025/1/10 下午02:14
+苗 mongodb-compass-1.45.0-win32-x64
+應用程式
+2025/1/10 下午 01:18
+MP12034_other
+WinRAR ZIP 壓縮檔
+4,131 KB
+2025/1/10 下午 01:19
+11,966 KB
+Microsoft Eage P...
+P NET-Microservices-Architecture-for-Co.
+30,144 KB
+Windows Installe..
+2025/1/10 下午 01:35
+碍 node-V22.13.0-x64
+• MongoDB Compass
+Connections Edit View Help
+•*wecome +
+Compass
+• My Queries
+x+.
+You have not connected to any
+deplcyments.
++ Add new connection
+Welcome to MongoDB Compass
+Io cel siartec. connectto an exisuing server 01
++ Add new connecti
+rewto .sompass and cont naveacustem.
+It you dont already have a cluster, you can create one tor tred
+using MonaoDB Atlas@
+CKCAIEPKEE GLUSIEK
+<!-- ocr of page 307 -->
+New Connection
+Manage your connection settings
+URI ⑧
+Edit Connection String C
+How dolfind my connection
+mongodb://localhost:27017/
+string in Atlas?
+If you have an Atlas cluster, go to
+the Cluster view. Clickthe
+Connect button tor the cluster to
+Name
+Color
+which you wish to connect.
+See exampleC
+No Color
+Sen99D94
+口 Favorite this connection
+How dolformat my
+Favoriting a connection will pin it to the top of your list of connections
+connection string?
+See exampleC
+> Advanced Connection Options
+Cance!
+• Welcome +
+Compass
+• My Queries
+CONNECTIONS 0)
+Search connections
+、回 mongoDB4
+•0admin
++•
+•@config
+Welcome to MongoDB Compass
+、f local
+lo cet stalteo, connectto cn existino serverom
++ Add new connection
+wewto compass anc cont nave a custem
+I you cont already have a cluster, you can create one tor tree
+using MongoDB AtlasG
+CREATE FREE CLUSTER
+<!-- ocr of page 308 -->
+凹登比
+S8 ：14/07/14| 署本部| 系統管理員|執行主機：H20DEVnT2016
+顯生原創學中央學康风照黑 需療資訊系統De
+衛生福利部中央健康保險署 醫療資訊系統Dev
+National Health Insurance Administration,
+Ministry of Health and Welfare
+<!-- ocr of page 309 -->
+非必填欄位的標題文字顏色
+*必填欄位的標題文字顏色
+<!-- ocr of page 310 -->
+欄位內容文字顏色
+欄位中的提示文字顏色
+按鈕様
+儲存
+<!-- ocr of page 311 -->
+儲存
+儲存
+<!-- ocr of page 312 -->
+《 民國114年七月»
+日一二三四五六
+29 30 123 4 5
+6 789 10 11 12
+13 14 15 16 17 18 19
+20 21 22 23 24 25 26
+27 28 29 30 31 1
+3 4 56789
+114-07-02
+《 民國109年-118年》
+108 109 110
+111
+112 113 114) 115
+116 117 118 119
+1月2月3月4月
+5月6月7月8月
+9月10月 11月12月
+<!-- ocr of page 313 -->
+諮詢類別
+諮詢類別
+諮詢類別
+<
+諮詢類別
+1-法規
+2-就醫疑義
+3-藥品
+4-特材
+5-其它
+申訴類別
+總額別
+◎縣市別
+v 退費
+依規定辦理，婉復健保署
+<!-- ocr of page 314 -->
+名送出成功！
+×
+© 修改失敗！
+<!-- ocr of page 315 -->
+×
+面 確定要刪除？
+確定
+取消
+5筆
+10筆
+20筆
+30筆
+40筆
+50筆
+共57筆，現在是第1頁
+筆數/頁、
+<!-- ocr of page 319 -->
+Q Lookup by Trace 1D..
+JAEGER UI Search Compare System Achecture
+3 Trace Timeinev
+< MySQLService: GET /Test2 d10aadb
+race Stat February 27 2025, 15:56:04 565 Duraton 728.74ms Serces1 Den 6 Tota Sparss
+Service & Operation
+729.74ms
+CUS
+547.3ms
+~>“》
+“| MySQL Service CET Ts2
+“| MySaL Service Tet Fondten Cal Pat2
+| MySQLService ∞|
+37m—
+ServicewvSoLServce Durason s..7ms Saan uimes30.7am
+db
+v Tags
+conae
+SELECT'p'.'Id,'p'."Mame','p'."Pric
+CCopy CuJSON
+OpenTelenetry.Instrunentation.EntityfraneuoriCors
+oel lbray version 1.11.8-beta.
+senveradtress
+Iocalbost
+dlient
+Span knd
+• Process: service.Instance.id = 50136583-8ce4-4320-00s-202500m0078 telemetry.sok anguage = ootnel telemelry.sakname = openielemetry tekemetry sdk.version =1.11.1
+" MySQLService Testfunchiond
+MysuLservuce TesfFunction2_
+• w MySaL Service: GET /Test2
+Count/Ertor Service
+1/0 MySQL Service
+16.57 ms
+Amg
+Dualon Opeaien
+sel tme
+16.572 ms (8.87%) db
+16.572 ms (100%)
+<!-- ocr of page 320 -->
+public async Tasksobject?> ExeguteSsalarsunc(strg sdl
+TEnwerable OracleRarameter>?parameters = null)e
+using var activity =
+_astyISoue,Startecty.t（"Oracle.ExecuteScal买r"
+ActivitKind.Client
+activity2Set.Tag("sah.command". sal):t
+using (ScgpeContext.PushEropedty("SglComand': sgl))-
+tryt
+它
+using var connection =_otacleContext.CrsateConnsctionlr
+return awatt sotandExscutecadatasaGO:e
+catch (OracleExcsption.ex)
+它
+actvity2 SetStatus（actatStatusCodeErot sx.lsssa盟）：e
+_Jogget.Enor(ex,"OracleExesuteSsalar OracleFoer"):
+throw
+catch (Exception ex)
+它
+activity2SetStatus（ActyityStatu:Code.Erot sx.Msssa盟s）：f
+-logmat.Enor(ex. "Oracle.ExssuteScalar error"):
+throwg
+<!-- ocr of page 321 -->
+public async TasksList<T>> FindDocumentsAsyncsT2string
+sollectonyanns. EilterDstinitgn<T> filter)
+using var actvity=
+actuwat ounGswStartactatdonggl .EndlocuE
+actyatKnd.Chent
+activity2SetTag("db.svstem":"mongodb"):
+activity2SstTag("db.mongodb.sollecton": sa.llecton.yans;f
+activity2SstTag（"db.opssation". "find"）：个
+using (ScgpeContext.PushPrope.ty("MongDE.Collecuon":
+solkectonNane))
+切y
+var collection =
+59aatabase.GstCallestion<T（sellectionNams上：f
+var result = await collsction. Find(filter) JolistAsungO:
+Podld
+Containerlmage
+<!-- ocr of page 327 -->
+warn"LogLevel.Wam
+<target xsi:type="File"name="file Target"
+encoding="utf-8"
+fileName="$./logD irectory}/$ {processname}_{gdc:podid}_$ jdate:.fo
+rmat=vvyMIddy.ison"Y
+靥性
+<!-- ocr of page 336 -->
+L new beench
+口Mesege cmty
+Q is:pr is:open
+© Labels 9
+New pull request
+中 Milestones 0
+Milestones -
+Review點此新指&uI Reguest
+口 83 10pen < 0 Closed
+口 33 標題：依據規範修訂內容
+#1 opened 2 minutes ago by IISl-2405014
+<!-- ocr of page 347 -->
+> nhi_fhir_proxy@1.0.0 test
+> jest src/tests
+PASS
+srC/tests/sample.test.js
+Sample Test
+v should test that true
+=== true (2 ms)
+Uncovered Line #s
+% Lines
+------
+1 total
+Test Suites: 1 passed,
+Tests:
+1 passed, 1 total
+0 total
+Snapshots:
+Time:
+1.105 S
+Ran all test suites matching src/tests.
+<!-- ocr of page 349 -->
+11 正確
+function example(){
+if (condition){
+dosomething();
+}
+// X 錯誤
+function example()5
+if (condition){
+dosomething();
+}
+}
+11 正確
+const name = 'John';
+const age = 25;
+1/ X 錯誤
+const name = 'John'
+const age = 25
+<!-- ocr of page 350 -->
+// 正確
+const message = 'Hello world';
+const template = Hello ${name};
+const quote = "He said "Hello"";
+11 X 錯誤
+const message = "Hello world"s|
+// 正確
+const PI = 3.14159;
+let counter = 0;
+11 X 錯誤
+var name = 'John'
+1/ 正確
+const MAX RETRY_COUNT =3;
+const userName = 'john_doe';
+const isValidEmail = true;
+// X 錯誤
+const max = 3;
+const n = 'john_doe';
+const flag = true;
+<!-- ocr of page 351 -->
+1/ 正確
+function calculateTotal(items){ /*
+⋯•*/}
+*1 }
+function isvaliduser(user) {/* ….
+function hasPermission(role) {/* .•*/}
+/1 X 錯誤
+function total(items){ /*
+// 正確
+const numbers = [1, 2,3].map(n =>n *2);
+function processUser(user){
+return{
+id: user.id,
+name: user.name.toupperCase()
+11 X 錯誤
+const numbers = [1,2, 3].map(function(n) {
+return n * 2;
+});
+<!-- ocr of page 352 -->
+11 正確
+const user ={
+name,
+age,
+email,
+isActive: true
+};
+1/ X 錯誤
+const user ={
+name:name,
+age: age,
+email: email,
+isActive: true
+1/ 正確
+const { name, age, email } = user;
+const [first, second] = array;
+// X 錯誤
+const name = user.name;
+const age = user.age;
+const email = user.email;
+<!-- ocr of page 353 -->
+// 正確
+try f
+const data = JSON.parse(jsonString);
+return data;
+} catch (error){
+console.error('Failed to parse JSON:', error.message);
+throw new Error('Invalid JSON data');
+}
+11 X 錯誤
+const data = JSON.parse（jsonstring）；// 可能拋出異常
+1/ 正確
+async function fetchUserData(id) {
+try {
+const response = await fetch("/api/users/${id}");
+const user = await response.json();
+return user;
+} catch (error){
+console.error('Failed to fetch user:', error);
+throw error;
+}
+}
+1/ X 錯誤
+function fetchuserData(id) |
+return fetch(/api/users/${id})
+.then(response => response.json())
+.then(user => user)
+.catch(error => {
+console.error('Failed to fetch user:', error);
+throw error;
+});
+B
+<!-- ocr of page 354 -->
+/米米
+* 計算兩個數字的和
+* @param ｛number｝ a - 第一個數字
+* @param ｛number｝ b - 第二個數字
+* @returns ｛number｝兩個數字的和
+*/
+function add(a, b) K
+return a + b;
+1/ 正確
+// 使用二分查找提高性能
+const index = binarySearch(array, target);
+1/ X 錯誤
+1/ 將i增加 1
+i++;
+<!-- ocr of page 355 -->
+// 正確 - 緩存計算結果
+const memoize = (fn) =>{
+const cache
+= new Map();
+return(...args) =>{
+const key = JSON.stringify (args);
+if (cache.has(key)){
+return cache.get(key);
+}
+const result = fn(••.args);
+cache.set(key, result);
+return result;
+予；
+};
+1/ 正確
+import { debounce, throttle } from './utils';
+import Userservice from,
+./services/UserService';
+export default class UserController{
+/…..
+}
+export { helper, validator }i|
+<!-- ocr of page 356 -->
+// 正確
+function sanitizeInput(input){
+return input.replace(/[<>]/g,'');
+}
+1/ X 錯誤
+function executeCode(code) [
+eval（code）；1/ 安全風險

@@ -17,7 +17,8 @@ subsystem expose — present since the first commit, listing only the Payment vi
 
 ## Steps
 1. Owner obtains from the shell's team: the host's federation name and the remotes it expects, the
-   route path REA is mounted at, which dependencies are shared as singletons, whether the shell serves
+   route path REA is mounted at and deployed under (the template serves a Vue app under `/<route
+   path>/`, so `base: '/'` must change: nhia-frontend-standard › Architecture), which dependencies are shared as singletons, whether the shell serves
    REA's assets or REA is deployed separately, and how the shell passes the user token (this overlaps
    bff › Token and Keycloak: deferred).
 2. `vite.config.js` loads `@originjs/vite-plugin-federation` (already a dependency, `package.json:33`)

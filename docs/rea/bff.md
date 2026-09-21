@@ -4,7 +4,7 @@ The BFF (Backend For Frontend) the NHIA regulation requires between `REA_UI` and
 not exist yet. Owner's rulings, 2026-09-21: it is a separate rea project with its own repository (a
 working name `ui_bff` under `projects/`), written in Node.js, and `REA_kernel` may not stand in for it. This module records
 what the regulation demands, what the ui does today, and the target; the work is plan bff. The regulation is cited as `R` =
-`docs/rea/sources/2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md@2bfefa3770d5`, the whole
+`docs/rea/sources/2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md@b3e81e38baa5`, the whole
 document. The ui is cited at `REA_UI@5721638` (`develop`, the branch the owner ruled the review reads).
 
 ## What the regulation requires
@@ -42,8 +42,12 @@ document. The ui is cited at `REA_UI@5721638` (`develop`, the branch the owner r
   for the **dotnet** Dockerfile (R L6464–6476): 「EXPOSE 8080 可依實際需求調整。在三代在 port 部分有規範」,
   then per environment `fw-web` 8000, `fw-api` 8001, `fw-batch` 8002, `fw-bff` 8003 (R L6477–6496; the
   UAT rows are misprinted `:sit`), and 「如果不依三代已設定 port 更改，那在 dotnet EXPOSE 的 port 要跟
-  deployment.yaml … containerPort 一致即可」 (R L6497–6499). The `fw-` names are not explained; they
-  read as the CICD template's framework images. A Node.js BFF would take its Dockerfile from the
+  deployment.yaml … containerPort 一致即可」 (R L6497–6499). `fw-api: dev` turns up in the deployment template as a
+  pod **label**, on a container with `containerPort: 8001` and `ASPNETCORE_URLS http://+:8001`
+  (`R.p255`); what the label drives is not said, and a network policy keyed on it is the likely reading,
+  which makes keeping 8003 for a pod labelled `fw-bff` the safe choice. The same template names the
+  objects `<部門>-<code, lowercase>-api-pod`, `-api-container`, `-api-configmap` and runs non-root with
+  all capabilities dropped. A Node.js BFF would take its Dockerfile from the
   template's `npm` folder, which the text describes as 「主要是用在前端 vue3」 (R L6505), so its Dockerfile
   has no stated port; 8003 is the consistent choice, and any port is compliant if `EXPOSE` and the
   yaml's `containerPort` agree.
@@ -83,7 +87,7 @@ Inferred from the rules above, not yet designed or agreed:
 - The BFF's first routes mirror the four endpoints one to one, so the ui changes nothing but its proxy.
   Shaping comes after: trim the `RuleSet` row to what the ui reads, move the case transform out of the
   browser, merge Payment lookups a dialog needs into one call.
-- It follows the regulation's error codes and log format (nhia-frontend-standard › 附件 四 and 三) and
+- It follows the regulation's error codes and log format (nhia-regulation › The whole regulation) and
   carries unit tests.
 
 ## The subsystem code
@@ -106,7 +110,7 @@ REA's three characters are in the regulation's system table, 「34 藥品特材�
 What the program-subsystem code reaches, checked against the whole document:
 - **The ui's file, component and project names: no.** 伍's 適用範圍 is back-end projects only (R
   L1239–1260), so its `Med3Vue.IMSNC` and `IMSNC1001S01.vue` (R L2711–2713) do not bind a Vue project;
-  肆's kebab-case does (nhia-frontend-standard › Rulings).
+  肆's kebab-case does (nhia-regulation › The whole regulation — The five-character subsystem code).
 - **The ui's deployment: yes.** `bash deploy_vue.sh <namespace> <部門名稱> <子系統名稱(5 碼)> <route
   path>`, example `med3hi0 hi0 ihkwc IHKE300`, generates the ui's `deployment.yaml`, `nginx.conf`,
   `route.yaml`, `service.yaml` under a folder of that name (R L6538–6550). So `reanc` would name the

@@ -13,6 +13,7 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [bff](bff.md) — the BFF the regulation requires and the ui lacks: the rules, today's direct nginx proxying to two backends, the target, open questions
 - [nhia-ui-design](nhia-ui-design.md) — 附件二 介面設計規範, item by item: frame, colours, buttons, ROC date inputs, dialogs, paging
 - [ui-deployment](ui-deployment.md) — the ui's Docker image, nginx routes, build modes and GitLab pipeline, and the manual image check 
+- [nhia-regulation](nhia-regulation.md) — the NHIA regulation as a whole: the chapters that bind the ui and the BFF, figures that contradict the text, how the source and its pictures are held
 
 ## Repositories
 - [rea-ui](rea-ui/index.md) — `REA_UI`: run, test, entry points; the owner's `debug-ui` branch

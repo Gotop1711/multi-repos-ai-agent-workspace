@@ -1,9 +1,9 @@
 # rea / nhia-ui-design
 
 附件二「三代醫療系統介面設計規範」of the NHIA development regulation V2.0: the screen-level rules the
-front-end chapter defers to for style (nhia-frontend-standard › The whole regulation). Thirty-nine
+front-end chapter defers to for style (nhia-regulation › The whole regulation). Thirty-nine
 numbered items, PDF pages 307–315, cited as `R` =
-`docs/rea/sources/2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md@2bfefa3770d5` L7311–7500. The
+`docs/rea/sources/2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md@b3e81e38baa5` L7311–7500. The
 pictures `R.p307` … `R.p315` beside it hold the 圖例, and items 32, 34, 35 and 39 exist only as pictures.
 It rests on three 2025 meetings about the 署內 (INTRA) screen template (R L7312–7318). Owner's
 ruling, 2026-09-21: in scope for `REA_UI`, after the BFF; the comparison is plan ui-design-conformance.
