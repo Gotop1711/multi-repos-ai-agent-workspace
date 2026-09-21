@@ -5,7 +5,7 @@ bytes: 5918937
 extractor: pdfkit
 status: ok
 received: 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf
-pictures: 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p1.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p2.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p3.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p4.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p5.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p6.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p7.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p8.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p9.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p10.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p11.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p12.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p16.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p17.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p18.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p19.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p23.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p24.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p25.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p30.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p31.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p40.jpg
+pictures: 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p1.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p2.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p3.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p4.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p5.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p6.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p7.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p8.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p9.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p10.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p11.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p12.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p13.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p14.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p15.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p16.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p17.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p18.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p19.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p23.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p24.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p25.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p30.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p31.jpg 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p40.jpg
 ---
 <!-- page 1 · picture: 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p1.jpg -->
 「第三代醫療資訊系統建置案」開發規範
@@ -112,7 +112,7 @@ _
 圖例如下：
 6 功能表 因為某些功能名稱較長，功能表需提供以下任一方式來
 300
-<!-- page 13 -->
+<!-- page 13 · picture: 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p13.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 項次 類別 規範說明
 完整顯示功能名稱：
@@ -143,7 +143,7 @@ _
 色碼：#000000。
 圖例如下：
 301
-<!-- page 14 -->
+<!-- page 14 · picture: 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p14.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 項次 類別 規範說明
 16 各欄位中的提示文字，統一用灰色標示，只有在該欄位
@@ -172,7 +172,7 @@ _
  預設尺寸：寬 142px，高 42px。
 圖例如下：
 302
-<!-- page 15 -->
+<!-- page 15 · picture: 2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.p15.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 項次 類別 規範說明
 24 按鈕為焦點時為綠底粗體白字。

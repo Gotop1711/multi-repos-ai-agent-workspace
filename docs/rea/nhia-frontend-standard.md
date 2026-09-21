@@ -21,7 +21,7 @@ Needed, because 肆 points to them or the ui is written under them:
 - **陸 二 前端單元測試** (p212–224): `2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.md@93f137f4ed5c`
   L18–457. 肆 六 defers to it, and unit tests are on the mandatory list (S L304, L321). Its login test
   fixture carries a user and password; the owner confirms both are samples (2026-09-18).
-- **壹拾參 二 三代醫療系統介面設計規範** (p307–315): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md@3d5d39cd6925` L81–274.
+- **壹拾參 二 三代醫療系統介面設計規範** (p307–315): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md@2f916184d583` L81–274.
   This is the 附件二 that 肆 defers to for style (S L344).
 - **壹拾參 六 JavaScript 開發規範** (p349–355): `2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.md@49bf8e320d1b` L12–95.
 - **壹拾參 四 錯誤及返回代碼規劃** (p333–336): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L799–901. These are the codes
@@ -57,6 +57,27 @@ Context, read for the ui's place in the system rather than checked line by line:
 
 Not needed for the ui: 參 微服務; the rest of 伍 (C#); 陸 三; 壹拾 批次; 壹拾壹 資料庫; 壹拾貳 Java; and
 壹拾參 五 and 七–十 (Node.js, JSP, Ruby, Go, Python).
+
+## Rulings for the review of the ui
+The owner's, in session 2026-09-21. They fix how `REA_UI` is read against this regulation.
+- **Subject.** The review reads `REA_UI` on `develop`, at the commit `./workspace.sh cite` prints when
+  it starts (`REA_UI@5721638` on 2026-09-21).
+- **jQuery is banned for the ui.** The whitelist's `jquery <=3.7.1` covers the whole project's
+  libraries; the front-end chapter's ban (S L326) governs a front-end project.
+- **Versions follow the whitelist.** It is kept up to date, so where it is newer than the chapter, as
+  with Vite (whitelist `<=7.1.12`, chapter 6.0.0, S L335), the whitelist decides.
+- **The BFF is a separate rea project**, in its own repository, and `REA_kernel` is not it. Not built
+  yet: module bff, plan bff.
+- **附件二 is in scope**, second in priority to the BFF: module nhia-ui-design, plan
+  ui-design-conformance.
+- **Open: where REA sits in the frame.** Today the ui stands alone, with its own layout and router
+  (`REA_UI@5721638 src/router/index.js:5-12`, `src/layouts/DefaultLayout.vue`) and its own nginx; the
+  federation plugin is a dependency (`package.json:33`) that `vite.config.js` never loads, and
+  `src/router/subSystemRouter.js`, the file the regulation has a subsystem expose, is there from the
+  project's first commit (`f7a2f0f`), lists the Payment view only, and is imported nowhere. The
+  regulation's model is a subsystem exposing its routes to a shell that owns login, header and menu (›
+  Architecture). Which one REA is to be decides whether the Federation rules and 附件二 items 4–8 are
+  the ui's to meet.
 
 ## Architecture (S L16–65, L456–605)
 - The front end is a UI layer only: no core business logic, no direct call to a backend API; every

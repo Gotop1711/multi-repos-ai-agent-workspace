@@ -10,6 +10,8 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [ruleset-api](ruleset-api.md) — the `RuleSet` round trip: the row `GET` returns, what the ui reads of it and never reads, the dev store's provenance and quirks 
 - [nhia-frontend-standard](nhia-frontend-standard.md) — the NHIA front-end rule the ui must meet: BFF-only API, Element Plus, Module Federation, the validate module, colours and layout
 - [scope-conditions](scope-conditions.md) — 檢核範圍: each of the thirteen conditions as first level → helper menus → end level, and which layer is hard-coded, from `PXXT_CODE`, or typed
+- [bff](bff.md) — the BFF the regulation requires and the ui lacks: the rules, today's direct nginx proxying to two backends, the target, open questions
+- [nhia-ui-design](nhia-ui-design.md) — 附件二 介面設計規範, item by item: frame, colours, buttons, ROC date inputs, dialogs, paging
 
 ## Repositories
 - [rea-ui](rea-ui/index.md) — `REA_UI`: run, test, entry points; the owner's `debug-ui` branch
@@ -23,3 +25,5 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [translated-rule-names](plans/translated-rule-names.md) — draft: a named leaf's engine rule names no longer match the kernel's own result parser (a request) 
 - [ui-map-orphans](plans/ui-map-orphans.md) — draft: nine UI-map keys name no served field; four are untracked (201 參考日期, 307 widths, 檢核範圍's 前 N 碼)
 - [ruleset-unread-fields](plans/ruleset-unread-fields.md) — draft: five top-level fields and the leaf `Name` go unread; leave, `$select`, or drop `TranslatedRules` (a kernel request) 
+- [bff](plans/bff.md) — draft: a separate BFF project between the ui and its two backends; the owner names the repository and the stack first
+- [ui-design-conformance](plans/ui-design-conformance.md) — draft: assess, then fix, the ui's screens against 附件二; after the BFF
