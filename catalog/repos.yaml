@@ -29,6 +29,14 @@
   access: read-only
   product: rea
 
+# A local copy of a source folder — no upstream, so `remote` is a placeholder and `clone` cannot rebuild it.
+- id: REA_PROTO_BE
+  path: projects/rea_proto_be
+  remote: none
+  default_branch: main
+  access: read-only
+  product: rea
+
 - id: REA_kernel
   path: projects/kernel
   remote: https://gitlab.transportdata.tw/nhi3rdgeneration/claimvalidator/kernel.git
