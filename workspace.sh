@@ -11,7 +11,7 @@
 #   ./workspace.sh plan done <product> <feature>    remove a verified or abandoned plan with its session logs and the sources only it used
 #   ./workspace.sh plan rm <product> <feature> [--force]   the same for a plan in any state (--force for a signed or shipped one)
 #   ./workspace.sh ingest <product> <file>…         REPO=<id>: copy a document to docs/assets/<product>/[<repo>/] (gitignored), extract its text — and a capped picture of each image page — to docs/<product>/[<repo>/]sources/
-#   ./workspace.sh extract <product> docs/assets/<product>/[<repo>/]<file>…   re-extract a stored original (OCR_LANGS=<bcp47,…>, default zh-Hant,en-US; IMAGES=<file>:<pages> keeps pictures of pages that also carry text)
+#   ./workspace.sh extract <product> docs/assets/<product>/[<repo>/]<file>…   re-extract a stored original (OCR_LANGS=<bcp47,…>, default zh-Hant,en-US; a page with a figure or little text keeps a picture and its OCR; IMAGES=<file>:<pages> adds pages)
 #   ./workspace.sh prune [--apply]                  derivatives nothing cites and orphan originals; --apply removes them
 #   ./workspace.sh check                            structure, caps, plans, derivatives, parties (session-init / pre-commit)
 # Plain bash (macOS 3.2 ok), zero dependencies — extract alone uses macOS textutil, swift (PDFKit, Vision) and python3.
@@ -21,7 +21,7 @@ MANIFEST="catalog/repos.yaml"
 ASSETS="docs/assets"        # originals: docs/assets/<product>/[<repo>/]<YYYY-MM-DD-slug.ext>, gitignored, never committed
 CAP_INDEX=80; CAP_MODULE=300; CAP_REPO=100; CAP_PLAN=80; CAP_LOG=40; CAP_CHANGELOG=60   # line caps check enforces, counted wrapped at 100 columns (AGENTS.md › Documents)
 IMG_BYTES=204800; IMG_PX=1600   # a picture derivative sources/<name>.p<N>.jpg: the one binary git keeps — at most 200 KiB, 1600 px on the long side
-tmp=""; ocr=""; render=""; ooxml=""; pats=""; trap 'rm -f "$tmp" "$ocr" "$render" "$ooxml" "$pats"' EXIT
+tmp=""; ocr=""; pdfimg=""; ocrmerge=""; render=""; ooxml=""; pats=""; trap 'rm -f "$tmp" "$ocr" "$pdfimg" "$ocrmerge" "$render" "$ooxml" "$pats"' EXIT
 
 entries() { # one line per repo: id|path|remote|branch|access|product
   awk '
@@ -319,18 +319,78 @@ func ocr(_ cg: CGImage) -> [String] {
     try? VNImageRequestHandler(cgImage: cg, options: [:]).perform([req])
     return (req.results ?? []).sorted { $0.boundingBox.minY > $1.boundingBox.minY }.compactMap { $0.topCandidates(1).first?.string }
 }
+let only: Set<Int>? = args.count > 3 ? Set(args[3].split(separator: ",").compactMap { Int($0) }) : nil   // pages to read; all when absent
 if let doc = PDFDocument(url: URL(fileURLWithPath: args[1])) {
     for i in 0..<doc.pageCount {
+        if let o = only, !o.contains(i + 1) { continue }
         guard let page = doc.page(at: i) else { continue }
         let box = page.bounds(for: .mediaBox); let s: CGFloat = 200.0 / 72.0
         let img = page.thumbnail(of: CGSize(width: box.width * s, height: box.height * s), for: .mediaBox)
-        print("<!-- page \(i+1) (ocr) -->")
+        print(only == nil ? "<!-- page \(i+1) (ocr) -->" : "<!-- ocr of page \(i+1) -->")
         if let cg = img.cgImage(forProposedRect: nil, context: nil, hints: nil) { ocr(cg).forEach { print($0) } }
     }
 } else if let img = NSImage(contentsOfFile: args[1]), let cg = img.cgImage(forProposedRect: nil, context: nil, hints: nil) {
     print("<!-- page 1 (ocr) -->"); ocr(cg).forEach { print($0) }
 } else { exit(2) }
 SWIFT
+  pdfimg="$(mktemp)"; cat > "$pdfimg" <<'SWIFT'
+import Foundation
+import PDFKit
+// prints "<page> <width>x<height>" for every embedded image of at least 40000 px (a figure, a screenshot) - the text layer cannot say so
+guard CommandLine.arguments.count > 1, let d = PDFDocument(url: URL(fileURLWithPath: CommandLine.arguments[1])) else { exit(2) }
+for i in 0..<d.pageCount {
+    guard let ref = d.page(at: i)?.pageRef, var node = ref.dictionary else { continue }
+    var res: CGPDFDictionaryRef? = nil
+    for _ in 0..<8 {   // Resources may be inherited from a parent Pages node
+        if CGPDFDictionaryGetDictionary(node, "Resources", &res) { break }
+        var parent: CGPDFDictionaryRef? = nil
+        guard CGPDFDictionaryGetDictionary(node, "Parent", &parent), let up = parent else { break }
+        node = up
+    }
+    var xo: CGPDFDictionaryRef? = nil
+    guard let r = res, CGPDFDictionaryGetDictionary(r, "XObject", &xo), let x = xo else { continue }
+    var sizes: [String] = []
+    CGPDFDictionaryApplyBlock(x, { _, obj, _ in
+        var st: CGPDFStreamRef? = nil
+        if CGPDFObjectGetValue(obj, .stream, &st), let s = st, let sd = CGPDFStreamGetDictionary(s) {
+            var name: UnsafePointer<Int8>? = nil; var w: CGPDFInteger = 0; var h: CGPDFInteger = 0
+            if CGPDFDictionaryGetName(sd, "Subtype", &name), let n = name, String(cString: n) == "Image",
+               CGPDFDictionaryGetInteger(sd, "Width", &w), CGPDFDictionaryGetInteger(sd, "Height", &h), w * h >= 40000 { sizes.append("\(w)x\(h)") }
+        }
+        return true
+    }, nil)
+    for z in Set(sizes) { print("\(i + 1) \(z)") }
+}
+SWIFT
+  ocrmerge="$(mktemp)"; cat > "$ocrmerge" <<'PY'
+# ocr-merge: append to a text-layer body what OCR read from the pictured pages and the text layer lacks - python3 stdlib only
+import sys, re, unicodedata, difflib
+body_path, ocr_path = sys.argv[1], sys.argv[2]
+def squash(t): return re.sub(r'\s+', "", unicodedata.normalize('NFKC', t))
+layer, cur = {}, None
+for line in open(body_path, encoding='utf-8').read().split('\n'):
+    m = re.match(r'^<!-- page (\d+)', line)
+    if m: cur = int(m.group(1)); layer[cur] = []; continue
+    if cur is not None: layer[cur].append(line)
+cjk = re.compile(r'[⺀-鿿豈-﫿]')
+half = {c: c - 0xFEE0 for c in range(0xFF01, 0xFF5F)}   # a line without CJK is code or Latin: its full-width punctuation is an OCR artefact
+blocks, cur = [], None
+for line in open(ocr_path, encoding='utf-8').read().split('\n'):
+    m = re.match(r'^<!-- ocr of page (\d+) -->$', line)
+    if m: cur = (int(m.group(1)), []); blocks.append(cur); continue
+    if cur is None or not line.strip(): continue
+    have = layer.get(cur[0], []); whole = squash("".join(have)); key = squash(line)
+    if not key or key in whole: continue
+    if len(key) >= 4 and any(difflib.SequenceMatcher(None, key, squash(h)).ratio() >= 0.75 for h in have if h.strip()): continue
+    cur[1].append(line if cjk.search(line) else line.translate(half))
+blocks = [b for b in blocks if b[1]]
+if blocks:
+    with open(body_path, 'a', encoding='utf-8') as f:
+        f.write('<!-- ocr: read by machine from the pictures of %d page(s); lines the text layer already holds are left out. An index for searching, with misreadings - a claim cites the picture, never these lines. -->\n' % len(blocks))
+        for n, lines in blocks:
+            f.write('<!-- ocr of page %d -->\n' % n); f.write('\n'.join(lines) + '\n')
+print(len(blocks))
+PY
   render="$(mktemp)"; cat > "$render" <<'SWIFT'
 import Foundation
 import PDFKit
@@ -404,8 +464,17 @@ PY
         pdf) extractor=pdfkit; swift "$tmp" "$orig" > "$body" 2>/dev/null || { extractor="none (pdf unreadable or encrypted)"; : > "$body"; }
              pages="$(grep -c '^<!-- page' "$body")"; chars="$(grep -v '^<!-- page' "$body" | tr -d '[:space:]' | wc -c | tr -d ' ')"
              layer="$(page_chars "$body")"   # the text layer, page by page, before OCR replaces it: a page with under 200 characters is a picture
+             # pictured pages: a thin text layer, an embedded figure (an image size found on over half the pages of a 6+ page file is a letterhead, not a figure), or IMAGES=<name>:<pages>
+             pdfwant="$(printf '%s\n' "$layer" | awk '$2<200{print $1}')"
+             figs="$(swift "$pdfimg" "$orig" 2>/dev/null | awk -v n="$pages" '{c[$2]++; l[NR]=$0} END{for(i=1;i<=NR;i++){split(l[i],a," "); if(n<6 || c[a[2]]*2<=n) print a[1]}}')"; pdfwant="$pdfwant $figs"
+             spec="${IMAGES:-}"; [ "${spec%%:*}" = "$name" ] && pdfwant="$pdfwant $(page_list "${spec#*:}")"
+             pdfwant="$(printf '%s\n' $pdfwant | grep -E '^[0-9]+$' | sort -nu | tr '\n' ' ')"
              if [ "${OCR:-}" = "$name" ] || { [ "$pages" -gt 0 ] && [ "$chars" -lt $((20 * pages)) ]; }; then
-               extractor=vision-ocr; swift "$ocr" "$orig" "${OCR_LANGS:-zh-Hant,en-US}" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; }; fi ;;
+               extractor=vision-ocr; swift "$ocr" "$orig" "${OCR_LANGS:-zh-Hant,en-US}" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; }
+             elif [ -n "${pdfwant// /}" ]; then   # a text PDF: what only its pictures say is OCR'd and appended, marked, after the text layer - earlier lines never move
+               ocrout="$(mktemp)"; swift "$ocr" "$orig" "${OCR_LANGS:-zh-Hant,en-US}" "$(printf '%s' "$pdfwant" | tr -s ' ' ',' | sed 's/,$//')" > "$ocrout" 2>/dev/null \
+                 && nocr="$(python3 "$ocrmerge" "$body" "$ocrout" 2>/dev/null)" && [ "${nocr:-0}" -gt 0 ] && extractor="pdfkit, vision-ocr of $nocr pictured page(s) appended"
+               rm -f "$ocrout"; fi ;;
         png|jpg|jpeg|tif|tiff|heic|gif) extractor=vision-ocr; swift "$ocr" "$orig" "${OCR_LANGS:-zh-Hant,en-US}" > "$body" 2>/dev/null || { extractor="none (ocr failed)"; : > "$body"; } ;;
         pptx|xlsx) extractor=ooxml; python3 "$ooxml" "$orig" > "$body" 2>/dev/null || { extractor="none (ooxml unreadable)"; : > "$body"; } ;;
         *) [ "$(file -b --mime-encoding "$orig")" = binary ] || { extractor=verbatim; cat "$orig" > "$body"; } ;;
@@ -423,7 +492,7 @@ PY
         rm -f "$body"; fail=$((fail+1)); continue
       fi
       [ "$(wc -c < "$body")" -le 1000000 ] || { echo "[$name] REFUSED: extracted text over 1 MB — split the original and ingest the parts" >&2; rm -f "$body"; fail=$((fail+1)); continue; }
-      grep -v -E '^<!-- (page|slide|sheet) [^>]*-->$' "$body" | grep -q '[^[:space:]]' \
+      grep -v -E '^<!-- (page|slide|sheet|ocr)[ :][^>]*-->$' "$body" | grep -q '[^[:space:]]' \
         || { status="no-text"; [ "$extractor" = none ] && echo "[$name] no extractor for .$ext — export from the app and ingest the export" >&2; }   # page/slide/sheet markers alone are not text
     fi
     mkdir -p "$(dirname "$out")"
@@ -434,8 +503,7 @@ PY
     if [ "$status" = ok ] || [ "$status" = no-text ]; then
       case "$ext" in
         png|jpg|jpeg|tif|tiff|heic|gif) want=1 ;;
-        pdf) want="$(printf '%s\n' "${layer:-}" | awk '$2<200{print $1}' | tr '\n' ' ')"
-             spec="${IMAGES:-}"; [ "${spec%%:*}" = "$name" ] && want="$want $(page_list "${spec#*:}" | tr '\n' ' ')" ;;
+        pdf) want="${pdfwant:-}" ;;
       esac
       for n in $(printf '%s\n' $want | sort -nu); do
         img="${out%.md}.p$n.jpg"; raw="$(mktemp).jpg"

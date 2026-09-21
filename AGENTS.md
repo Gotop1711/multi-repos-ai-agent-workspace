@@ -8,7 +8,7 @@ Governance workspace for cross-repository work. Child repositories are gitignore
 docs/<product>/index.md            the product: what it is; links to its modules, repositories, open plans   ≤ 80 lines
 docs/<product>/<module>.md         one subsystem each — the only place facts live                              ≤ 300
 docs/<product>/<repo>/index.md     a related repository: run, test, entry points, integration                  ≤ 100
-docs/<product>/[<repo>/]sources/   ingested documents' text, plus `<name>.p<N>.jpg` for a page that is a picture — `ingest` / `extract` output only, never hand-edited
+docs/<product>/[<repo>/]sources/   ingested documents' text, plus `<name>.p<N>.jpg` and its OCR for a page that is or holds a picture — `ingest` / `extract` output only, never hand-edited
 docs/<product>/plans/<feature>.md  task-oriented: goal, writes, steps, done-when; removed by `plan done` / `rm`  ≤ 80
 docs/assets/<product>/[<repo>/]    the originals — gitignored, added by `ingest` only, removed by `prune`
 .agents/memory/sessions/           one log per session — the journey, never the facts                          ≤ 40
@@ -42,7 +42,7 @@ Abandoned: <YYYY-MM-DD> — <why>
 
 ## Evidence
 
-Every claim in a module or repository doc says where it was seen: `<repo>@<sha> <path>:<line>` — `./workspace.sh cite` prints the fleet as one line (paste it for a claim about how repositories interact; it warns on a dirty child); `restore` returns the fleet to a citation — or, for a document, `docs/<product>/[<repo>/]sources/<name>.md@<blob> L<n>` (`git hash-object`; `git show <blob>` re-reads it even after removal). Same-named things in different repositories are not the same thing without file-level evidence. Say what is inferred.
+Every claim in a module or repository doc says where it was seen: `<repo>@<sha> <path>:<line>` — `./workspace.sh cite` prints the fleet as one line (paste it for a claim about how repositories interact; it warns on a dirty child); `restore` returns the fleet to a citation — or, for a document, `docs/<product>/[<repo>/]sources/<name>.md@<blob> L<n>` (`git hash-object`; `git show <blob>` re-reads it even after removal). What only a picture says is cited as the picture, `…/sources/<name>.p<N>.jpg@<blob>`, after looking at it: the `<!-- ocr … -->` block at a source's end is a machine reading for searching, with misreadings, and is never evidence. Same-named things in different repositories are not the same thing without file-level evidence. Say what is inferred.
 
 ## Boilerplate and organizations
 
