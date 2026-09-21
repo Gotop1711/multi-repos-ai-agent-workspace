@@ -31,9 +31,11 @@ side is the regulation's second guard and would be a request of its own.
    /api/v1/RuleSet`, `POST /api/v1/Payment/Item/Get`, `POST /api/v1/Payment/Detail/Get` — with
    the kernel and Payment addresses as BFF configuration, listening on 8003, the regulation's convention for a BFF container, the regulation's error codes and log format,
    a health route, a Dockerfile, unit tests.
-4. `REA_UI`: `frontend.conf` proxies `/api/` to the BFF only and loses the Payment block and the Azure
-   host; `.env.development` points its one proxy target at a local BFF; `vite.config.js` loses the
-   Payment proxy. The ui's `src/` does not change, its paths are already relative.
+4. `REA_UI`, for the off-premises deployment its files describe (ui-deployment): `frontend.conf` proxies
+   `/api/` to the BFF only and loses the Payment block and the Azure host; `.env.development` points its one proxy target at a local BFF; `vite.config.js` loses the
+   Payment proxy. The ui's `src/` does not change, its paths are already relative. An
+   NHIA deployment would not use `frontend.conf` at all: `deploy_vue.sh` generates the nginx, which
+   proxies no `/api`, and the gateway routes the API (nhia-frontend-standard › Architecture).
 5. Token, deferred until the owner and NHIA's architects settle bff › Token and Keycloak: the BFF
    receives the shell's User Token, keeps it server-side, checks the claim per route and forwards it
    to the backends. The ui's commented-out `Authorization` lines go; 401 and 403 handling stays. If

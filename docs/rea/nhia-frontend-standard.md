@@ -56,12 +56,14 @@ The owner's, in session 2026-09-21. They fix how `REA_UI` is read against this r
   and `./v2/components`, shares the three libraries as `{ singleton: true }`, and serves on 5100
   (`R.p55`). An earlier draft of this paragraph, written from OCR, had `Nhivue.main` and
   `./V1/components`: the misreadings the evidence rule exists for.
-- A deployed Vue app is served by nginx on 8000 under its route path, not at `/`: the template has
+- Under NHIA's deployment a Vue app is served by nginx on 8000 under its route path, not at `/`: the template has
   `listen 8000`, `location /IHKE3000/ { alias /usr/share/nginx/html/; try_files … /index.html; }` and an
   `HTTPRoute` with `PathPrefix /IHKE3000/` to the service `hi0-ihkwc-web-svc:8000` (`R.p258`; the
   script is R L6539–6545). Kubernetes objects are named `<部門>-<code, lowercase>-web-…`. `REA_UI` builds
   with `base: '/'` today (`REA_UI@5721638 vite.config.js:25`), which a path-prefixed deployment has to
-  change. The template proxies no `/api`: the API is another route, as the BFF rule expects.
+  change. The template proxies no `/api`: the API is another route, as the BFF rule expects. None of
+  this is the ui's present deployment: its own `Dockerfile` and `frontend.conf` serve a space outside
+  NHIA and are module ui-deployment's subject; the two are separate targets (owner, 2026-09-22).
 
 ## Project layout and conventions (R L627–743)
 - `public/` holds images and icons; `src/` holds `api/modules/<name>/{types,index}.js`, `layouts/`,

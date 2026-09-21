@@ -1,7 +1,9 @@
 # rea / ui-deployment
 
 How `REA_UI` is packaged, routed and deployed: the Docker image, its nginx, the build modes and the
-GitLab pipeline, and the manual check of the image before a push. Cited at `REA_UI@5721638` (`develop`
+GitLab pipeline, and the manual check of the image before a push. It is the deployment to a space
+outside NHIA that the repository's files were written for (owner, 2026-09-22), not the NHIA
+三代 deployment the regulation prescribes; that one is nhia-frontend-standard › Architecture and bff. Cited at `REA_UI@5721638` (`develop`
 = `debug-ui` = `debug-api`). This module replaces the repository's own `docs/deployment/docker.md`
 (last edited `c96d4d1`, 2026-08-05), removed with the whole `docs/` in `REA_UI@a024004`; every
 statement of that file was re-checked against the config at `5721638` and still holds; what it lacked

@@ -60,6 +60,12 @@ document. The ui is cited at `REA_UI@5721638` (`develop`, the branch the owner r
 - Deployment: the SPA to a CDN, the BFF to a Node.js or .NET server, backends on their own (R L1199–1202).
 
 ## What the ui does today
+Two deployments must be kept apart (owner, 2026-09-22). The `Dockerfile`, `frontend.conf` and env files
+in `REA_UI` were written for a deployment to a space **outside NHIA** and are described, as that, in
+ui-deployment. NHIA's own deployment — the regulation's templates, ports and route paths — is a
+different target that does not exist yet (› Container port; nhia-frontend-standard › Architecture).
+What follows reads the repository as it stands, because the regulation's rules on a front-end project
+bind its code and config wherever it is deployed; it is not a description of an NHIA deployment.
 - The browser talks to two backends through the ui's own nginx, with nothing in between.
   `frontend.conf:23-27` proxies `/api/` to the kernel container `nhi-claimvalidator:8080`;
   `frontend.conf:11-15` proxies `/api/v1/Payment/` to an external Azure App Service host, written out in
