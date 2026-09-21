@@ -41,6 +41,12 @@ Needed, because 肆 points to them or the ui is written under them:
   <=9.39.1`, `@originjs/vite-plugin-federation <=1.4.1` (L5470, L5462, L5468, L4193, L3876, L4967, L5482,
   L5387, L4227, L3143). Two conflicts with 肆: the list admits `jquery <=3.7.1` (L4600), which 肆 bans
   (S L326); and it admits Vite up to 7.1.12, where 肆 names 6.0.0 (S L335).
+- **The five-character subsystem code** is required, by 伍 四 (一) 2–3 (p110–111) and 伍 五 (十二)
+  (p143): `2026-09-21-nhia-his3-dev-standard-v2-project-naming-p110-113-p143.pdf.md@e826f7067352`
+  L48–73, L144–149. It names the front-end project, every Vue page and the BFF (module bff › The
+  subsystem code).
+- **壹拾參 五 Node.js 開發規範** (p337–348): `2026-09-21-nhia-his3-dev-standard-v2-nodejs-p337-348.pdf.md@987fa90cdd98`
+  L12–301. It governs the BFF, not the ui (module bff › What 附件五 asks of a Node.js BFF).
 - **The 命名原則 is 伍 五 命名規範** (p130–141): `2026-09-18-nhia-his3-dev-standard-v2-naming-p130-141.pdf.md@6071d9d8bdc5` L35–184 for 通用命名規範.
   It is written for C#. Its one front-end rule is that a required enum treats 0 as unselected and
   validates it (L357).
@@ -56,7 +62,7 @@ Context, read for the ui's place in the system rather than checked line by line:
   how the ui is built and deployed.
 
 Not needed for the ui: 參 微服務; the rest of 伍 (C#); 陸 三; 壹拾 批次; 壹拾壹 資料庫; 壹拾貳 Java; and
-壹拾參 五 and 七–十 (Node.js, JSP, Ruby, Go, Python).
+壹拾參 七–十 (JSP, Ruby, Go, Python).
 
 ## Rulings for the review of the ui
 The owner's, in session 2026-09-21. They fix how `REA_UI` is read against this regulation.
@@ -70,14 +76,15 @@ The owner's, in session 2026-09-21. They fix how `REA_UI` is read against this r
   yet: module bff, plan bff.
 - **附件二 is in scope**, second in priority to the BFF: module nhia-ui-design, plan
   ui-design-conformance.
-- **Open: where REA sits in the frame.** Today the ui stands alone, with its own layout and router
-  (`REA_UI@5721638 src/router/index.js:5-12`, `src/layouts/DefaultLayout.vue`) and its own nginx; the
-  federation plugin is a dependency (`package.json:33`) that `vite.config.js` never loads, and
-  `src/router/subSystemRouter.js`, the file the regulation has a subsystem expose, is there from the
-  project's first commit (`f7a2f0f`), lists the Payment view only, and is imported nowhere. The
-  regulation's model is a subsystem exposing its routes to a shell that owns login, header and menu (›
-  Architecture). Which one REA is to be decides whether the Federation rules and 附件二 items 4–8 are
-  the ui's to meet.
+- **REA_UI is a subsystem loaded by the shell** (2026-09-21). The shell owns login, header, menu and
+  breadcrumb; the ui exposes its routes to it by Module Federation (› Architecture). So the Federation
+  rules are the ui's to meet, and 附件二 items 4–8 are the shell's. Today the ui runs stand-alone
+  instead: its own layout and router (`REA_UI@5721638 src/router/index.js:5-12`,
+  `src/layouts/DefaultLayout.vue`) behind its own nginx; the federation plugin is a dependency
+  (`package.json:33`) that `vite.config.js` never loads; and `src/router/subSystemRouter.js`, the file
+  the regulation has a subsystem expose, is there from the first commit (`f7a2f0f`), lists the Payment
+  view only, and is imported nowhere.
+- **The BFF is written in Node.js** (2026-09-21), which brings 附件五 into force for it (module bff).
 
 ## Architecture (S L16–65, L456–605)
 - The front end is a UI layer only: no core business logic, no direct call to a backend API; every

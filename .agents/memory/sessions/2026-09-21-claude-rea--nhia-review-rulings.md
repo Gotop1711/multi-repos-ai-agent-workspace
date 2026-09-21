@@ -10,20 +10,27 @@ document the BFF architecture and open a plan; record 附件二 in a document an
 - Module bff (the rules, today's wiring at `REA_UI@5721638`, target, open questions) and plan bff.
 - Module nhia-ui-design (the 39 items; four exist only as pictures, read from them) and plan
   ui-design-conformance.
-- Re-extracted the appendices part with pages 13–15 as pictures (button and label 圖例); blob now
-  `2f916184d583`, lines unchanged.
+- Appendices part re-extracted with pages 13–15 as pictures (`2f916184d583`, lines unchanged).
+
+- Second round of rulings: `REA_UI` is a subsystem the shell loads; the BFF is Node.js; Keycloak is
+  deferred for discussion. Ingested 附件五 Node.js (`987fa90cdd98`) and the project-naming pages
+  p110–113, p143 (`e826f7067352`). bff gained › The subsystem code (required; REA's comes from NHIA),
+  › What 附件五 asks, › Token and Keycloak: deferred; plan bff's steps 1 and 5 follow.
 
 ## Decisions & pitfalls
+- 附件五 names `zod`, `jest`, `supertest`; the whitelist lists none of them. Two rule sets that both
+  bind: surfaced as a question for the architect rather than picked.
 - The ui already obeys the relative-path rule in `src/`; what breaks the BFF rule is its nginx
   (`frontend.conf`) and env files. A pass-through BFF therefore needs no `src/` change.
-- The regulation's template files sit unused in the ui (`subSystemRouter.js`, the federation
-  dependency, a commented-out 主系統 token): it was scaffolded as a subsystem and runs stand-alone.
+- The ui was scaffolded as a subsystem (`subSystemRouter.js`, the federation dependency) and runs
+  stand-alone.
 - A plan's `Writes:` token must be a manifest id, so a plan for a repository that does not exist starts
   with the owner creating and listing it.
-- Small 圖例 do not make a page "a picture" (text over 200 characters): name such pages in `IMAGES=`.
+- Small 圖例 do not make a page a picture: name such pages in `IMAGES=`.
 
 ## TODO
-- Owner: where REA sits (loaded into the Intranet shell, or stand-alone); REA's five-character code;
-  Node.js or .NET for the BFF; whether a Keycloak client exists for REA.
+- Owner: REA's five-character code from NHIA; the architect's answer on `zod`, `jest`, `supertest`;
+  the Keycloak discussion (bff › Token and Keycloak: deferred).
+- Not filed: the shell ruling makes `REA_UI` a Federation remote to be; the review will show it.
 - Then: the review itself against the mandatory list, on `develop`.
 - Push `rea`.

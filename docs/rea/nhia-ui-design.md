@@ -19,8 +19,9 @@ Whether `REA_UI` meets any item is not assessed here.
   wrapping.
 - 7. The function in use is marked in the menu by text colour or background.
 - 8. Clicking a sub-function in the breadcrumb expands its tree in the menu and scrolls it to the top.
-- Items 4–8 describe the header, menu and breadcrumb. If `REA_UI` is loaded into a shell they are the
-  shell's; if it stands alone they are its own (nhia-frontend-standard › rulings, the open point).
+- Items 4–8 describe the header, menu and breadcrumb. They are the shell's, not `REA_UI`'s: the owner
+  ruled on 2026-09-21 that the ui is a subsystem the shell loads (nhia-frontend-standard › Rulings).
+  The ui's own `DefaultLayout.vue` frame is what that ruling makes redundant.
 
 ## Work area (items 9–22, X L128–165)
 - 9. Background white `#FFFFFF`. 10. Three-column layout as the principle. 11. Labels do not wrap.

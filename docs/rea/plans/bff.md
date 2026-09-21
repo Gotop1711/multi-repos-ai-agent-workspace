@@ -18,10 +18,11 @@ proxy change and the removal of backend addresses. Nothing in `REA_kernel`: a to
 side is the regulation's second guard and would be a request of its own.
 
 ## Steps
-1. Owner decides, before signing: REA's five-character subsystem code, hence the repository name
-   `<code>-BFF` and project `Med3BFF.<code>`; Node.js with Express or .NET 8 (bff › Open questions —
-   Node.js brings 附件五 into force and needs it ingested first); whether a Keycloak realm and client
-   exist for REA.
+1. Before signing: the owner obtains REA's five-character subsystem code from NHIA (required: bff ›
+   The subsystem code), hence the repository `<code>-BFF` and the project `Med3BFF.<code>`; and asks
+   the architect whether `zod`, `jest` and `supertest`, which 附件五 names and the whitelist lacks, are
+   admitted. Decided 2026-09-21: Node.js with Express, laid out as 附件五 prescribes (bff › What 附件五
+   asks of a Node.js BFF).
 2. Owner creates the repository and adds it to the manifest; `./workspace.sh clone`;
    `./workspace.sh doc add rea <repo>` for its repository doc.
 3. Pass-through BFF: the routes the ui calls today, one to one — `GET /api/v1/RuleSchema`, `GET
@@ -32,15 +33,16 @@ side is the regulation's second guard and would be a request of its own.
 4. `REA_UI`: `frontend.conf` proxies `/api/` to the BFF only and loses the Payment block and the Azure
    host; `.env.development` points its one proxy target at a local BFF; `vite.config.js` loses the
    Payment proxy. The ui's `src/` does not change, its paths are already relative.
-5. Token: the BFF performs the Keycloak exchange or accepts the Intranet shell's login, keeps the User
-   Token server-side behind an HttpOnly session cookie, checks the claim per route, forwards the token
-   to the backends. The ui's commented-out `Authorization` lines go; 401 and 403 handling stays.
+5. Token, deferred until the owner and NHIA's architects settle bff › Token and Keycloak: the BFF
+   receives the shell's User Token, keeps it server-side, checks the claim per route and forwards it
+   to the backends. The ui's commented-out `Authorization` lines go; 401 and 403 handling stays. If
+   this outgrows the write set or the schedule it becomes its own plan, and steps 1–4 ship without it.
 6. Shaping, each its own commit and each optional: trim the `RuleSet` row to the fields the ui reads
    (closes plan ruleset-unread-fields without a kernel change); move the case transform out of the
    browser; merge the Payment lookups a dialog makes.
 
 ## Done when
 The deployed ui's network panel shows requests to its own origin only; `grep` finds no backend host in
-`REA_UI`; stopping the BFF stops every API call; a request without a session is refused by the BFF
-before it reaches the kernel; the rule editor opens, edits and saves a rule as before; the BFF's tests
-and the ui's `vitest` and lint pass.
+`REA_UI`; stopping the BFF stops every API call; once step 5 lands, a request without a valid token is
+refused by the BFF before it reaches the kernel; the rule editor opens, edits and saves a rule as
+before; the BFF's tests and the ui's `vitest` and lint pass.
