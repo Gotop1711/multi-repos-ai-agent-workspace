@@ -12,6 +12,7 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [scope-conditions](scope-conditions.md) — 檢核範圍: each of the thirteen conditions as first level → helper menus → end level, and which layer is hard-coded, from `PXXT_CODE`, or typed
 - [bff](bff.md) — the BFF the regulation requires and the ui lacks: the rules, today's direct nginx proxying to two backends, the target, open questions
 - [nhia-ui-design](nhia-ui-design.md) — 附件二 介面設計規範, item by item: frame, colours, buttons, ROC date inputs, dialogs, paging
+- [ui-deployment](ui-deployment.md) — the ui's Docker image, nginx routes, build modes and GitLab pipeline, and the manual image check 
 
 ## Repositories
 - [rea-ui](rea-ui/index.md) — `REA_UI`: run, test, entry points; the owner's `debug-ui` branch
@@ -28,3 +29,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [bff](plans/bff.md) — draft: a separate BFF project between the ui and its two backends; the owner names the repository and the stack first
 - [ui-design-conformance](plans/ui-design-conformance.md) — draft: assess, then fix, the ui's screens against 附件二; after the BFF
 - [federation-remote](plans/federation-remote.md) — draft: the ui becomes a Federation remote and drops its own frame; the shell's team must answer first
+- [ui-docs-removal](plans/ui-docs-removal.md) — draft: remove `REA_UI`'s stale `docs/` and the two lines that point to it 
