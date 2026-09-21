@@ -1,49 +1,42 @@
 # rea / nhia-frontend-standard
 
-The NHIA rule the ui must be built to: chapter 肆「前端(Vue3)開發規範」 of 「第三代醫療資訊系統建置案」開發規範
-V2.0, the 30 pages the owner excerpted (printed pages 21–50). Sources: `S` =
-`docs/rea/sources/2026-09-18-nhia-his3-dev-standard-v2-web-frontend-p29-58.pdf.md@cbb064044d23` (PDFKit
-text; pictures of its pages 14–21 and 24–27 sit beside it as `….p<N>.jpg`) and `C` =
-`docs/rea/sources/2026-09-18-nhia-his3-dev-standard-v2-federation-config-screens-p52-55.pdf.md@0d1860065c57`
-(those four pages OCR'd, each with its picture — code with OCR noise; read `wue` as `vue`, `remates` as `remotes`). The document's
-own date is not in the excerpt; the file's is the ingest date. Whether `REA_UI` complies is not assessed here.
+The NHIA rule the ui must be built to: 「第三代醫療資訊系統建置案」開發規範 V2.0, all 367 pages, ingested
+whole as `R` = `docs/rea/sources/2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md@2bfefa3770d5` (PDFKit text; `R L<n>`
+cites a line, and a page marker `<!-- page N -->` carries the PDF page). Pictures of its image pages sit
+beside it as `….p<N>.jpg`, named by PDF page. Chapter 肆「前端(Vue3)開發規範」 (pages 30–58) is the ui's
+own chapter; what else binds the ui is listed below. Whether `REA_UI` complies is not assessed here.
 
 ## The whole regulation: what a review of the ui needs
-The full document has 367 PDF pages. Its table of contents gives wrong page numbers: the owner confirms
-the original carries them, and the excerpt shows 肆 printed on page 22 where the contents say 17 (S
-L13–16). The pages below are PDF pages, and each part's name carries its range. 肆 is PDF pages 30–58:
-the owner's excerpt is complete, since 伍 starts on page 59. Every part below is under `docs/rea/sources/`. Pictures of its image pages sit
-beside each part, and they matter here: 附件二 defines widgets by picture, and 附件六's examples are
-code screenshots with no text layer.
+Its table of contents gives wrong page numbers: the owner confirms the original carries them, and 肆
+prints on page 22 where the contents say 17 (R L615–618). Page numbers below are PDF pages, and line
+numbers are lines of `R`. 肆 runs from page 30 to 58, 伍 starts on 59.
 
 Needed, because 肆 points to them or the ui is written under them:
-- **肆 前端(Vue3)開發規範**: `S`, this module.
-- **陸 二 前端單元測試** (p212–225): `2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-225.pdf.md@dce221a79da2`
-  L18–483. 肆 六 defers to it, and unit tests are on the mandatory list (S L304, L321). Its login test
+- **肆 前端(Vue3)開發規範** (p30–58): R L618–1209, this module.
+- **陸 二 前端單元測試** (p212–225): R L5525–5990. 肆 六 defers to it, and unit tests are on the mandatory list (R L906, L923). Its login test
   fixture carries a user and password; the owner confirms both are samples (2026-09-18).
-- **壹拾參 二 三代醫療系統介面設計規範** (p307–315): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md@2f916184d583` L81–274.
-  This is the 附件二 that 肆 defers to for style (S L344).
-- **壹拾參 六 JavaScript 開發規範** (p349–356): `2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.md@f07373fe74b0`
-  L12–103. Its last rule: unit tests are written in Vue 3, not separately in JavaScript (L101–103).
-- **壹拾參 四 錯誤及返回代碼規劃** (p333–336): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L799–901. These are the codes
-  the ui shows, and 肆 三 (9) sets how (S L263–270).
-- **壹拾參 三 日誌 Log 規範** (p316–332): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L275–798.
-- **壹拾參 一 開發環境安裝** (p297–306): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L13–80. It holds the Vue 3 setup and
-  the VS Code extension list that 肆 九 3 names and leaves empty (L17, L28; S L336).
-- **伍 四 (一) 8 API 命名** (p114–118): `2026-09-21-nhia-his3-dev-standard-v2-api-naming-p114-118.pdf.md@5913a834c570`
-  L21–84. RESTful methods, nouns not verbs, and one screen's front end against one backend controller
-  (L31–34) — the shape a BFF route inherits.
+- **壹拾參 二 三代醫療系統介面設計規範** (p307–315): R L7311–7504.
+  This is the 附件二 that 肆 defers to for style (R L946).
+- **壹拾參 六 JavaScript 開發規範** (p349–356): R L8426–8517. Its last rule: unit tests are written in Vue 3, not separately in JavaScript (L8515–8517).
+- **壹拾參 四 錯誤及返回代碼規劃** (p333–336): `2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md` L8029–8131. These are the codes
+  the ui shows, and 肆 三 (9) sets how (R L865–872).
+- **壹拾參 三 日誌 Log 規範** (p316–332): R L7505–8028. Its 適用對象 is back-end developers,
+  architects, SRE and log analysts (R L7509–7510), and it is written around NLog inside a WebAPI
+  project. It binds the BFF, not the ui.
+- **壹拾參 一 開發環境安裝** (p297–306): `2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md` L7243–7310. It holds the Vue 3 setup and
+  the VS Code extension list that 肆 九 3 names and leaves empty (L7247, L7258; R L938).
+- **伍 四 (一) 8 API 命名** (p114–118): R L2801–2864. RESTful methods, nouns not verbs, and one screen's front end against one backend controller
+  (L2811–2814) — the shape a BFF route inherits.
 - **伍 七 DTO / Validation / ViewModel** (p169–184):
-  `2026-09-21-nhia-his3-dev-standard-v2-dto-validation-p169-184.pdf.md@d46ff8f38c01` L11–248. A response
-  DTO returns only the fields the front end needs (L142–146), and back-end validation must mirror the
-  front end's (L220–226). Both bind what the BFF returns.
-- **The document itself** (p1–3): `2026-09-21-nhia-his3-dev-standard-v2-cover-revisions-p1-3.pdf.md@a6bc3475e927`
-  L12–60. Document number `K1130690496-PDG-11506V2.0`, 資拓宏宇國際股份有限公司, 115/6/29 (2026-06-29),
+  R L4293–4530. A response
+  DTO returns only the fields the front end needs (L4424–4428), and back-end validation must mirror the
+  front end's (L4502–4508). Both bind what the BFF returns.
+- **The document itself** (p1–3): R L12–51. Document number `K1130690496-PDG-11506V2.0`, 資拓宏宇國際股份有限公司, 115/6/29 (2026-06-29),
   and the revision history from V0.1 to V2.0. This is what dates the version in force.
-- **貳 三 版本管理(Git)** (p18–22): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md@94b087e18a61` L190–312.
-- **壹 四 開發文件規範** (p12–17): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md` L20–170.
-- **The 程式庫白名單** is a separate document, not part of the regulation. 肆 and 附件一 defer to it (S
-  L339; `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L15), and so does 附件五
+- **貳 三 版本管理(Git)** (p18–22): R L373–495.
+- **壹 四 開發文件規範** (p12–17): `2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md` L203–353.
+- **The 程式庫白名單** is a separate document, not part of the regulation. 肆 and 附件一 defer to it (R
+  L941; `2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md` L7245), and so does 附件五
   Node.js on p345. The owner supplied it: `2026-09-18-nhia-his3-library-whitelist.md.md@e97c76a4c25f`,
   its own date 2026-06 (L3). The front end is a table (L14–2790) and a machine list of `<name> <=<max
   version>` lines (L2791–5560); the back end follows (L5563–6768), then a back-end blacklist (L6771–6782).
@@ -51,64 +44,68 @@ Needed, because 肆 points to them or the ui is written under them:
   <=2.11.8`, `axios <=1.18.0`, `pinia <=3.0.4`, `vue-router <=4.6.3`, `typescript <=4.5.5`, `eslint
   <=9.39.1`, `@originjs/vite-plugin-federation <=1.4.1` (L5470, L5462, L5468, L4193, L3876, L4967, L5482,
   L5387, L4227, L3143). Two conflicts with 肆: the list admits `jquery <=3.7.1` (L4600), which 肆 bans
-  (S L326); and it admits Vite up to 7.1.12, where 肆 names 6.0.0 (S L335).
+  (R L928); and it admits Vite up to 7.1.12, where 肆 names 6.0.0 (R L937).
 - **The five-character subsystem code.** Owner's question, 2026-09-21: the rule sits in 伍, the C#
-  chapter, so is the ui exempt? Partly. `N` =
-  `2026-09-21-nhia-his3-dev-standard-v2-project-naming-p110-113-p143.pdf.md@e826f7067352`.
-  - The BFF needs it whatever 伍 says: its repository `<code>-BFF` and project `Med3BFF.<code>` are
-    named in 肆 十一 5, the front-end chapter itself (S L601–604). So do the deploy scripts, which take
-    「子系統名稱(5 碼)」 for the Vue app as well as the API
-    (`2026-09-18-nhia-his3-dev-standard-v2-containers-cicd-p246-260.pdf.md@be9db46b3ab5` L116–117).
-  - Whether it binds `REA_UI`'s own project and file names is unsettled. 伍 四 (一) 2 (3) 「前端專案
-    命名規則」 does name them, `Med3Vue.IMSNC` and `IMSNC1001S01.vue` (N L48–50), and 肆 itself says
-    naming is settled by the 命名原則 (S L72). But the next line of 肆 requires kebab-case files such
-    as `user-profile.vue` (S L73), which `IMSNC1001S01.vue` is not. The two rules cannot both hold.
-    A ruling is needed; `REA_UI` follows 肆 today (`Payment.vue`, `RuleEditorDialog.vue`).
-  - Not a blocker for reviewing `REA_UI`. It blocks only the BFF's repository name (plan bff step 1).
-- **壹拾參 五 Node.js 開發規範** (p337–348): `2026-09-21-nhia-his3-dev-standard-v2-nodejs-p337-348.pdf.md@987fa90cdd98`
-  L12–301. It governs the BFF, not the ui (module bff › What 附件五 asks of a Node.js BFF).
-- **The 命名原則 is 伍 五 命名規範** (p130–141): `2026-09-18-nhia-his3-dev-standard-v2-naming-p130-141.pdf.md@6071d9d8bdc5` L35–184 for 通用命名規範.
+  chapter, so is the ui exempt? For the ui's own names, yes; for its deployment and for the BFF, no.
+  Checked against the whole document on 2026-09-21.
+  - 伍 states its 適用範圍: back-end projects only — WebAPI, BFF, batch, schedule, queue worker,
+    microservices, integration and shared components, API gateway and so on, in C#, ASP.NET Core and
+    .NET 10 (R L1239–1260). A Vue project is not in that list, so 伍 四 (一) 2 (3) 「前端專案命名規則」,
+    which gives `Med3Vue.IMSNC` and `IMSNC1001S01.vue` (R L2711–2713), is an aside in a chapter that
+    does not claim the front end.
+  - 肆, which does govern the ui, says front and back naming is settled by the 命名原則 (R L674) and
+    then requires kebab-case files such as `user-profile.vue` (R L675). Reading 伍 四 as binding would
+    contradict 肆 outright. So 肆 governs the ui's file and component names unless NHIA rules
+    otherwise, and `REA_UI` already follows it (`Payment.vue`, `RuleEditorDialog.vue`).
+  - The code is still needed twice. The Vue project is deployed by `bash deploy_vue.sh <namespace>
+    <部門名稱> <子系統名稱(5 碼)> <route path>`, the example being `med3hi0 hi0 ihkwc IHKE300`
+    (R L6539–6545); and the BFF's repository `<code>-BFF` and project `Med3BFF.<code>` are named by 肆
+    itself (R L1203–1206). It comes from NHIA and blocks plan bff, not the review.
+- **壹拾參 五 Node.js 開發規範** (p337–348): R L8134–8423. It governs the BFF, not the ui (module bff › What 附件五 asks of a Node.js BFF).
+- **The 命名原則 is 伍 五 命名規範** (p130–141): R L3275–3424 for 通用命名規範.
   It is written for C#. Its one front-end rule is that a required enum treats 0 as unselected and
-  validates it (L357).
+  validates it (L3597).
 
 Context, read for the ui's place in the system rather than checked line by line:
-- **壹 二 整合與部署架構** (p11): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md` L12–19. **伍 二 後端整體架構治理** (p72–88):
-  `2026-09-18-nhia-his3-dev-standard-v2-backend-architecture-p72-88.pdf.md@ef02788f2448` L11–487. Both bear on whether `REA_kernel` may stand as the
-  BFF that 肆 requires every datum to come through (S L20–24).
-- **柒 Web API 管理** and **捌 三代登入機制** (p235–245): `2026-09-18-nhia-his3-dev-standard-v2-apim-login-p235-245.pdf.md@00fecbfe35c6`. 柒 二
-  身分認證 is L16–42, Keycloak L57–99, and 捌 L128–227. They cover the token that 肆 says the BFF holds
-  (S L311).
-- **玖 容器化與 CI/CD 之關連** (p246–260): `2026-09-18-nhia-his3-dev-standard-v2-containers-cicd-p246-260.pdf.md@be9db46b3ab5` L12–154. It covers
+- **壹 二 整合與部署架構** (p11): `2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md` L195–202. **伍 二 後端整體架構治理** (p72–88):
+  R L1566–2042. Both bear on whether `REA_kernel` may stand as the
+  BFF that 肆 requires every datum to come through (R L622–626).
+- **柒 Web API 管理** and **捌 三代登入機制** (p235–245): `2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md@2bfefa3770d5`. 柒 二
+  身分認證 is L6221–6247, Keycloak L6262–6304, and 捌 L6333–6432. They cover the token that 肆 says the BFF holds
+  (R L913).
+- **玖 容器化與 CI/CD 之關連** (p246–260): R L6435–6577. It covers
   how the ui is built and deployed.
 
 Not needed for the ui: 參 微服務; the rest of 伍 (C#); 陸 三; 壹拾 批次; 壹拾壹 資料庫; 壹拾貳 Java; and
 壹拾參 七–十 (JSP, Ruby, Go, Python).
 
 ## Coverage of the regulation
-The full document is 367 pages, `sha256
-cf804534659a22d781ce0768c75784d8ed3b6d961b4d2b82e68d034dc9f630d2`, kept by the owner outside the
-workspace. Ingested are the parts above, PDF pages 1–3, 11–22, 30–58, 72–88, 110–118, 130–141, 143,
-169–184, 212–225, 235–260, 297–356. The rest is C# implementation, batch, database, Java, JSP, Ruby, Go
-and Python, none of which binds a Vue front end or its BFF.
+The whole document is ingested, so nothing has to be chosen: 367 pages, `sha256
+cf804534659a22d781ce0768c75784d8ed3b6d961b4d2b82e68d034dc9f630d2`, 8812 lines of text, and pictures of
+the pages this workspace reads as images (the mock-up screens 42–49, the federation code screens 52–55,
+the unit-test screens 213–214, the login flows 239–243, the Vue install 297–306, 附件二's 圖例 307–315,
+the JavaScript examples 349–356, the architecture and Git figures 11 and 22).
 
-The parts were chosen by heading from the full text, then audited on 2026-09-21 by sweeping every page
-outside them for 前端, Vue, 畫面, 瀏覽器, JavaScript, CSS, 元件 and 使用者介面. The sweep found what
-cutting by heading misses, and all of it is now ingested: two sections whose tails ran onto the next
-page (前端單元測試 to p225, JavaScript to p356) and three rules living in back-end chapters (API naming
-p114–118, DTO and validation p169–184, the revision history p1–3). Repeat that sweep before trusting
-coverage for a new question; cut to the next heading, not the next page break.
+Until 2026-09-21 the workspace held fifteen excerpts instead, cut by heading. That failed three ways,
+which is why the owner had it replaced: a section's tail ran onto the next page and was lost
+(前端單元測試 to p225, JavaScript to p356); rules binding the front end sat inside back-end chapters
+(API naming p114–118, DTO and validation p169–184); and reading the whole thing turned up what no
+keyword sweep had asked for, including REA's own system code (bff › The subsystem code), the container
+ports, the deploy scripts and 伍's 適用範圍. The excerpts were pruned; `git log -- docs/rea/sources`
+keeps them and their blobs.
 
-Ingesting all 367 pages was weighed and refused: it would add 47 automatic pictures for pages nobody
-cites, and re-point some 150 line citations in this module and bff, for content already covered.
+The one thing the whole-document extract does not hold is the text of the four federation code screens,
+pages 52–55: PDFKit finds no text layer there and OCR runs only when a whole file needs it. Their
+pictures carry the content (› Architecture).
 
 ## Rulings for the review of the ui
 The owner's, in session 2026-09-21. They fix how `REA_UI` is read against this regulation.
 - **Subject.** The review reads `REA_UI` on `develop`, at the commit `./workspace.sh cite` prints when
   it starts (`REA_UI@5721638` on 2026-09-21).
 - **jQuery is banned for the ui.** The whitelist's `jquery <=3.7.1` covers the whole project's
-  libraries; the front-end chapter's ban (S L326) governs a front-end project.
+  libraries; the front-end chapter's ban (R L928) governs a front-end project.
 - **Versions follow the whitelist.** It is kept up to date, so where it is newer than the chapter, as
-  with Vite (whitelist `<=7.1.12`, chapter 6.0.0, S L335), the whitelist decides.
+  with Vite (whitelist `<=7.1.12`, chapter 6.0.0, R L937), the whitelist decides.
 - **The BFF is a separate rea project**, in its own repository, and `REA_kernel` is not it. Not built
   yet: module bff, plan bff.
 - **附件二 is in scope**, second in priority to the BFF: module nhia-ui-design, plan
@@ -123,78 +120,80 @@ The owner's, in session 2026-09-21. They fix how `REA_UI` is read against this r
   view only, and is imported nowhere. Converting it is plan federation-remote.
 - **The BFF is written in Node.js** (2026-09-21), which brings 附件五 into force for it (module bff).
 
-## Architecture (S L16–65, L456–605)
+## Architecture (R L618–667, L1058–1207)
 - The front end is a UI layer only: no core business logic, no direct call to a backend API; every
-  datum comes through a BFF (Backend For Frontend) (S L20–24).
+  datum comes through a BFF (Backend For Frontend) (R L622–626).
 - API calls use relative paths `/api/**` only; no IP, domain or real backend address in code or in an
-  environment file (S L53–55). The ui calls `/api/...`, uses axios or fetch with one error handler, and
-  keeps BFF results in Pinia (S L548–550).
+  environment file (R L655–657). The ui calls `/api/...`, uses axios or fetch with one error handler, and
+  keeps BFF results in Pinia (R L1150–1152).
 - The BFF (Node.js/.NET; Express, NestJS, .NET 8 Web API or Spring Boot named) aggregates, reshapes, checks
-  permissions and caches (S L556–564). It is its own repository: for a subsystem `IMSNC` the repository
-  `IMSNC-BFF`, project `Med3BFF.IMSNC` (S L602–605). Deployment: the SPA to a CDN, the BFF to its server,
-  the backend services on their own (S L597–600).
-- Micro-frontends by Module Federation (the prose says Webpack 5, S L460; the screens use
-  `@originjs/vite-plugin-federation`, C L34, L103): the shell provides layout and shell functions only,
-  subsystems build and deploy on their own and may not depend on each other (S L61–63).
-- The wiring in the screens (C): a subsystem exposes `./src/router/subSystemRouter.js` — a route array
-  the shell mounts under its `subSystem` path — not its vue-router (C L12–26, L44, S L498–500); shell
-  name `Nhivue.main` on port 5100, the sample subsystem `hmai4000` on 5102 with `filename
-  remoteEntry.js` (C L40–41, L49, L109, L121); `vue`, `vue-router`, `pinia` shared as singletons (C L45,
-  L116); the shell also exposes `./store` and `./V1/components`, `./V2/components` (C L112–114).
+  permissions and caches (R L1158–1166). It is its own repository: for a subsystem `IMSNC` the repository
+  `IMSNC-BFF`, project `Med3BFF.IMSNC` (R L1204–1207). Deployment: the SPA to a CDN, the BFF to its server,
+  the backend services on their own (R L1199–1202).
+- Micro-frontends by Module Federation (the prose says Webpack 5, R L1062; the screens use
+  `@originjs/vite-plugin-federation`): the shell provides layout and shell functions only, subsystems
+  build and deploy on their own and may not depend on each other (R L663–665).
+- The wiring is shown only as screenshots of code, pages 52–55, which carry no text layer: read the
+  pictures `R.p52`–`R.p55`. A subsystem exposes `./src/router/subSystemRouter.js`, a route array the
+  shell mounts under its `subSystem` path, not its vue-router (`R.p52`, and R L1100–1102 in the prose);
+  the shell is named `Nhivue.main` on port 5100, the sample subsystem `hmai4000` on 5102 with `filename
+  remoteEntry.js` (`R.p53`, `R.p55`); `vue`, `vue-router`, `pinia` are shared as singletons, and the
+  shell also exposes `./store`, `./V1/components` and `./V2/components` (`R.p55`). An OCR of those four
+  pages was taken on 2026-09-18 and dropped when the whole document was ingested; `git log` keeps it.
 
-## Project layout and conventions (S L25–141)
+## Project layout and conventions (R L627–743)
 - `public/` holds images and icons; `src/` holds `api/modules/<name>/{types,index}.js`, `layouts/`,
-  `router/`, `utils/` (S L25–42). `auth/`, `components/`, `composables/`, `helpers/`, `layouts/`,
-  `router/`, `utils/` are shared and changed only by application and architecture review (S L45–51, L56–58).
-- Naming: files kebab-case, components PascalCase, variables and methods camelCase (S L73–75). A
-  standard CRUD is split into `edit`, `form`, `list`, `table` (S L80–85). Reused components are
-  wrapped once under `components/` (S L76–79), shared ones in `components/common` and `components/base`
-  (S L109–112).
+  `router/`, `utils/` (R L627–644). `auth/`, `components/`, `composables/`, `helpers/`, `layouts/`,
+  `router/`, `utils/` are shared and changed only by application and architecture review (R L647–653, L658–660).
+- Naming: files kebab-case, components PascalCase, variables and methods camelCase (R L675–677). A
+  standard CRUD is split into `edit`, `form`, `list`, `table` (R L682–687). Reused components are
+  wrapped once under `components/` (R L678–681), shared ones in `components/common` and `components/base`
+  (R L711–714).
 - Element Plus is the UI kit: its layout and grid (`el-container`, `el-row`, `el-col`), its standard
   components (`el-table`, `el-form`, `el-dialog`, `el-tabs`), its Dialog for pop-up messages; no hand-made
-  modal, select or pagination (S L59, L87–88, L105–108). Styles in SCSS under `styles/`; customise by SCSS
+  modal, select or pagination (R L661, L689–690, L707–710). Styles in SCSS under `styles/`; customise by SCSS
   or CSS variables, theme config or class extension, never by editing Element Plus or `node_modules`;
-  SFC styles `scoped` with namespaced classes; no global override of the kit (S L89–103, L139–142).
-- Composition API and one-way data flow; no direct DOM access (`document.getElementById`, jQuery) (S
-  L113–119).
-- Fields: a required field carries `class="required"` and a red `*` (S L121–122). Colours: label
-  `#666666` optional, `#FF0000` required; content `#000000`; hint `#909090`; page background `#FFFFFF` (S
-  L124–131). Layout: three columns; a label never wraps; one half-width space between label and field (S
-  L133–135). Permission: allowed but not operable → locked; not allowed → not shown (S L137–138).
+  SFC styles `scoped` with namespaced classes; no global override of the kit (R L691–705, L741–744).
+- Composition API and one-way data flow; no direct DOM access (`document.getElementById`, jQuery) (R
+  L715–721).
+- Fields: a required field carries `class="required"` and a red `*` (R L723–724). Colours: label
+  `#666666` optional, `#FF0000` required; content `#000000`; hint `#909090`; page background `#FFFFFF` (R
+  L726–733). Layout: three columns; a label never wraps; one half-width space between label and field (R
+  L735–737). Permission: allowed but not operable → locked; not allowed → not shown (R L739–740).
 
-## Validation (S L143–270)
+## Validation (R L745–872)
 - Front and back validate the same; length, special-character and RegEx checks; one validation module in
   the shell (`src/utils/validate.js`) that subsystems take through Federation; no page re-implements a rule
-  (S L144–151).
+  (R L746–753).
 - Dates are ROC years, `YYY/MM/DD` or `YYYMMDD`, year-month `YYY/MM` or `YYYMM`; format, existence, leap
   year and a system-date ceiling are checked; functions `validateDate`, `validateYearMonth`,
-  `validateSysDate`, `validateSysMonth`, `isLeapYear`, `isValidRocDate` (S L153–175).
+  `validateSysDate`, `validateSysMonth`, `isLeapYear`, `isValidRocDate` (R L755–777).
 - Named functions also for email (`checkEmail`, typo and domain filters), password (`checkPassword`,
   6–15 alphanumerics), ID and residence numbers (`validateTaiwanId`, check digit), 統一編號 (`isValidGUI`,
   8 digits, the 7th-digit-7 rule), numbers (`isDigit`, `isDigitOnly`, `isInteger`, `isNumeric`,
   `checkNumber`, `checkTime`) and byte length (`getByteLength`, `validateByteLength`, `hasSpecialChar`,
-  `isEnglish`; ASCII = 1, CJK = 2) (S L176–239).
+  `isEnglish`; ASCII = 1, CJK = 2) (R L778–841).
 - Field data types `C(n)` 中文, `S(n)` 特殊中文字, `A(n)` 英數, `P(n)` 純數字, `D` 日期, `ID` 身分證, `N(p,s)`
   數值, `M(p,s)` 金額, parsed by `parseDataType` and applied by a `vDataType` directive on mounted/updated,
-  which focuses an invalid field; no directive written in a page, no page-level `keyup` validation (S
-  L240–263).
+  which focuses an invalid field; no directive written in a page, no page-level `keyup` validation (R
+  L842–865).
 - Error messages are centralised, shown with Element Plus components, never `alert()`; required, format,
-  length and system-limit errors are distinguished (S L264–270).
+  length and system-limit errors are distinguished (R L866–872).
 
-## Tooling, tests, security (S L271–341)
+## Tooling, tests, security (R L873–943)
 - ESLint (`eslint-plugin-vue`) with Prettier; Pinia for state; Vue Router with dynamic `import()`;
-  `v-memo`; import only the components used (S L272–287). Tests: the document's own unit-test chapter,
-  not in this excerpt (S L304).
+  `v-memo`; import only the components used (R L874–889). Tests: the document's own unit-test chapter,
+  not in this excerpt (R L906).
 - Environment: Node.js v23.6.1, Vue 3 v3.5.13 + Vite 6.0.0, VS Code; no package installed without the
-  architect (licensing); libraries from the whitelist (S L331–341).
+  architect (licensing); libraries from the whitelist (R L933–943).
 - Security: no `eval()`, no `innerHTML` injection, every input validated, XSS and injection prevented,
-  no sensitive data in LocalStorage, tokens held by the BFF (S L305–311).
-- The mandatory list (S L312–329): BFF only; no hard-coded backend address; micro-frontends do not pollute
+  no sensitive data in LocalStorage, tokens held by the BFF (R L907–913).
+- The mandatory list (R L914–931): BFF only; no hard-coded backend address; micro-frontends do not pollute
   each other; CSS scoped; front/back validation equal; no self-installed packages; the colour codes;
   permission control; unit tests; axios not AJAX; no jQuery; no page-level validation; the shared
   validate module; the `vDataType` directive.
 
-## The shared UI frame (S L343–455)
+## The shared UI frame (R L945–1057)
 Every screen is the shared frame (下載專區, 聯絡窗口, 網路地圖, 網路使用說明, 資安專區, a left menu, a footer)
 around a subsystem work area; the excerpt shows the Internet, VPN and 醫事人員溝通平台 variants as mock-ups
-(S L345–453). Where REA sits in this frame is not stated.
+(R L947–1055). Where REA sits in this frame is not stated.

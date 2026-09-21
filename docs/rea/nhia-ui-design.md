@@ -2,14 +2,14 @@
 
 附件二「三代醫療系統介面設計規範」of the NHIA development regulation V2.0: the screen-level rules the
 front-end chapter defers to for style (nhia-frontend-standard › The whole regulation). Thirty-nine
-numbered items, PDF pages 307–315. Source `X` =
-`docs/rea/sources/2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md@2f916184d583`;
-the pictures `X.p11` … `X.p19` beside it hold the 圖例, and items 32, 34, 35 and 39 exist only as
-pictures. It rests on three 2025 meetings about the 署內 (INTRA) screen template (X L82–88). Owner's
+numbered items, PDF pages 307–315, cited as `R` =
+`docs/rea/sources/2026-09-21-nhia-his3-dev-standard-v2-full-p1-367.pdf.md@2bfefa3770d5` L7311–7500. The
+pictures `R.p307` … `R.p315` beside it hold the 圖例, and items 32, 34, 35 and 39 exist only as pictures.
+It rests on three 2025 meetings about the 署內 (INTRA) screen template (R L7312–7318). Owner's
 ruling, 2026-09-21: in scope for `REA_UI`, after the BFF; the comparison is plan ui-design-conformance.
 Whether `REA_UI` meets any item is not assessed here.
 
-## Shared rules and the frame (items 1–8, X L90–127)
+## Shared rules and the frame (items 1–8, R L7320–7357)
 - 1–2. Button names are governed: they come from a data dictionary; a new name is applied for, with a
   screenshot, and approved by the 科長 before use.
 - 3. At browser zoom up to 150 %, field labels still do not wrap.
@@ -23,7 +23,7 @@ Whether `REA_UI` meets any item is not assessed here.
   ruled on 2026-09-21 that the ui is a subsystem the shell loads (nhia-frontend-standard › Rulings).
   The ui's own `DefaultLayout.vue` frame is what that ruling makes redundant.
 
-## Work area (items 9–22, X L128–165)
+## Work area (items 9–22, R L7358–7395)
 - 9. Background white `#FFFFFF`. 10. Three-column layout as the principle. 11. Labels do not wrap.
   12. One half-width space between label and field.
 - 13. Optional label dark grey `#666666`. 14. Required label with a leading half-width `*`, label and
@@ -36,20 +36,20 @@ Whether `REA_UI` meets any item is not assessed here.
 - 21. Years are ROC years. 22. Deleting asks first, 【確認】 deletes and 【取消】 cancels. The text says
   「alert 確認視窗」; the front-end chapter bans `alert()`, so this is the dialog of item 38.
 
-## Buttons (items 23–25, X L166–190; X.p14, X.p15)
+## Buttons (items 23–25, R L7396–7420; R.p310, R.p311)
 - All: rounded rectangle, 142 × 42 px by default.
 - 23. Enabled: white `#FFFFFF`, border and text `#16858D`, text only, no icon.
 - 24. Focused: fill and border `#16858D`, text `#FFFFFF` bold, no icon.
 - 25. Disabled: fill `#E2E4E5`, border and text `#8C8E90`, a padlock icon left of the name.
 
-## Date and time (items 26–31, X L191–216; X.p16)
+## Date and time (items 26–31, R L7421–7446; R.p312)
 - 26. Dates display `YYY/MM/DD`, zero-padded: `097/02/01`. 27. Times display `HH:MM:SS`, 24-hour.
 - 28. A date field takes the picker or typing `YYYMMDD`, then shows `YYY/MM/DD`. The picture is an ROC
   calendar headed 「民國 114年 七月」.
 - 29. A year field takes the picker or typing `YYY`. 30. A month field takes the picker or typing `MM`.
 - 31. A time field has no clock picker; input `HH:MM`, 24-hour, with a placeholder.
 
-## Inputs, selects, dialogs, paging (items 32–39, X L217–270; X.p16–X.p19)
+## Inputs, selects, dialogs, paging (items 32–39, R L7447–7500; R.p312–R.p315)
 - 32. Input: picture only, a plain rounded box.
 - 33. The select arrow always points down, open or closed.
 - 34. Radio, picture only: a filled teal circle, labels to the right, options in a row.

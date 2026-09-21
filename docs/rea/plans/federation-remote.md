@@ -30,7 +30,7 @@ subsystem expose — present since the first commit, listing only the Payment vi
    the routes in `src/router/index.js` that exist only to host them. `src/main.js` keeps a stand-alone
    entry for `npm run dev` with the mock, or the repo documents how to run it against the shell.
 5. Styles are namespaced so nothing leaks into the shell: `scoped` in every SFC, no global override of
-   Element Plus (S L63–64, L139–142).
+   Element Plus (R L665–666, L741–744).
 6. Tests: the existing `vitest` suite keeps passing, plus a test that the exposed route array matches
    the views it names.
 
