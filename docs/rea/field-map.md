@@ -115,22 +115,7 @@ rule-codes。被多個子群組共用的欄位只有一個值，只列一次。
 | `Department` | `department` | 就醫科別 | `Operator`, `DepartmentOptions` |
 | `Robotic` | `robotic` | 僅機械手臂輔助手術 | `RoboticOption` |
 
-### 末層選項的來源
-
-每個 condition 底下的欄位只有三種來源（`REA_kernel@458e663 Codes/V1.0/_101.cs`，行號為該檔；五條
-`OptionsApi` 路徑在二十個 code 檔的 `Conditions` 內各出現一次，完全一致）：
-
-| 來源 | 欄位 |
-|---|---|
-| **資料表** Oracle `PXXT_CODE`，以 `SUB_SYS`/`DATA_TYPE` 取（rea-kernel › Where the 檢核範圍 menu comes from） | `CaseTypeOptions` `PBA/{Category}` `:72-79`；`LevelOptions` `QRD/003` `:101-105`；`HospCodeOptions` `PBA/{Category}` `:142-146`；`OrderTypeOptions` `PBA/132` `:170-174`；`RelModeOptions` `PBA/131` `:198-202`；`DepartmentOptions` `PXX/997` `:632-636` |
-| **寫死** `Options = [...]` | 各處 `Operator`（包含／不包含）；`CaseType.Category`（101 門診西醫、104 住診 `:60-66`）；`HospCode.Category`（011／012／013 `:129-136`）；三碼型的 `Category` 輸入方式（01 代碼、02 開頭、03 開頭範圍；`TreatmentArea` 多 04 群組 `:374-381`）；兩個 `FilterOptions`（`:226-232`, `:550-557`）；`TreatmentArea.GroupOption`（群組一～三 `:424-431`）；`Age` 的 `ReferenceDates`、`OperatorMin`、`OperatorMax`、`Unit`（`:441-496`）；`Robotic.RoboticOption`（是／否 `:647-653`） |
-| **無選項，使用者輸入** | `Codes`、`InputPrefix`、`RangeStart`、`RangeEnd`（`SubMainDiagnosisCode`、`PartCode`、`TreatmentArea`、`TreatmentItems`）；`AssociatedItems.Codes`；`Age.Min`／`Max` |
-
-- `{Category}` 由寫死的 `Category` 值代入，所以 `PBA/101`、`PBA/104`、`PBA/011`…的 `DATA_TYPE` 清單本身也是寫死的，
-  只有其下的代碼列來自資料表。
-- 輸入的代碼（診斷碼、部分負擔代碼、醫令代碼）沒有任何對照表：`IOptionSL` 只被 Options controller 使用，
-  沒有 validator 以 `PXXT_CODE` 或其他表檢查存入的值。
-- 已部署環境走 Oracle 還是 `MockOptionSL` 未查證；`appsettings.json:9-11` 的 `MockData:Enabled` 預設 `false`。
+各條件的中間輔助層、最末層與其資料來源（資料表、寫死、使用者輸入）：scope-conditions。
 
 ## 沒有對應的名字
 
