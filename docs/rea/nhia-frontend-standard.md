@@ -18,17 +18,28 @@ code screenshots with no text layer.
 
 Needed, because 肆 points to them or the ui is written under them:
 - **肆 前端(Vue3)開發規範**: `S`, this module.
-- **陸 二 前端單元測試** (p212–224): `2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.md@93f137f4ed5c`
-  L18–457. 肆 六 defers to it, and unit tests are on the mandatory list (S L304, L321). Its login test
+- **陸 二 前端單元測試** (p212–225): `2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-225.pdf.md@dce221a79da2`
+  L18–483. 肆 六 defers to it, and unit tests are on the mandatory list (S L304, L321). Its login test
   fixture carries a user and password; the owner confirms both are samples (2026-09-18).
 - **壹拾參 二 三代醫療系統介面設計規範** (p307–315): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md@2f916184d583` L81–274.
   This is the 附件二 that 肆 defers to for style (S L344).
-- **壹拾參 六 JavaScript 開發規範** (p349–355): `2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.md@49bf8e320d1b` L12–95.
+- **壹拾參 六 JavaScript 開發規範** (p349–356): `2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.md@f07373fe74b0`
+  L12–103. Its last rule: unit tests are written in Vue 3, not separately in JavaScript (L101–103).
 - **壹拾參 四 錯誤及返回代碼規劃** (p333–336): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L799–901. These are the codes
   the ui shows, and 肆 三 (9) sets how (S L263–270).
 - **壹拾參 三 日誌 Log 規範** (p316–332): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L275–798.
 - **壹拾參 一 開發環境安裝** (p297–306): `2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md` L13–80. It holds the Vue 3 setup and
   the VS Code extension list that 肆 九 3 names and leaves empty (L17, L28; S L336).
+- **伍 四 (一) 8 API 命名** (p114–118): `2026-09-21-nhia-his3-dev-standard-v2-api-naming-p114-118.pdf.md@5913a834c570`
+  L21–84. RESTful methods, nouns not verbs, and one screen's front end against one backend controller
+  (L31–34) — the shape a BFF route inherits.
+- **伍 七 DTO / Validation / ViewModel** (p169–184):
+  `2026-09-21-nhia-his3-dev-standard-v2-dto-validation-p169-184.pdf.md@d46ff8f38c01` L11–248. A response
+  DTO returns only the fields the front end needs (L142–146), and back-end validation must mirror the
+  front end's (L220–226). Both bind what the BFF returns.
+- **The document itself** (p1–3): `2026-09-21-nhia-his3-dev-standard-v2-cover-revisions-p1-3.pdf.md@a6bc3475e927`
+  L12–60. Document number `K1130690496-PDG-11506V2.0`, 資拓宏宇國際股份有限公司, 115/6/29 (2026-06-29),
+  and the revision history from V0.1 to V2.0. This is what dates the version in force.
 - **貳 三 版本管理(Git)** (p18–22): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md@94b087e18a61` L190–312.
 - **壹 四 開發文件規範** (p12–17): `2026-09-18-nhia-his3-dev-standard-v2-overview-git-p11-22.pdf.md` L20–170.
 - **The 程式庫白名單** is a separate document, not part of the regulation. 肆 and 附件一 defer to it (S
@@ -41,10 +52,19 @@ Needed, because 肆 points to them or the ui is written under them:
   <=9.39.1`, `@originjs/vite-plugin-federation <=1.4.1` (L5470, L5462, L5468, L4193, L3876, L4967, L5482,
   L5387, L4227, L3143). Two conflicts with 肆: the list admits `jquery <=3.7.1` (L4600), which 肆 bans
   (S L326); and it admits Vite up to 7.1.12, where 肆 names 6.0.0 (S L335).
-- **The five-character subsystem code** is required, by 伍 四 (一) 2–3 (p110–111) and 伍 五 (十二)
-  (p143): `2026-09-21-nhia-his3-dev-standard-v2-project-naming-p110-113-p143.pdf.md@e826f7067352`
-  L48–73, L144–149. It names the front-end project, every Vue page and the BFF (module bff › The
-  subsystem code).
+- **The five-character subsystem code.** Owner's question, 2026-09-21: the rule sits in 伍, the C#
+  chapter, so is the ui exempt? Partly. `N` =
+  `2026-09-21-nhia-his3-dev-standard-v2-project-naming-p110-113-p143.pdf.md@e826f7067352`.
+  - The BFF needs it whatever 伍 says: its repository `<code>-BFF` and project `Med3BFF.<code>` are
+    named in 肆 十一 5, the front-end chapter itself (S L601–604). So do the deploy scripts, which take
+    「子系統名稱(5 碼)」 for the Vue app as well as the API
+    (`2026-09-18-nhia-his3-dev-standard-v2-containers-cicd-p246-260.pdf.md@be9db46b3ab5` L116–117).
+  - Whether it binds `REA_UI`'s own project and file names is unsettled. 伍 四 (一) 2 (3) 「前端專案
+    命名規則」 does name them, `Med3Vue.IMSNC` and `IMSNC1001S01.vue` (N L48–50), and 肆 itself says
+    naming is settled by the 命名原則 (S L72). But the next line of 肆 requires kebab-case files such
+    as `user-profile.vue` (S L73), which `IMSNC1001S01.vue` is not. The two rules cannot both hold.
+    A ruling is needed; `REA_UI` follows 肆 today (`Payment.vue`, `RuleEditorDialog.vue`).
+  - Not a blocker for reviewing `REA_UI`. It blocks only the BFF's repository name (plan bff step 1).
 - **壹拾參 五 Node.js 開發規範** (p337–348): `2026-09-21-nhia-his3-dev-standard-v2-nodejs-p337-348.pdf.md@987fa90cdd98`
   L12–301. It governs the BFF, not the ui (module bff › What 附件五 asks of a Node.js BFF).
 - **The 命名原則 is 伍 五 命名規範** (p130–141): `2026-09-18-nhia-his3-dev-standard-v2-naming-p130-141.pdf.md@6071d9d8bdc5` L35–184 for 通用命名規範.
@@ -63,6 +83,23 @@ Context, read for the ui's place in the system rather than checked line by line:
 
 Not needed for the ui: 參 微服務; the rest of 伍 (C#); 陸 三; 壹拾 批次; 壹拾壹 資料庫; 壹拾貳 Java; and
 壹拾參 七–十 (JSP, Ruby, Go, Python).
+
+## Coverage of the regulation
+The full document is 367 pages, `sha256
+cf804534659a22d781ce0768c75784d8ed3b6d961b4d2b82e68d034dc9f630d2`, kept by the owner outside the
+workspace. Ingested are the parts above, PDF pages 1–3, 11–22, 30–58, 72–88, 110–118, 130–141, 143,
+169–184, 212–225, 235–260, 297–356. The rest is C# implementation, batch, database, Java, JSP, Ruby, Go
+and Python, none of which binds a Vue front end or its BFF.
+
+The parts were chosen by heading from the full text, then audited on 2026-09-21 by sweeping every page
+outside them for 前端, Vue, 畫面, 瀏覽器, JavaScript, CSS, 元件 and 使用者介面. The sweep found what
+cutting by heading misses, and all of it is now ingested: two sections whose tails ran onto the next
+page (前端單元測試 to p225, JavaScript to p356) and three rules living in back-end chapters (API naming
+p114–118, DTO and validation p169–184, the revision history p1–3). Repeat that sweep before trusting
+coverage for a new question; cut to the next heading, not the next page break.
+
+Ingesting all 367 pages was weighed and refused: it would add 47 automatic pictures for pages nobody
+cites, and re-point some 150 line citations in this module and bff, for content already covered.
 
 ## Rulings for the review of the ui
 The owner's, in session 2026-09-21. They fix how `REA_UI` is read against this regulation.
@@ -83,7 +120,7 @@ The owner's, in session 2026-09-21. They fix how `REA_UI` is read against this r
   `src/layouts/DefaultLayout.vue`) behind its own nginx; the federation plugin is a dependency
   (`package.json:33`) that `vite.config.js` never loads; and `src/router/subSystemRouter.js`, the file
   the regulation has a subsystem expose, is there from the first commit (`f7a2f0f`), lists the Payment
-  view only, and is imported nowhere.
+  view only, and is imported nowhere. Converting it is plan federation-remote.
 - **The BFF is written in Node.js** (2026-09-21), which brings 附件五 into force for it (module bff).
 
 ## Architecture (S L16–65, L456–605)

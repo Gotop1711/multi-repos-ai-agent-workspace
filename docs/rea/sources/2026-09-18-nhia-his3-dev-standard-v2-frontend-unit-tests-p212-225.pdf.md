@@ -1,12 +1,12 @@
 ---
-source: docs/assets/rea/2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf
-sha256: 3135b3e87e43935b324eb7320038955c07c2510651177f9237dd29be89f9658a
-bytes: 680984
+source: docs/assets/rea/2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-225.pdf
+sha256: 23e8aebf59cc57a66c3d47781bec46434ffd43002c32b27b3de02f90b7c07f9a
+bytes: 684500
 extractor: pdfkit
 status: ok
-received: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf
-pictures: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.p2.jpg 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.p3.jpg
-secret_review: waived 2026-09-18
+received: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-225.pdf
+pictures: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-225.pdf.p2.jpg 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-225.pdf.p3.jpg
+secret_review: waived 2026-09-21
 ---
 <!-- page 1 -->
 「第三代醫療資訊系統建置案」開發規範
@@ -40,7 +40,7 @@ environment: "jsdom",
 coverage:{
 all:true,
 204
-<!-- page 2 · picture: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.p2.jpg -->
+<!-- page 2 · picture: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-225.pdf.p2.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 provifr:'v8',
 reporter:['text','json','html']
@@ -62,7 +62,7 @@ test: vitestConfig.test,
 (5) 使用管理者權限開啟 powershell
  執行 npm run test
 205
-<!-- page 3 · picture: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-224.pdf.p3.jpg -->
+<!-- page 3 · picture: 2026-09-18-nhia-his3-dev-standard-v2-frontend-unit-tests-p212-225.pdf.p3.jpg -->
 「第三代醫療資訊系統建置案」開發規範
  執行 npm run coverage
 (6) 專案內的 coverage 資料夾 / index.html 可以看到
@@ -455,3 +455,35 @@ ELEMENT: 1,
 ATTRIBUTE: 6,
 })
 216
+<!-- page 14 -->
+「第三代醫療資訊系統建置案」開發規範
+if (node.type === NodeTypes['ELEMENT']) {
+node.props = node.props.filter((prop) => (prop.type ===
+NodeTypes['ATTRIBUTE'] ? prop.name !== 'data-test' : true)) // 請自行
+替換命名 data-test
+}
+}
+export default defineConfig(() => {
+return {
+plugins: [
+vue({
+template: {
+compilerOptions: {
+nodeTransforms: isProd ? [removeDataTestAttrs] : [],
+},
+},
+}),
+]
+}
+})
+(五) 補充資料
+1、https://blog-lara.vercel.app/2022/12/01/vite_unit_test/
+2、https://cn.vitest.dev/guide/projects.html
+3、https://cn.vitest.dev/guide/projects.html
+4、https://cn.vitest.dev/guide/cli.html#coverage-reporter
+三、後端單元測試
+(一) 測試框架
+ xUnit
+(二) 測試相關套件
+ Moq
+217

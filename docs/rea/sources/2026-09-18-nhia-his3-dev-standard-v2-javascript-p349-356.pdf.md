@@ -1,13 +1,13 @@
 ---
-source: docs/assets/rea/2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf
-sha256: fc922c1b9b1dbb5b389cdf2dd61ae69ad39e864e156983c864ba8882cff974b1
-bytes: 683658
+source: docs/assets/rea/2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf
+sha256: 75aa6c8edcd64b14f14019286c06db59a3d8faf100ba1898f39e6f5036589bf8
+bytes: 694880
 extractor: pdfkit
 status: ok
-received: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf
-pictures: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p1.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p2.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p3.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p4.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p5.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p6.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p7.jpg
+received: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf
+pictures: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p1.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p2.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p3.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p4.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p5.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p6.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p7.jpg 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p8.jpg
 ---
-<!-- page 1 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p1.jpg -->
+<!-- page 1 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p1.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 六、JavaScript 開發規範
 (一) 代碼格式化
@@ -20,7 +20,7 @@ pictures: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p1.jpg 20
 (1) 字符串統一使用單引號，除非字符串內包含單引號
 (2) 模板字符串使用反引號
 341
-<!-- page 2 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p2.jpg -->
+<!-- page 2 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p2.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (二) 變數聲明
 1、使用 const 和 let
@@ -33,7 +33,7 @@ pictures: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p1.jpg 20
 (三) 函數定義
 1、函數命名
 342
-<!-- page 3 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p3.jpg -->
+<!-- page 3 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p3.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (1) 使用 camelCase
 (2) 函數名應該是動詞或動詞短語
@@ -47,7 +47,7 @@ pictures: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p1.jpg 20
 (1) 使用簡寫語法
 (2) 保持一致的屬性排列
 343
-<!-- page 4 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p4.jpg -->
+<!-- page 4 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p4.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 2、解構賦值
 適當使用解構賦值提高代碼可讀性
@@ -56,7 +56,7 @@ pictures: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p1.jpg 20
 (1) 對可能出錯的代碼使用 try-catch
 (2) 提供有意義的錯誤信息
 344
-<!-- page 5 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p5.jpg -->
+<!-- page 5 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p5.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (六) 非同步程式設計
 1、Promise 和 async/await
@@ -65,7 +65,7 @@ pictures: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p1.jpg 20
 (七) 註解和文件說明
 1、JSDoc 註解
 345
-<!-- page 6 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p6.jpg -->
+<!-- page 6 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p6.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (1) 為公共函數添加 JSDoc 註釋
 (2) 描述參數類型和返回值
@@ -77,7 +77,7 @@ pictures: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p1.jpg 20
 (1) 使用模塊化組織代碼
 (2) 避免污染全域命名空間
 346
-<!-- page 7 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-355.pdf.p7.jpg -->
+<!-- page 7 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p7.jpg -->
 「第三代醫療資訊系統建置案」開發規範
 (九) 程式碼結構
 1、模組化
@@ -93,3 +93,23 @@ src/
 └── types/
 1、避免常見安全問題
 347
+<!-- page 8 · picture: 2026-09-18-nhia-his3-dev-standard-v2-javascript-p349-356.pdf.p8.jpg -->
+「第三代醫療資訊系統建置案」開發規範
+(1) 驗證和清理用戶輸入
+(2) 避免使用 eval()
+(3) 防止 XSS 攻擊
+(十一) 測試
+1、單元測試
+在 Vue3 進行單元測試，在 JavaScript 不另外進行單元測試。
+七、JSP 開發規範
+(一) 前言: 本規範須符合三代專案整體要求，並配合既有 Java 開發規
+範，確保專案程式碼具備一致性、可維護性與可讀性。
+(二) 一般命名規則
+1、JSP 檔案使用.jsp 副檔名，命名方式採用小駝峰
+(camelCase)。
+2、命名應具備可讀性、語意性，避免使用簡寫、縮寫。
+類型 命名方式 範例 備註
+JavaScript 變數 camelCase，小駝峰 loginCount
+使用具描述性的名稱，避
+免使用單字母變數
+348

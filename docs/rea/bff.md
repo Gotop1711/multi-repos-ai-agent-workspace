@@ -81,8 +81,11 @@ Owner's question, 2026-09-21: is a five-character code required? It is. Source `
   (`2026-09-18-nhia-his3-dev-standard-v2-appendices-1-4-p297-336.pdf.md@2f916184d583` L408).
 - REA's code is not in the regulation; it is assigned, so it comes from NHIA. Inferred only: `REA` +
   `N` (the 署內 shell) + `C` (the kernel is C#; the example reuses the C# code `IMSNC` for the Vue and
-  BFF projects) would read `REANC`. `REA_UI` does not follow the rule today: the project is not named
-  `Med3Vue.<code>` and its pages are `Payment.vue`, `RuleEditorDialog.vue`.
+  BFF projects) would read `REANC`.
+- What it binds, and what is disputed: the BFF's repository and project names come from 肆 十一 5, the
+  front-end chapter (S L601–604), so the code is needed here whatever 伍 governs. Whether it also
+  renames `REA_UI`'s project and pages is unsettled, because 肆 requires kebab-case files
+  (nhia-frontend-standard › Rulings — The five-character subsystem code).
 
 ## What 附件五 asks of a Node.js BFF
 The owner chose Node.js on 2026-09-21. Source `J` =
