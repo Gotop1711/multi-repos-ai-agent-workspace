@@ -14,14 +14,18 @@ remove the whole `docs/` directory.
   CI builds production mode, no production deploy job, the Payment route is untested locally).
 - `plan new rea ui-docs-removal`: `git rm -r docs/`, `README.md:121-122`, `.dockerignore:3`.
   Draft, Writes `REA_UI (develop)`, because the owner checked out `develop` during the session.
+- Owner signed (Writes `REA_UI (develop)`). Shipped `REA_UI@a024004` on `develop`: `docs/` removed
+  (5 files), `README.md`'s analysis pointer and `.dockerignore`'s `docs/` line dropped; the plan's
+  `git grep` finds nothing. Not pushed.
 
 ## Decisions & pitfalls
-- No write to `REA_UI`: the plan is unsigned, so the removal waits for the owner's `Signed:` line.
+- Nothing was written to `REA_UI` until the owner's `Signed:` line; the commit touches only the write set.
+- The module's `.dockerignore` citation moved to `a024004`, the file it describes changed there.
 - The research files were not carried over: nothing in them is a fact about this fleet.
 - `b0cd679`'s subject says the console is dropped "only in production builds"; the code drops it on
   any `vite build`. The module records the code's behaviour, not the commit message's.
 - Only two files reference `docs/`: `README.md` and `.dockerignore`. Checked with `git grep`.
 
 ## TODO
-- Owner: sign plan ui-docs-removal (or name a `debug-*` branch, since a push to `develop` redeploys).
+- Owner: push `REA_UI` `develop` (runs build → deploy → smoke), then `Verified:` on ui-docs-removal.
 - Push `rea` (owner's shell).

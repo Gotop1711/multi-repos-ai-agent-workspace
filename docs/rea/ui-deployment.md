@@ -3,22 +3,22 @@
 How `REA_UI` is packaged, routed and deployed: the Docker image, its nginx, the build modes and the
 GitLab pipeline, and the manual check of the image before a push. Cited at `REA_UI@5721638` (`develop`
 = `debug-ui` = `debug-api`). This module replaces the repository's own `docs/deployment/docker.md`
-(last edited `c96d4d1`, 2026-08-05); every statement of that file was re-checked against the config
-at `5721638` and still holds; what it lacked is added below. Its two neighbours, `research.md` and
-`research-essence.md`, are a general survey of AI agents in infrastructure delivery with no fact about
-this repository, and are not carried over (plan ui-docs-removal; `git show
-5721638:docs/deployment/research.md` re-reads them).
+(last edited `c96d4d1`, 2026-08-05), removed with the whole `docs/` in `REA_UI@a024004`; every
+statement of that file was re-checked against the config at `5721638` and still holds; what it lacked
+is added below. Its two neighbours, `research.md` and `research-essence.md`, were a general survey of
+AI agents in infrastructure delivery with no fact about this repository, and are not carried over
+(`git show 5721638:docs/deployment/research.md` re-reads them).
 
 ## The image
 - Two stages. `node:22.19.0-alpine3.22` runs `npm ci` then `npm run build -- --mode ${VUE_ENV}`, with
   `ARG VUE_ENV=production` (`Dockerfile:1-7`); `build` is `vite build` (`package.json:11`). Then
   `nginx:1.29.3-alpine3.22` gets `dist` at `/dist`, `frontend.conf` as `conf.d/default.conf` and
   `nginx_header.cfg` beside it, exposing 80 (`Dockerfile:9-14`).
-- `.dockerignore` keeps out `README.md`, `docs/`, `.git/`, `.gitignore`, `.gitlab-ci.yml`,
-  `node_modules/`, `dist/`, `coverage/`, editor files and `tests/` (`.dockerignore:1-27`). Two things
+- `.dockerignore` keeps out `README.md`, `.git/`, `.gitignore`, `.gitlab-ci.yml`, `node_modules/`,
+  `dist/`, `coverage/`, editor files and `tests/` (`REA_UI@a024004 .dockerignore:1-26`). Two things
   must stay in the context: `mock/`, because `vite.config.js:10` imports it unconditionally even though
   the plugin runs only under `serve` (`vite.config.js:27`); and `.env.*`, because the build reads
-  `.env.production` (`.dockerignore:15`).
+  `.env.production` (`a024004 .dockerignore:14`).
 
 ## nginx routing (`frontend.conf`)
 - `/api/v1/Payment/` goes to an external Azure App Service host, written out in the file

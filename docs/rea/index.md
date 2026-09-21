@@ -29,4 +29,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [bff](plans/bff.md) — draft: a separate BFF project between the ui and its two backends; the owner names the repository and the stack first
 - [ui-design-conformance](plans/ui-design-conformance.md) — draft: assess, then fix, the ui's screens against 附件二; after the BFF
 - [federation-remote](plans/federation-remote.md) — draft: the ui becomes a Federation remote and drops its own frame; the shell's team must answer first
-- [ui-docs-removal](plans/ui-docs-removal.md) — draft: remove `REA_UI`'s stale `docs/` and the two lines that point to it 
+- [ui-docs-removal](plans/ui-docs-removal.md) — shipped `REA_UI@a024004`: `docs/` and the two lines that pointed to it removed; awaits the owner's check 
