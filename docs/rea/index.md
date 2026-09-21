@@ -14,11 +14,13 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [nhia-ui-design](nhia-ui-design.md) — 附件二 介面設計規範, item by item: frame, colours, buttons, ROC date inputs, dialogs, paging
 - [ui-deployment](ui-deployment.md) — the ui's Docker image, nginx routes, build modes and GitLab pipeline, and the manual image check 
 - [nhia-regulation](nhia-regulation.md) — the NHIA regulation as a whole: the chapters that bind the ui and the BFF, figures that contradict the text, how the source and its pictures are held
+- [declare-verify](declare-verify.md) — the prototype's back end, end to end: authoring endpoints, how a saved rule compiles to a RulesEngine tree (15 rule kinds, 10 scope conditions), the validation job, what surprises
 
 ## Repositories
 - [rea-ui](rea-ui/index.md) — `REA_UI`: run, test, entry points; the owner's `debug-ui` branch
 - [rea-kernel](rea-kernel/index.md) — `REA_kernel` (read-only): where the schema and each code live
 - [rea-proto](rea-proto/index.md) — `REA_PROTO` (read-only): the template that defines the desired forms
+- [rea-proto-be](rea-proto-be/index.md) — `REA_PROTO_BE` (read-only, no upstream): `NhiDeclareVerify` — run, what each mode needs, entry points, storage, who calls it
 
 ## Plans
 - [205-main-fields](plans/205-main-fields.md) — draft: kernel 205 MainFields vs the prototype (four gaps; kernel is read-only, so a request)
