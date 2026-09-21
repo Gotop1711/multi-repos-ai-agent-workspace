@@ -59,8 +59,13 @@ Needed, because 肆 points to them or the ui is written under them:
     otherwise, and `REA_UI` already follows it (`Payment.vue`, `RuleEditorDialog.vue`).
   - The code is still needed twice. The Vue project is deployed by `bash deploy_vue.sh <namespace>
     <部門名稱> <子系統名稱(5 碼)> <route path>`, the example being `med3hi0 hi0 ihkwc IHKE300`
-    (R L6539–6545); and the BFF's repository `<code>-BFF` and project `Med3BFF.<code>` are named by 肆
-    itself (R L1203–1206). It comes from NHIA and blocks plan bff, not the review.
+    (R L6539–6545); and the BFF's project `Med3BFF.<code>` is named by 肆 itself (R L1203–1206). REA's
+    three letters are in the system table (R L261); the program-code rule makes the five `REANC`, to be
+    confirmed with NHIA (bff › The subsystem code). It blocks plan bff, not the review.
+  - Repository names follow none of this. The Git chapter gives the 署內 Intranet one shared
+    `NHI3-intra-Frontend` and per-system `NHI3-intra-Backend-<3 letters>` (R L412–420), another project
+    `INAE0000-*` (R L394–397), and says the layout will change (R L392–393). NHIA names repositories on
+    its own GitHub; `REA_UI`'s name is theirs to confirm.
 - **壹拾參 五 Node.js 開發規範** (p337–348): R L8134–8423. It governs the BFF, not the ui (module bff › What 附件五 asks of a Node.js BFF).
 - **The 命名原則 is 伍 五 命名規範** (p130–141): R L3275–3424 for 通用命名規範.
   It is written for C#. Its one front-end rule is that a required enum treats 0 as unselected and
@@ -90,8 +95,8 @@ Until 2026-09-21 the workspace held fifteen excerpts instead, cut by heading. Th
 which is why the owner had it replaced: a section's tail ran onto the next page and was lost
 (前端單元測試 to p225, JavaScript to p356); rules binding the front end sat inside back-end chapters
 (API naming p114–118, DTO and validation p169–184); and reading the whole thing turned up what no
-keyword sweep had asked for, including REA's own system code (bff › The subsystem code), the container
-ports, the deploy scripts and 伍's 適用範圍. The excerpts were pruned; `git log -- docs/rea/sources`
+keyword sweep had asked for, including REA's own system code (bff › The subsystem code), the Git chapter's
+repository layout, the container-port convention, the deploy scripts and 伍's 適用範圍. The excerpts were pruned; `git log -- docs/rea/sources`
 keeps them and their blobs.
 
 The one thing the whole-document extract does not hold is the text of the four federation code screens,

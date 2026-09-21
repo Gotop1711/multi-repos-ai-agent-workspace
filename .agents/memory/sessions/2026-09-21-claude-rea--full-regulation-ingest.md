@@ -16,10 +16,14 @@ check what the documents and plans already claim — the naming judgement above 
   8003; 伍 claims the BFF while naming .NET 10 against 肆's .NET 8 and 附件五's Node.js; 附件三 Log
   binds back-end developers and SRE, not the ui (corrected in the module).
 
+- Owner's follow-up: `REANC` is the program-code reading (5th char = language), not the database one
+  (5th = DB kind, `REANO`); it reaches the ui's deployment and the BFF's names, not the ui's files, and
+  no repository — the Git chapter names repos its own way (`NHI3-intra-Frontend`). Port 8003 is a
+  convention in the dotnet Dockerfile notes, adjustable by the text itself; bff corrected.
+
 ## Decisions & pitfalls
-- Remapping citations needs the range's *end* remapped too: the first pass left `L61–63` as `L663–63`.
-  Every replacement was printed with the source text of both ends before it was accepted.
-- Page-marker lines are legitimate citation targets; the mapper had to index them.
+- Remapping citations needs the range's end remapped too (a first pass left `L61–63` as `L663–63`);
+  every replacement was printed with both ends' source text before acceptance.
 - The whole-document extract loses the four federation code screens (p52–55): PDFKit finds no text
   layer and OCR only runs when a whole file needs it. Those citations now point at the pictures.
 

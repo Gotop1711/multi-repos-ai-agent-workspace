@@ -18,19 +18,18 @@ proxy change and the removal of backend addresses. Nothing in `REA_kernel`: a to
 side is the regulation's second guard and would be a request of its own.
 
 ## Steps
-1. Before signing: the owner confirms REA's five-character subsystem code with NHIA — the regulation
-   gives `REA` as the system code and the rule for the last two characters, so `REANC` is the reading
-   to confirm (bff › The subsystem code) — hence the repository `<code>-BFF` and the project
-   `Med3BFF.<code>`; and asks
-   the architect whether `zod`, `jest` and `supertest`, which 附件五 names and the whitelist lacks, are
-   admitted. Decided 2026-09-21: Node.js with Express, laid out as 附件五 prescribes (bff › What 附件五
-   asks of a Node.js BFF).
+1. Before signing, three answers from NHIA: the repository's name — the regulation gives three
+   patterns, and NHIA's own GitHub decides (bff › The subsystem code); REA's five-character code, read
+   as `REANC` from the program-code rule, which names the project `Med3BFF.<code>` and its deployment;
+   and the architect's written acceptance of a Node.js BFF, since 伍 claims the BFF for C# (bff › the
+   stack), together with whether `zod`, `jest`, `supertest` are admitted. Decided 2026-09-21: Node.js
+   with Express, laid out as 附件五 prescribes.
 2. Owner creates the repository and adds it to the manifest; `./workspace.sh clone`;
    `./workspace.sh doc add rea <repo>` for its repository doc.
 3. Pass-through BFF: the routes the ui calls today, one to one — `GET /api/v1/RuleSchema`, `GET
    /api/v1/RuleSet` with its `$filter`, `$orderby`, `$top`, `$skip` query passed through, `POST
    /api/v1/RuleSet`, `POST /api/v1/Payment/Item/Get`, `POST /api/v1/Payment/Detail/Get` — with
-   the kernel and Payment addresses as BFF configuration, listening on the project's BFF port 8003, the regulation's error codes and log format,
+   the kernel and Payment addresses as BFF configuration, listening on 8003, the regulation's convention for a BFF container, the regulation's error codes and log format,
    a health route, a Dockerfile, unit tests.
 4. `REA_UI`: `frontend.conf` proxies `/api/` to the BFF only and loses the Payment block and the Azure
    host; `.env.development` points its one proxy target at a local BFF; `vite.config.js` loses the
