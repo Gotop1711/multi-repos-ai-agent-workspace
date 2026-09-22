@@ -1,7 +1,9 @@
 # rea — rea-proto-data-creator-setup
 
 Writes: REA_PROTO_DATA_CREATOR (main)
-Status: draft
+Status: shipped
+Signed: gotop1711 — 2026-09-22
+Shipped: 2026-09-22 — REA_PROTO_DATA_CREATOR@0c6d271 (scaffold), @ef6f040 (schema), @8ba8cfe (302 rule), @321dc12 (build)
 
 ## Goal
 `REA_PROTO_DATA_CREATOR` turns 資料表檔 — Oracle SQL Developer `.csv` exports keyed by 醫令 — into a
@@ -27,7 +29,7 @@ question is answered here.
 every commit is this plan's work. Nothing is written to `REA_PROTO_BE` (read-only) or to the Azure
 host: the tool produces a file; posting it is the owner's, from Swagger or curl.
 
-Assumed until the owner says otherwise at signing: Python ≥ 3.11, standard library only (`csv`,
+Confirmed by the owner at signing (2026-09-22): Python ≥ 3.11, standard library only (`csv`,
 `json`, `tomllib`; `pytest` for tests); the 資料表檔 stay out of git (`data/in/` ignored — exports
 of NHIA tables) and a short, column-faithful sample per table is committed as a fixture; `data/out/`
 ignored; each 採集規則 is one module `rules/r<code>.py` whose docstring is the human-readable rule
@@ -45,7 +47,7 @@ ignored; each 採集規則 is one module `rules/r<code>.py` whose docstring is t
    `referenceDate` fails here, loudly, not in the job. Tests: one accepted and one rejected body per
    rule kind.
 3. `feat: 302 rule` — `rules/r302.py` from `MHCT_PAYLIMIT`'s `LMT_AGE_*` columns as done by hand on
-   2026-09-22, `referenceDate` as the owner answers (at signing, or `Amended:`). Test on the
+   2026-09-22, `referenceDate` = `executionDate` (the owner, at signing). Test on the
    fixture: every selected row becomes an item the validator accepts.
 4. `feat: build` — `python -m data_creator build --in data/in --out data/out/ [--start-date …]
    [--split]`: read every 資料表檔, run every rule, write the rule模組欄位資料檔 (one `.csv` per

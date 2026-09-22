@@ -41,7 +41,7 @@ no authentication.
 
 | Endpoint (`/api/v1/…`) | What it does | Where |
 |---|---|---|
-| `GET UiTemplate/RuleList/Get` | the list of rule kinds | `Controllers/UiTemplateController.cs:20` |
+| `GET UiTemplate/RuleList/Get` | the rule kinds | `Controllers/UiTemplateController.cs:20` |
 | `GET UiTemplate/RulesSpecificSetting/Get` | each rule's 主設定 form | `:45` |
 | `GET UiTemplate/RulesScopeSetting/Get` | the 檢核範圍 form | `:70` |
 | `POST UiTemplate/…/Save` (three) | replace one of those documents | `:95`, `:121`, `:147` |
@@ -99,9 +99,12 @@ root            name = ruleExpr; 且 → And, 或 → Or, 非 → Not, （） �
 ```
 
 - `ruleExpr` and `scopeRuleExpr` share one parser: Chinese operators are replaced, tokens become a
-  placeholder tree with precedence Not > And > Or, then each placeholder is swapped for the real rule
-  carrying the same code or scope id (`Services/Rules/Core/ExpressionParser.cs:15-22`, `:204-213`,
-  `:220-247`).
+  placeholder tree with precedence Not > And > Or, then each placeholder is swapped for the real
+  rule carrying the same code or scope id, one per token; a token with no match (a dropped rule
+  kind, a code named twice) stays a bare placeholder, and a one-code `ruleExpr` skips the parser
+  (`Services/Rules/Core/ExpressionParser.cs:15-22`, `:154-164`, `:204-247`;
+  `RuleExpressionParser.cs:39-49`). `REA_PROTO_DATA_CREATOR` checks bodies for this
+  ([rea-proto-data-creator](rea-proto-data-creator/index.md)).
 - Every leaf is a C# lambda string evaluated against one object named `pbabDtlOrdModel` — the
   declaration (`Services/ValidationJobService.cs:399`). Lists the reviewer picked become a local
   `limitItems` array (`Services/Rules/Core/RuleExpressionHelper.cs:13`).
@@ -243,7 +246,7 @@ Result.RuleLists[]          one per rule kind:
 
 Observed in the code:
 - **`Rule/Save` does not make a rule checkable.** Only `Rule/SaveWork` writes `workflow`
-  (`Controllers/RuleController.cs:26-44`). The prototype UI calls `Rule/Save` and never `SaveWork` or
+  (`Controllers/RuleController.cs:26-44`). The prototype UI calls `Rule/Save`, never `SaveWork` or
   any `ValidationJob` endpoint (`REA_PROTO@3fdf47c src/api/modules/rules/index.ts:32`; no match for
   either word under its `src/`).
 - **Checking ignores rule dates.** It always takes the workflow whose end date is `MaxValue`, whatever
@@ -262,7 +265,7 @@ Observed in the code:
   (`:35-42`, `RuleService.cs:543-550`). `SaveWork` answers `Success:true` for such a body.
 - **An early start date is a 500 on `Save`, a quiet `Success:false` on `SaveWork`** — the first
   catches only Mongo exceptions, the second everything (`RuleService.cs:234-251`, `:55-64`).
-- **The queue is memory only.** Nothing re-queues at start-up (`Program.cs`), so a job `Pending` at a
+- **The queue is memory only.** Nothing re-queues at start-up (`Program.cs`): a job `Pending` at a
   restart stays `Pending`.
 - **Template save is delete-then-insert**, though its comment says transactional
   (`UiTemplateService.cs:88-92`).
@@ -270,7 +273,7 @@ Observed in the code:
   anywhere; Swagger is on in every environment (`Program.cs:107-113`).
 
 Inferred, not run:
-- **Out of scope counts as failed.** A condition is `And(scope, main)` and the rule kind is `Or` over
+- **Out of scope counts as failed.** A condition is `And(scope, main)`, the rule kind `Or` over
   conditions, so a row outside every condition's scope fails the rule kind; only `GroupFilter:false`
   and the remark 不適用 tell it apart (`BaseRuleGenerator.cs:35-42`, `:70-77`;
   `RuleResultMapper.cs:250`).
