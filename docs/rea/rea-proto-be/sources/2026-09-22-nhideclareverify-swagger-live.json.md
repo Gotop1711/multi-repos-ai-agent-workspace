@@ -1,0 +1,1559 @@
+---
+source: docs/assets/rea/rea-proto-be/2026-09-22-nhideclareverify-swagger-live.json
+sha256: b4b9ec7a20e5c942b10065c6b3f0bef53ad25444bd674d5ee1c7fd69f2fa23fb
+bytes: 37929
+extractor: verbatim
+status: ok
+received: 2026-09-22-nhideclareverify-swagger-live.json
+---
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "NhiDeclareVerify",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/Payment/Item/Get": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPaymentItemsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPaymentItemsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPaymentItemsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPaymentItemsResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPaymentItemsResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPaymentItemsResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Payment/Detail/Get": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPaymentDetailsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPaymentDetailsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPaymentDetailsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentDetailsResponsePagedResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentDetailsResponsePagedResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentDetailsResponsePagedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Payment/ExecutionScope/Item/Get": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetExecutionScopeItemsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetExecutionScopeItemsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetExecutionScopeItemsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Rule/Save": {
+      "post": {
+        "tags": [
+          "Rule"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveRuleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveRuleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveRuleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveRuleResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveRuleResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveRuleResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Rule/SaveWork": {
+      "post": {
+        "tags": [
+          "Rule"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveRuleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveRuleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveRuleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveRuleResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveRuleResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaveRuleResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Rule/Get": {
+      "post": {
+        "tags": [
+          "Rule"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRuleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRuleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRuleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRuleResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRuleResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRuleResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/UiTemplate/RuleList/Get": {
+      "get": {
+        "tags": [
+          "UiTemplate"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/UiTemplate/RulesSpecificSetting/Get": {
+      "get": {
+        "tags": [
+          "UiTemplate"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/UiTemplate/RulesScopeSetting/Get": {
+      "get": {
+        "tags": [
+          "UiTemplate"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/UiTemplate/RuleList/Save": {
+      "post": {
+        "tags": [
+          "UiTemplate"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { }
+            },
+            "text/json": {
+              "schema": { }
+            },
+            "application/*+json": {
+              "schema": { }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/UiTemplate/RulesSpecificSetting/Save": {
+      "post": {
+        "tags": [
+          "UiTemplate"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { }
+            },
+            "text/json": {
+              "schema": { }
+            },
+            "application/*+json": {
+              "schema": { }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/UiTemplate/RulesScopeSetting/Save": {
+      "post": {
+        "tags": [
+          "UiTemplate"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { }
+            },
+            "text/json": {
+              "schema": { }
+            },
+            "application/*+json": {
+              "schema": { }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/ValidationJob/Batch": {
+      "post": {
+        "tags": [
+          "ValidationJob"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateValidationJobRequest"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateValidationJobRequest"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateValidationJobRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/ValidationJob/Batch/File": {
+      "post": {
+        "tags": [
+          "ValidationJob"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/ValidationJob/Status": {
+      "post": {
+        "tags": [
+          "ValidationJob"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetValidationJobStatusRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetValidationJobStatusRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetValidationJobStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/ValidationJob/Cancel": {
+      "post": {
+        "tags": [
+          "ValidationJob"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelValidationJobRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelValidationJobRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelValidationJobRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/ValidationJob/Results/Download": {
+      "post": {
+        "tags": [
+          "ValidationJob"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetValidationResultsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetValidationResultsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetValidationResultsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CancelValidationJobRequest": {
+        "required": [
+          "jobId"
+        ],
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CaseTypeMapItem": {
+        "type": "object",
+        "properties": {
+          "hospCodeGroup": {
+            "type": "string",
+            "nullable": true
+          },
+          "caseType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PxxtCodeItem"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Condition": {
+        "type": "object",
+        "properties": {
+          "scopeConditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScopeCondition"
+            },
+            "nullable": true
+          },
+          "specificConfig": {
+            "$ref": "#/components/schemas/SpecificConfig"
+          },
+          "scopeRuleExpr": {
+            "type": "string",
+            "nullable": true
+          },
+          "groupName": {
+            "type": "string",
+            "nullable": true
+          },
+          "referenceConditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReferenceCondition"
+            },
+            "nullable": true
+          },
+          "referenceRuleExpr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConditionValue": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "type": "string",
+            "nullable": true
+          },
+          "medicalTypeOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "caseTypeOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "levelOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "hospCodeOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "orderTypeOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "relModeOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "departmentOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "roboticOption": {
+            "type": "string",
+            "nullable": true
+          },
+          "filterOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "max": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "min": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "operatorMax": {
+            "type": "string",
+            "nullable": true
+          },
+          "operatorMin": {
+            "type": "string",
+            "nullable": true
+          },
+          "referenceDate": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "inputPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "prefixLen": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "prefixRange": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "rangeStart": {
+            "type": "string",
+            "nullable": true
+          },
+          "rangeEnd": {
+            "type": "string",
+            "nullable": true
+          },
+          "groupOptions": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateValidationJobRequest": {
+        "required": [
+          "applyDate",
+          "applyType",
+          "feeYearMonth",
+          "hospDataType",
+          "hospId"
+        ],
+        "type": "object",
+        "properties": {
+          "hospId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "hospDataType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "feeYearMonth": {
+            "type": "string",
+            "format": "date"
+          },
+          "applyType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "applyDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "orderCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FormData": {
+        "type": "object",
+        "properties": {
+          "selectedItems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "hospCode": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "caseTypeMap": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CaseTypeMapItem"
+            },
+            "nullable": true
+          },
+          "orderType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "ruleStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "ruleEndDate": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetExecutionScopeItemsResponse": {
+        "type": "object",
+        "properties": {
+          "orderType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PxxtCodeItem"
+            },
+            "nullable": true
+          },
+          "hospCode": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PxxtCodeItem"
+            },
+            "nullable": true
+          },
+          "caseTypeMap": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CaseTypeMapItem"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPaymentDetailsRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "itemCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "keyword": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameZh": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPaymentDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "itemCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "nameZh": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "chapter": {
+            "type": "string",
+            "nullable": true
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          },
+          "itemCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "itemFeeCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "itemLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "feePoint": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "originalFeePoint": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "documentCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "announceType": {
+            "type": "string",
+            "nullable": true
+          },
+          "isCheckFeeExcluded": {
+            "type": "boolean"
+          },
+          "ruleStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "ruleEndDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "ruleDateHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuleDateHistoryItem"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPaymentDetailsResponsePagedResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetPaymentDetailsResponse"
+            },
+            "nullable": true
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPaymentItemsRequest": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPaymentItemsResponse": {
+        "type": "object",
+        "properties": {
+          "itemCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameZh": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetRuleRequest": {
+        "required": [
+          "orderCode",
+          "ruleEndDate",
+          "ruleStartDate"
+        ],
+        "type": "object",
+        "properties": {
+          "orderCode": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "ruleStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "ruleEndDate": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetRuleResponse": {
+        "type": "object",
+        "properties": {
+          "rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UiRule"
+            },
+            "nullable": true
+          },
+          "ruleExpr": {
+            "type": "string",
+            "nullable": true
+          },
+          "form": {
+            "$ref": "#/components/schemas/FormData"
+          },
+          "itemNameZh": {
+            "type": "string",
+            "nullable": true
+          },
+          "documentCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetValidationJobStatusRequest": {
+        "required": [
+          "jobId"
+        ],
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetValidationResultsRequest": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "nullable": true
+          },
+          "hospId": {
+            "type": "string",
+            "nullable": true
+          },
+          "hospDataType": {
+            "type": "string",
+            "nullable": true
+          },
+          "feeYm": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "applType": {
+            "type": "string",
+            "nullable": true
+          },
+          "applDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "orderCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PxxtCodeItem": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RangeGroup": {
+        "type": "object",
+        "properties": {
+          "inputEnd": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputStart": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthEnd": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthStart": {
+            "type": "string",
+            "nullable": true
+          },
+          "prefixRange": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReferenceCondition": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultValues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReferenceConditionGroup"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReferenceConditionGroup": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "groupConditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScopeCondition"
+            },
+            "nullable": true
+          },
+          "groupRuleExpr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RuleDateHistoryItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "ruleStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "ruleEndDate": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RuleSetting": {
+        "type": "object",
+        "properties": {
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Condition"
+            },
+            "nullable": true
+          },
+          "resultAction": {
+            "type": "string",
+            "nullable": true
+          },
+          "expr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SaveRuleRequest": {
+        "type": "object",
+        "properties": {
+          "rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UiRule"
+            },
+            "nullable": true
+          },
+          "ruleExpr": {
+            "type": "string",
+            "nullable": true
+          },
+          "form": {
+            "$ref": "#/components/schemas/FormData"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SaveRuleResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScopeCondition": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "property": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "$ref": "#/components/schemas/ConditionValue"
+          },
+          "logicalOperator": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SpecificConfig": {
+        "type": "object",
+        "properties": {
+          "mainSetting": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "referenceDate": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "doctorType": {
+            "type": "string",
+            "nullable": true
+          },
+          "doctorTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "employmentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "min": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "max": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "filterFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "rangeGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RangeGroup"
+            },
+            "nullable": true
+          },
+          "bodyPart": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyPartCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyPartPrefixRange": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyPartInputStart": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyPartInputEnd": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyPartInputPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyPartInputCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "bodyPartGroupOption": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderPrefixRange": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderInputStart": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderInputEnd": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderInputPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderInputCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "orderGroupOption": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "prefixRange": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputStart": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputEnd": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UiRule": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/RuleSetting"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Payment"
+    },
+    {
+      "name": "Rule"
+    },
+    {
+      "name": "UiTemplate"
+    },
+    {
+      "name": "ValidationJob"
+    }
+  ]
+}

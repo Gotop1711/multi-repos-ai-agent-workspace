@@ -29,6 +29,13 @@
   access: read-only
   product: rea
 
+- id: REA_PROTO_DATA_CREATOR
+  path: projects/rea_proto_data_creator
+  remote: none
+  default_branch: main
+  access: write
+  product: rea
+
 # A local copy of a source folder — no upstream, so `remote` is a placeholder and `clone` cannot rebuild it.
 - id: REA_PROTO_BE
   path: projects/rea_proto_be

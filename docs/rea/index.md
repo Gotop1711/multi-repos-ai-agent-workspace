@@ -33,3 +33,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [ui-design-conformance](plans/ui-design-conformance.md) — draft: assess, then fix, the ui's screens against 附件二; after the BFF
 - [federation-remote](plans/federation-remote.md) — draft: the ui becomes a Federation remote and drops its own frame; the shell's team must answer first
 - [ui-docs-removal](plans/ui-docs-removal.md) — shipped `REA_UI@a024004`: `docs/` and the two lines that pointed to it removed; awaits the owner's check 
+- [rea-proto-data-creator-setup](plans/rea-proto-data-creator-setup.md) — draft: the new project that turns Oracle table exports into `Rule/Save` bodies the prototype back end compiles and checks; stack and the 302 `referenceDate` answer at signing

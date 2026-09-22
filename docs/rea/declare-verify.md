@@ -131,6 +131,18 @@ Registered in `Extensions/DependencyInjection/ServiceCollectionExtensions.cs:67-
 | 307 | IcdCode | a diagnosis field falls in a code range (optional age in months) | — |
 | 401 | OutpatientInpatient | 醫事類別 digit: 1 門診, 2 住診, `13` 牙醫; 急診 by order codes | `PBAB_*_ORD` |
 
+Each generator first checks `specificConfig` and, unless it holds, returns nothing — the condition
+vanishes (What will surprise you). Required (`Services/Rules/<Name>RuleGenerator.cs`,
+`IsValidSpecificConfig`): `mainSetting` + `referenceDate` for 101–104, 203, 204
+(`HospPlanRuleGenerator.cs:39-43`); `mainSetting` alone for 106, 201, 401
+(`SpecialEquipmentRuleGenerator.cs:39-42`); `mainSetting` + `doctorTypes` + `employmentType` for 202
+(`SpecialistRuleGenerator.cs:47-52`); `doctorTypes` + `employmentType` for 205, 206
+(`FullTimeDoctorPrescriptionRuleGenerator.cs:50-54`); `unit`, `min`, `max`, `referenceDate` for 302
+(`AgeRuleGenerator.cs:94-101`); `filterFields` + `rangeGroups` for 307
+(`IcdCodeRuleGenerator.cs:234-238`); `mainSetting[0]` `"1"` or `"2"` for 301
+(`SexRuleGenerator.cs:17-37`). A `referenceDate` entry is `applyDate`, `executionDate` or
+`admissionDate`; any other key maps to no field (`AgeRuleGenerator.cs:117-124`).
+
 Details worth knowing:
 - **Reference date** is chosen in the form for 101–104, 203, 204, 302: `applyDate`,
   `executionDate` or `admissionDate`, any of them matching (`Services/Rules/HospPlanRuleGenerator.cs:24-25`,

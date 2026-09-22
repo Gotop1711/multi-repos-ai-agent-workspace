@@ -72,8 +72,13 @@ work with MongoDB alone; validation jobs do not. The seeds are real reference da
   `ValidationJob/*`: those are driven from Swagger or scripts.
 - **`REA_UI` still calls two of its paths.** `/api/v1/Payment/Item/Get` and `/Detail/Get`
   (`REA_UI@a024004 src/api/modules/payment/index.ts:19,29`) are `Controllers/PaymentController.cs:26`,
-  `:38` here, and the ui's nginx sends `/api/v1/Payment/` to a separate host ([bff](../bff.md)). That
-  the host runs this code is inferred from the matching paths — not confirmed.
+  `:38` here, and the ui's nginx and dev proxy send `/api/v1/Payment/` to an Azure App Service host
+  (`REA_UI@a024004 frontend.conf:14`, `.env.development:6`; [bff](../bff.md)). That host's live Swagger
+  on 2026-09-22 lists these 17 paths and every DTO field for field
+  (`docs/rea/rea-proto-be/sources/2026-09-22-nhideclareverify-swagger-live.json.md@25ea24c3d433` L1303,
+  `SaveRuleRequest`) — so it runs this code or a build with the same contract; which commit is not
+  knowable from outside. It is the host the data-creator plan's output is posted to
+  ([plan](../plans/rea-proto-data-creator-setup.md)).
 - **The template the project manager points to is this service's data.** `REA_PROTO`'s
   `tests/mock/api/rulesSpecificSetting.json` has the shape of `UiTemplate/RulesSpecificSetting/Get`
   ([rea-proto](../rea-proto/index.md)); here that body is an opaque MongoDB document
