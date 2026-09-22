@@ -12,7 +12,8 @@ carried the defect as a `[workspace]` line: `remote` had to be a token, `clone` 
 - `import <REPO> <folder>`: copy minus `.git` / `.DS_Store`, init, one commit; credential-shaped files
   are named as a warning (the child's own, gitignored), never their values; refuses a non-empty path.
 - `cite` prints `<REPO>@unborn` for a repository without commits; `restore` skips it with a message.
-- AGENTS.md (intro paragraph), README, CHANGELOG, the manifest template's comment, help text.
+- AGENTS.md (intro paragraph), README, CHANGELOG, the manifest template's comment, help text. Later in
+  the session, on the owner's word: README › Daily loop gained the step sequence for a project started here.
 
 ## Decisions & pitfalls
 - `clone` and `cite` read five fields from six-field lines, so `access` was `read-only|<product>` and

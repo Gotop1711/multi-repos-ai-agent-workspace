@@ -28,6 +28,8 @@ Add a **private remote** and push — the memory must survive a dead disk.
 
 Agent: `check` → read `docs/<product>/` → work → log → commit. You: review the diff; sign a plan (`Signed: <name> — <date>` in its header) before the agent writes a child; write `Verified: <name>` when you have checked the result; then `./workspace.sh plan done <product> <feature>` clears the plan, its logs and the documents only it used.
 
+**Starting a project here** (no upstream yet): declare it in `catalog/repos.yaml` with `remote: none`, `access: write` and its `product:`; `./workspace.sh clone` creates it empty (`cite` shows it as `<REPO>@unborn`); `./workspace.sh plan new <product> <feature>` with `Writes: <REPO> (<branch>)` says what it becomes; your `Signed:` line is what lets the agent write the first file and, on your word, make the first commit; `Verified:`, then `plan done`. Until it has a remote, this disk holds the only copy — put the URL in `remote:` the day one exists. A folder you only read comes in the other way: `access: read-only` and `./workspace.sh import <REPO> <folder>`.
+
 | Command | Does |
 |---|---|
 | `check` | structure, line caps, plan headers, derivatives, the main/organization split — runs at every commit |
