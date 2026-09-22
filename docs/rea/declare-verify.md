@@ -239,9 +239,15 @@ Observed in the code:
 - **Five error codes have no generator**: 105, 303, 304, 305, 306 are in the error map but not in
   `RuleCode` (`RuleResultMapper.cs:34`, `:44-47`; `RuleCode.cs`). A rule kind without a generator is
   dropped while compiling (`RuleService.cs:536-541`).
-- **Stored but never read**: `ReferenceConditions`, `ReferenceRuleExpr`, `ResultAction`, and the
-  2026/07/03 `BodyPart…` / `Order…` fields (`RuleConfigurationDto.cs:39`, `:64-69`, `:155-177`) — no
-  file outside `ViewModels/` names them.
+- **Stored but never read**: `ReferenceConditions`, `ReferenceRuleExpr`, `ResultAction`, the
+  2026/07/03 `BodyPart…` / `Order…` fields, and 302's `OperatorMin` / `OperatorMax`
+  (`RuleConfigurationDto.cs:39`, `:64-69`, `:104-105`, `:155-177`) — no file outside `ViewModels/`
+  names them; 302 always compiles `≥ min` and `≤ max` (`AgeRuleGenerator.cs:25`, `:38-43`).
+- **A rejected condition vanishes silently, and a rule kind whose conditions all vanish still
+  compiles.** 302 rejects a config missing `unit`, `min`, `max` or a `referenceDate` entry
+  (`Services/Rules/AgeRuleGenerator.cs:94-101`); the base generator skips it
+  (`Services/Rules/Core/BaseRuleGenerator.cs:60-64`) and emits `Unit_302` as an `Or` over no rules
+  (`:35-42`, `RuleService.cs:543-550`). `SaveWork` answers `Success:true` for such a body.
 - **An early start date is a 500 on `Save`, a quiet `Success:false` on `SaveWork`** — the first
   catches only Mongo exceptions, the second everything (`RuleService.cs:234-251`, `:55-64`).
 - **The queue is memory only.** Nothing re-queues at start-up (`Program.cs`), so a job `Pending` at a
@@ -262,3 +268,7 @@ Inferred, not run:
   `…/FullTimeDoctorPrescriptionReferenceDataService.cs:126-128`). In a workflow holding both, the
   last code in the workflow name wins for both.
 - **Matching people on 4 + 3 characters** can match more than one person.
+- **An empty `Or` unit fails the job, not the save.** The job builds the engine per order code
+  (`ValidationJobService.cs:384`) inside one try (`:123-155`); RulesEngine 6 validates each workflow
+  in its constructor and refuses a rule that has an `Operator` but no `Rules` (from the library's
+  source, which is not in this repository) — so one hollow workflow marks the whole job `Failed`.
