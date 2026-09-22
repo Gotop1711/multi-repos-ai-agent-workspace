@@ -16,7 +16,7 @@ projects/                          the child repositories (gitignored)
 
 ```bash
 ./workspace.sh setup                   # wires the safety hook
-# edit catalog/repos.yaml              # child repos: access level, product
+# edit catalog/repos.yaml              # child repos: access level, product; remote: none for a folder you import or a project you start here
 ./workspace.sh clone                   # fleet appears under projects/
 ./workspace.sh doc init <product>      # docs/<product>/index.md
 ./workspace.sh doc add <product> <module>   # a module — or a repository doc when the name is a manifest id lowercased
@@ -34,7 +34,7 @@ Agent: `check` → read `docs/<product>/` → work → log → commit. You: revi
 | `doc init` · `doc add` · `doc rm` | create and remove index / module / repository docs, keeping `index.md`'s links |
 | `plan new` · `plan done` · `plan rm` | open a draft plan; remove a verified or abandoned one — or any (`rm`, `--force` for a signed/shipped one) — with its logs and the sources only it used |
 | `ingest` · `extract` · `prune` | documents in (originals gitignored; text, ≤ 200 KiB pictures of pages with figures, and their OCR as a search index tracked); what nothing cites out |
-| `cite` · `restore` · `clone` | the fleet as one citation line; check a citation out; rebuild the fleet |
+| `clone` · `import` · `cite` · `restore` | rebuild the fleet (a `remote: none` child with `write` access is created empty); copy a folder in as a `read-only` reference, one import commit; the fleet as one citation line; check a citation out |
 
 Line caps (`check` fails above them; lines counted wrapped at 100 columns): index 80 · module 150 · repository doc 100 · plan 80 · log 40.
 

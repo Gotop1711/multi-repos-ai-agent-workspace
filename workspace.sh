@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # workspace.sh — the whole harness in one script.
 #   ./workspace.sh setup                            one-time: wire the safety hook
-#   ./workspace.sh clone                            rebuild the fleet from catalog/repos.yaml
+#   ./workspace.sh clone                            rebuild the fleet from catalog/repos.yaml (a `remote: none` child with write access is created empty)
+#   ./workspace.sh import <repo> <folder>           a `remote: none` child as a local reference: copy the folder (minus .git, .DS_Store), one import commit
 #   ./workspace.sh cite                             the fleet as one citation line — paste it into a claim
 #   ./workspace.sh restore <repo>@<sha>…            check cited commits out (bare <repo> returns to its branch)
 #   ./workspace.sh doc init <product>               docs/<product>/index.md
@@ -110,7 +111,7 @@ rm_tracked() { # a tracked path must be committed as it stands before it goes: g
 }
 
 cmd="${1:-help}"
-case "$cmd" in clone|cite|restore|check|extract|ingest|doc|plan)
+case "$cmd" in clone|import|cite|restore|check|extract|ingest|doc|plan)
   [ -f "$MANIFEST" ] || { echo "FAIL: $MANIFEST missing" >&2; exit 1; }
 esac
 
@@ -140,8 +141,16 @@ clone)
     exit 0
   fi
   fail=0
-  while IFS='|' read -r id path remote branch access; do
+  while IFS='|' read -r id path remote branch access product; do   # all six fields, or the last one swallows the rest
     [ -n "$id" ] || continue
+    if [ "$remote" = none ]; then   # no upstream: this disk holds the only copy (AGENTS.md, first section)
+      if [ -d "$path/.git" ]; then echo "[$id] present — no upstream, this disk holds the only copy"
+      elif [ "$access" = write ]; then
+        git init --quiet -b "$branch" "$path" && echo "[$id] created empty at $path on $branch — no upstream; its first commit is a signed plan's" \
+          || { echo "[$id] INIT FAILED" >&2; fail=$((fail+1)); }
+      else echo "[$id] MISSING — a local reference cannot be rebuilt: ./workspace.sh import $id <folder>" >&2; fail=$((fail+1)); fi
+      continue
+    fi
     if [ -d "$path/.git" ]; then echo "[$id] already cloned"; else
       echo "[$id] cloning $remote → $path"
       git clone --quiet --branch "$branch" "$remote" "$path" \
@@ -158,16 +167,36 @@ clone)
   [ "$fail" -eq 0 ] && echo "fleet complete." || { echo "$fail repo(s) failed to clone." >&2; exit 1; }
   ;;
 
+import)   # a folder becomes a local reference child: the one commit a read-only child without upstream ever gets — run it on the owner's word
+  id="${2:-}"; src="${3:-}"
+  [ -n "$id" ] && [ -d "$src" ] || { echo "usage: workspace.sh import <repo> <folder>   # <repo> = a manifest id with remote: none; the folder is copied as it is, minus .git and .DS_Store" >&2; exit 1; }
+  tmp="$(mktemp)"; entries > "$tmp"
+  path="$(awk -F'|' -v id="$id" '$1==id{print $2; exit}' "$tmp")"; remote="$(awk -F'|' -v id="$id" '$1==id{print $3; exit}' "$tmp")"
+  branch="$(awk -F'|' -v id="$id" '$1==id{print $4; exit}' "$tmp")"
+  [ -n "$path" ] || { echo "[$id] not in the manifest" >&2; exit 1; }
+  [ "$remote" = none ] || { echo "[$id] has an upstream ($remote) — ./workspace.sh clone rebuilds it; import is for remote: none" >&2; exit 1; }
+  [ ! -e "$path" ] || { echo "[$id] $path exists — import fills an empty path only (move it away first)" >&2; exit 1; }
+  mkdir -p "$path" && (cd "$src" && tar --exclude .git --exclude .DS_Store -cf - .) | (cd "$path" && tar -xf -) \
+    || { echo "[$id] COPY FAILED" >&2; rm -rf "$path"; exit 1; }
+  git init --quiet -b "$branch" "$path" && git -C "$path" add -A || { echo "[$id] INIT FAILED" >&2; exit 1; }
+  n="$(git -C "$path" diff --cached --name-only | wc -l | tr -d ' ')"
+  hits="$(git -C "$path" grep --cached -I -i -l -E '(password|passwd|secret|api[_-]?key|access[_-]?token|bearer)[[:space:]]*[:=][[:space:]]*[^[:space:]<[]{8,}' 2>/dev/null | head -5 | tr '\n' ' ')"
+  [ -z "$hits" ] || echo "warn: [$id] credential-shaped text in: ${hits}— the child's own file, gitignored here; report its location, never its value" >&2
+  git -C "$path" commit --quiet -m "import: $(basename "$src") — $n files, no upstream" \
+    && echo "[$id] imported $n file(s) as $id@$(git -C "$path" rev-parse --short HEAD) on $branch — no upstream, this disk and the source folder hold the only copies" \
+    || { echo "[$id] COMMIT FAILED (git identity set?)" >&2; exit 1; }
+  ;;
+
 cite)
   tmp="$(mktemp)"; entries > "$tmp"
   [ -s "$tmp" ] || { echo "manifest has no repos — edit catalog/repos.yaml first" >&2; exit 1; }
   line=""
-  while IFS='|' read -r id path remote branch access; do
+  while IFS='|' read -r id path remote branch access product; do   # all six fields, or the last one swallows the rest
     [ -n "$id" ] || continue
     [ -d "$path/.git" ] || { echo "[$id] not cloned — run ./workspace.sh clone" >&2; exit 1; }
     [ -z "$(git -C "$path" status --porcelain)" ] \
       || echo "warn: [$id] has local changes — its HEAD does not describe what you are reading" >&2
-    line="$line $id@$(git -C "$path" rev-parse --short HEAD)"
+    line="$line $id@$(git -C "$path" rev-parse --short HEAD 2>/dev/null || echo unborn)"   # unborn: created empty, no commit yet
   done < "$tmp"
   echo "${line# }"
   ;;
@@ -193,6 +222,7 @@ restore)
     branch="$(awk -F'|' -v id="$id" '$1==id{print $4; exit}' "$tmp")"
     [ -n "$path" ] || { echo "[$id] not in the manifest" >&2; fail=$((fail+1)); continue; }
     [ -d "$path/.git" ] || { echo "[$id] not cloned — run ./workspace.sh clone" >&2; fail=$((fail+1)); continue; }
+    git -C "$path" rev-parse --verify --quiet HEAD >/dev/null || { echo "[$id] has no commits yet — nothing to restore"; continue; }
     if [ -n "$(git -C "$path" status --porcelain)" ]; then
       echo "[$id] has local changes — NOT touching it" >&2; fail=$((fail+1)); continue
     fi
@@ -603,6 +633,7 @@ check)
     n=$((n+1))
     [ -n "$id" ] && [ -n "$path" ] && [ -n "$remote" ] && [ -n "$branch" ] || fail "manifest entry $n incomplete (needs id/path/remote/default_branch)"
     case "$access" in write|pr-only|read-only) : ;; *) fail "[$id] access must be write|pr-only|read-only (got '${access:-<empty>}')" ;; esac
+    [ "$remote" != none ] || [ "$access" != pr-only ] || fail "[$id] remote: none cannot be pr-only — a pull request needs an upstream (write: a project started here; read-only: an imported reference)"
     [ -z "$product" ] || printf '%s' "$product" | grep -qE "$ID_RE" || fail "[$id] product '$product' is not an id (lowercase kebab)"
   done < "$tmp"
   raw="$(grep -cE '^[[:space:]]*-[[:space:]]*id:' "$MANIFEST" || true)"
@@ -746,11 +777,11 @@ check)
   ;;
 
 help)
-  sed -n '2,17p' "$0"
+  sed -n '2,18p' "$0"
   ;;
 
 *)
-  sed -n '2,17p' "$0" >&2
+  sed -n '2,18p' "$0" >&2
   exit 1
   ;;
 esac

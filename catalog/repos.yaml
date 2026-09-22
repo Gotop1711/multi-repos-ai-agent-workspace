@@ -1,5 +1,6 @@
 # Fleet manifest — one entry per child repository. Values are single tokens (no spaces, no inline comments).
 #   access: write | pr-only | read-only   (read-only ⇒ workspace.sh disables the push URL)
+#   remote: none                           no upstream — read-only: a folder `workspace.sh import` copies in; write: a project `clone` creates empty (AGENTS.md)
 #   product: <id>                          the docs/<product>/ this repo belongs to
 # Example:
 # - id: MY_API

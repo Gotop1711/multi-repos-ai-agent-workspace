@@ -2,6 +2,8 @@
 
 Governance workspace for cross-repository work. Child repositories are gitignored clones under `projects/`, **read-only by default**; `catalog/repos.yaml` lists the fleet — each repo's access (`write` / `pr-only` / `read-only`) and its `product:`. Rules are here; mechanics in `workspace.sh` (`./workspace.sh help`).
 
+A child with no upstream is declared `remote: none`, and is one of two things. A **reference** (`read-only`) is a folder copied in by `./workspace.sh import <REPO> <folder>` on the owner's word: one import commit, never another. A **new project** (`write`) is created empty by `clone`; its first commit, like every later one, is the work of a signed plan whose `Writes:` names it. `pr-only` needs an upstream. Until a local child has a remote this disk holds its only copy — put the URL in `remote:` the day one exists.
+
 ## Documents — made and unmade by command, small by rule
 
 ```
