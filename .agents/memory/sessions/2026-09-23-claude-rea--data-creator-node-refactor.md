@@ -9,11 +9,12 @@ them, write the rule kinds they define, verify the tool on the real exports.
 - `@9b89624`: Python → five JavaScript files, same 71 bodies. `@e4eba57` `@dc509aa` `@369fbfc`
   `@d407653` `@c0ef280`: the owner's rules for 12 kinds on two shared collectors; 5 275 bodies,
   validate clean, 2 s; README terms verbatim. Sources ingested, then re-ingested in place when the
-  owner re-issued two of them (group 1–4; 202's employmentType 01). `@d493386`: the output the owner
-  actually wants — one payload file per rule kind, each body one 醫令 with that kind alone.
-- Setup plan: Amended twice (stack; rules), Shipped twice. Acceptance plan (Chinese): verification,
-  remote, four rulings. Repository doc rewritten; declare-verify: SaveWork validates against
-  `workflow` alone, nothing reports that collection's dates.
+  owner re-issued two of them (group 1–4; 202's employmentType 01). `@d493386`: one payload file per
+  rule kind, each body one 醫令 with that kind alone. `@8c47ffe` `@d52f321`: the 產出規則 re-issued
+  again — dates fixed at 2026-01-01 / 2910-12-31, every specificConfig field written (null unless
+  filled) from the owner's body schema, now ingested too; `--start-date` gone.
+- Setup plan amended and shipped per ruling; acceptance plan (Chinese): verification, remote, what
+  waits. Repository doc rewritten; declare-verify: SaveWork validates against `workflow` alone.
 
 ## Decisions & pitfalls
 - 101–104: the rules said 001–004, the export has 01–04; asked, the owner re-issued them as 1–4 and
@@ -25,9 +26,10 @@ them, write the rule kinds they define, verify the tool on the real exports.
   0001-01-01 when none; a Save overwrites or closes an existing version.
 - Commits by source table, not one per rule kind: the reviewable unit is the shared collector.
 - Per-kind files cannot be posted cumulatively: a Save with the same start date replaces `rules[]`.
-  Said in the README and the plan; `validate` warns on a 醫令 in two files.
-- `Amended:` on the signed setup plan covers the rules; the acceptance plan stays draft and holds
-  only what waits on a ruling. Its language is Chinese on the owner's word — do not "fix" it back.
+- The body's ruleEndDate is never stored: 9999-12-31 on Save and SaveWork (`RuleService.cs:339`,
+  `:413`), and checking reads that version. I had cited :335 and :414 — wrong lines, fixed.
+- `Amended:` on the signed setup plan covers each ruling; the acceptance plan (Chinese, on the
+  owner's word — do not "fix" it back) holds only what still waits on the owner.
 - declare-verify sits at 299/300; the 205/206 fact went to the repository doc. Split Part 3 out
   before the next module fact.
 

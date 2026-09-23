@@ -7,7 +7,8 @@ Status: draft
 工具已經出貨。2026-09-23 你給的三份文件（定義、資料採集規則、產出規則）已 ingest 進
 workspace，其中定義了的 13 個 rule 模組已照著寫進程式，兩份資料表檔跑出 13 個檔案、12 026 筆
 body，每個檔案 validate 零錯誤（[rea-proto-data-creator-setup](rea-proto-data-creator-setup.md)、
-`REA_PROTO_DATA_CREATOR@d493386`）。產出形式依你 2026-09-23 的裁定：每個 rule 模組一個檔案。
+`REA_PROTO_DATA_CREATOR@d52f321`）。產出形式依你 2026-09-23 的裁定：每個 rule 模組一個檔案，起日
+訖日與 `specificConfig` 全欄位照產出規則的共通規則。
 剩下的都在你手上：貼上伺服器驗收、child 的 remote、還沒寫規則的六個 rule 模組。這份 plan 就是
 那張清單。第 1 到 4 步是你自己的操作，不需要簽名，做完會落在 setup plan 的 `Verified:`；第 7 步
 的規則一到，對應的程式才是這份簽名蓋住的工作。
@@ -21,18 +22,17 @@ body，每個檔案 validate 零錯誤（[rea-proto-data-creator-setup](rea-prot
 Host `https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger 在
 `/swagger`（`REA_UI@a024004 .env.development:6`）。指令在 `projects/rea_proto_data_creator` 下執行。
 
-1. **先問 host 這個醫令已經有什麼，再決定要測哪一筆、起日填多少。** build 是純本機的，任何
-   合法日期都會成功；起日要到 host 才會被檢查，`rule` 和 `workflow` 兩個 collection 各自獨立：
-   新起日必須大於等於該醫令在那個 collection 裡所有版本的最大起日，否則 `Rule/Save` 回 500、
-   `Rule/SaveWork` 只安靜地回 `success: false`（`REA_PROTO_BE@ba161ff Services/RuleService.cs:261-274`、
-   `:424-437`、`:55-64`）。問法：`POST /api/v1/Payment/Detail/Get`，body
-   `{"itemCodes":["01023C"],"pageNumber":1,"pageSize":10}`；`ruleStartDate` 與 `ruleDateHistory` 是
-   `rule` 這邊的既有版本（`Services/PaymentService.cs:243-268`），`0001-01-01` 表示還沒有規則；
-   `workflow` 那邊沒有 endpoint 可查。最保險是挑一個回 `0001-01-01` 的醫令。已有規則的醫令：
-   起日相同會覆蓋現行版本、更晚會把它關在新起日前一天（`:283-298`、`:307-318`）。起日在未來
-   不影響驗收：檢核永遠取訖日為 `MaxValue` 的 workflow（`Services/ValidationJobService.cs:572-578`）。
-   日期定了才需要重跑 `node src/cli.js build --in data/in --out data/out --start-date
-   <YYYY-MM-DD> --split`；`data/out/` 目前是 `2026-10-01` 的那一份。
+1. **先問 host 這個醫令已經有什麼。** 起日訖日不再由你挑：產出規則固定 `ruleStartDate` 2026-01-01、
+   `ruleEndDate` 2910-12-31，build 不收日期，`data/out/` 已是目前規則的產出。要查的是 host 上該醫令
+   有沒有比 2026-01-01 更晚的版本：有的話 `Rule/Save` 回 500、`Rule/SaveWork` 只安靜地回
+   `success: false`（`REA_PROTO_BE@ba161ff Services/RuleService.cs:261-274`、`:424-437`；`rule` 和
+   `workflow` 兩個 collection 各自檢查）。問法：`POST /api/v1/Payment/Detail/Get`，body
+   `{"itemCodes":["01023C"],"pageNumber":1,"pageSize":10}`；回傳的 `ruleStartDate` 與
+   `ruleDateHistory` 是 `rule` 這邊的既有版本（`Services/PaymentService.cs:243-268`），`0001-01-01`
+   表示還沒有規則；`workflow` 那邊沒有 endpoint 可查。最保險是挑一個回 `0001-01-01` 的醫令。已有
+   規則的醫令：起日同為 2026-01-01 會覆蓋現行版本、更早的會被關在 2025-12-31（`:283-298`、
+   `:307-318`）。body 裡的 2910-12-31 不會被存下來，後端一律存 9999-12-31（`:339`、`:413`），檢核也
+   只讀 9999-12-31 的版本（`Services/ValidationJobService.cs:572-578`）——這是對的，不必改。
 2. **同一筆 body 貼兩次。** 從一個 rule 模組的檔案裡挑第 1 步定的那個醫令，例如
    `data/out/items/r302/01023C.json`（0 到 2 歲、unit Y，只含 302）。先 `POST /api/v1/Rule/Save`，
    再把同一份貼到 `POST /api/v1/Rule/SaveWork`，兩支都要回 `success: true`；只有 `SaveWork` 會寫出
