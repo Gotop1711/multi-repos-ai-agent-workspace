@@ -213,8 +213,8 @@ dates as `M/d/yyyy`, duplicates dropped (`Services/ValidationJob/ValidationJobCs
    otherwise nothing (`Services/DeclarationData/DeclarationDataService.cs:30-43`;
    `DeclarationRepository.cs:72-80`, `:158-166`). One row = one order line with its case's fields;
    the patient id is decrypted in the database (`:44`).
-4. **Group by order code**, load that code's *active* workflow (`ValidationJobService.cs:354`,
-   `:572-592`). No workflow → every row is recorded as "not checked" (`:363-381`).
+4. **Group by order code**; a code with no row is never touched, so an empty batch ends `Completed`
+   unchecked. Load the code's *active* workflow (`:354`, `:572-592`); none → "not checked" (`:363-381`).
 5. **Enrich.** For each code in the workflow name, that code's reference-data service adds Oracle
    look-ups and computed fields (`Reference…`) to the row (`:393-397`;
    `Services/DeclarationData/Models/Declaration.cs:296-421`).

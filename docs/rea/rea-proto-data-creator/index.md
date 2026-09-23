@@ -62,7 +62,15 @@ There is no model layer: a body is a plain object, `JSON.parse` / `JSON.stringif
 - **302's `referenceDate` is `["executionDate"]`** on the owner's ruling of 2026-09-22
   (`rules/r302.js:19`); `MHCT_PAYLIMIT.LMT_AGE_DATE_REF_TYPE` is empty on every exported row, so the
   table itself cannot say. Per-declaration results still need Oracle: not predictable from here.
+- **The server takes its output.** On 2026-09-23 the owner posted `data/out/items/01023C.json`
+  (`--start-date 2026-10-01`) to the Azure host: `Rule/Save` answered `success: true`「儲存成功！」and
+  `Rule/SaveWork` `success: true` (the owner's run, reported in session). That settles the shape and
+  both start-date checks, not that the stored workflow runs: only a validation job shows that, and it
+  checks nothing unless Oracle returns declaration rows for the 醫令
+  ([declare-verify](../declare-verify.md) › Part 3, step 4).
 - **Not yet a rule**: `MHCT_PAYLIMIT.LMT_SEX` (19 rows in force, values `1`/`2` — what 301 takes) and
   `MHCT_PAYLTYPE` (19 `LMT_TYPE_CODE` values, no mapping to a rule kind on disk) (`README.md:118-124`).
-  Each waits for the owner's mapping — plan step 5, one commit per rule kind.
+  Each waits for the owner's mapping —
+  [rea-proto-data-creator-acceptance](../plans/rea-proto-data-creator-acceptance.md) steps 5 and 6,
+  one commit per rule kind.
 - Nothing links it to `REA_UI` or `REA_kernel`: it targets the prototype back end only.
