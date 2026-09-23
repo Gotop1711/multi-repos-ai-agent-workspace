@@ -1,7 +1,7 @@
 ---
 source: docs/assets/rea/rea-proto-data-creator/2026-09-23-data-creation-collection-rules.txt
-sha256: 49db1dceb1988e0689274eea0fd0e4ee5354e518ebed968440fed53dddd058c9
-bytes: 1002
+sha256: 6d14b100deb8f7fa5e7cbef62b4e5dc36b26164b284b209453d43573e8d4ccb3
+bytes: 994
 extractor: verbatim
 status: ok
 received: 後端驗測資料生產__資料採集規則.txt
@@ -11,10 +11,10 @@ received: 後端驗測資料生產__資料採集規則.txt
 共通採集規則：
 - LMT_E_DATE=2910-12-31
 
-101: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=13，LMT_GROUP_CODE=001
-102: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=13，LMT_GROUP_CODE=002
-103: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=13，LMT_GROUP_CODE=003
-104: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=13，LMT_GROUP_CODE=004
+101: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=13，LMT_GROUP_CODE=1
+102: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=13，LMT_GROUP_CODE=2
+103: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=13，LMT_GROUP_CODE=3
+104: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=13，LMT_GROUP_CODE=4
 106: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=1
 
 201: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=3

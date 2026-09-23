@@ -8,6 +8,8 @@ Amended: 2026-09-23 — the stack is Node.js, not Python; smallest architecture,
 Shipped: 2026-09-23 — REA_PROTO_DATA_CREATOR@9b89624 (the same pipeline in five JavaScript files)
 Amended: 2026-09-23 — the owner's 資料採集規則 and 產出規則 ingested (sources/2026-09-23-data-creation-*); the rule kinds they define are written, committed by source table rather than one each
 Shipped: 2026-09-23 — REA_PROTO_DATA_CREATOR@e4eba57 (101–104, 106, 201, 204), @dc509aa (203, 205, 206, 301), @369fbfc (README)
+Amended: 2026-09-23 — the 採集規則 and 產出規則 re-issued and re-ingested: 101–104 name their group 1–4, matched with leading zeros stripped; 202's employmentType is 01
+Shipped: 2026-09-23 — REA_PROTO_DATA_CREATOR@d407653 (202, the group codes), @c0ef280 (README)
 
 ## Goal
 `REA_PROTO_DATA_CREATOR` turns 資料表檔 — Oracle SQL Developer `.csv` exports keyed by 醫令 — into a
@@ -34,12 +36,10 @@ every commit is this plan's work. Nothing is written to `REA_PROTO_BE` (read-onl
 host: the tool produces a file; posting it is the owner's, from Swagger or curl.
 
 The stack, as amended on 2026-09-23: Node.js ≥ 18, no dependencies, no tests, the smallest
-architecture that carries the pipeline — a body is a plain object, so `JSON.parse` / `JSON.stringify`
-are the schema and there is no model layer. The 資料表檔 stay out of git (`data/in/` and `data/out/`
-ignored — exports of NHIA tables); each 採集規則 is one module `rules/r<code>.js` whose exported
-`description` is the human-readable rule (table, key column, selecting columns, column → field
-mapping) and whose `collect()` applies it. The Python package signed on 2026-09-22 was replaced
-wholesale; git keeps it.
+architecture that carries the pipeline — a body is a plain object, `JSON.parse` / `JSON.stringify` are
+the schema. The 資料表檔 stay out of git (`data/in/`, `data/out/` ignored); each 採集規則 is one module
+`rules/r<code>.js` whose exported `description` is the human-readable rule and whose `collect()`
+applies it. The Python package signed on 2026-09-22 was replaced wholesale; git keeps it.
 
 ## Steps
 1. `chore: scaffold` — README (the owner's definitions, the pipeline, how to run), `.gitignore`,
@@ -60,9 +60,8 @@ wholesale; git keeps it.
    says or empty, `ruleExpr` = the codes joined by 且 unless a rule says otherwise — validate, write
    the array; `--split` adds one file per item for a Swagger paste.
 5. Further rule kinds as the owner supplies their mapping: the rule's `description`, its
-   `collect()`. Eleven landed on 2026-09-23 from the owner's three documents; 202 (a field the
-   owner has not ruled on), 303–307 and 401 (no rules yet) are carried in
-   [rea-proto-data-creator-acceptance](rea-proto-data-creator-acceptance.md).
+   `collect()`. Twelve landed on 2026-09-23 from the owner's documents; 303–307 and 401 (no rules
+   yet) are carried in [rea-proto-data-creator-acceptance](rea-proto-data-creator-acceptance.md).
 6. `Shipped:` per landed commit. A repository doc (`doc add rea rea-proto-data-creator`) and the
    remote URL in `catalog/repos.yaml` are workspace work outside this write set, once the project
    runs.

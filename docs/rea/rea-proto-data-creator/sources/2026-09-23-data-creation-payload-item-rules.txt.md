@@ -1,7 +1,7 @@
 ---
 source: docs/assets/rea/rea-proto-data-creator/2026-09-23-data-creation-payload-item-rules.txt
-sha256: a93c87091bb8821ca3ea3477cb496b6d3dd14728226ef571ffa2a772254a818f
-bytes: 3741
+sha256: fc6fe7ef218b268c65b8ff6e3bc9d7f0cad334988e1e83453053282a431789ff
+bytes: 3784
 extractor: verbatim
 status: ok
 received: 後端驗測資料生產__RuleSave_payload_item_產出規則.txt
@@ -19,7 +19,7 @@ received: 後端驗測資料生產__RuleSave_payload_item_產出規則.txt
 106: 106 的 [rule模組欄位資料檔] 若有多筆相同 TREAT_CODE 的資料，他們的 LMT_ITEM 的值都要填入 [RuleSave_payload_item] 的 `specificConfig.mainSetting` 之中
 
 201: 201 的 [rule模組欄位資料檔] 若有多筆相同 TREAT_CODE 的資料，他們的 LMT_ITEM 的值都要填入 [RuleSave_payload_item] 的 `specificConfig.mainSetting` 之中
-202: 202 的 [rule模組欄位資料檔] 若有多筆相同 TREAT_CODE 的資料，他們的 LMT_ITEM 的值都要填入 [RuleSave_payload_item] 的 `specificConfig.mainSetting` 之中。ENAME 的值 ("1" 或 "2"；多筆資料的 ENAME 值應該都相同) 填入 [RuleSave_payload_item] 的 `specificConfig.doctorTypes` 之中，字串值前面補字串 "0"，成爲 "01" 或 "02"。
+202: 202 的 [rule模組欄位資料檔] 若有多筆相同 TREAT_CODE 的資料，他們的 LMT_ITEM 的值都要填入 [RuleSave_payload_item] 的 `specificConfig.mainSetting` 之中。ENAME 的值 ("1" 或 "2"；多筆資料的 ENAME 值應該都相同) 填入 [RuleSave_payload_item] 的 `specificConfig.doctorTypes` 之中，字串值前面補字串 "0"，成爲 "01" 或 "02"。`specificConfig.employmentType` 填 "01"。
 203: 203 的 [rule模組欄位資料檔] 若有多筆相同 TREAT_CODE 的資料，他們的 PRSN_TYPE 的值都要填入 [RuleSave_payload_item] 的 `specificConfig.mainSetting` 之中。PRSN_TYPE 是用 "," 分隔的字串資料。
 204: 204 的 [rule模組欄位資料檔] 若有多筆相同 TREAT_CODE 的資料，他們的 LMT_ITEM 的值都要填入 [RuleSave_payload_item] 的 `specificConfig.mainSetting` 之中
 205: 205 的 [rule模組欄位資料檔] 內的資料應該都是 TREAT_CODE 不重複的資料。每筆資料用來產出對應的 [RuleSave_payload_item] 的 `specificConfig` 中的以下欄位：
