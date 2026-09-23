@@ -6,6 +6,8 @@ Signed: gotop1711 — 2026-09-22
 Shipped: 2026-09-22 — REA_PROTO_DATA_CREATOR@0c6d271 (scaffold), @ef6f040 (schema), @8ba8cfe (302 rule), @321dc12 (build)
 Amended: 2026-09-23 — the stack is Node.js, not Python; smallest architecture, no tests (the owner, in session)
 Shipped: 2026-09-23 — REA_PROTO_DATA_CREATOR@9b89624 (the same pipeline in five JavaScript files)
+Amended: 2026-09-23 — the owner's 資料採集規則 and 產出規則 ingested (sources/2026-09-23-data-creation-*); the rule kinds they define are written, committed by source table rather than one each
+Shipped: 2026-09-23 — REA_PROTO_DATA_CREATOR@e4eba57 (101–104, 106, 201, 204), @dc509aa (203, 205, 206, 301), @369fbfc (README)
 
 ## Goal
 `REA_PROTO_DATA_CREATOR` turns 資料表檔 — Oracle SQL Developer `.csv` exports keyed by 醫令 — into a
@@ -57,11 +59,10 @@ wholesale; git keeps it.
    (the back end refuses a start earlier than an item's active version), header lists as the rule
    says or empty, `ruleExpr` = the codes joined by 且 unless a rule says otherwise — validate, write
    the array; `--split` adds one file per item for a Swagger paste.
-5. One commit per further rule kind as the owner supplies its 資料表檔 and mapping: the rule's
-   `description`, its `collect()`. Rule kinds without a generator (105, 303–306) are refused. The
-   ones still open are carried forward to
-   [rea-proto-data-creator-acceptance](rea-proto-data-creator-acceptance.md), with the owner's
-   acceptance run.
+5. Further rule kinds as the owner supplies their mapping: the rule's `description`, its
+   `collect()`. Eleven landed on 2026-09-23 from the owner's three documents; 202 (a field the
+   owner has not ruled on), 303–307 and 401 (no rules yet) are carried in
+   [rea-proto-data-creator-acceptance](rea-proto-data-creator-acceptance.md).
 6. `Shipped:` per landed commit. A repository doc (`doc add rea rea-proto-data-creator`) and the
    remote URL in `catalog/repos.yaml` are workspace work outside this write set, once the project
    runs.

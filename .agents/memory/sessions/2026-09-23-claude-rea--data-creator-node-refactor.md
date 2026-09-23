@@ -1,37 +1,31 @@
 # 2026-09-23 | claude | rea | data-creator-node-refactor
 
 ## Task
-Owner: the stack ruling was missed — `REA_PROTO_DATA_CREATOR` must be Node.js. Refactor the whole
-child: smallest architecture, no tests, ordinary JavaScript, DRY / YAGNI / single responsibility.
-Then record, as a plan, the TODO list that is the owner's to act on.
+Owner, in three turns: the stack ruling was missed — Node.js, smallest architecture, no tests; record
+the owner's TODOs as a plan, in Chinese; then three documents (定義、資料採集規則、產出規則) — ingest
+them, write the rule kinds they define, verify the tool on the real exports.
 
 ## Done
-- `REA_PROTO_DATA_CREATOR@9b89624`: one commit replacing the Python package with five files —
-  `src/csv.js`, `src/validate.js`, `src/build.js`, `src/cli.js`, `rules/r302.js`. Node ≥ 18, no
-  dependencies. 803 lines against 1 725. Same output on the real export: 71 bodies, 38 Y / 32 M /
-  1 D, `validate` clean. Error paths tried by hand in scratch, not by tests.
-- Plan setup: `Amended:` for the stack, a second `Shipped:`, body rewritten to Node. Repository doc
-  and both index lines likewise.
-- `plan new rea rea-proto-data-creator-acceptance` (draft): what only the owner can do — the three
-  acceptance calls on the Azure host ending in the setup plan's `Verified:`, then the remote, the
-  301 and `MHCT_PAYLTYPE` mappings, the README's 名詞 wording.
+- `@9b89624`: Python → five JavaScript files, same 71 bodies. `@e4eba57` `@dc509aa` `@369fbfc`: the
+  owner's rules for 11 kinds on two shared collectors; 5 275 bodies, validate clean, 2 s; README terms
+  verbatim. Sources ingested under the data-creator repo.
+- Setup plan: Amended twice (stack; rules), Shipped twice. Acceptance plan (Chinese): verification,
+  remote, four rulings. Repository doc rewritten; declare-verify: SaveWork validates against
+  `workflow` alone, nothing reports that collection's dates.
 
 ## Decisions & pitfalls
-- A body is a plain object in JS, so the dataclasses, `to_json`/`from_json` and the camelCase mapping
-  all went: `JSON.parse` / `JSON.stringify` are the schema. That is most of the deletion.
-- The per-kind acceptance checks became one `REQUIRED_FIELDS` table plus three special cases; the
-  Python had fifteen branches saying the same thing. `checkExpression` is shared by `ruleExpr` and
-  `scopeRuleExpr`, and its messages name no field — the first version said "ruleExpr: ruleExpr: …".
-- Dropping the tests dropped the fixture too: the owner's export is the only input now.
-- `Amended:` is the right gate for a stack change inside the write set — no new plan, `Signed:`
-  stands. But the *remaining* work needed one: the setup plan goes away at `plan done`, so its step 5
-  points at the acceptance plan rather than both owning it.
-- The acceptance plan's steps 1–4 need no signature (they are the owner's own calls); 5–8 do.
-- That plan is written in Chinese on the owner's word; every other document stays English, and so
-  does its line in the index. Do not "fix" it back.
+- 101–104: the rules say group 001–004, the export has 01–04 only; compared by number, flagged.
+- 202 not written: `employmentType` decides 專任 or not — a choice, not a derivation (form default 01).
+- 205/206 on 所有項目 as written, flagged: the generators never read `mainSetting` and compile 專任
+  for every 醫令. The form's 1/2 means 無限制 / 除山地離島地區之外基層院所.
+- The start date is the host's answer, not the build's: `Payment/Detail/Get` reports `rule`'s dates,
+  0001-01-01 when none; a Save overwrites or closes an existing version.
+- Commits by source table, not one per rule kind: the reviewable unit is the shared collector.
+- `Amended:` on the signed setup plan covers the rules; the acceptance plan stays draft and holds
+  only what waits on a ruling. Its language is Chinese on the owner's word — do not "fix" it back.
+- declare-verify sits at 299/300; the 205/206 fact went to the repository doc. Split Part 3 out
+  before the next module fact.
 
 ## TODO
-- Owner: the acceptance plan, steps 1–8; its `Signed:` before any of steps 5–8 is written.
-- declare-verify is at 299 of its 300 lines: the next fact needs a split first (Part 3, checking,
-  would stand as its own module).
+- Owner: the acceptance plan, steps 1–9; its `Signed:` before 202 / 303–307 / 401 are written.
 - Earlier open items stand (REANC, architect, shell team, Keycloak). Push `rea` (owner's shell).
