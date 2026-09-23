@@ -35,3 +35,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [federation-remote](plans/federation-remote.md) — draft: the ui becomes a Federation remote and drops its own frame; the shell's team must answer first
 - [ui-docs-removal](plans/ui-docs-removal.md) — shipped `REA_UI@a024004`: `docs/` and the two lines that pointed to it removed; awaits the owner's check 
 - [rea-proto-data-creator-setup](plans/rea-proto-data-creator-setup.md) — shipped `REA_PROTO_DATA_CREATOR@9b89624`: the new project that turns Oracle table exports into `Rule/Save` bodies the prototype back end compiles and checks; 71 bodies from the 2026-09-22 export; awaits the owner's post and check
+- [rea-proto-data-creator-acceptance](plans/rea-proto-data-creator-acceptance.md) — draft: the owner's list — the acceptance run on the Azure host that ends in the setup plan's `Verified:`, then the remote, the 301 and `MHCT_PAYLTYPE` mappings, the README's 名詞 wording

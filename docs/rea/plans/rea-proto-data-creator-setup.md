@@ -58,7 +58,10 @@ wholesale; git keeps it.
    says or empty, `ruleExpr` = the codes joined by 且 unless a rule says otherwise — validate, write
    the array; `--split` adds one file per item for a Swagger paste.
 5. One commit per further rule kind as the owner supplies its 資料表檔 and mapping: the rule's
-   `description`, its `collect()`. Rule kinds without a generator (105, 303–306) are refused.
+   `description`, its `collect()`. Rule kinds without a generator (105, 303–306) are refused. The
+   ones still open are carried forward to
+   [rea-proto-data-creator-acceptance](rea-proto-data-creator-acceptance.md), with the owner's
+   acceptance run.
 6. `Shipped:` per landed commit. A repository doc (`doc add rea rea-proto-data-creator`) and the
    remote URL in `catalog/repos.yaml` are workspace work outside this write set, once the project
    runs.
