@@ -21,7 +21,7 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [rea-kernel](rea-kernel/index.md) — `REA_kernel` (read-only): where the schema and each code live
 - [rea-proto](rea-proto/index.md) — `REA_PROTO` (read-only): the template that defines the desired forms
 - [rea-proto-be](rea-proto-be/index.md) — `REA_PROTO_BE` (read-only, no upstream): `NhiDeclareVerify` — run, what each mode needs, entry points, storage, who calls it
-- [rea-proto-data-creator](rea-proto-data-creator/index.md) — `REA_PROTO_DATA_CREATOR` (write, no upstream): Node.js; the owner's 採集規則 for 13 rule kinds, 5 275 bodies from the two 資料表檔; what still waits on the owner
+- [rea-proto-data-creator](rea-proto-data-creator/index.md) — `REA_PROTO_DATA_CREATOR` (write, no upstream): Node.js; the owner's 採集規則 for 13 rule kinds, one payload file each from the two 資料表檔; what still waits on the owner
 
 ## Plans
 - [205-main-fields](plans/205-main-fields.md) — draft: kernel 205 MainFields vs the prototype (four gaps; kernel is read-only, so a request)
@@ -34,5 +34,5 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [ui-design-conformance](plans/ui-design-conformance.md) — draft: assess, then fix, the ui's screens against 附件二; after the BFF
 - [federation-remote](plans/federation-remote.md) — draft: the ui becomes a Federation remote and drops its own frame; the shell's team must answer first
 - [ui-docs-removal](plans/ui-docs-removal.md) — shipped `REA_UI@a024004`: `docs/` and the two lines that pointed to it removed; awaits the owner's check 
-- [rea-proto-data-creator-setup](plans/rea-proto-data-creator-setup.md) — shipped `REA_PROTO_DATA_CREATOR@c0ef280`: the new project that turns Oracle table exports into `Rule/Save` bodies the prototype back end compiles and checks; awaits the owner's post and check
+- [rea-proto-data-creator-setup](plans/rea-proto-data-creator-setup.md) — shipped `REA_PROTO_DATA_CREATOR@d493386`: the new project that turns Oracle table exports into `Rule/Save` bodies the prototype back end compiles and checks; awaits the owner's post and check
 - [rea-proto-data-creator-acceptance](plans/rea-proto-data-creator-acceptance.md) — draft: the owner's list — the acceptance run on the Azure host that ends in the setup plan's `Verified:`, the remote, 205/206 on every 醫令 (recorded), and the six rule kinds without rules (303–307, 401)
