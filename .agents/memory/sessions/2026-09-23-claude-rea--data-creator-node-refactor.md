@@ -32,4 +32,6 @@ Then record, as a plan, the TODO list that is the owner's to act on.
 
 ## TODO
 - Owner: the acceptance plan, steps 1–8; its `Signed:` before any of steps 5–8 is written.
+- declare-verify is at 299 of its 300 lines: the next fact needs a split first (Part 3, checking,
+  would stand as its own module).
 - Earlier open items stand (REANC, architect, shell team, Keycloak). Push `rea` (owner's shell).

@@ -57,7 +57,8 @@ no authentication.
   a template's content — the forms' meaning lives in the UI and in the generators of Part 2.
 - **Payment data is the 支付標準.** `MHCT_PAYMENT` joined to the newest `MHCT_PAYITEMS` row per
   code (`Services/PaymentService.cs:92-108`). Each row also gets its rule history: the distinct
-  start/end dates of that item's documents in `rule`, newest first (`:243-268`).
+  start/end dates of that item's documents in `rule`, newest first, `0001-01-01` when it has none
+  (`:230-233`, `:243-268`). Nothing reports `workflow`'s dates.
 - **Header options** come from `PXXT_CODE`, sub-system `PBA`: 醫令類別 `132`, 醫事類別
   `011/012/013`, 案件分類 `101`–`107` grouped per 醫事類別 (`:182-196`, `:425-437`); only codes
   whose end date is 2910-12-31 (`:328-333`).
@@ -77,7 +78,8 @@ One request may select several items; each gets its own document (`Services/Rule
 ## Part 2 — Compiling: from form data to a rule tree
 
 `POST Rule/SaveWork` takes the same body as `Rule/Save` and writes `workflow`, with the same
-date-versioning (`Services/RuleService.cs:390-414`). The body has three parts
+date-versioning — checked against `workflow` alone, so the two collections can disagree about an
+item's versions (`Services/RuleService.cs:390-414`, `:424-437`). The body has three parts
 (`Services/ViewModels/RuleConfigurationDto.cs:9-60`, `:214-244`):
 
 ```

@@ -24,15 +24,26 @@ Host `https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger �
 `/swagger`（`REA_UI@a024004 .env.development:6`、`frontend.conf:14`）。
 指令都在 `projects/rea_proto_data_creator` 下執行。
 
-1. **挑一個 host 會接受的起日，跑 build。**
-   `node src/cli.js build --in data/in --out data/out --start-date <YYYY-MM-DD> --split`。
-   後端拒絕比該醫令現存版本更早的起日：`Rule/Save` 回 500，`Rule/SaveWork` 只安靜地
-   回 `success: false`（`REA_PROTO_BE@ba161ff Services/RuleService.cs:261-274`、`:55-64`），
-   所以要挑在 host 既有版本之後的日期。
-2. **同一筆 body 貼兩次。** `data/out/items/01023C.json` 是最單純的一筆，0 到 2 歲、
-   unit `Y`：先 `POST /api/v1/Rule/Save`，再把同一份貼到 `POST /api/v1/Rule/SaveWork`。
-   兩支都要回 `success: true`。只有 `SaveWork` 會寫出檢核讀得到的 `workflow`
-   （`Controllers/RuleController.cs:26-44`）。
+1. **先問 host 這個醫令已經有什麼，再決定要測哪一筆、起日填多少。** build 是純本機的，
+   任何合法日期都會成功，`--start-date` 只是被抄進 `form.ruleStartDate`；起日要到 host
+   才會被檢查，而且 `rule` 和 `workflow` 兩個 collection 各自獨立檢查：新起日必須大於等於
+   該醫令在那個 collection 裡所有版本的最大起日，否則 `Rule/Save` 回 500、`Rule/SaveWork`
+   只安靜地回 `success: false`（`REA_PROTO_BE@ba161ff Services/RuleService.cs:261-274`、
+   `:424-437`、`:55-64`）。
+   問法：`POST /api/v1/Payment/Detail/Get`，body `{"itemCodes":["01023C"],"pageNumber":1,
+   "pageSize":10}`；回傳的 `ruleStartDate` 與 `ruleDateHistory` 就是 `rule` 這邊的既有版本
+   （`Services/PaymentService.cs:243-268`），`0001-01-01` 表示該醫令還沒有任何規則。
+   `workflow` 那邊沒有 endpoint 可查。
+   最保險是挑一個回 `0001-01-01` 的醫令：任何日期都過，也不會動到既有資料。若要用已經有
+   規則的醫令，起日相同會直接覆蓋現行版本、更晚會把現行版本關在新起日前一天
+   （`:283-298`、`:307-318`），挑今天或更晚的日期才一定過。起日在未來不影響驗收：檢核永遠
+   取訖日為 `MaxValue` 的 workflow，不看申報月份（`Services/ValidationJobService.cs:572-578`）。
+   日期定了才需要重跑 `node src/cli.js build --in data/in --out data/out --start-date
+   <YYYY-MM-DD> --split`；`data/out/` 目前是 `2026-10-01` 的那一份。
+2. **同一筆 body 貼兩次。** 貼第 1 步挑定的那一筆；`data/out/items/01023C.json` 是內容最
+   單純的一個例子，0 到 2 歲、unit `Y`。先 `POST /api/v1/Rule/Save`，再把同一份貼到
+   `POST /api/v1/Rule/SaveWork`。兩支都要回 `success: true`。只有 `SaveWork` 會寫出檢核
+   讀得到的 `workflow`（`Controllers/RuleController.cs:26-44`）。
 3. **對那個醫令跑一次 validation job。** `POST /api/v1/ValidationJob/Batch`，帶一個真實
    申報批次：`HospId`、`HospDataType`、`FeeYearMonth`、`ApplyType`、`ApplyDate`，
    `OrderCode` 填該醫令；然後輪詢 `ValidationJob/Status` 到結束。它必須結束在
