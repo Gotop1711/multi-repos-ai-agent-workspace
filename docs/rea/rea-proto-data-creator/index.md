@@ -4,10 +4,10 @@ Repository `REA_PROTO_DATA_CREATOR` (`projects/rea_proto_data_creator`, access w
 a new project created empty by `clone` on 2026-09-22 and filled by
 [rea-proto-data-creator-setup](../plans/rea-proto-data-creator-setup.md); this disk holds its only
 copy until the owner gives it a remote. Every citation below is `REA_PROTO_DATA_CREATOR@369fbfc`
-unless another repo is named. The owner's three documents of 2026-09-23 are
-`sources/2026-09-23-data-creation-definitions.txt.md@2514808960d5` (the terms),
-`…-collection-rules.txt.md@60abaf844baf` (資料採集規則: which rows) and
-`…-payload-item-rules.txt.md@99350725cdd8` (產出規則: which fields).
+unless another repo is named. The owner's three documents of 2026-09-23, under `sources/`:
+`2026-09-23-data-creation-definitions.txt.md@2514808960d5` (the terms),
+`2026-09-23-data-creation-collection-rules.txt.md@60abaf844baf` (資料採集規則: which rows),
+`2026-09-23-data-creation-payload-item-rules.txt.md@99350725cdd8` (產出規則: which fields).
 
 ## What it is, in three lines
 
