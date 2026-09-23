@@ -27,6 +27,8 @@ Then record, as a plan, the TODO list that is the owner's to act on.
   stands. But the *remaining* work needed one: the setup plan goes away at `plan done`, so its step 5
   points at the acceptance plan rather than both owning it.
 - The acceptance plan's steps 1–4 need no signature (they are the owner's own calls); 5–8 do.
+- That plan is written in Chinese on the owner's word; every other document stays English, and so
+  does its line in the index. Do not "fix" it back.
 
 ## TODO
 - Owner: the acceptance plan, steps 1–8; its `Signed:` before any of steps 5–8 is written.
