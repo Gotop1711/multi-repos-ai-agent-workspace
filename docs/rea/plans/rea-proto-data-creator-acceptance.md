@@ -9,7 +9,7 @@ Status: draft
 `https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger 在 `/swagger`
 （`REA_UI@a024004 .env.development:6`、`frontend.conf:14`）。2026-09-23 你把
 `data/out/items/01023C.json` 貼上去，兩支 endpoint 都回 `success: true`：前兩步成立，第 3 步缺申報
-資料、不在你手上。剩下的是把第 3 步交出去，以及兩個只有你能給的對照。
+資料、不在你手上。剩下的是把第 3 步交出去、簽名讓 301 落地，以及 `MHCT_PAYLTYPE` 的對照。
 
 ## Writes
 `REA_PROTO_DATA_CREATOR (main)`：`rules/r301.js`、每一種對照出來的 `MHCT_PAYLTYPE` limit type 各一個
@@ -37,14 +37,14 @@ rule 模組。`Signed:` 之前不寫任何 child，簽了也仍要等對照。�
 4. **setup plan 補 `Verified:`。** 等第 3 步有結果才寫；只有人能寫，在它出現之前 `check` 會一直把那份
    plan 列為等待中。
 
-## 兩個對照——只有你能給
-5. **301（適用性別）。** 伺服器的 301 只看 `specificConfig.mainSetting`：`["1"]` 編成「限男性」（身分證
-   第 2 碼 1 或 8），`["2"]` 編成「限女性」（2 或 9），填別的值整條條件被丟掉
-   （`Services/Rules/SexRuleGenerator.cs:17-37`）。匯出檔這邊，`MHCT_PAYLIMIT` 現行列有 19 個醫令填了
-   `LMT_SEX`，值只有 `1`（12081C、27052C 兩個）和 `2`（其餘 17 個，多為 P3911C–P3924C 這段）。
-   問你兩件事：(a) `LMT_SEX=1` 是不是就是「限男性」、`2` 是不是「限女性」？(b) 只要這格有值就該產一條
-   301，還是另有欄位決定要不要產？兩題答了，`rules/r301.js` 一個 commit 就寫得完。
-6. **`MHCT_PAYLTYPE` 的 19 種 limit type。** 這張表一列 = 一個醫令 + 一種 `LMT_TYPE_CODE` + 一個
+## 對照
+5. **301（適用性別）——對照齊了，只差 `Signed:`。** 你 2026-09-23 給的採集規則：`MHCT_PAYLIMIT` 現行列
+   只要 `LMT_SEX` 有值就是一個項目，`1` = 限男性、`2` = 限女性。伺服器的 301 只看
+   `specificConfig.mainSetting`，`["1"]`／`["2"]` 以外的值整條條件會被丟掉
+   （`Services/Rules/SexRuleGenerator.cs:17-37`）；匯出檔這 19 個醫令的值也只有 1（12081C、27052C）
+   和 2（其餘 17 個）。要寫的是 `rules/r301.js` 一個 commit：`description` 比照 302、scope 留空。
+   這 19 個醫令沒有一個落在 302 的 71 個裡，所以 payload 會從 71 筆變 90 筆，每筆仍只帶一種規則。
+6. **`MHCT_PAYLTYPE` 的 19 種 limit type——還沒有對照。** 這張表一列 = 一個醫令 + 一種 `LMT_TYPE_CODE` + 一個
    `LMT_ITEM`（現行列 28 517 筆），也就是「這個醫令在這種限制下的清單」。伺服器有 15 種規則種類，每種吃
    的都是一組代碼填在 `specificConfig` 的某個欄位（declare-verify › The fifteen rule kinds）。磁碟上沒有
    任何東西說哪個 `LMT_TYPE_CODE` 是哪一種——代碼對照表在你們那邊，我不猜。現行列的長相

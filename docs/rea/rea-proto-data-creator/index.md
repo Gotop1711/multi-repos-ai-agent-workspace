@@ -68,9 +68,9 @@ There is no model layer: a body is a plain object, `JSON.parse` / `JSON.stringif
   both start-date checks, not that the stored workflow runs: only a validation job shows that, and it
   checks nothing unless Oracle returns declaration rows for the 醫令
   ([declare-verify](../declare-verify.md) › Part 3, step 4).
-- **Not yet a rule**: `MHCT_PAYLIMIT.LMT_SEX` (19 rows in force, values `1`/`2` — what 301 takes) and
-  `MHCT_PAYLTYPE` (19 `LMT_TYPE_CODE` values, no mapping to a rule kind on disk) (`README.md:118-124`).
-  Each waits for the owner's mapping —
-  [rea-proto-data-creator-acceptance](../plans/rea-proto-data-creator-acceptance.md) steps 5 and 6,
-  one commit per rule kind.
+- **Not yet a rule**: `MHCT_PAYLIMIT.LMT_SEX` and `MHCT_PAYLTYPE` (`README.md:118-124`). 301's 採集
+  規則 is the owner's of 2026-09-23 — a filled `LMT_SEX` is itself the item, `1` 限男性 / `2` 限女性,
+  19 醫令 in force, none of them among 302's 71 — so it waits only on the plan's `Signed:`.
+  `MHCT_PAYLTYPE`'s 19 `LMT_TYPE_CODE` values still map to no rule kind on disk —
+  [rea-proto-data-creator-acceptance](../plans/rea-proto-data-creator-acceptance.md) steps 5 and 6.
 - Nothing links it to `REA_UI` or `REA_kernel`: it targets the prototype back end only.
