@@ -1,7 +1,7 @@
 ---
 source: docs/assets/rea/rea-proto-data-creator/2026-09-24-data-creation-payload-item-rules.txt
-sha256: 2d37fb1ccbe6248c2a98dbccd29bc0a227892cfb6006835986c062266980ba65
-bytes: 5179
+sha256: 37c4a7721216324515861e6c630628f2ab92ed2712a729ec55b5a5857670aeed
+bytes: 5228
 extractor: verbatim
 status: ok
 received: 後端驗測資料生產__RuleSave_payload_item_產出規則.txt
@@ -52,4 +52,4 @@ received: 後端驗測資料生產__RuleSave_payload_item_產出規則.txt
     - prefixRange 值填入 CNAME 跟 ENAME 的編碼長度。起迄長度不同的話，取較長者。
 除 `specificConfig.rangeGroups` 之外，307 的 [RuleSave_payload_item] 還要填寫 `specificConfig.filterFields`。值都給 `["01","02"]`。
 
-401: 401 的 [rule模組欄位資料檔] 每筆資料的 IOPD_LMT 值要解析後填入 [RuleSave_payload_item] 的 `specificConfig.mainSetting` 之中。IOPD_LMT 的值可能是單一位數數字字串，也可能是複數位數數字字串。若是複數位數數字字串，在填入 mainSetting 之前，要先把字串拆開成多個單一位數數字字串的值。例如："23" -> "2", "3"。
+401: 401 的 [rule模組欄位資料檔] 每筆資料的 IOPD_LMT 值要解析後填入 [RuleSave_payload_item] 的 `specificConfig.mainSetting` 之中。IOPD_LMT 的值可能是單一位數數字字串，也可能是複數位數數字字串。若是複數位數數字字串，在填入 mainSetting 之前，要先把字串拆開成多個單一位數數字字串的值。最後每個值都要前綴 "0"。例如："1" -> "01"; "23" -> "02", "03"。

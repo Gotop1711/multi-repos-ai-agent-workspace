@@ -4,16 +4,15 @@ Writes: REA_PROTO_DATA_CREATOR (main)
 Status: draft
 
 ## 目標
-工具已經出貨：你給的文件已 ingest，其中定義的 15 個 rule 模組都寫進程式，兩份資料表檔跑出 12 個
-檔案、12 140 筆 body（[setup](rea-proto-data-creator-setup.md)、`REA_PROTO_DATA_CREATOR@63005f8`）。
-401 是第 16 個，但照規則產出的值後端讀不懂，被擋下，見第 5 步。本文件的「伺服器」一律指那台已
-部署、`REA_UI` 連的站台 `https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger 在
+工具已經出貨：你給的文件已 ingest，其中定義的 15 個 rule 模組都寫進程式，兩份資料表檔跑出 15 個
+檔案、12 763 筆 body，每個檔案 validate 零錯誤（[setup](rea-proto-data-creator-setup.md)、
+`REA_PROTO_DATA_CREATOR@bb32f77`）。本文件的「伺服器」一律指那台已部署、`REA_UI` 連的站台 `https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger 在
 `/swagger`（`REA_UI@a024004 .env.development:6`）。2026-09-23 你貼 `01023C` 上去，兩支 endpoint 都回
-`success: true`：驗收的前兩件事已成立。剩下的是第 3 步（缺申報資料，不在你手上）與第 5 到 8 步。
+`success: true`：驗收的前兩件事已成立。剩下的是第 3 步（缺申報資料，不在你手上）與第 6、7 步。
 
 ## Writes
-`REA_PROTO_DATA_CREATOR (main)`：401 依裁定修正、307 依裁定修正、每一種對照出來的 `MHCT_PAYLTYPE`
-limit type 各一個 rule 模組、303–306 的 rule 模組。`Signed:` 之前不寫任何 child，簽了也仍要等對照。
+`REA_PROTO_DATA_CREATOR (main)`：每一種對照出來的 `MHCT_PAYLTYPE` limit type 各一個 rule 模組、
+303–306 的 rule 模組。`Signed:` 之前不寫任何 child，簽了也仍要等對照。
 文件與 `catalog/` 不在這道閘門內。
 
 ## 已成立 — 2026-09-23 你的驗收
@@ -38,19 +37,12 @@ limit type 各一個 rule 模組、303–306 的 rule 模組。`Signed:` 之前�
 4. **setup plan 補 `Verified:`。** 等第 3 步有結果才寫；只有人能寫。
 
 ## 對照
-5. ⚠ **401 的 `mainSetting` 要不要補 0——只有這一題擋住 `r401.json`。** 產出規則說把 `IOPD_LMT`
-   拆成單一位數（`"23"` → `["2","3"]`），但後端只認 `"01"` 門診、`"02"` 住診、`"03"` 限急診、
-   `"04"` 牙醫門診，其餘一概編不出東西（`Services/Rules/OutpatientInpatientRuleGenerator.cs:20-85`），
-   623 筆會全部變成空的 Or 單元、讓檢核工作失敗。程式照規則寫了，驗證器擋下，`r401.json` 沒有
-   產出，其他 12 個檔案不受影響。匯出檔的值是 1（429）、2（180）、4（4）、23（8）、13（2），補 0
-   後正好對上那四個選項。要補 0 的話回一句，一個 commit；規則文件也請同步。
-6. **307 的三個資料疑問——`r307.json` 已產出，這些值照抄，不影響其他檔案。** 114 個醫令、546 個
-   rangeGroups 都照規則填（`CNAME`/`ENAME` 起迄、`CNAME_1`/`ENAME_1` 月數、`prefixRange` 取較長者）。
-   三件事值得你確認：90 列 `ENAME` 空白，目前當「無上限」（generator 會略過上界，
-   `IcdCodeRuleGenerator.cs:171`），若本意是「同 `CNAME`」請說；11 列的碼帶小數點（`64288B`、
-   `64289B`，例 `Q65.8`），申報欄位若存無點格式就永遠比不中；`P8211B` 有一列起 `I67841` 迄
-   `67848`，迄值少了 `I`，這個範圍恆不成立。
-7. **`MHCT_PAYLTYPE` 還沒對照的 13 種 limit type。** 已對照：13（101–104）、1（106）、3（201）、
+5. **401 與 307 已裁定（2026-09-24）。** 401：產出規則改成每位數前綴 0（`"23"` → `["02","03"]`），
+   正是 generator 讀的四個值，`r401.json` 623 筆已產出。307：三件都維持表裡原值——`ENAME` 空白就是
+   無上限，不是同 `CNAME`；11 列小數點照抄；`P8211B` 起 `I67841` 迄 `67848` 那一段照抄。你貼那筆
+   `Save`／`SaveWork` 都成功，但那只證明 body 格式，不證明範圍比得中：`"67848"` 排在 `"I67841"`
+   之前，這一段永遠不成立，該醫令其餘六段照常。對驗測資料來說無妨；正式資料要修表。
+6. **`MHCT_PAYLTYPE` 還沒對照的 13 種 limit type。** 已對照：13（101–104）、1（106）、3（201）、
    7（202）、14（204）、16 群組 1（307）。其餘現行列的長相（代號 列數/醫令數 `LMT_ITEM` 樣本…
    (種類數)；★ 另帶 `RATE`，● 另帶 `CNT`）：
    ★23 13827/4609 HO·HP·HQ…(3)｜★11 7381/231 FG·FK·FU…(37)｜★19 506/22 94201B·75020B…(23)｜
@@ -59,7 +51,7 @@ limit type 各一個 rule 模組、303–306 的 rule 模組。`Signed:` 之前�
    ●18 29/18 27008B·27016B…(14)｜22 12/4 21+L1001C…(8)｜24 8/8 HP·HQ…(2)
    每一種請給：中文名稱、對應哪個規則代碼（101–401）或「不對應任何規則」、以及 `LMT_ITEM`（必要時
    加 `CNT`/`RATE`）要填進 `specificConfig` 的哪個欄位。你答幾種我就寫幾個 commit。
-8. **303–306。** 兩份規則文件裡這四個 rule 模組還是空的；補上後各一個 commit。
+7. **303–306。** 兩份規則文件裡這四個 rule 模組還是空的；補上後各一個 commit。
 
 ## 暫緩——你 2026-09-23 說不急
 - **child 的 remote。** `catalog/repos.yaml` 仍是 `remote: none`：這台磁碟是唯一的副本。
@@ -71,5 +63,4 @@ limit type 各一個 rule 模組、303–306 的 rule 模組。`Signed:` 之前�
 - `main` 和 `rea` 由你的 shell 推送。
 
 ## 完成條件
-第 3 步有一次 `Completed` 且真的驗到那個醫令，setup plan 因此帶上 `Verified:`；401 與 307 的疑問有
-裁定並落地；`MHCT_PAYLTYPE` 其餘 limit type 有了對照，或由你裁定不對應任何規則並寫進 repository doc。
+第 3 步有一次 `Completed` 且真的驗到那個醫令，setup plan 因此帶上 `Verified:`；`MHCT_PAYLTYPE` 其餘 limit type 有了對照，或由你裁定不對應任何規則並寫進 repository doc。
