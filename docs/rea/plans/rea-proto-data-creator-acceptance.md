@@ -7,7 +7,7 @@ Status: draft
 工具已經出貨。2026-09-23 你給的三份文件（定義、資料採集規則、產出規則）已 ingest 進
 workspace，其中定義了的 13 個 rule 模組已照著寫進程式，兩份資料表檔跑出 13 個檔案、12 026 筆
 body，每個檔案 validate 零錯誤（[rea-proto-data-creator-setup](rea-proto-data-creator-setup.md)、
-`REA_PROTO_DATA_CREATOR@d52f321`）。產出形式依你 2026-09-23 的裁定：每個 rule 模組一個檔案，起日
+`REA_PROTO_DATA_CREATOR@949e7c4`）。產出形式依你 2026-09-23 的裁定：每個 rule 模組一個檔案，起日
 訖日與 `specificConfig` 全欄位照產出規則的共通規則。
 剩下的都在你手上：貼上伺服器驗收、child 的 remote、還沒寫規則的六個 rule 模組。這份 plan 就是
 那張清單。第 1 到 4 步是你自己的操作，不需要簽名，做完會落在 setup plan 的 `Verified:`；第 7 步
@@ -23,7 +23,7 @@ Host `https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger �
 `/swagger`（`REA_UI@a024004 .env.development:6`）。指令在 `projects/rea_proto_data_creator` 下執行。
 
 1. **先問 host 這個醫令已經有什麼。** 起日訖日不再由你挑：產出規則固定 `ruleStartDate` 2026-01-01、
-   `ruleEndDate` 2910-12-31，build 不收日期，`data/out/` 已是目前規則的產出。要查的是 host 上該醫令
+   `ruleEndDate` 9999-12-31，build 不收日期，`data/out/` 已是目前規則的產出。要查的是 host 上該醫令
    有沒有比 2026-01-01 更晚的版本：有的話 `Rule/Save` 回 500、`Rule/SaveWork` 只安靜地回
    `success: false`（`REA_PROTO_BE@ba161ff Services/RuleService.cs:261-274`、`:424-437`；`rule` 和
    `workflow` 兩個 collection 各自檢查）。問法：`POST /api/v1/Payment/Detail/Get`，body
@@ -31,8 +31,8 @@ Host `https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger �
    `ruleDateHistory` 是 `rule` 這邊的既有版本（`Services/PaymentService.cs:243-268`），`0001-01-01`
    表示還沒有規則；`workflow` 那邊沒有 endpoint 可查。最保險是挑一個回 `0001-01-01` 的醫令。已有
    規則的醫令：起日同為 2026-01-01 會覆蓋現行版本、更早的會被關在 2025-12-31（`:283-298`、
-   `:307-318`）。body 裡的 2910-12-31 不會被存下來，後端一律存 9999-12-31（`:339`、`:413`），檢核也
-   只讀 9999-12-31 的版本（`Services/ValidationJobService.cs:572-578`）——這是對的，不必改。
+   `:307-318`）。訖日不管填什麼，後端一律存 9999-12-31（`:339`、`:413`），檢核也只讀 9999-12-31 的
+   版本（`Services/ValidationJobService.cs:572-578`）；body 從 2026-09-24 起填的就是這個值。
 2. **同一筆 body 貼兩次。** 從一個 rule 模組的檔案裡挑第 1 步定的那個醫令，例如
    `data/out/items/r302/01023C.json`（0 到 2 歲、unit Y，只含 302）。先 `POST /api/v1/Rule/Save`，
    再把同一份貼到 `POST /api/v1/Rule/SaveWork`，兩支都要回 `success: true`；只有 `SaveWork` 會寫出

@@ -1,6 +1,6 @@
 ---
-source: docs/assets/rea/rea-proto-data-creator/2026-09-23-data-creation-payload-item-rules.txt
-sha256: ba4958e32cf99cab4864f91285dc0dc4f70ee9fd537aeb9ac98b6764cceb85cf
+source: docs/assets/rea/rea-proto-data-creator/2026-09-24-data-creation-payload-item-rules.txt
+sha256: 5760d2bf635017b06bf465bc05becec2d9e1c0c495d0889f08b767868eb49b44
 bytes: 4137
 extractor: verbatim
 status: ok
@@ -11,7 +11,7 @@ received: 後端驗測資料生產__RuleSave_payload_item_產出規則.txt
 
 共通 RuleSave_payload_item 填值規則：
 - `form.ruleStartDate` 要給 "2026-01-01" 的值。
-- `form.ruleEndDate` 要給 "2910-12-31" 的值。
+- `form.ruleEndDate` 要給 "9999-12-31" 的值。
 - `specificConfig.referenceDate` 要給 `["executionDate"]`的值。
 - `specificConfig` 下面，除了下面規則指明要填值的欄位和 `specificConfig.referenceDate` 以外的欄位 (完整的 `specificConfig.*` 欄位請參考 POST_RuleSave_request-body_Schema.json)，都還是要產出，但值給 null。
 

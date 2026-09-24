@@ -7,7 +7,7 @@ copy until the owner gives it a remote. Every citation below is `REA_PROTO_DATA_
 unless another repo is named. The owner's documents of 2026-09-23, under `sources/`:
 `2026-09-23-data-creation-definitions.txt.md@2514808960d5` (the terms),
 `2026-09-23-data-creation-collection-rules.txt.md@043e43c4e9a2` (資料採集規則: which rows),
-`2026-09-23-data-creation-payload-item-rules.txt.md@4454172deb2d` (產出規則: which fields, and what
+`2026-09-24-data-creation-payload-item-rules.txt.md@926b9e0fc1f3` (產出規則: which fields, and what
 every body carries) and `2026-09-23-post-rulesave-request-body-schema.json.md@e0dcec1e2d33` (the
 body's fields as the Swagger host shows them).
 
@@ -40,7 +40,7 @@ body's fields as the Swagger host shows them).
 | 302 | `MHCT_PAYLIMIT` | an `LMT_AGE_*` range | `unit`, `min`, `max` | 71 |
 
 Common to every body, the 產出規則's rule (`src/collect.js:10-12`; `src/build.js:14`, `:44`):
-`form.ruleStartDate` `2026-01-01`, `form.ruleEndDate` `2910-12-31`, `specificConfig.referenceDate`
+`form.ruleStartDate` `2026-01-01`, `form.ruleEndDate` `9999-12-31`, `specificConfig.referenceDate`
 `["executionDate"]`, and every other `specificConfig` field the owner's schema lists written as `null`
 (`schemas/POST_RuleSave_request-body_Schema.json`). A group code is matched with its leading zeros
 stripped (`src/collect.js:30`). Each module's `description` (`rules/r<code>.js:9`) is the rule as
@@ -66,8 +66,9 @@ written, its columns numbered against `schemas/<TABLE>.csv`; a rejected row is a
   each generator's acceptance check ([declare-verify](../declare-verify.md) › Part 2).
 - **The body's dates and the back end.** A start date earlier than the 醫令's latest stored version is
   refused (`Services/RuleService.cs:261-274`, `:424-437`); the end date is stored as `9999-12-31`
-  whatever the body says, on `Save` and on `SaveWork` (`:339`, `:413`) — which is what lets checking
-  find the rule, since it reads the `9999-12-31` version (`Services/ValidationJobService.cs:572-578`).
+  whatever the body says, on `Save` and on `SaveWork` (`:339`, `:413`) — the value the body carries
+  since 2026-09-24, and the one checking looks for (`Services/ValidationJobService.cs:572-578`). It is
+  not the `2910-12-31` that marks a 資料表檔's row in force.
 - **The files are for one rule kind at a time.** One rule document per 醫令 per start date, and a
   `Save` with the same start date replaces its `rules[]` outright (`:283-298`;
   [declare-verify](../declare-verify.md) › Saving a rule): two kinds' bodies for one 醫令 leave the

@@ -14,6 +14,8 @@ Amended: 2026-09-23 — the output is one RuleSave_batch_payload per rule kind, 
 Shipped: 2026-09-23 — REA_PROTO_DATA_CREATOR@d493386 (per-kind payloads)
 Amended: 2026-09-23 — the 產出規則 re-issued again: ruleStartDate 2026-01-01 and ruleEndDate 2910-12-31 on every body, every specificConfig field of the owner's body schema written (null unless filled); the schema ingested; --start-date dropped
 Shipped: 2026-09-23 — REA_PROTO_DATA_CREATOR@8c47ffe (the common values), @d52f321 (two citations fixed)
+Amended: 2026-09-24 — the 產出規則's form.ruleEndDate is 9999-12-31, the value the back end stores anyway and the one checking looks for
+Shipped: 2026-09-24 — REA_PROTO_DATA_CREATOR@949e7c4 (the end date)
 
 ## Goal
 `REA_PROTO_DATA_CREATOR` turns 資料表檔 — Oracle SQL Developer `.csv` exports keyed by 醫令 — into
@@ -25,18 +27,16 @@ columns of which 資料表檔 select an 醫令 and how they fill `specificConfig
 down as versioned files the tool executes, so the rule模組欄位資料檔 is reproducible, not hand-made.
 
 It rests on: the body is `SaveRuleRequest` = `form` + `ruleExpr` + `rules[]` (`REA_PROTO_BE@ba161ff
-Services/ViewModels/RuleConfigurationDto.cs:9-60`, `:214-245`), which the owner's Swagger host serves
-field for field (rea-proto-be › Integration); what each rule kind must carry to compile is in
-declare-verify › The fifteen rule kinds.
+Services/ViewModels/RuleConfigurationDto.cs:9-60`, `:214-245`); what each rule kind must carry to
+compile is in declare-verify › The fifteen rule kinds.
 
 ## Writes
 `REA_PROTO_DATA_CREATOR (main)`: created empty by `clone` on 2026-09-22, no remote yet; every commit
 is this plan's work. Nothing is written to `REA_PROTO_BE` or the Azure host: posting is the owner's.
-
 The stack, as amended on 2026-09-23: Node.js ≥ 18, no dependencies, no tests; a body is a plain
 object, `JSON.parse` / `JSON.stringify` are the schema. The 資料表檔 stay out of git; each 採集規則 is
-one module `rules/r<code>.js` — `description` the human-readable rule, `collect()` applies it. The
-Python package signed on 2026-09-22 was replaced wholesale; git keeps it.
+one module `rules/r<code>.js` — `description` the rule, `collect()` applies it. The Python package
+signed on 2026-09-22 was replaced wholesale; git keeps it.
 
 ## Steps
 1. `chore: scaffold` — README, `.gitignore`, `package.json`, `src/`, `rules/`, `schemas/`,
@@ -46,14 +46,13 @@ Python package signed on 2026-09-22 was replaced wholesale; git keeps it.
    written: a 302 without `referenceDate`, a hollow rule kind, a malformed `ruleExpr`, a code without
    a generator all fail here, loudly, not in the job.
 3. `feat: 302 rule` — `rules/r302.js` from `MHCT_PAYLIMIT`'s `LMT_AGE_*` columns, the worked example.
-4. `feat: build` — `node src/cli.js build --in data/in --out data/out [--split]`: read every
-   資料表檔, run every rule, write the rule模組欄位資料檔 (one `.csv` per rule kind), then per rule
-   kind one body per 醫令 — `form.selectedItems` = [醫令], the dates and every `specificConfig` field
-   as the 產出規則's common rule says, header lists empty, `ruleExpr` = the code — validate, write
-   the kind's array; `--split` adds one file per 醫令.
+4. `feat: build` — `node src/cli.js build --in data/in --out data/out [--split]`: read every 資料表檔,
+   run every rule, write the rule模組欄位資料檔 (one `.csv` per rule kind), then per rule kind one body
+   per 醫令 — `selectedItems` = [醫令], the dates and every `specificConfig` field as the 產出規則's
+   common rule says, `ruleExpr` = the code — validate, write the kind's array; `--split` splits it.
 5. Further rule kinds as the owner supplies their mapping: the rule's `description`, its
-   `collect()`. Twelve landed on 2026-09-23 from the owner's documents; 303–307 and 401 (no rules
-   yet) are carried in [rea-proto-data-creator-acceptance](rea-proto-data-creator-acceptance.md).
+   `collect()`. Twelve landed on 2026-09-23; 303–307 and 401 are carried in
+   [rea-proto-data-creator-acceptance](rea-proto-data-creator-acceptance.md).
 6. `Shipped:` per landed commit; the repository doc and the remote are workspace work.
 
 ## Done when
