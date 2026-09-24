@@ -1,7 +1,7 @@
 ---
 source: docs/assets/rea/rea-proto-data-creator/2026-09-24-data-creation-payload-item-rules.txt
-sha256: 5760d2bf635017b06bf465bc05becec2d9e1c0c495d0889f08b767868eb49b44
-bytes: 4137
+sha256: 2d37fb1ccbe6248c2a98dbccd29bc0a227892cfb6006835986c062266980ba65
+bytes: 5179
 extractor: verbatim
 status: ok
 received: 後端驗測資料生產__RuleSave_payload_item_產出規則.txt
@@ -44,6 +44,12 @@ received: 後端驗測資料生產__RuleSave_payload_item_產出規則.txt
 304:
 305:
 306:
-307:
+307: 307 的 [rule模組欄位資料檔] 若有多筆相同 TREAT_CODE 的資料，他們的 CNAME, ENAME, CNAME_1, ENAME_1 的值都要填入 [RuleSave_payload_item] 的 `specificConfig.rangeGroups` 下面的項目中。每個 rangGroup 項目中的欄位對應是：
+    - CNAME 值填入 inputStart
+    - ENAME 值填入 inputEnd
+    - CNAME_1 值填入 monthStart
+    - ENAME_1 值填入 monthEnd
+    - prefixRange 值填入 CNAME 跟 ENAME 的編碼長度。起迄長度不同的話，取較長者。
+除 `specificConfig.rangeGroups` 之外，307 的 [RuleSave_payload_item] 還要填寫 `specificConfig.filterFields`。值都給 `["01","02"]`。
 
-401:
+401: 401 的 [rule模組欄位資料檔] 每筆資料的 IOPD_LMT 值要解析後填入 [RuleSave_payload_item] 的 `specificConfig.mainSetting` 之中。IOPD_LMT 的值可能是單一位數數字字串，也可能是複數位數數字字串。若是複數位數數字字串，在填入 mainSetting 之前，要先把字串拆開成多個單一位數數字字串的值。例如："23" -> "2", "3"。

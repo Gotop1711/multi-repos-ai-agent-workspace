@@ -1,7 +1,7 @@
 ---
-source: docs/assets/rea/rea-proto-data-creator/2026-09-23-data-creation-collection-rules.txt
-sha256: 6d14b100deb8f7fa5e7cbef62b4e5dc36b26164b284b209453d43573e8d4ccb3
-bytes: 994
+source: docs/assets/rea/rea-proto-data-creator/2026-09-24-data-creation-collection-rules.txt
+sha256: a488a8325814ce83d974048fd076fef10977e20a3ec9f22a24386021a29f95d8
+bytes: 1107
 extractor: verbatim
 status: ok
 received: 後端驗測資料生產__資料採集規則.txt
@@ -30,6 +30,6 @@ received: 後端驗測資料生產__資料採集規則.txt
 304:
 305:
 306:
-307:
+307: MHCT_PAYLTYPE_Data.csv 中，LMT_TYPE_CODE=16，LMT_GROUP_CODE=1
 
-401:
+401: MHCT_PAYLIMIT_Data.csv IOPD_LMT 有值的項目

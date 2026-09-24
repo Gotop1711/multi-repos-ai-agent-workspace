@@ -16,15 +16,17 @@ Amended: 2026-09-23 — the 產出規則 re-issued again: ruleStartDate 2026-01-
 Shipped: 2026-09-23 — REA_PROTO_DATA_CREATOR@8c47ffe (the common values), @d52f321 (two citations fixed)
 Amended: 2026-09-24 — the 產出規則's form.ruleEndDate is 9999-12-31, the value the back end stores anyway and the one checking looks for
 Shipped: 2026-09-24 — REA_PROTO_DATA_CREATOR@949e7c4 (the end date)
+Amended: 2026-09-24 — the 採集規則 and 產出規則 re-issued with 307 (MHCT_PAYLTYPE type 16 group 1) and 401 (IOPD_LMT); the validator also checks the values each generator reads
+Shipped: 2026-09-24 — REA_PROTO_DATA_CREATOR@647ceaa (307), @eb198cc (401, refused), @2f790a9 (README)
 
 ## Goal
 `REA_PROTO_DATA_CREATOR` turns 資料表檔 — Oracle SQL Developer `.csv` exports keyed by 醫令 — into
 RuleSave_batch_payload files, one per rule kind: a JSON array whose every item is one
 `POST /api/v1/Rule/Save` body for one 醫令 carrying that rule kind alone, that `REA_PROTO_BE` accepts
-on `Rule/Save` and `Rule/SaveWork` and compiles to a workflow the generator keeps — so a validation
-job on it ends `Completed`, not `Failed` on a hollow unit. Between the two sit the 資料採集規則: which
-columns of which 資料表檔 select an 醫令 and how they fill `specificConfig`; this project writes them
-down as versioned files the tool executes, so the rule模組欄位資料檔 is reproducible, not hand-made.
+on both `Rule/Save` and `Rule/SaveWork` and compiles to a workflow the generator keeps — so a
+validation job on it ends `Completed`, not `Failed` on a hollow unit. Between the two sit the
+資料採集規則: which columns select an 醫令 and how they fill `specificConfig`; this project writes them
+down as versioned files the tool executes.
 
 It rests on: the body is `SaveRuleRequest` = `form` + `ruleExpr` + `rules[]` (`REA_PROTO_BE@ba161ff
 Services/ViewModels/RuleConfigurationDto.cs:9-60`, `:214-245`); what each rule kind must carry to
@@ -40,18 +42,16 @@ signed on 2026-09-22 was replaced wholesale; git keeps it.
 
 ## Steps
 1. `chore: scaffold` — README, `.gitignore`, `package.json`, `src/`, `rules/`, `schemas/`,
-   `data/in/.gitkeep`; the README names the Swagger host as the schema's source, `REA_PROTO_BE@ba161ff`
-   as the checked code.
-2. `feat: schema` — a validator applies each rule kind's acceptance check before anything is
-   written: a 302 without `referenceDate`, a hollow rule kind, a malformed `ruleExpr`, a code without
-   a generator all fail here, loudly, not in the job.
+   `data/in/.gitkeep`; the README names the Swagger host and `REA_PROTO_BE@ba161ff` as its sources.
+2. `feat: schema` — a validator applies each rule kind's acceptance check, and the values each
+   generator reads, before anything is written: they fail here, loudly, not in the job.
 3. `feat: 302 rule` — `rules/r302.js` from `MHCT_PAYLIMIT`'s `LMT_AGE_*` columns, the worked example.
 4. `feat: build` — `node src/cli.js build --in data/in --out data/out [--split]`: read every 資料表檔,
    run every rule, write the rule模組欄位資料檔 (one `.csv` per rule kind), then per rule kind one body
    per 醫令 — `selectedItems` = [醫令], the dates and every `specificConfig` field as the 產出規則's
    common rule says, `ruleExpr` = the code — validate, write the kind's array; `--split` splits it.
-5. Further rule kinds as the owner supplies their mapping: the rule's `description`, its
-   `collect()`. Twelve landed on 2026-09-23; 303–307 and 401 are carried in
+5. Further rule kinds as the owner supplies their mapping. Fourteen have landed; 303–306, and 401
+   until its values are settled, are carried in
    [rea-proto-data-creator-acceptance](rea-proto-data-creator-acceptance.md).
 6. `Shipped:` per landed commit; the repository doc and the remote are workspace work.
 
