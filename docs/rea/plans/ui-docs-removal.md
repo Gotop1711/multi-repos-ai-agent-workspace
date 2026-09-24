@@ -1,9 +1,10 @@
 # rea — ui-docs-removal
 
 Writes: REA_UI (develop)
-Status: shipped
+Status: verified
 Signed: gotop1711 — 2026-09-21
 Shipped: 2026-09-21 — REA_UI@a024004 (develop, unpushed)
+Verified: gotop1711 — 2026-09-24
 
 ## Goal
 `REA_UI` carries no `docs/` directory, so neither an agent nor a developer reads a hand-written
