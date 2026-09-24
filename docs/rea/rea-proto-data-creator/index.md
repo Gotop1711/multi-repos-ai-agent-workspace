@@ -3,7 +3,7 @@
 Repository `REA_PROTO_DATA_CREATOR` (`projects/rea_proto_data_creator`, access write, `remote: none`):
 a new project created empty by `clone` on 2026-09-22 and filled by
 [rea-proto-data-creator-setup](../plans/rea-proto-data-creator-setup.md); this disk holds its only
-copy until the owner gives it a remote. Every citation below is `REA_PROTO_DATA_CREATOR@2f790a9`
+copy until the owner gives it a remote. Every citation below is `REA_PROTO_DATA_CREATOR@63005f8`
 unless another repo is named. The owner's documents of 2026-09-23, under `sources/`:
 `2026-09-23-data-creation-definitions.txt.md@2514808960d5` (the terms),
 `2026-09-24-data-creation-collection-rules.txt.md@fc90c4190bdf` (資料採集規則: which rows),

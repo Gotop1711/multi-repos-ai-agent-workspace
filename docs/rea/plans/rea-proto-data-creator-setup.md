@@ -17,7 +17,7 @@ Shipped: 2026-09-23 — REA_PROTO_DATA_CREATOR@8c47ffe (the common values), @d52
 Amended: 2026-09-24 — the 產出規則's form.ruleEndDate is 9999-12-31, the value the back end stores anyway and the one checking looks for
 Shipped: 2026-09-24 — REA_PROTO_DATA_CREATOR@949e7c4 (the end date)
 Amended: 2026-09-24 — the 採集規則 and 產出規則 re-issued with 307 (MHCT_PAYLTYPE type 16 group 1) and 401 (IOPD_LMT); the validator also checks the values each generator reads
-Shipped: 2026-09-24 — REA_PROTO_DATA_CREATOR@647ceaa (307), @eb198cc (401, refused), @2f790a9 (README)
+Shipped: 2026-09-24 — REA_PROTO_DATA_CREATOR@647ceaa (307), @eb198cc (401, refused), @63005f8 (README)
 
 ## Goal
 `REA_PROTO_DATA_CREATOR` turns 資料表檔 — Oracle SQL Developer `.csv` exports keyed by 醫令 — into

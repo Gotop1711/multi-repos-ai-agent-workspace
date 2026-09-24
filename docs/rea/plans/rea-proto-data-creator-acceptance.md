@@ -5,7 +5,7 @@ Status: draft
 
 ## 目標
 工具已經出貨：你給的文件已 ingest，其中定義的 15 個 rule 模組都寫進程式，兩份資料表檔跑出 12 個
-檔案、12 140 筆 body（[setup](rea-proto-data-creator-setup.md)、`REA_PROTO_DATA_CREATOR@2f790a9`）。
+檔案、12 140 筆 body（[setup](rea-proto-data-creator-setup.md)、`REA_PROTO_DATA_CREATOR@63005f8`）。
 401 是第 16 個，但照規則產出的值後端讀不懂，被擋下，見第 5 步。本文件的「伺服器」一律指那台已
 部署、`REA_UI` 連的站台 `https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger 在
 `/swagger`（`REA_UI@a024004 .env.development:6`）。2026-09-23 你貼 `01023C` 上去，兩支 endpoint 都回
