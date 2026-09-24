@@ -52,6 +52,13 @@ endpoint 都回 `success: true`：驗收的前兩件事已成立。剩下的是�
    每一種請給：中文名稱、對應哪個規則代碼（101–401）或「不對應任何規則」、以及 `LMT_ITEM`（必要時
    加 `CNT`/`RATE`）要填進 `specificConfig` 的哪個欄位。你答幾種我就寫幾個 commit。
 7. **303–307、401。** 兩份規則文件裡這六個 rule 模組還是空的；補上後各一個 commit。
+   **307 已查清、待你裁定（2026-09-24）。** type 16 現行 546 列／114 醫令；一列＝一段診斷碼範圍：`CNAME` 起、
+   `ENAME` 迄（90 列迄空白），`CNAME_1`／`ENAME_1` 年齡起迄。generator 只查 `filterFields`、`rangeGroups`
+   非空（`REA_PROTO_BE@ba161ff Services/Rules/IcdCodeRuleGenerator.cs:234-238`）；
+   一個醫令的各列＝同一條件裡 Or 併列的 rangeGroups（`:31-52`）；五欄皆字串：`prefixRange` 是整數才做前 N 碼
+   比對、否則整串（`:160-191`）；`inputEnd` 空白＝無上限（`:171`）；月起迄空白即不查年齡（`:210-216`）。要你答：
+   `filterFields`（prototype 例 ["01","02"]）；`ENAME` 空白＝`CNAME`？；0／9999 照抄？；11 列帶「.」去點？；
+   `P8211B` 迄值 `67848` 缺 I。
 
 ## 暫緩——你 2026-09-23 說不急
 - **child 的 remote。** `catalog/repos.yaml` 仍是 `remote: none`：這台磁碟是唯一的副本。
