@@ -4,61 +4,64 @@ Writes: REA_PROTO_DATA_CREATOR (main)
 Status: draft
 
 ## 目標
-工具已經出貨。2026-09-23 你給的三份文件（定義、資料採集規則、產出規則）已 ingest 進
-workspace，其中定義了的 13 個 rule 模組已照著寫進程式，兩份資料表檔跑出 13 個檔案、12 026 筆
-body，每個檔案 validate 零錯誤（[rea-proto-data-creator-setup](rea-proto-data-creator-setup.md)、
-`REA_PROTO_DATA_CREATOR@949e7c4`）。產出形式依你 2026-09-23 的裁定：每個 rule 模組一個檔案，起日
-訖日與 `specificConfig` 全欄位照產出規則的共通規則。
-剩下的都在你手上：貼上伺服器驗收、child 的 remote、還沒寫規則的六個 rule 模組。這份 plan 就是
-那張清單。第 1 到 4 步是你自己的操作，不需要簽名，做完會落在 setup plan 的 `Verified:`；第 7 步
-的規則一到，對應的程式才是這份簽名蓋住的工作。
+工具已經出貨：你給的三份文件已 ingest，其中定義的 13 個 rule 模組都寫進程式，兩份資料表檔跑出 13 個
+檔案、12 026 筆 body，每個檔案 validate 零錯誤（[setup](rea-proto-data-creator-setup.md)、
+`REA_PROTO_DATA_CREATOR@949e7c4`）。本文件的「伺服器」一律指那台已部署、`REA_UI` 連的站台
+`https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger 在 `/swagger`
+（`REA_UI@a024004 .env.development:6`、`frontend.conf:14`）。2026-09-23 你貼 `01023C` 上去，兩支
+endpoint 都回 `success: true`：驗收的前兩件事已成立。剩下的是第 3 步（缺申報資料，不在你手上）、
+`MHCT_PAYLTYPE` 還沒對照的 14 種 limit type，以及 303–307、401。
 
 ## Writes
-`REA_PROTO_DATA_CREATOR (main)`：303–307 與 401 的 rule 模組，以及 205/206 若日後裁定要改時的修正。
-`Signed:` 出現之前不寫任何 child；就算簽了，每一件都要等你的規則。`catalog/repos.yaml` 的 remote
-和所有文件屬於 workspace 的工作，不在這道閘門內。
+`REA_PROTO_DATA_CREATOR (main)`：每一種對照出來的 `MHCT_PAYLTYPE` limit type 各一個 rule 模組、
+303–307 與 401 的 rule 模組。`Signed:` 之前不寫任何 child，簽了也仍要等對照。文件與 `catalog/`
+不在這道閘門內。
 
-## 步驟 — 驗收，在 Azure host 上
-Host `https://rea-api-dea9h4bbbvf9bpch.eastus2-01.azurewebsites.net`，Swagger 在
-`/swagger`（`REA_UI@a024004 .env.development:6`）。指令在 `projects/rea_proto_data_creator` 下執行。
+## 已成立 — 2026-09-23 你的驗收
+1. **起日過關，兩支都收了。** 貼的是當時 `--start-date 2026-10-01` 的那一份 `01023C`。`Rule/Save`
+   回「儲存成功！」、同一份貼 `Rule/SaveWork` 也回 `success: true`；只有後者會寫出檢核讀得到的
+   `workflow`（`Controllers/RuleController.cs:26-44`）。`rule` 和 `workflow` 兩個 collection 各自
+   檢查起日（`REA_PROTO_BE@ba161ff Services/RuleService.cs:261-274`、`:424-437`），兩支都過。
+2. **這還不代表 workflow 是活的。** 條件被產生器整條丟掉時 `SaveWork` 一樣回 `true`
+   （declare-verify › What will surprise you）。要證明它活著只有第 3 步。
+3. ⚠ **起日改成 2026-01-01 之後，`01023C` 會被拒。** 產出規則現在固定 `ruleStartDate` 2026-01-01，
+   比伺服器上那筆 2026-10-01 早，`Rule/Save` 會回 500、`Rule/SaveWork` 安靜地回 `success: false`。
+   要再貼請換一個沒貼過的醫令；`POST /api/v1/Payment/Detail/Get`（body `{"itemCodes":["…"],
+   "pageNumber":1,"pageSize":10}`）回 `ruleStartDate` `0001-01-01` 的就是還沒有規則的
+   （`Services/PaymentService.cs:243-268`）。同一個醫令、同一個起日再貼，會整個取代先前的
+   `rules[]`（`:283-298`），所以一次只測一個 rule 模組。
 
-1. **先問 host 這個醫令已經有什麼。** 起日訖日不再由你挑：產出規則固定 `ruleStartDate` 2026-01-01、
-   `ruleEndDate` 9999-12-31，build 不收日期，`data/out/` 已是目前規則的產出。要查的是 host 上該醫令
-   有沒有比 2026-01-01 更晚的版本：有的話 `Rule/Save` 回 500、`Rule/SaveWork` 只安靜地回
-   `success: false`（`REA_PROTO_BE@ba161ff Services/RuleService.cs:261-274`、`:424-437`；`rule` 和
-   `workflow` 兩個 collection 各自檢查）。問法：`POST /api/v1/Payment/Detail/Get`，body
-   `{"itemCodes":["01023C"],"pageNumber":1,"pageSize":10}`；回傳的 `ruleStartDate` 與
-   `ruleDateHistory` 是 `rule` 這邊的既有版本（`Services/PaymentService.cs:243-268`），`0001-01-01`
-   表示還沒有規則；`workflow` 那邊沒有 endpoint 可查。最保險是挑一個回 `0001-01-01` 的醫令。已有
-   規則的醫令：起日同為 2026-01-01 會覆蓋現行版本、更早的會被關在 2025-12-31（`:283-298`、
-   `:307-318`）。訖日不管填什麼，後端一律存 9999-12-31（`:339`、`:413`），檢核也只讀 9999-12-31 的
-   版本（`Services/ValidationJobService.cs:572-578`）；body 從 2026-09-24 起填的就是這個值。
-2. **同一筆 body 貼兩次。** 從一個 rule 模組的檔案裡挑第 1 步定的那個醫令，例如
-   `data/out/items/r302/01023C.json`（0 到 2 歲、unit Y，只含 302）。先 `POST /api/v1/Rule/Save`，
-   再把同一份貼到 `POST /api/v1/Rule/SaveWork`，兩支都要回 `success: true`；只有 `SaveWork` 會寫出
-   檢核讀得到的 `workflow`（`Controllers/RuleController.cs:26-44`）。注意：同一個醫令、同一個起日，
-   後貼的 body 會整個取代先貼的 `rules[]`（`Services/RuleService.cs:283-298`），所以一次只測一個
-   rule 模組；`validate` 看到同一個醫令出現在兩個檔案時會警告。
-3. **對那個醫令跑一次 validation job。** `POST /api/v1/ValidationJob/Batch`，帶一個真實申報批次：
-   `HospId`、`HospDataType`、`FeeYearMonth`、`ApplyType`、`ApplyDate`，`OrderCode` 填該醫令；輪詢
-   `ValidationJob/Status` 到結束。必須是 `Completed`：`Failed` 是空的 rule 單元會有的樣子
-   （declare-verify › What will surprise you）；沒接到 Oracle 的 host 也會 `Failed`，用訊息分辨。
-   結果裡只有你貼的那個 rule 模組；個別申報不通過是資料的事，不是 payload 格式的事。
-4. **在 setup plan 補上 `Verified:`。** 第 1 到 3 步都成立之後才寫；這一行只有人能寫。
+## 步驟
+4. **跑一次檢核工作——要有申報資料，所以不是你能收尾的。** `ValidationJob/Batch` 拿 `HospId`、
+   `HospDataType`、`FeeYearMonth`、`ApplyType`、`ApplyDate` 去 Oracle 撈明細，再**只對撈到的那些
+   醫令**建 workflow 跑（`Services/ValidationJobService.cs:336`、`:354-387`）：撈不到資料的 job 會
+   以 `Completed`、0 筆結束，什麼也沒驗到；沒接上 Oracle 的站台則是 `Failed`。請跟後端／資料方要
+   一組**真的撈得到明細**的批次五欄，以及那批裡有哪些醫令；然後對那個醫令貼兩支 endpoint、送 job，
+   輪詢 `ValidationJob/Status` 到 `Completed`，並確認驗到的筆數不是 0。
+5. **setup plan 補 `Verified:`。** 等第 4 步有結果才寫；只有人能寫。
 
-## 步驟 — 其餘
-5. **給 child 一個 remote。** `catalog/repos.yaml` 還是 `remote: none`，這台磁碟是唯一副本。
-6. **205/206 對「所有項目」，僅紀錄，暫不處理（你的裁定，2026-09-23）。** 採集規則讓 5 275 個
-   醫令每一個都帶 205 和 206；產出規則把 `FULL_TIME_DOC` / `FULL_TIME_EXEC` 對到 `mainSetting`
-   1/2，但 generator 不讀 `mainSetting`，只要 `doctorTypes` 02/01 加 `employmentType` 01 就對每個
-   醫令編出 專任 檢核（`FullTimeDoctorPrescriptionRuleGenerator.cs:24-38`、
-   `FullTimeDoctorExecutionRuleGenerator.cs:24-38`）；表單上 1/2 的意思是 無限制 / 除山地離島地區
-   之外基層院所。旗標為 `1` 的醫令只有 64 / 41 個。程式照規則寫；只在貼 `r205.json` / `r206.json`
-   時才會碰到。
-7. **303–307、401。** 採集規則與產出規則兩份文件裡這六個 rule 模組還是空的；補上後各一個 commit。
+## 對照
+6. **`MHCT_PAYLTYPE` 還沒對照的 14 種 limit type。** 一列 = 一個醫令 + 一種 `LMT_TYPE_CODE` + 一個
+   `LMT_ITEM`。已對照的是 13（101–104）、1（106）、3（201）、7（202）、14（204）。其餘現行列的長相
+   （代號 列數/醫令數 `LMT_ITEM` 樣本…(種類數)；★ 另帶 `RATE`，● 另帶 `CNT`）：
+   ★23 13827/4609 HO·HP·HQ…(3)｜★11 7381/231 FG·FK·FU…(37)｜16 546/114 1·10·11…(29)｜
+   ★19 506/22 94201B·75020B…(23，醫令碼)｜★12 444/211 C·D·B…(6)｜21 250/65 DE·EF·EK…(17)｜
+   ★15 243/46 1·2·3…(3)｜★17 151/46 1·2·3…(3)｜●8 120/56 P8461C·P8462C…(56，醫令碼)｜
+   20 107/65 A0900·A0204…(9)｜9 72/21 91014C·91020C…(62，醫令碼)｜●18 29/18 27008B·27016B…(14)｜
+   22 12/4 21+L1001C·25+L1001C…(8)｜24 8/8 HP·HQ…(2)
+   每一種請給：中文名稱、對應哪個規則代碼（101–401）或「不對應任何規則」、以及 `LMT_ITEM`（必要時
+   加 `CNT`/`RATE`）要填進 `specificConfig` 的哪個欄位。你答幾種我就寫幾個 commit。
+7. **303–307、401。** 兩份規則文件裡這六個 rule 模組還是空的；補上後各一個 commit。
 
-不列為步驟，但長期成立：`main` 和 `rea` 由你的 shell 推送。
+## 暫緩——你 2026-09-23 說不急
+- **child 的 remote。** `catalog/repos.yaml` 仍是 `remote: none`：這台磁碟是唯一的副本。
+- **README 的名詞用語。** 現在用的是你 2026-09-23 定義檔的原文。
+- **205/206 對「所有項目」，僅紀錄不處理（你的裁定）。** 產出規則把 `FULL_TIME_DOC` /
+  `FULL_TIME_EXEC` 對到 `mainSetting` 1/2，但 generator 不讀 `mainSetting`，只要 `doctorTypes`
+  02/01 加 `employmentType` 01 就對每個醫令編出 專任 檢核（`FullTimeDoctorPrescriptionRuleGenerator.cs:24-38`、
+  `FullTimeDoctorExecutionRuleGenerator.cs:24-38`）；旗標為 `1` 的醫令只有 64 / 41 個。
+- `main` 和 `rea` 由你的 shell 推送。
 
 ## 完成條件
-setup plan 帶有 `Verified:`；child 有 remote 也推上去了；第 6 到 9 步各有裁定並落地，或由你裁定
-不做，並把裁定寫進 repository doc。
+第 4 步有一次 `Completed` 且真的驗到那個醫令，setup plan 因此帶上 `Verified:`；`MHCT_PAYLTYPE` 有了
+第一個對照出來的 rule 模組，或由你裁定其餘 limit type 不對應任何規則，並把裁定寫進 repository doc。
