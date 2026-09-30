@@ -137,7 +137,7 @@ the client folds it back, deleting `constraints` (`src/api/modules/rules/index.t
 | `PrefixText` `SuffixText` `Placeholder` | yes | printed inline, `src/utils/rule/inputTypeConfig.js:67-73` |
 | `Constraints` | as `validations`, three of seven types | below |
 | `VisibleWhen` | **no reader anywhere** | not in `src`, `tests` or `mock`; absent from the ui's own `RuleFieldDescriptor` (`src/api/modules/rules/types.ts:75-87`) |
-| `Options[].Disabled` | **no** | absent from the ui's `OptionDescriptor` (`types.ts:61-64`); served for 203's five dates since 2026-09-29, and the 參考日期 `el-option` binds no `disabled` (`src/views/rules/ReferenceSetting.vue:20-37`), so they are offered as selectable — the kernel's option check admits them and its translator then refuses the row (ruleset-api › `Reference`) |
+| `Options[].Disabled` | **no** | absent from the ui's `OptionDescriptor` (`types.ts:61-64`); served for 203's five dates since 2026-09-29; at `a024004` no 參考日期 option bound `disabled`, so they were selectable, admitted by the kernel's option check and refused by its translator; since `REA_UI@7bfff25` (2026-09-30, plan reference-groups) the sortable input and both `el-select` fallbacks bind it (`src/components/rules/SortOptionsInput.vue:30`, `src/views/rules/ReferenceSetting.vue:36`, `:84`) |
 | `RuleCode.Description` | **no** | never served either |
 | `ConditionDescriptor.Disabled` | yes | rule-editor › Disabled conditions |
 

@@ -18,8 +18,10 @@ live swagger on `210.59.250.145:8080` as the latest API document.
   rule-editor: `GroupName` landed in the kernel (`a63ad16`, `6633198`) — the ruling is delivered;
   rea-kernel: translator `1.1` (201 + 203), `NotSupportedException` now stored not 500,
   `GroupName`, the 2026-09-30 deployment; rule-schema-api: the five `Disabled` options.
-- Plan reference-groups (draft): the ui encodes and decodes the dictionary, and honours the five
-  `Disabled` dates — both firm on the owner's word; `GroupName` needs no ui change (confirmed).
+- Plan reference-groups signed and shipped the same day: `REA_UI@82908a2` (the dictionary, default
+  group last, round-trip test) and `@7bfff25` (`disabled` on all three option lists — the real
+  control is `SortOptionsInput`, not `el-select`); 1097 tests and lint green; `GroupName` needs
+  no ui change (confirmed). Not pushed, not yet tried against the deployment.
 
 ## Decisions & pitfalls
 - The GET of the store was a read of the dev host the owner named; no POST was sent, so "a save
@@ -29,11 +31,10 @@ live swagger on `210.59.250.145:8080` as the latest API document.
   a crash; said so in ruleset-api.
 - The ui emits the default row first; the kernel wants it last, and order is now semantic (first
   match wins). No guard for a flagged stored value: the old store is gone (owner's word).
-- Stale, out of scope, reported not fixed: rea-kernel › Nothing consumes either carrier cites the
-  `V1.0` translator; a `RuleResultAttributionParser.V1_1.cs` now exists (plan translated-rule-names).
+- Stale, out of scope: rea-kernel › Nothing consumes either carrier cites the `V1.0` translator;
+  `RuleResultAttributionParser.V1_1.cs` exists now (plan translated-rule-names).
 
 ## TODO
-- Owner: sign reference-groups (`Writes: REA_UI (develop)`); implementation follows at once.
-- Owner: 306-main-setting and rea-proto-data-creator-setup still await `Verified:`; re-read
-  translated-rule-names and ruleset-unread-fields against `6540a4c` when next touched.
-- Earlier open items stand (REANC, architect, shell team, Keycloak). Push `rea` (owner's shell).
+- Owner: push `develop`, save a 203 rule with two groups against `:8080`, then `Verified:`.
+- Owner: 306-main-setting and rea-proto-data-creator-setup still await `Verified:`.
+- Earlier open items stand (REANC, architect, shell team, Keycloak). Push `rea`.

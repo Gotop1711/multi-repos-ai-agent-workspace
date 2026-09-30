@@ -1,8 +1,9 @@
 # rea — reference-groups: the ui speaks the kernel's new `Reference` shape and its `Disabled` options
 
-Status: signed
+Status: shipped
 Writes: REA_UI (develop)
 Signed: gotop1711 — 2026-09-30
+Shipped: 2026-09-30 — REA_UI@82908a2, REA_UI@7bfff25 (develop, unpushed)
 
 ## Goal
 On 2026-09-29 the kernel changed a leaf's `Reference` from `ReferenceItem[]` — rows of
