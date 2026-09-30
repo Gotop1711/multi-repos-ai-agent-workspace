@@ -18,8 +18,8 @@ live swagger on `210.59.250.145:8080` as the latest API document.
   rule-editor: `GroupName` landed in the kernel (`a63ad16`, `6633198`) — the ruling is delivered;
   rea-kernel: translator `1.1` (201 + 203), `NotSupportedException` now stored not 500,
   `GroupName`, the 2026-09-30 deployment; rule-schema-api: the five `Disabled` options.
-- Plan reference-groups (draft): the ui encodes and decodes the dictionary; found alongside, the
-  unbound `disabled` on 參考日期's options.
+- Plan reference-groups (draft): the ui encodes and decodes the dictionary, and honours the five
+  `Disabled` dates — both firm on the owner's word; `GroupName` needs no ui change (confirmed).
 
 ## Decisions & pitfalls
 - The GET of the store was a read of the dev host the owner named; no POST was sent, so "a save
@@ -33,7 +33,7 @@ live swagger on `210.59.250.145:8080` as the latest API document.
   `V1.0` translator; a `RuleResultAttributionParser.V1_1.cs` now exists (plan translated-rule-names).
 
 ## TODO
-- Owner: sign reference-groups (`Writes: REA_UI (develop)`), and say whether step 5 stays.
+- Owner: sign reference-groups (`Writes: REA_UI (develop)`); implementation follows at once.
 - Owner: 306-main-setting and rea-proto-data-creator-setup still await `Verified:`; re-read
   translated-rule-names and ruleset-unread-fields against `6540a4c` when next touched.
 - Earlier open items stand (REANC, architect, shell team, Keycloak). Push `rea` (owner's shell).
