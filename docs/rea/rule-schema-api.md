@@ -6,7 +6,9 @@ each. Kernel cited at `REA_kernel@e5ba92e` (`develop`), paths relative to
 `src/Model/NHI.Model.ClaimValidator/` unless a root is given; ui at `REA_UI@a024004` (`develop`).
 Counts are of the live capture of 2026-09-17
 (`docs/rea/rea-kernel/sources/2026-09-17-ruleschema-live.json.md@ecc4c965567f`); 307 and 401 were
-re-issued after it (rea-kernel), so read theirs as a floor. Written from two documents the owner
+re-issued after it (rea-kernel), so read theirs as a floor; the owner's GET of 2026-09-30 (compared
+in session, not ingested) differs from it in 203 alone — `FuncDate` first in `Default` and five
+options `Disabled`, both in `Codes/V1.0/_203.cs:29-38` at `REA_kernel@6540a4c`. Written from two documents the owner
 supplied on 2026-09-24: the swagger response-schema screenshot
 (`docs/rea/rea-kernel/sources/2026-09-24-ruleschema-swagger-schema.jpg.md@30e681f74fc9`) and the
 example body the same page prints
@@ -82,7 +84,7 @@ nothing, and four of them actively mislead.
 | `"SubFields": ["string"]` (L32-34) | recursion is cut off, so a nested field becomes a bare string | an array of whole field objects |
 | `"Default": "string"` (L31) | the key is `object?`, which the generator prints as a string | `"In"`, or `["ApplyDate","ExecutionStartDate"]` |
 | `"EffectiveDate": "2026-09-24"` (L12) | the day the page was opened | `2026-01-01` |
-| `"Disabled": true` (L27), `"Value": 0` (L42) | the generator's default for `bool` / `number` | no served option has `Disabled`; a constraint's `Value` is its real bound |
+| `"Disabled": true` (L27), `"Value": 0` (L42) | the generator's default for `bool` / `number` | only 203's five date options carry `Disabled`; a constraint's `Value` is its real bound |
 
 `"Type": "String"` (L22) and `"Type": "Required"` (L40) are likewise the first member of each enum.
 Line numbers are of the derivative cited in the header.
@@ -114,7 +116,7 @@ Across the 2026-09-17 capture: 20 codes, 1,088 field descriptors (1,084 top-leve
 | `PrefixText` / `SuffixText` | 14 / 12 fields | 303 and 304's sentences only |
 | `SubFields` | **1 field** | 307's `DiagnosisCodes`, the one `ObjectArray` in the registry |
 | `Description` (on `RuleCode`) | **0 codes** | never set |
-| `Disabled` (on an option) | **0 options** | never set — the flag that is used is the *condition's* |
+| `Disabled` (on an option) | 0 in the capture; **5 since `851bbb3`** (2026-09-29) | 203's `ReferenceDates`: `AdmissionDate`, `DischargeDate`, `DispensingDate`, `PhysicalTherapyStartDate`, `ExaminationDate` (`_203.cs:32-36`); the three left enabled are the ones its translator accepts (ruleset-api › `Reference`) |
 
 Field types: `String` 713, `StringArray` 320, `Number` 54, `ObjectArray` 1. Of the seven constraint
 types only three are ever served; `MinLength`, `MaxLength`, `Max` and `Pattern` exist in the enum
@@ -135,7 +137,7 @@ the client folds it back, deleting `constraints` (`src/api/modules/rules/index.t
 | `PrefixText` `SuffixText` `Placeholder` | yes | printed inline, `src/utils/rule/inputTypeConfig.js:67-73` |
 | `Constraints` | as `validations`, three of seven types | below |
 | `VisibleWhen` | **no reader anywhere** | not in `src`, `tests` or `mock`; absent from the ui's own `RuleFieldDescriptor` (`src/api/modules/rules/types.ts:75-87`) |
-| `Options[].Disabled` | **no** | absent from the ui's `OptionDescriptor` (`types.ts:61-64`); never served either |
+| `Options[].Disabled` | **no** | absent from the ui's `OptionDescriptor` (`types.ts:61-64`); served for 203's five dates since 2026-09-29, and the 參考日期 `el-option` binds no `disabled` (`src/views/rules/ReferenceSetting.vue:20-37`), so they are offered as selectable — the kernel's option check admits them and its translator then refuses the row (ruleset-api › `Reference`) |
 | `RuleCode.Description` | **no** | never served either |
 | `ConditionDescriptor.Disabled` | yes | rule-editor › Disabled conditions |
 
