@@ -16,11 +16,17 @@ so 診療項目代碼 cannot be chosen and everything after the search is blocke
   bff › What the ui does today (the cost of the hard-wired route), rea-proto-be › Integration
   (the stand-in and what each lookup needs in `Development`).
 
+- Owner chose a mock for the Payment paths alone, serving what the Azure host served: plan
+  payment-mock drafted — a generator over `REA_PROTO_BE`'s two seed CSVs, two handlers replaying
+  `PaymentService.cs`, a `VITE_MOCK_PAYMENT` flag beside `VITE_USE_MOCK`; awaits `Signed:`.
+
 ## Decisions & pitfalls
-- No plan filed: the fix is the owner's choice — restart the Azure app (outside the fleet, no
-  write), or point `VITE_DEV_PAYMENT_PROXY_TARGET` at a local `REA_PROTO_BE` run (a `REA_UI`
-  write; `Detail/Get` needs MongoDB there), or add Payment routes to `mock/index.js` (a `REA_UI`
-  write; `VITE_USE_MOCK=true` then also replaces the kernel). Plan bff, step 3, is the lasting fix.
+- Three ways out were offered: restart the Azure app (no write), a local `REA_PROTO_BE` behind
+  the dev proxy (needs MongoDB for `Detail/Get`), or the mock. Plan bff, step 3, is the lasting fix.
+- "Exact data" has no capture to rest on: `REA_PROTO`'s fixtures are three hand-written rows. The
+  seed replayed through the service's own queries is the closest thing; whether the host ran on
+  the seed or on Oracle is inferred. The prototype's MongoDB rule dates cannot be reproduced.
+- Sizes measured in session: 8,686 codes; `Item/Get` for all ≈ 0.47 MB; the joined table ≈ 3.3 MB.
 - Not run: `REA_PROTO_BE` (no .NET SDK here, and the rule is read source). Its Development path
   is inferred from `Program.cs` and `PaymentService.cs`.
 - `grep --include=*.cs` in zsh needs quotes: the first kernel grep silently never ran.
