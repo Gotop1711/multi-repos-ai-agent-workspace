@@ -43,8 +43,11 @@ AI agents in infrastructure delivery with no fact about this repository, and are
 - The dev server mirrors the two routes: `/api/v1/Payment/` → `VITE_DEV_PAYMENT_PROXY_TARGET`, `/api`
   → `VITE_DEV_PROXY_TARGET`, both `changeOrigin`, `secure: false` (`vite.config.js:57-69`; the targets
   sit in `.env.development:4,6`, values not copied here). With `VITE_USE_MOCK=false` the mock plugin is
-  off and `/api` really goes out (`vite.config.js:27`, `.env.development:7-8`). Why these real
-  addresses in the repository break the regulation: bff › What the ui does today.
+  off and `/api` really goes out (`vite.config.js:27`, `.env.development:7-8`). Since `316318e`,
+  `VITE_MOCK_PAYMENT=true` (`.env.development:9-11`) mounts the plugin for the two `Payment` paths
+  alone (`vite.config.js:25-33`, `mock/index.js:55-62`): the plugin middleware runs before the proxy,
+  so those POSTs never leave the machine while everything else still does (rea-ui › Run / test). Why
+  these real addresses in the repository break the regulation: bff › What the ui does today.
 
 ## Build modes
 - The mode is visible in the page: `index.html:8` writes `<meta name="app-env"
