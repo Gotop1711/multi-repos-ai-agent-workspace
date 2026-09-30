@@ -70,6 +70,10 @@ bind its code and config wherever it is deployed; it is not a description of an 
   `frontend.conf:23-27` proxies `/api/` to the kernel container `nhi-claimvalidator:8080`;
   `frontend.conf:11-15` proxies `/api/v1/Payment/` to an external Azure App Service host, written out in
   the file. The image is nginx serving `dist` with that config (`Dockerfile:9-12`).
+- That Azure host has been stopped since at least 2026-09-30 (`403 Site Disabled`, rea-ui › Deployment),
+  which shows the cost of the arrangement: the ui cannot select an order code, so nothing downstream
+  of the search works, and no ui config can move the route without a commit. Under the target the BFF
+  would hold that address (plan bff, step 3) and could fall back or be repointed without a ui change.
 - The code itself complies with the relative-path rule: `VITE_API_BASE_URL` is empty in production
   (`.env.production:2-3`), axios takes it as `baseURL` (`src/api/request.js:5-7`), and the four
   endpoints are relative: `/api/v1/RuleSchema`, `/api/v1/RuleSet` twice

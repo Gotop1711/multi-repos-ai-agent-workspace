@@ -79,6 +79,8 @@ work with MongoDB alone; validation jobs do not. The seeds are real reference da
   `SaveRuleRequest`) — so it runs this code or a build with the same contract; which commit is not
   knowable from outside. It is the host the data-creator plan's output is posted to
   ([plan](../plans/rea-proto-data-creator-setup.md)).
+  Stopped since 2026-09-30 (`403`; rea-ui › Deployment). Stand-in: this service in `Development` —
+  `Item/Get` reads the seed alone (`Services/PaymentService.cs:29-66`); `Detail/Get` needs Mongo (`:157`).
 - **The template the project manager points to is this service's data.** `REA_PROTO`'s
   `tests/mock/api/rulesSpecificSetting.json` has the shape of `UiTemplate/RulesSpecificSetting/Get`
   ([rea-proto](../rea-proto/index.md)); here that body is an opaque MongoDB document
