@@ -27,8 +27,8 @@ live swagger on `210.59.250.145:8080` as the latest API document.
 - `toArray` (`src/utils/common.js:1`) returns `[]` for an object, so the ui does not crash on the
   new shape — it silently shows defaults and would overwrite the stored groups on save. Worse than
   a crash; said so in ruleset-api.
-- The ui emits the default row first; the kernel requires the default group last. Order is now
-  semantic (first matching group wins), so the encoder cannot just re-key the old rows.
+- The ui emits the default row first; the kernel wants it last, and order is now semantic (first
+  match wins). No guard for a flagged stored value: the old store is gone (owner's word).
 - Stale, out of scope, reported not fixed: rea-kernel › Nothing consumes either carrier cites the
   `V1.0` translator; a `RuleResultAttributionParser.V1_1.cs` now exists (plan translated-rule-names).
 
