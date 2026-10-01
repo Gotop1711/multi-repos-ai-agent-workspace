@@ -19,7 +19,9 @@ so 診療項目代碼 cannot be chosen and everything after the search is blocke
   `1283821`/`56446f6` tried it in August); the choices were a stand-in in the ui repo, its own
   repo, `REA_PROTO_BE` re-hosted (needs MongoDB), in-cluster or external. Owner chose: own repo,
   Node + JSON, on DigitalOcean App Platform; created `REA_PROTO_PAYMENT_SNAPSHOT` (GitHub, private)
-  and its manifest entry. `doc add`, `plan new payment-snapshot` drafted; awaits `Signed:`.
+  and its manifest entry; signed. Step 1 shipped and pushed on the owner's word:
+  `REA_PROTO_PAYMENT_SNAPSHOT@e22769a` — 21 `node --test` cases, served `Item/Get` equals the
+  capture; Docker not built (no daemon). Repo doc written. Steps 3–4 wait for the App Platform URL.
 
 ## Decisions & pitfalls
 - `REA_PROTO`'s fixtures are three hand-written rows, not captures. Python's csv without
@@ -28,11 +30,10 @@ so 診療項目代碼 cannot be chosen and everything after the search is blocke
 - First `clone` failed on access (this shell was `Jarvis-bookai`; the owner fixed SSH, now
   `Gotop1711`); the second on `git clone --branch main` of an empty upstream. Child initialised by
   hand (`git init -b main` + `origin`), no commit, as `clone` would for `remote: none`.
-- Not run: `REA_PROTO_BE` (no .NET SDK; read source). Quote `--include=*.cs` in zsh: the first
-  kernel grep silently never ran. rea-proto-be sits at its 100-line cap.
+- Not run: `REA_PROTO_BE` (no .NET SDK; read source). Quote `--include=*.cs` in zsh.
 
 ## TODO
-- Owner: sign payment-snapshot; say whether this shell pushes `main` or you do.
+- Owner: App Platform from `main` (Dockerfile, port 8080, `/healthz`), then give me the URL.
 - [workspace] `clone` fails for a `write` child whose upstream exists but is empty: `git clone
   --branch <default_branch>` needs the branch; fall back to `git init -b` + `remote add`.
 - Owner: push `develop` and `rea`; `Verified:` on payment-mock and the three earlier shipped

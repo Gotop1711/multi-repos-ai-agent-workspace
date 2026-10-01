@@ -1,6 +1,9 @@
 # rea — payment-snapshot: a frozen 支付標準 service in its own repository replaces the Azure host
 
-Status: draft
+Status: shipped
+Writes: REA_PROTO_PAYMENT_SNAPSHOT (main), REA_UI (develop)
+Signed: gotop1711 — 2026-10-01
+Shipped: 2026-10-01 — REA_PROTO_PAYMENT_SNAPSHOT@e22769a (step 1, pushed to main); steps 3–4 await the URL
 
 ## Goal
 `REA_PROTO_PAYMENT_SNAPSHOT` answers `POST /api/v1/Payment/Item/Get` and `/Detail/Get` with the
