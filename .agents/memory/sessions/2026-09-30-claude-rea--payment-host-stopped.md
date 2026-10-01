@@ -15,13 +15,13 @@ so 診療項目代碼 cannot be chosen and everything after the search is blocke
   (handlers, plugin option, 17 tests), `316318e` (`VITE_MOCK_PAYMENT`). Owner's captures of the
   host's last answers (three files, ingested as rea-proto-be sources) equal the seed replay once
   `\n` in a field is `\r\n`: the host ran on this seed. 1114 tests, lint, in-process Vite run green.
-- Deployment, assessed over several rounds: a dev-mode build cannot help (the plugin is serve-only;
-  `1283821`/`56446f6` tried it in August); the choices were a stand-in in the ui repo, its own
-  repo, `REA_PROTO_BE` re-hosted (needs MongoDB), in-cluster or external. Owner chose: own repo,
-  Node + JSON, on DigitalOcean App Platform; created `REA_PROTO_PAYMENT_SNAPSHOT` (GitHub, private)
-  and its manifest entry; signed. Step 1 shipped and pushed on the owner's word:
-  `REA_PROTO_PAYMENT_SNAPSHOT@e22769a` — 21 `node --test` cases, served `Item/Get` equals the
-  capture; Docker not built (no daemon). Repo doc written. Steps 3–4 wait for the App Platform URL.
+- Deployment, assessed over several rounds (a dev-mode build cannot help: the plugin is serve-only,
+  `1283821`/`56446f6` tried it in August; ui-repo stand-in, own repo, `REA_PROTO_BE` re-hosted with
+  MongoDB, in-cluster or external). Owner chose: own repo, Node + JSON, on App Platform; created
+  `REA_PROTO_PAYMENT_SNAPSHOT`, signed. Shipped: `REA_PROTO_PAYMENT_SNAPSHOT@e22769a` (pushed on
+  the owner's word; 21 `node --test` cases; Docker not built, no daemon), owner deployed it on App
+  Platform, both lookups there equal the captures; `REA_UI@3aea51f` (upstream, dev proxy, smoke-test
+  POST), `@69fe8b7` (dev mock removed); 1097 tests, lint, dev-proxy run green.
 
 ## Decisions & pitfalls
 - `REA_PROTO`'s fixtures are three hand-written rows, not captures. Python's csv without
@@ -33,7 +33,7 @@ so 診療項目代碼 cannot be chosen and everything after the search is blocke
 - Not run: `REA_PROTO_BE` (no .NET SDK; read source). Quote `--include=*.cs` in zsh.
 
 ## TODO
-- Owner: App Platform from `main` (Dockerfile, port 8080, `/healthz`), then give me the URL.
+- Owner: push `develop`; the pipeline's smoke-test proves the deployed route; then `Verified:`.
 - [workspace] `clone` fails for a `write` child whose upstream exists but is empty: `git clone
   --branch <default_branch>` needs the branch; fall back to `git init -b` + `remote add`.
 - Owner: push `develop` and `rea`; `Verified:` on payment-mock and the three earlier shipped

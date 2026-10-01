@@ -23,10 +23,12 @@ AI agents in infrastructure delivery with no fact about this repository, and are
   `.env.production` (`a024004 .dockerignore:14`).
 
 ## nginx routing (`frontend.conf`)
-- `/api/v1/Payment/` goes to an external Azure App Service host, written out in the file
-  (`frontend.conf:11-19`); nginx picks the longest prefix, and the trailing slash keeps
-  `/api/v1/PaymentOther` on the kernel. HTTPS upstream, so `proxy_ssl_server_name on` sends SNI
-  (`:18`). The comment expects the block to be deleted when Payment moves into the cluster (`:10`).
+- `/api/v1/Payment/` goes to an external host written out in the file: since `3aea51f` the
+  snapshot service on DigitalOcean App Platform (`frontend.conf:13-21`, `:16`; rea-proto-payment-
+  snapshot), before that the Azure host stopped on 2026-09-30; nginx picks the longest prefix, and
+  the trailing slash keeps `/api/v1/PaymentOther` on the kernel. HTTPS upstream, so
+  `proxy_ssl_server_name on` sends SNI (`:20`). The comment still expects the block to be deleted
+  when Payment moves into the cluster (`:12`).
 - `/api/` goes to `http://nhi-claimvalidator:8080`, the kernel container on the Docker network
   (`frontend.conf:23-28`), path unstripped: the kernel routes `/api/*` itself.
 - Both upstreams are variables resolved by Docker's DNS, `resolver 127.0.0.11 valid=10s`
@@ -43,11 +45,10 @@ AI agents in infrastructure delivery with no fact about this repository, and are
 - The dev server mirrors the two routes: `/api/v1/Payment/` → `VITE_DEV_PAYMENT_PROXY_TARGET`, `/api`
   → `VITE_DEV_PROXY_TARGET`, both `changeOrigin`, `secure: false` (`vite.config.js:57-69`; the targets
   sit in `.env.development:4,6`, values not copied here). With `VITE_USE_MOCK=false` the mock plugin is
-  off and `/api` really goes out (`vite.config.js:27`, `.env.development:7-8`). Since `316318e`,
-  `VITE_MOCK_PAYMENT=true` (`.env.development:9-11`) mounts the plugin for the two `Payment` paths
-  alone (`vite.config.js:25-33`, `mock/index.js:55-62`): the plugin middleware runs before the proxy,
-  so those POSTs never leave the machine while everything else still does (rea-ui › Run / test). Why
-  these real addresses in the repository break the regulation: bff › What the ui does today.
+  off and `/api` really goes out (`vite.config.js:27`, `.env.development:7-8`). The Payment mock of
+  `316318e` lived from 2026-09-30 to `69fe8b7` the next day; the Payment target is the snapshot
+  service since `3aea51f` (rea-ui › Run / test). Why these real addresses in the repository break
+  the regulation: bff › What the ui does today.
 
 ## Build modes
 - The mode is visible in the page: `index.html:8` writes `<meta name="app-env"
@@ -104,5 +105,6 @@ Run from the repository root with a Docker daemon; each step tests one decision 
    vue-frontend:test`.
 
 Not covered by these steps: the Payment route (step 5's curl never reaches `/api/v1/Payment/`; it
-needs outbound HTTPS from the container — inferred, not run); and the registry push, the
-`172.17.0.1` smoke URL and `notify`, which run only on a push to `develop`.
+needs outbound HTTPS from the container — inferred, not run; since `3aea51f` the pipeline's
+`smoke-test` POSTs it through nginx and requires 200, `.gitlab-ci.yml:132-140`); and the registry
+push, the `172.17.0.1` smoke URL and `notify`, which run only on a push to `develop`.

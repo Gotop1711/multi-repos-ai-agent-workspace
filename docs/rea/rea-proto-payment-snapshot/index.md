@@ -35,7 +35,9 @@ SeedData/seed_data_mhct_payment.csv` and `seed_data_mhct_payitems.csv`; read onc
   equal the owner's 2026-09-30 captures as JSON (rea-ui › Run / test cites them; checked again
   against the running server in session). Rule dates are the "no rule" values on every row — the
   prototype's MongoDB is not reproduced (rea-proto-be › What each mode needs).
-- `REA_UI` reaches it only through its nginx `$payment_upstream` and its dev proxy target; the
-  repointing is plan payment-snapshot, steps 3–4, after the App Platform URL exists.
+- Deployed on App Platform at `https://rea-payment-snapshot-nw4ns.ondigitalocean.app` (`/healthz` → `{"status":"ok","rows":8686}`;
+  both lookups equal the captures from there too, 2026-10-01). `REA_UI` reaches it only through its
+  nginx `$payment_upstream` (`REA_UI@3aea51f frontend.conf:16`) and its dev proxy target
+  (`.env.development:6`); the pipeline's `smoke-test` POSTs the route (`.gitlab-ci.yml:132-140`).
 - Not the prototype backend: no `Rule/Save`, no `UiTemplate/*`; the data-creator acceptance plan
   still needs `REA_PROTO_BE` itself.
