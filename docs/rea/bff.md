@@ -72,7 +72,7 @@ bind its code and config wherever it is deployed; it is not a description of an 
   the file. The image is nginx serving `dist` with that config (`Dockerfile:9-12`).
 - That Azure host was stopped on 2026-09-30 (`403 Site Disabled`, rea-ui › Deployment), which
   showed the cost of the arrangement: the deployed ui could not select an order code, and only a
-  commit moves the route — `3aea51f` did, to the snapshot service on App Platform (plan
+  commit moves the route — `cffdc0f` did, to the snapshot service on App Platform (plan
   payment-snapshot), the same shape with a host the owner controls. Under the target the BFF would
   hold that address (plan bff, step 3) and could be repointed without a ui change.
 - The code itself complies with the relative-path rule: `VITE_API_BASE_URL` is empty in production

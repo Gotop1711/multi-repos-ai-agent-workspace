@@ -1,9 +1,10 @@
 # rea — payment-mock: the dev server answers the two Payment lookups from the mock plugin
 
-Status: shipped
+Status: abandoned
 Writes: REA_UI (develop)
 Signed: gotop1711 — 2026-09-30
 Shipped: 2026-09-30 — REA_UI@58271d8 (data), @8c52af5 (handlers, tests), @316318e (flag); unpushed
+Abandoned: 2026-10-01 — decided: superseded by payment-snapshot; develop rewritten on the owner's word, its three commits reachable from no public ref (local `backup/develop-before-2026-10-01-rewrite`); what it produced lives in REA_PROTO_PAYMENT_SNAPSHOT@e22769a
 
 ## Goal
 `npm run dev` serves `POST /api/v1/Payment/Item/Get` and `/Detail/Get` from `mock/`, while every

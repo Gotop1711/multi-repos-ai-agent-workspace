@@ -23,7 +23,7 @@ AI agents in infrastructure delivery with no fact about this repository, and are
   `.env.production` (`a024004 .dockerignore:14`).
 
 ## nginx routing (`frontend.conf`)
-- `/api/v1/Payment/` goes to an external host written out in the file: since `3aea51f` the
+- `/api/v1/Payment/` goes to an external host written out in the file: since `cffdc0f` the
   snapshot service on DigitalOcean App Platform (`frontend.conf:13-21`, `:16`; rea-proto-payment-
   snapshot), before that the Azure host stopped on 2026-09-30; nginx picks the longest prefix, and
   the trailing slash keeps `/api/v1/PaymentOther` on the kernel. HTTPS upstream, so
@@ -45,9 +45,9 @@ AI agents in infrastructure delivery with no fact about this repository, and are
 - The dev server mirrors the two routes: `/api/v1/Payment/` → `VITE_DEV_PAYMENT_PROXY_TARGET`, `/api`
   → `VITE_DEV_PROXY_TARGET`, both `changeOrigin`, `secure: false` (`vite.config.js:57-69`; the targets
   sit in `.env.development:4,6`, values not copied here). With `VITE_USE_MOCK=false` the mock plugin is
-  off and `/api` really goes out (`vite.config.js:27`, `.env.development:7-8`). The Payment mock of
-  `316318e` lived from 2026-09-30 to `69fe8b7` the next day; the Payment target is the snapshot
-  service since `3aea51f` (rea-ui › Run / test). Why these real addresses in the repository break
+  off and `/api` really goes out (`vite.config.js:27`, `.env.development:7-8`). The Payment target
+  is the snapshot service since `cffdc0f` (rea-ui › Run / test); a one-day dev mock preceded it and
+  was dropped from history (plan payment-mock). Why these real addresses in the repository break
   the regulation: bff › What the ui does today.
 
 ## Build modes
@@ -105,6 +105,6 @@ Run from the repository root with a Docker daemon; each step tests one decision 
    vue-frontend:test`.
 
 Not covered by these steps: the Payment route (step 5's curl never reaches `/api/v1/Payment/`; it
-needs outbound HTTPS from the container — inferred, not run; since `3aea51f` the pipeline's
+needs outbound HTTPS from the container — inferred, not run; since `cffdc0f` the pipeline's
 `smoke-test` POSTs it through nginx and requires 200, `.gitlab-ci.yml:132-140`); and the registry
 push, the `172.17.0.1` smoke URL and `notify`, which run only on a push to `develop`.

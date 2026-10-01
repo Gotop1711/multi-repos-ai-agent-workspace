@@ -6,6 +6,8 @@ Signed: gotop1711 — 2026-10-01
 Shipped: 2026-10-01 — REA_PROTO_PAYMENT_SNAPSHOT@e22769a (step 1, pushed to main)
 Amended: 2026-10-01 — App Platform URL `https://rea-payment-snapshot-nw4ns.ondigitalocean.app` (the owner, in session)
 Shipped: 2026-10-01 — REA_UI@3aea51f (upstream, dev proxy, smoke-test), @69fe8b7 (dev mock removed); develop unpushed
+Amended: 2026-10-01 — develop rewritten on the owner's word: 3aea51f + 69fe8b7 squashed onto 7bfff25, the three payment-mock commits dropped; force-pushed
+Shipped: 2026-10-01 — REA_UI@cffdc0f (replaces 3aea51f and 69fe8b7); origin/develop = cffdc0f
 
 ## Goal
 `REA_PROTO_PAYMENT_SNAPSHOT` answers `POST /api/v1/Payment/Item/Get` and `/Detail/Get` with the
@@ -30,10 +32,10 @@ Nothing in `REA_PROTO_BE`: its two seed CSVs are read once more by the generator
    `./workspace.sh clone` cannot clone an empty upstream (it asks for `--branch main`, which does
    not exist yet), so the child was initialised by hand as `clone` does for `remote: none`:
    `git init -b main` plus `origin`. No file, no commit: the first commit is step 1's.
-1. The repository, one commit: `src/handlers.js` (`REA_UI@8c52af5 mock/payment.js`, unchanged);
+1. The repository, one commit: `src/handlers.js` (the ui's dev-mock handler of plan payment-mock, unchanged);
    `src/server.mjs` — `node:http`, `PORT` (default 8080), the two POST paths → JSON, `GET /healthz`
    → 200, anything else → 404, body capped at 1 MB, no dependency; `data/paymentData.json`
-   (`REA_UI@58271d8 mock/paymentData.json`, 8,686 rows, 4.4 MB); `tools/build-payment-data.mjs`
+   (that mock's generated file, 8,686 rows, 4.4 MB); `tools/build-payment-data.mjs`
    (`mock/build-payment-data.mjs`, reads the two CSVs from a directory argument); `test/` — the ui's
    17 cases ported to `node --test`, plus one that starts the server and exercises the three routes;
    `package.json` (`"type": "module"`, `start`, `test`, `engines.node >=22`, no dependencies);
@@ -48,10 +50,10 @@ Nothing in `REA_PROTO_BE`: its two seed CSVs are read once more by the generator
    `proxy_ssl_server_name on` stays, `:18`); `.env.development:6` points `VITE_DEV_PAYMENT_PROXY_TARGET`
    at it and the comment names the snapshot; `smoke-test` (`.gitlab-ci.yml:113-144`) gains a POST
    through nginx, `http://172.17.0.1:$APP_HOST_PORT/api/v1/Payment/Item/Get` with `{}`, expecting 200.
-4. `REA_UI`, one commit: the dev mock goes — `VITE_MOCK_PAYMENT` from `.env.development`, the
-   `payment` option from `mock/index.js` and `vite.config.js` (back to `316318e`'s parent shape),
+4. `REA_UI`: the dev mock goes — `VITE_MOCK_PAYMENT`, the plugin's `payment` option,
    `mock/payment.js`, `mock/paymentData.json`, `mock/build-payment-data.mjs`, `tests/unit/mock/`.
-   Plan payment-mock stays as history: it shipped, and its data now lives in the snapshot repository.
+   Done by the rewrite (the Amended line): `develop` never carried them; plan payment-mock is
+   abandoned as superseded, its data living on in the snapshot repository.
 5. After shipping, the docs: rea-proto-payment-snapshot (run, test, deploy, integration), rea-ui
    (Run / test, Deployment), ui-deployment (nginx routing, the dev server), bff (the external host
    is now the snapshot).

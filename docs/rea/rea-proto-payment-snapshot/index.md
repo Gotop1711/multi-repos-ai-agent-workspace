@@ -21,7 +21,7 @@ authentication; nothing writes.
 ## Entry points
 | Read this first | For |
 |---|---|
-| `src/handlers.js` | the two lookups, `REA_UI@8c52af5 mock/payment.js` with its header comment changed |
+| `src/handlers.js` | the two lookups; born as the ui's one-day dev mock (plan payment-mock) — the commit message's `REA_UI@8c52af5` is reachable from no public ref since the owner's rewrite |
 | `src/server.mjs` | routing, body cap 1 MB, 400 on bad JSON, `/healthz` |
 | `tools/build-payment-data.mjs` | the seed replay: newest `PAY_S_DATE` row per code, joined, CRLF |
 | `README.md` | provenance, the one known difference, deployment |
@@ -37,7 +37,7 @@ SeedData/seed_data_mhct_payment.csv` and `seed_data_mhct_payitems.csv`; read onc
   prototype's MongoDB is not reproduced (rea-proto-be › What each mode needs).
 - Deployed on App Platform at `https://rea-payment-snapshot-nw4ns.ondigitalocean.app` (`/healthz` → `{"status":"ok","rows":8686}`;
   both lookups equal the captures from there too, 2026-10-01). `REA_UI` reaches it only through its
-  nginx `$payment_upstream` (`REA_UI@3aea51f frontend.conf:16`) and its dev proxy target
+  nginx `$payment_upstream` (`REA_UI@cffdc0f frontend.conf:16`) and its dev proxy target
   (`.env.development:6`); the pipeline's `smoke-test` POSTs the route (`.gitlab-ci.yml:132-140`).
 - Not the prototype backend: no `Rule/Save`, no `UiTemplate/*`; the data-creator acceptance plan
   still needs `REA_PROTO_BE` itself.
