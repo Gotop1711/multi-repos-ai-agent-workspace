@@ -25,12 +25,15 @@ so 診療項目代碼 cannot be chosen and everything after the search is blocke
 - `REA_PROTO`'s fixtures are three hand-written rows, not captures. Python's csv without
   `newline=''` folds `\r\n`; this seed copy is LF-normalised (`i/lf`) while the host's data has
   CRLF — the generator writes CRLF back. The prototype's MongoDB rule dates are not reproducible.
-- `clone` of the new child failed: this shell reaches GitHub only as `Jarvis-bookai`
-  (`~/.ssh/bookai`; the agent holds no identity) and the private repo refuses it. Plan step 0.
+- First `clone` failed on access (this shell was `Jarvis-bookai`; the owner fixed SSH, now
+  `Gotop1711`); the second on `git clone --branch main` of an empty upstream. Child initialised by
+  hand (`git init -b main` + `origin`), no commit, as `clone` would for `remote: none`.
 - Not run: `REA_PROTO_BE` (no .NET SDK; read source). Quote `--include=*.cs` in zsh: the first
   kernel grep silently never ran. rea-proto-be sits at its 100-line cap.
 
 ## TODO
-- Owner: grant the key (deploy key or collaborator) or push yourself; sign payment-snapshot.
+- Owner: sign payment-snapshot; say whether this shell pushes `main` or you do.
+- [workspace] `clone` fails for a `write` child whose upstream exists but is empty: `git clone
+  --branch <default_branch>` needs the branch; fall back to `git init -b` + `remote add`.
 - Owner: push `develop` and `rea`; `Verified:` on payment-mock and the three earlier shipped
   plans. The data-creator acceptance plan's host stays stopped; the snapshot does not unblock it.

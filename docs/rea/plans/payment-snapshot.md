@@ -21,10 +21,10 @@ the "no rule" values for every row (payment-mock, step 2). The ui's dev mock bec
 Nothing in `REA_PROTO_BE`: its two seed CSVs are read once more by the generator, not copied.
 
 ## Steps
-0. Access. This workspace's shell reaches GitHub only as `Jarvis-bookai` (`~/.ssh/bookai`), which
-   the private repository refuses (`ls-remote`: not found, 2026-10-01). Before step 1 the owner adds
-   that public key as a deploy key with write access, or adds `Jarvis-bookai` as a collaborator —
-   or pushes every commit of this plan from their own machine.
+0. Access — done 2026-10-01: the owner's SSH change lets this shell reach GitHub as `Gotop1711`.
+   `./workspace.sh clone` cannot clone an empty upstream (it asks for `--branch main`, which does
+   not exist yet), so the child was initialised by hand as `clone` does for `remote: none`:
+   `git init -b main` plus `origin`. No file, no commit: the first commit is step 1's.
 1. The repository, one commit: `src/handlers.js` (`REA_UI@8c52af5 mock/payment.js`, unchanged);
    `src/server.mjs` — `node:http`, `PORT` (default 8080), the two POST paths → JSON, `GET /healthz`
    → 200, anything else → 404, body capped at 1 MB, no dependency; `data/paymentData.json`
