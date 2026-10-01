@@ -20,13 +20,14 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 ## Repositories
 - [rea-ui](rea-ui/index.md) — `REA_UI`: run, test, entry points; the owner's `debug-ui` branch
 - [rea-kernel](rea-kernel/index.md) — `REA_kernel` (read-only): where the schema and each code live
-- [rea-proto](rea-proto/index.md) — `REA_PROTO` (read-only): the template that defines the desired forms
+- [rea-proto](rea-proto/index.md) — `REA_PROTO` (read-only): the template defining the desired forms
 - [rea-proto-be](rea-proto-be/index.md) — `REA_PROTO_BE` (read-only, no upstream): `NhiDeclareVerify` — run, what each mode needs, entry points, storage, who calls it
 - [rea-proto-data-creator](rea-proto-data-creator/index.md) — `REA_PROTO_DATA_CREATOR` (write, no upstream): Node.js; the owner's 採集規則 for 15 rule kinds, one payload file each from the two 資料表檔; what still waits on the owner
+- [rea-proto-payment-snapshot](rea-proto-payment-snapshot/index.md) — the frozen Payment service; empty
 
 ## Plans
 - [205-main-fields](plans/205-main-fields.md) — draft: kernel 205 MainFields vs the prototype (four gaps; kernel is read-only, so a request)
-- [field-locking](plans/field-locking.md) — draft: the prototype's locked fields have no carrier end to end
+- [field-locking](plans/field-locking.md) — draft: the prototype's locked fields lack a carrier end to end
 - [306-main-setting](plans/306-main-setting.md) — shipped `REA_UI@8281dbb`: the 306 entry (five defects of an unmapped 主設定); awaits the owner's check
 - [translated-rule-names](plans/translated-rule-names.md) — draft: a named leaf's engine rule names no longer match the kernel's own result parser (a request) 
 - [ui-map-orphans](plans/ui-map-orphans.md) — draft: nine UI-map keys name no served field; four are untracked (201 參考日期, 307 widths, 檢核範圍's 前 N 碼)
@@ -37,4 +38,5 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [rea-proto-data-creator-setup](plans/rea-proto-data-creator-setup.md) — shipped `REA_PROTO_DATA_CREATOR@bb32f77`: the new project that turns Oracle table exports into `Rule/Save` bodies the prototype back end compiles and checks; awaits the owner's post and check
 - [rea-proto-data-creator-acceptance](plans/rea-proto-data-creator-acceptance.md) — draft: the owner's list — the acceptance run on the Azure host that ends in the setup plan's `Verified:`, the remote, 205/206 on every 醫令 (recorded), and the six rule kinds without rules (303–307, 401)
 - [reference-groups](plans/reference-groups.md) — shipped `REA_UI@82908a2`, `@7bfff25` (develop, unpushed): the kernel's 2026-09-29 `Reference` shape round-trips and 203's five `Disabled` dates are unpickable; awaits the owner's check against the deployment
-- [payment-mock](plans/payment-mock.md) — draft: the dev server answers the two Payment lookups from `mock/`, replaying the prototype backend's seed, while the rest of `/api` stays on the kernel
+- [payment-mock](plans/payment-mock.md) — shipped `REA_UI@316318e`: the dev server mocks Payment
+- [payment-snapshot](plans/payment-snapshot.md) — draft: Node + JSON in its own repo on App Platform

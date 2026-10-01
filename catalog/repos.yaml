@@ -44,6 +44,13 @@
   access: read-only
   product: rea
 
+- id: REA_PROTO_PAYMENT_SNAPSHOT
+  path: projects/rea_proto_payment_snapshot
+  remote: git@github.com:Gotop1711/REA_payment-snapshot.git
+  default_branch: main
+  access: write
+  product: rea
+
 - id: REA_kernel
   path: projects/kernel
   remote: https://gitlab.transportdata.tw/nhi3rdgeneration/claimvalidator/kernel.git
