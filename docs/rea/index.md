@@ -37,6 +37,7 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [federation-remote](plans/federation-remote.md) — draft: the ui becomes a Federation remote and drops its own frame; the shell's team must answer first
 - [rea-proto-data-creator-setup](plans/rea-proto-data-creator-setup.md) — shipped `REA_PROTO_DATA_CREATOR@bb32f77`: the new project that turns Oracle table exports into `Rule/Save` bodies the prototype back end compiles and checks; awaits the owner's post and check
 - [rea-proto-data-creator-acceptance](plans/rea-proto-data-creator-acceptance.md) — draft: the owner's list — the acceptance run on the Azure host that ends in the setup plan's `Verified:`, the remote, 205/206 on every 醫令 (recorded), and the six rule kinds without rules (303–307, 401)
-- [reference-groups](plans/reference-groups.md) — shipped `REA_UI@82908a2`, `@7bfff25` (develop, unpushed): the kernel's 2026-09-29 `Reference` shape round-trips and 203's five `Disabled` dates are unpickable; awaits the owner's check against the deployment
+- [reference-groups](plans/reference-groups.md) — shipped `REA_UI@82908a2`, `@7bfff25`: the kernel's 2026-09-29 `Reference` shape round-trips and 203's five `Disabled` dates are unpickable; awaits the owner's check against the deployment
 - [payment-mock](plans/payment-mock.md) — abandoned: superseded by payment-snapshot
 - [payment-snapshot](plans/payment-snapshot.md) — draft: Node + JSON in its own repo on App Platform
+- [rea-proto-data-creator-kernel](plans/rea-proto-data-creator-kernel.md) — draft: `--target kernel`; 307 waits on a ruling

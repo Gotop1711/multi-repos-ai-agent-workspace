@@ -78,6 +78,11 @@ owner's schema written as `null`. A group code is matched with its leading zeros
   generator reads, one step past `IsValidSpecificConfig` — refused all 623. The owner re-issued the
   rule with the digits prefixed `0`. 307's three data oddities (an empty `ENAME`, dotted codes,
   `P8211B`'s range with no leading `I`) the owner keeps as the table has them (plan step 5).
+- **`REA_kernel` is a different contract, not yet served.** `POST /api/v1/RuleSet` takes an array of
+  `RuleSetParameter`, `Main` keyed by the served schema's names (`ServiceCodes`, not `mainSetting`),
+  four validators (ruleset-api › Save; the values: field-map › 值的規則). Plan
+  rea-proto-data-creator-kernel (draft 2026-10-02) adds the target; tried in scratch on the
+  2026-09-22 exports, all 12 763 bodies pass the kernel's checks but 61 of 307's 114 (`Required`).
 - 202's `employmentType` 01 (專任, `SpecialistRuleGenerator.cs:63-90`) and 101–104's group codes were
   the owner's rulings; `MHCT_PAYLTYPE`'s other 13 limit types and 303–306 have no rules yet (plan
   steps 6–7).

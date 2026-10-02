@@ -2,7 +2,9 @@
 
 本文逐筆列出每一個規則對話框的每一個欄位，以 kernel 的名稱對照 ui 的名稱 — 用途是確認某個名稱，或
 確認它在另一側沒有對應。kernel 取自 `REA_kernel@458e663`（`Specification/V1/Codes/V1.0/_<code>.cs`），
-ui 取自 `REA_UI@411c809`（`src/utils/rule/ruleUIConfig.ts`），prototype 取自 `REA_PROTO@3fdf47c`。
+ui 取自 `REA_UI@411c809`（`src/utils/rule/ruleUIConfig.ts`），prototype 取自 `REA_PROTO@3fdf47c`；最後一節
+「值的規則」取自 `REA_kernel@6540a4c` 與 2026-10-02 站台的回應
+（`docs/rea/rea-kernel/sources/2026-10-02-ruleschema-live.json.md@6bc34f74a2a3`）。
 
 **對應關係只有一條規則，沒有例外**：ui 的識別字就是 kernel 的 `Value` 把第一個 ASCII 字母轉為小寫，
 兩個方向皆然。執行這項轉換的兩層機制、它們不動的東西（`options[].value` 屬於資料，永不轉換），以及
@@ -156,3 +158,33 @@ id — 兩者位於不同命名空間，不衝突。
 `inputCodes`、`Group` 寫成 `groupOption`。307 的 `DiagnosisCodes` 在 prototype 是 `rangeGroups`，
 `DiagnosisScope` 是 `filterFields`，兩段 `Range*` 子欄位是 `inputStart` / `inputEnd` /
 `monthStart` / `monthEnd`。
+
+## 值的規則 — kernel 存檔時對每個 `Main` 鍵檢查什麼
+
+名稱對上只是第一步：`FieldRuleValidator` 還檢查型別、`Required`、`Min`、`CompareField` 與選項
+（ruleset-api › Save）。下表是資料產生器所涵蓋的十五個 code 在 `REA_kernel@6540a4c`
+`src/Service/NHI.Service.DTO.ClaimValidator/Specification/V1/Codes/V1.0/_<code>.cs` 裡的定義；
+`OptionsApi` 的欄位（`PlanCodes` 等）沒有固定選項，任何字串都收。參考欄位一律選填：沒帶鍵就不查。
+
+| code | kernel `Value` | 型別 | 限制 | 固定選項 | 行 |
+|---|---|---|---|---|---|
+| 101 / 102 / 103 / 104 / 106 / 201 / 203 / 204 | `PlanCodes` / `ServiceCodes` / `DeptCodes` / `GradeCodes` / `EquipmentCodes` / `DeptCodes` / `PersonnelTypes` / `QualificationCodes` | StringArray | Required | — （`OptionsApi`） | `:14-19` |
+| 202 | `SpecialistCodes` | StringArray | Required | — | `_202.cs:14-19` |
+|  | `DoctorRole` | String | — | `Executor` 執行醫師, `FullTime` 專任 | `:23-28` |
+| 205 / 206 | `SpecialistCodes` | **String** | Required | `1` 無限制, `2` 除山地離島地區之外基層院所 | `:14-22` |
+| 301 | `GenderCode` | **String** | Required | `1` 男, `2` 女, `3` 其他 | `_301.cs:14-23` |
+| 302 | `MinOp` | String | Required | `>=`, `>`, `==` | `_302.cs:14-23` |
+|  | `Min` | Number | Required, Min 0 | — | `:27-32` |
+|  | `MaxOp` | String | — | `<=`, `<` | `:36-41` |
+|  | `Max` | Number | Min 0, CompareField `Min` `>` | — | `:45-51` |
+|  | `Unit` | String | Required | `Y`, `M`, `D`（Default `Y`） | `:55-65` |
+| 307 | `DiagnosisCodes` | ObjectArray | 每列四個 SubField **皆 Required**：`RangeStart1` String、`RangeEnd1` String（CompareField `RangeStart1` `>=`，字串不比）、`RangeStart2` Number、`RangeEnd2` Number（CompareField `RangeStart2` `>=`） | — | `_307.cs:14-61` |
+|  | `DiagnosisScope` | StringArray | Required | `01` 主診斷, `02` 次診斷 | `:64-72` |
+| 401 | `VisitTypes` | StringArray | Required | `01` 門診, `02` 住診, `03` 限急診, `04` 牙醫門診 | `_401.cs:14-24` |
+
+參考欄位（`ReferenceFields`，皆 StringArray，值須在選項內）：`ReferenceDates` 的八個日期（203 另有
+`FuncDate`，五個 `Disabled`）；`DoctorTypes` `01` 執行醫師, `02` 處方醫師, `03` 遠距（202, 205, 206）；
+`HospCodes`（106, 202）；`AgeReference` `birthday`, `child_birthday`（302, 307）；`DoctorType`（103, String）。
+`CompareField` 只在兩邊都是數字時比較（`Validation/FieldRuleValidator.cs:153-171`），所以 307 的
+`RangeEnd1 >= RangeStart1` 實際上不會擋。kernel 自己的 `docs/ruleSetExample/*.json` 在 `6540a4c` 仍把
+`GenderCode` 寫成陣列、`Reference` 寫成陣列，與 schema 不符；`3c3c9fb`（2026-10-01）重寫了它們，內容未讀。

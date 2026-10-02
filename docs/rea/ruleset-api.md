@@ -64,3 +64,51 @@ The five unread fields — 12% together — are named only by `src/api/modules/r
 - 1,695 of the 1,731 rows were created 2026-08-21 15:17–15:19 (+08:00) in one load whose leaves are dated 2026-06-05 … 06-12 — prototype-era rules converted by a loader outside both repositories (no fixture in either; the kernel's `docs/ruleSetExample/*.json` at `0638bb3` carry no `GroupName`). Its marks: `Main.GroupName` in 242 rows, and in 743 rows an `OtherNote` naming codes the `Logic` lacks — 305 (544 rows), 306 (345), 303 (120), 101 (95), 304 (63): 303–306 entered the registry on 2026-09-03 (`e409495`, `d412d35`), after the load, so those leaves were dropped by the loader or refused by `SchemaExistenceValidator` (since `1d449cc`, 2026-07-07).
 - The translator landed 2026-09-15 (`745ebc2`); 3 rows carry `TranslatedRules`, all 201, each 5–10× its row's `Logic` — the field's share grows as the translator covers more codes (rea-kernel › Save translates). `51018C` was written 2026-09-17 15:17 by the unpushed `REA_UI` build `9f091c3`, whose leaves carry the group name in `Name` (rea-ui › Branches).
 - **Emptied by 2026-09-30.** `GET /api/v1/RuleSet?$top=3` on `:8080` answers `[]` (read in session, not captured) while its swagger already shows `ReferenceGroup` and the three new top-level keys: the store was reset with the new build, so no row of the old `Reference` shape is left there to deserialize — the loader's marks and the translated rows above describe the old build's store and survive only as this description. Whether other hosts keep old-shape rows is not known; the kernel has no converter for them (`grep ReferenceItem` hits one test file).
+
+## Save — the gate `POST /api/v1/RuleSet` runs
+Kernel at `REA_kernel@6540a4c`; the host ran it on 2026-10-02 (rea-kernel › Live deployment).
+- **The body is an array.** `SaveAsync([FromBody] IEnumerable<RuleSetParameter>)`「支援批次儲存」
+  (`API/NHI.API.ClaimValidator/Controllers/V1/RuleSetApiController.cs:30-32`); the ui sends a one-item
+  array — the owner's capture of its 2026-10-02 save of `01116B`:
+  `docs/rea/rea-kernel/sources/2026-10-02-api-post-ruleset-request-body-example.json.md@07a15b0b3ef4`
+  (the swagger skeleton beside it:
+  `docs/rea/rea-kernel/sources/2026-10-02-api-post-ruleset-request-body-schema.json.md@cab27b4809c1`). 200 answers
+  `[{OrderCode, RuleStartDate}]`; 400 answers `ErrorResults [{Code, Name, Path, Message}]`.
+- **Four validators, in order, first failing stage answers 400 with all its errors**
+  (`API/…/Attributes/RuleSetValidationFilter.cs:18-24`, `:50-60`; an empty array is 400「參數不可為空」,
+  an item whose `Logic` is null skips them all — null clears the 醫令, `:33-50`).
+  1. `SchemaVersionValidator`: the version is in the registry (`Validation/SchemaVersionValidator.cs:14-20`).
+  2. `StructureValidator`: a node is a branch (`Op`) xor a leaf (`Code`); `And`/`Or` need both children,
+     `Not` a `Left` only; a leaf's `Name` and `GroupName` are non-blank and `GroupName` is unique per
+     code; a `Reference` key's list is non-empty and every group but the last has a `Condition`
+     (`Validation/StructureValidator.cs:29-35`, `:50-54`, `:72-76`, `:87-115`, `:159-174`).
+  3. `SchemaExistenceValidator`: the code exists「不存在的 RuleCode」; every `Main` key is a served
+     `MainFields[].Value`「不允許的欄位」, an `ObjectArray`'s elements are objects of declared sub-keys; a
+     `Condition.Field` is a served condition and its `Params` keys are its fields; `Reference` only on a
+     code with `ReferenceFields`「此 RuleCode 不支援 Reference 欄位」and each key among them
+     (`Validation/SchemaExistenceValidator.cs:55-65`, `:76-103`, `:112-147`, `:174-186`).
+  4. `FieldRuleValidator` walks the **schema's** fields, not the body's keys: a `Required` field that is
+     missing, null, `""` or `[]` is「此欄位必填」; a present value must match the type (`String`,
+     `Number`, `StringArray`/`ObjectArray` = JSON array), pass `Min`/`Max`/`MinLength`/`MaxLength`/
+     `Pattern`, and `CompareField` when both sides are numbers; a string or every string of an array
+     must be one of `Options` when the field has them「不允許的選項」; `SubFields` are walked per element;
+     `Condition.Params` and each `ReferenceGroup.Fields` entry the same way
+     (`Validation/FieldRuleValidator.cs:74-100`, `:116-183`, `:188-206`, `:211-224`, `:253-303`, `:307-314`).
+     No `Reference` key is ever required: only keys present are checked.
+- **Then the service** (`Service/NHI.Service.DTO.ClaimValidator/Implementation/V1/RuleSetSL.cs:27-91`):
+  the same `OrderCode` twice in one batch fails the batch「請分批提交」(`:31-42`); per item, against the
+  醫令's current version (`RuleEndDate` null): an earlier `RuleStartDate` is an error (`:54-63`), a later
+  one closes the current version at start − 1 day (`:65-70`), the same date overwrites it keeping
+  `CreatedAt` (`:75-76`); any error and **nothing is saved**, else all of it in one transaction
+  (`:85-89`; DAO `Implementation/V1/RuleSetSL.cs:31-47`). `LogicExpression`, `Codes`, `Conditions`
+  are filled (`:128-131`) and the latest translator run — `NotSupportedException` leaves
+  `TranslatedRules` null (`:133-145`; rea-kernel › Save translates).
+- **A row without `TranslatedRules` is not checkable.** The ETL worker loads the effective row for an
+  order code and date and deserializes `TranslatedRules`; blank, it throws「缺少 TranslatedRules」
+  (`src/ETL/NHI.ETL.ClaimValidator/Workers/ClaimValidationWorker.cs:226-252`); the loop around it turns
+  only *no row* into `NoRule` results (`:85-113`), nothing there catches the throw — what the job then
+  records was not traced. Today that is every code but 201 and 203.
+- **The store on 2026-10-02**: two rows, both ui saves — `12116B` (101, start 2026-10-01) and `01116B`
+  (102, 2026-10-02), `TranslatorVersion` null, `OtherNote` in the ui's text form
+  `{"102":"群組1:\n主設定: 服務項目代碼: C"}` (`REA_UI@cffdc0f src/utils/rule/exprGenerator.js:217-262`,
+  `:268-307`). Read in session, not captured.
