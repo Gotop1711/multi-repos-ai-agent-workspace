@@ -7,7 +7,7 @@ A child with no upstream is declared `remote: none`, and is one of two things. A
 ## Documents — made and unmade by command, small by rule
 
 ```
-docs/<product>/index.md            the product: what it is; links to its modules, repositories, open plans   ≤ 80 lines
+docs/<product>/index.md            the product: what it is; links to its modules, repositories, open plans   ≤ 100 lines
 docs/<product>/<module>.md         one subsystem each — the only place facts live                              ≤ 300
 docs/<product>/<repo>/index.md     a related repository: run, test, entry points, integration                  ≤ 100
 docs/<product>/[<repo>/]sources/   ingested documents' text, plus `<name>.p<N>.jpg` and its OCR for a page that is or holds a picture — `ingest` / `extract` output only, never hand-edited

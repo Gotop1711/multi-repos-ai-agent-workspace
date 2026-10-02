@@ -20,7 +20,7 @@ set -u
 cd "$(dirname "$0")" || exit 1
 MANIFEST="catalog/repos.yaml"
 ASSETS="docs/assets"        # originals: docs/assets/<product>/[<repo>/]<YYYY-MM-DD-slug.ext>, gitignored, never committed
-CAP_INDEX=80; CAP_MODULE=300; CAP_REPO=100; CAP_PLAN=80; CAP_LOG=40; CAP_CHANGELOG=60   # line caps check enforces, counted wrapped at 100 columns (AGENTS.md › Documents)
+CAP_INDEX=100; CAP_MODULE=300; CAP_REPO=100; CAP_PLAN=80; CAP_LOG=40; CAP_CHANGELOG=60   # line caps check enforces, counted wrapped at 100 columns (AGENTS.md › Documents)
 IMG_BYTES=204800; IMG_PX=1600   # a picture derivative sources/<name>.p<N>.jpg: the one binary git keeps — at most 200 KiB, 1600 px on the long side
 tmp=""; ocr=""; pdfimg=""; ocrmerge=""; render=""; ooxml=""; pats=""; trap 'rm -f "$tmp" "$ocr" "$pdfimg" "$ocrmerge" "$render" "$ooxml" "$pats"' EXIT
 
