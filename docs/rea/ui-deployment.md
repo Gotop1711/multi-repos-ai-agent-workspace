@@ -3,8 +3,7 @@
 How `REA_UI` is packaged, routed and deployed: the Docker image, its nginx, the build modes and the
 GitLab pipeline, and the manual check of the image before a push. It is the deployment to a space
 outside NHIA that the repository's files were written for (owner, 2026-09-22), not the NHIA
-三代 deployment the regulation prescribes; that one is nhia-frontend-standard › Architecture and bff. Cited at `REA_UI@5721638` (`develop`
-= `debug-ui` = `debug-api`). This module replaces the repository's own `docs/deployment/docker.md`
+三代 deployment the regulation prescribes; that one is nhia-frontend-standard › Architecture and bff. Cited at `REA_UI@b0ecc15`. This module replaces the repository's own `docs/deployment/docker.md`
 (last edited `c96d4d1`, 2026-08-05), removed with the whole `docs/` in `REA_UI@a024004`; every
 statement of that file was re-checked against the config at `5721638` and still holds; what it lacked
 is added below. Its two neighbours, `research.md` and `research-essence.md`, were a general survey of
@@ -108,3 +107,30 @@ Not covered by these steps: the Payment route (step 5's curl never reaches `/api
 needs outbound HTTPS from the container — inferred, not run; since `cffdc0f` the pipeline's
 `smoke-test` POSTs it through nginx and requires 200, `.gitlab-ci.yml:132-140`); and the registry
 push, the `172.17.0.1` smoke URL and `notify`, which run only on a push to `develop`.
+
+## NHIA VM handoff
+The configuration supplied on 2026-10-05 is a second deployment shape, not the pipeline deployment
+above. Its compose has MongoDB, the kernel API, the ETL worker and an outer nginx; all join the
+external `med3_cluster_network`, and only that outer nginx publishes 80/443
+(`docs/rea/sources/2026-10-05-nhia-vm-docker-compose.yml.md@e50f1ac39ce7 L10`, `L41`, `L60`,
+`L76`, `L86`, `L95`, `L106`). Its TLS virtual host returns 404 for `/` and sends every `/api` or
+`/swagger` request directly to `nhi-claimvalidator:8080`
+(`docs/rea/sources/2026-10-05-nhia-vm-nginx-default.conf.md@9a5dc8523ef7 L9`, `L23`, `L28`).
+
+The fitting topology is an un-published `rea-ui` service on that network, with the outer nginx
+proxying `/` to `http://rea-ui:80`; the outer nginx remains the only public TLS endpoint. Its regex
+API location bypasses the UI image's nginx, so normal kernel APIs still work directly, but
+`/api/v1/Payment/` would also go to the kernel instead of the image's explicit DigitalOcean upstream
+(`REA_UI@b0ecc15 frontend.conf:7-29`). That route is needed as soon as the UI preloads the medical
+item list (`REA_UI@b0ecc15 src/stores/payment.js:22-25,48-79`). Before deployment the owner must
+choose one of two routes: provide an internal Payment service and proxy the longest prefix to it, or
+permit outbound HTTPS and add an exact longest-prefix outer-nginx route to the UI container. The
+second keeps the repository's temporary public snapshot dependency and is unsuitable for a truly
+closed network.
+
+For an offline handoff, build from the Git checkout rather than a copied source folder: `.env.production`
+is part of the build context and fixes the generated app to production mode (`REA_UI@b0ecc15
+.env.production:1-3`; `Dockerfile:3-7`). Build for the VM's architecture, give the image an immutable
+commit tag, `docker save` it, record SHA-256, then have the VM operator verify the checksum and
+`docker load` it before compose. The UI service needs no host `ports:` entry; only the outer nginx
+needs 80/443.
