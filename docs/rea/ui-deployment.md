@@ -128,6 +128,14 @@ permit outbound HTTPS and add an exact longest-prefix outer-nginx route to the U
 second keeps the repository's temporary public snapshot dependency and is unsuitable for a truly
 closed network.
 
+Owner decision, 2026-10-05: the kernel backend will implement Payment later; the NHIA image must
+remove its special public Payment route so `/api/v1/Payment/` falls through to the generic
+`nhi-claimvalidator:8080` proxy. The UI is published directly as host `8082` → container `80`, so
+that generic proxy remains necessary; the outer TLS nginx is not on the `:8082` request path. The
+exact `index.html` location also remains necessary: it controls browser cache lifetime and repeats
+the CSP that nginx would otherwise stop inheriting once the location declares `add_header`. Plan:
+nhia-vm-ui-routing.
+
 For an offline handoff, build from the Git checkout rather than a copied source folder: `.env.production`
 is part of the build context and fixes the generated app to production mode (`REA_UI@b0ecc15
 .env.production:1-3`; `Dockerfile:3-7`). Build for the VM's architecture, give the image an immutable
