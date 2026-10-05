@@ -32,12 +32,16 @@ SeedData/seed_data_mhct_payment.csv` and `seed_data_mhct_payitems.csv`; read onc
 
 ## Integration
 - Serves exactly what the Azure host served: `Item/Get` for `""` and `Detail/Get` for `01116B`
-  equal the owner's 2026-09-30 captures as JSON (rea-ui › Run / test cites them; checked again
-  against the running server in session). Rule dates are the "no rule" values on every row — the
-  prototype's MongoDB is not reproduced (rea-proto-be › What each mode needs).
+  equal the owner's 2026-09-30 captures as JSON
+  (`docs/rea/rea-proto-be/sources/2026-09-30-post-payment-item-get-response.json.md@82b9f9adcd5c`,
+  `docs/rea/rea-proto-be/sources/2026-09-30-post-payment-detail-get-request-payload.json.md@8ab75bf25fb2`,
+  `docs/rea/rea-proto-be/sources/2026-09-30-post-payment-detail-get-response.json.md@ad02e1bca5e4`;
+  checked again against the running server in session). Rule dates are the "no rule" values on
+  every row — the prototype's MongoDB is not reproduced (rea-proto-be › What each mode needs).
 - Deployed on App Platform at `https://rea-payment-snapshot-nw4ns.ondigitalocean.app` (`/healthz` → `{"status":"ok","rows":8686}`;
-  both lookups equal the captures from there too, 2026-10-01). `REA_UI` reaches it only through its
-  nginx `$payment_upstream` (`REA_UI@cffdc0f frontend.conf:16`) and its dev proxy target
-  (`.env.development:6`); the pipeline's `smoke-test` POSTs the route (`.gitlab-ci.yml:132-140`).
+  both lookups equal the captures from there too, 2026-10-01). `REA_UI@cffdc0f` used it through
+  nginx and the dev proxy; `REA_UI@2a7a7c9` removes both routes because the NHIA kernel will provide
+  Payment (plan nhia-vm-ui-routing). The frozen service remains available but is no longer the
+  feature branch's upstream.
 - Not the prototype backend: no `Rule/Save`, no `UiTemplate/*`; the data-creator acceptance plan
   still needs `REA_PROTO_BE` itself.

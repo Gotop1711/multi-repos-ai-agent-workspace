@@ -66,22 +66,19 @@ ui-deployment. NHIA's own deployment — the regulation's templates, ports and r
 different target that does not exist yet (› Container port; nhia-frontend-standard › Architecture).
 What follows reads the repository as it stands, because the regulation's rules on a front-end project
 bind its code and config wherever it is deployed; it is not a description of an NHIA deployment.
-- The browser talks to two backends through the ui's own nginx, with nothing in between.
-  `frontend.conf:23-27` proxies `/api/` to the kernel container `nhi-claimvalidator:8080`;
-  `frontend.conf:11-15` proxies `/api/v1/Payment/` to an external Azure App Service host, written out in
-  the file. The image is nginx serving `dist` with that config (`Dockerfile:9-12`).
-- That Azure host was stopped on 2026-09-30 (`403 Site Disabled`, rea-ui › Deployment), which
-  showed the cost of the arrangement: the deployed ui could not select an order code, and only a
-  commit moves the route — `cffdc0f` did, to the snapshot service on App Platform (plan
-  payment-snapshot), the same shape with a host the owner controls. Under the target the BFF would
-  hold that address (plan bff, step 3) and could be repointed without a ui change.
+- The browser talks through the ui's own nginx, with nothing in between. Since `REA_UI@2a7a7c9`,
+  `frontend.conf:7-14` proxies every `/api/` path, including Payment, to the kernel container
+  `nhi-claimvalidator:8080`; the image is nginx serving `dist` with that config (`Dockerfile:9-12`).
+- The earlier separate Payment host was stopped on 2026-09-30, replaced temporarily by the snapshot
+  service, then removed from REA_UI by plan nhia-vm-ui-routing when the owner decided the kernel will
+  implement Payment. This still lacks the BFF required by the target architecture.
 - The code itself complies with the relative-path rule: `VITE_API_BASE_URL` is empty in production
   (`.env.production:2-3`), axios takes it as `baseURL` (`src/api/request.js:5-7`), and the four
   endpoints are relative: `/api/v1/RuleSchema`, `/api/v1/RuleSet` twice
   (`src/api/modules/rules/index.ts:129,166,231`), `/api/v1/Payment/Item/Get` and
   `/api/v1/Payment/Detail/Get` (`src/api/modules/payment/index.ts:19,29`).
-- Real backend addresses do sit in the repository, against R L655–657: the Azure host in
-  `frontend.conf:14`, and the dev proxy targets in `.env.development:4,6` (values not copied here).
+- Backend addresses still sit in the repository, against R L655–657: the Docker service name in
+  `frontend.conf:13` and the dev proxy target in `.env.development:4` (value not copied here).
 - There is no token at all. The request interceptor's `Authorization` lines are commented out and speak
   of a 「主系統 token」 from an `authStore` (`src/api/interceptors.js:93-98`); 401 and 403 only raise an
   `ElMessage` (`interceptors.js:129,135`). Nothing in `src/` mentions Keycloak.
@@ -179,4 +176,4 @@ pass-through routes and the ui's proxy change need no token. What is known, for 
 - REA's five-character code, from NHIA.
 - Whether the architect admits `zod`, `jest` and `supertest` for the BFF.
 - The token questions above.
-- Whether the Payment service stays external; `frontend.conf:10` expects it to move into the cluster.
+- When the kernel's planned Payment endpoints will be available for the UI's deployment gate.

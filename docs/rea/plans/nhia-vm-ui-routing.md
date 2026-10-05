@@ -1,7 +1,9 @@
 # rea — nhia-vm-ui-routing
 
-Writes: REA_UI (debug-cicd)
-Status: draft
+Status: shipped
+Writes: REA_UI (feature-nhi-deployment)
+Signed: gotop1711 — 2026-10-05
+Shipped: 2026-10-05 — REA_UI@2a7a7c9 (feature-nhi-deployment, unpushed)
 
 ## Goal
 Package REA_UI for the closed NHIA VM: the VM publishes host port 8082 to the UI container's port
@@ -11,7 +13,8 @@ same-origin API proxy and the non-cached SPA shell (owner, 2026-10-05; current r
 `REA_UI@b0ecc15 frontend.conf:7-43`).
 
 ## Writes
-- `REA_UI` (`debug-cicd`): production nginx, development proxy and the Payment smoke-test wording.
+- `REA_UI` (`feature-nhi-deployment`): production nginx, development proxy and the Payment
+  smoke-test wording.
 - The supplied VM compose/config are outside the fleet and are a backend-operator handoff, not a
   repository write.
 

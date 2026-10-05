@@ -41,5 +41,5 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [payment-mock](plans/payment-mock.md) — abandoned: superseded by payment-snapshot
 - [payment-snapshot](plans/payment-snapshot.md) — draft: Node + JSON in its own repo on App Platform
 - [rea-proto-data-creator-kernel](plans/rea-proto-data-creator-kernel.md) — draft: `--target kernel`; 307 waits on a ruling
-- [nhia-vm-ui-routing](plans/nhia-vm-ui-routing.md) — draft: publish UI on 8082 and route every API,
-  including Payment, to the in-network backend; awaits the owner's signature
+- [nhia-vm-ui-routing](plans/nhia-vm-ui-routing.md) — shipped `REA_UI@2a7a7c9`: publish UI on 8082
+  and route every API, including Payment, to the in-network backend; awaits the owner's check
