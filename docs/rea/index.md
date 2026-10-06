@@ -44,3 +44,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [nhia-vm-ui-routing](plans/nhia-vm-ui-routing.md) — shipped `REA_UI@2a7a7c9`: publish UI on 8082
   and route every API, including Payment, to the in-network backend; awaits the owner's check
 - [ui-layout-routing](plans/ui-layout-routing.md) — draft: `DefaultLayout.vue` is a tabbed page, not a layout, and `/payment` bypasses it; make the tabs child routes under a real layout
+- [ui-right-drawer](plans/ui-right-drawer.md) — draft: one global right `el-drawer` in the layout, opened from any button through a Pinia store, its content component chosen per scenario
