@@ -23,6 +23,11 @@ per scenario, the layout changed as little as possible ahead of plan ui-layout-r
   active pinia): the plan adds `createTestingPinia` and stubs `RightDrawer` there.
 - The child's `eslint ./src` ignores files outside its base path; lint scratch files by copying
   `eslint.config.js` + `.eslint-auto-import.js` next to them, not with `-c` from the child.
+- Owner asked composable vs store, then for sourced research. Vue's state-management guide allows
+  a module-scoped reactive store and reserves Pinia for devtools/HMR/SSR/team conventions; Pinia's own
+  intro lists testing utilities and devtools as its edge; Nuxt UI `useOverlay` and Quasar's Dialog
+  plugin both use a shared singleton + `component`/`props` + the panel emitting `close`, the shape
+  the plan already has. Decision still the owner's; the plan is unchanged until then.
 - `echo =====` fails in zsh (`=` triggers filename expansion); quote such separators.
 
 ## TODO
