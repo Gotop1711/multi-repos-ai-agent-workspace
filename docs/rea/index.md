@@ -43,3 +43,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [rea-proto-data-creator-kernel](plans/rea-proto-data-creator-kernel.md) — draft: `--target kernel`; 307 waits on a ruling
 - [nhia-vm-ui-routing](plans/nhia-vm-ui-routing.md) — shipped `REA_UI@2a7a7c9`: publish UI on 8082
   and route every API, including Payment, to the in-network backend; awaits the owner's check
+- [ui-layout-routing](plans/ui-layout-routing.md) — draft: `DefaultLayout.vue` is a tabbed page, not a layout, and `/payment` bypasses it; make the tabs child routes under a real layout

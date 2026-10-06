@@ -56,6 +56,12 @@ The owner's, in session 2026-09-21. They fix how `REA_UI` is read against this r
   and `./v2/components`, shares the three libraries as `{ singleton: true }`, and serves on 5100
   (`R.p55`). An earlier draft of this paragraph, written from OCR, had `Nhivue.main` and
   `./V1/components`: the misreadings the evidence rule exists for.
+- The shell's own router (`R.p54`, page 46) is the layout pattern itself: `/admin` has `component:
+  DefaultLayout`, `redirect: '/admin/main'` and `children` — `main` (`@/views/home/index.vue`) and
+  `subSystem`, whose `children` are `SubSystemRouter` — plus a `/:catchAll(.*)` 404. The subsystem's
+  array (`R.p52`) likewise puts `App.vue` on `path: ''` with the page as a child. So `layouts/ — 頁面布局`
+  (R L639, L651) means a wrapper that renders child routes, never a route's own page; how `REA_UI`'s
+  `DefaultLayout.vue` departs from this is rea-ui › Layout and plan ui-layout-routing.
 - Under NHIA's deployment a Vue app is served by nginx on 8000 under its route path, not at `/`: the template has
   `listen 8000`, `location /IHKE3000/ { alias /usr/share/nginx/html/; try_files … /index.html; }` and an
   `HTTPRoute` with `PathPrefix /IHKE3000/` to the service `hi0-ihkwc-web-svc:8000` (`R.p258`; the
