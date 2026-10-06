@@ -101,6 +101,21 @@ Run from the repository root with a Docker daemon; each step tests one decision 
 Not covered by these steps: the registry push, the `172.17.0.1` smoke URL and `notify`, which run
 only on a push to `develop`.
 
+## Testing the exported tar locally
+For the `2a7a7c9` handoff, verify SHA-256, `docker load` the tar, then inspect the loaded tag as
+`linux/amd64`. On the owner's Apple Silicon Mac, pass `--platform linux/amd64` when running the UI;
+Docker Desktop emulates the VM's target platform. Create an isolated network and run a disposable
+HTTP echo server with network alias `nhi-claimvalidator` on port 8080 (the pinned Node image is a
+convenient test server; Docker may pull it). Run `rea-ui:2a7a7c9` on that network with
+`127.0.0.1:8082:80`.
+
+The acceptance probes are: `/` returns 200, production `app-env`, CSP and `Cache-Control: no-cache`;
+an arbitrary SPA route returns 200; `GET /api/v1/RuleSchema` reaches the echo server with that path;
+and `POST /api/v1/Payment/Item/Get` reaches the same server with method and path unchanged. `nginx
+-t` inside the UI must pass. This proves the archive, static site and proxy topology, not the real
+kernel response shapes or business flow. Remove the two test containers and isolated network after
+the probes; keep the loaded image for Compose testing.
+
 ## NHIA VM handoff
 The configuration supplied on 2026-10-05 is a second deployment shape, not the pipeline deployment
 above. Its compose has MongoDB, the kernel API, the ETL worker and an outer nginx; all join the
