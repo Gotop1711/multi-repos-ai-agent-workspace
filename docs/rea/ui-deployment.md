@@ -138,3 +138,9 @@ is part of the build context and fixes the generated app to production mode (`RE
 commit tag, `docker save` it, record SHA-256, then have the VM operator verify the checksum and
 `docker load` it before compose. The UI service maps `8082:80`; its internal nginx and Dockerfile
 continue to listen/expose 80 (`frontend.conf:4-5`, `Dockerfile:14`).
+
+Owner decision, 2026-10-06: the VM handoff image repository is
+`nhi-claimvalidator-frontend-dev`. The present offline archive carries the normalized Docker tag
+`nhi-claimvalidator-frontend-dev:latest`; compose may spell that as
+`image: nhi-claimvalidator-frontend-dev`. This is only a retag of the tested `REA_UI@2a7a7c9`
+image—its image ID, layers, platform and application configuration are unchanged.
