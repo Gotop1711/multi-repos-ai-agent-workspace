@@ -1,8 +1,9 @@
 # rea — ui-right-drawer: one global right drawer, its content chosen per scenario
 
-Status: signed
+Status: shipped
 Writes: REA_UI (develop)
 Signed: gotop1711 — 2026-10-06
+Shipped: 2026-10-06 — REA_UI@7d13a95, REA_UI@b7e7073 (develop, unpushed)
 
 ## Goal
 The frame's right aside is empty at `REA_UI@04016d3 src/layouts/DefaultLayout.vue:45`; the owner's
