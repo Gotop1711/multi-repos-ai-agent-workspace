@@ -3,7 +3,7 @@
 How `REA_UI` is packaged, routed and deployed: the Docker image, its nginx, the build modes and the
 GitLab pipeline, and the manual check of the image before a push. It is the deployment to a space
 outside NHIA that the repository's files were written for (owner, 2026-09-22), not the NHIA
-三代 deployment the regulation prescribes; that one is nhia-frontend-standard › Architecture and bff. Cited at `REA_UI@2a7a7c9`. This module replaces the repository's own `docs/deployment/docker.md`
+三代 deployment the regulation prescribes; that one is nhia-frontend-standard › Architecture and bff. Cited at `REA_UI@2d2c40e`. This module replaces the repository's own `docs/deployment/docker.md`
 (last edited `c96d4d1`, 2026-08-05), removed with the whole `docs/` in `REA_UI@a024004`; every
 statement of that file was re-checked against the config at `5721638` and still holds; what it lacked
 is added below. Its two neighbours, `research.md` and `research-essence.md`, were a general survey of
@@ -102,11 +102,11 @@ Not covered by these steps: the registry push, the `172.17.0.1` smoke URL and `n
 only on a push to `develop`.
 
 ## Testing the exported tar locally
-For the `2a7a7c9` handoff, verify SHA-256, `docker load` the tar, then inspect the loaded tag as
+For the `2d2c40e` handoff, verify SHA-256, `docker load` the tar, then inspect the loaded tag as
 `linux/amd64`. On the owner's Apple Silicon Mac, pass `--platform linux/amd64` when running the UI;
 Docker Desktop emulates the VM's target platform. Create an isolated network and run a disposable
 HTTP echo server with network alias `nhi-claimvalidator` on port 8080 (the pinned Node image is a
-convenient test server; Docker may pull it). Run `rea-ui:2a7a7c9` on that network with
+convenient test server; Docker may pull it). Run `nhi-claimvalidator-frontend-dev:latest` there with
 `127.0.0.1:8082:80`.
 
 The acceptance probes are: `/` returns 200, production `app-env`, CSP and `Cache-Control: no-cache`;
@@ -140,7 +140,9 @@ commit tag, `docker save` it, record SHA-256, then have the VM operator verify t
 continue to listen/expose 80 (`frontend.conf:4-5`, `Dockerfile:14`).
 
 Owner decision, 2026-10-06: the VM handoff image repository is
-`nhi-claimvalidator-frontend-dev`. The present offline archive carries the normalized Docker tag
-`nhi-claimvalidator-frontend-dev:latest`; compose may spell that as
-`image: nhi-claimvalidator-frontend-dev`. This is only a retag of the tested `REA_UI@2a7a7c9`
-image—its image ID, layers, platform and application configuration are unchanged.
+`nhi-claimvalidator-frontend-dev`; compose may spell its normalized `:latest` tag as
+`image: nhi-claimvalidator-frontend-dev`. Owner decision, 2026-10-07: after rebasing the deployment
+branch onto the updated `develop`, rebuild the offline image from `REA_UI@2d2c40e`. The resulting
+`linux/amd64` archive is `nhi-claimvalidator-frontend-dev.tar`, SHA-256
+`63d10a7d8e58edc5e95d3a0a238c8893bf384c757109b18717967906171ee80c`; its embedded tag is
+`nhi-claimvalidator-frontend-dev:latest`.
