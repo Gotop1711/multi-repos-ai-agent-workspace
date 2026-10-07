@@ -16,6 +16,7 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [ui-deployment](ui-deployment.md) — the ui's Docker image, nginx routes, build modes and GitLab pipeline, and the manual image check 
 - [nhia-regulation](nhia-regulation.md) — the NHIA regulation as a whole: the chapters that bind the ui and the BFF, figures that contradict the text, how the source and its pictures are held
 - [declare-verify](declare-verify.md) — the prototype's back end, end to end: authoring endpoints, how a saved rule compiles to a RulesEngine tree (15 rule kinds, 10 scope conditions), the validation job, what surprises
+- [validation-job-api](validation-job-api.md) — the kernel's `POST`/`GET /api/v1/ValidationJob`: the `ClaimBatchKey` body, the `[{ id }]` answer, OData as the only read, no result endpoint yet 
 
 ## Repositories
 - [rea-ui](rea-ui/index.md) — `REA_UI`: run, test, entry points; the owner's `debug-ui` branch
@@ -45,5 +46,5 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
   and route every API, including Payment, to the in-network backend; awaits the owner's check
 - [ui-layout-routing](plans/ui-layout-routing.md) — draft: `DefaultLayout.vue` is a tabbed page, not a layout, and `/payment` bypasses it; make the tabs child routes under a real layout
 - [ui-right-drawer](plans/ui-right-drawer.md) — shipped, awaiting Verified: one global right `el-drawer` in the layout, opened from any button through a module-scoped composable, its content component chosen per scenario
-- [hospital-data-upload](plans/hospital-data-upload.md) — draft: the right drawer's first panel, a 院所資料 CSV that
-  creates a validation job; the owner picks the receiving backend first (prototype file, prototype JSON, or kernel) 
+- [hospital-data-upload](plans/hospital-data-upload.md) — draft: the right drawer's first panel, a 院所資料 CSV
+  posted row by row to the kernel's `POST /api/v1/ValidationJob`; awaits the owner's signature 
