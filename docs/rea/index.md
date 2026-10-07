@@ -45,3 +45,5 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
   and route every API, including Payment, to the in-network backend; awaits the owner's check
 - [ui-layout-routing](plans/ui-layout-routing.md) — draft: `DefaultLayout.vue` is a tabbed page, not a layout, and `/payment` bypasses it; make the tabs child routes under a real layout
 - [ui-right-drawer](plans/ui-right-drawer.md) — shipped, awaiting Verified: one global right `el-drawer` in the layout, opened from any button through a module-scoped composable, its content component chosen per scenario
+- [hospital-data-upload](plans/hospital-data-upload.md) — draft: the right drawer's first panel, a 院所資料 CSV that
+  creates a validation job; the owner picks the receiving backend first (prototype file, prototype JSON, or kernel) 

@@ -25,4 +25,5 @@ Owner, mid-way through `HospitalDataUploadPanel.vue` and a csv→json function i
   request interceptor pascalizes on the way out (`interceptors.js:21`). Flagged.
 
 ## TODO
-- Owner: decide the panel's target (prototype BE file upload vs JSON vs kernel) — a plan follows.
+- Owner: decide the panel's target (prototype BE file upload vs JSON vs kernel) and sign plan
+  hospital-data-upload (draft, filed this session: four commits, the converter skipped under file upload).
