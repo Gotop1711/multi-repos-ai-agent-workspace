@@ -7,4 +7,12 @@ Repository `REA_UI` (`projects/ui`, access `write`) — Vue 3 schema-driven rule
 - **Deployment.** Plan nhia-vm-ui-routing's image is for the closed NHIA VM: compose publishes `8082:80`, and the image proxies every `/api/*`, including Payment, to `nhi-claimvalidator:8080` (`frontend.conf:7-14`). The backend has not implemented Payment yet, so those calls remain unavailable until it does. Image, routes, pipeline and handoff: ui-deployment.
 - **Run / test.** `npm run dev` (`:5173`; `VITE_USE_MOCK=true` serves `mock/rulesData.js`; otherwise every `/api` path goes to `VITE_DEV_PROXY_TARGET`, `.env.development:4-6`, `vite.config.js:55-63`); `npx vitest run`; `npm run lint` (`eslint ./src`, `max-len` 100).
 - **Entry points.** `src/views/rules/RuleEditorDialog.vue` (save), `src/views/rules/MainSetting.vue` (the form and its dynamic rows), `src/utils/rule/ruleUIConfig.ts` (the UI map, `SubGroupInput`), `src/utils/rule/ruleSchemaUtils.js` (schema → form, `collectMainPayloadFields`), `src/utils/rule/ruleNodeUtils.js` (`RuleNode`), `src/api/modules/rules/index.ts` (API client, field-id lowering), `src/views/rules/RuleShows.vue` (read view).
+- **Folders.** The regulation defines `helpers/` and `utils/` identically (nhia-frontend-standard › Project
+  layout); the repo's own split is dependency direction: `src/helpers/` holds two domain-free leaf modules
+  (`date.js`, `validation.js`) imported by views and by `src/utils/rule/*` (`inputTypeConfig.js:1`,
+  `ruleNodeUtils.js:4`), never the reverse; `src/utils/` is domain code by feature (`rule/`, `payment/`,
+  `addOn/`) plus `common.js` (`toArray`, `generateUniqueId`). `src/api/caseTransform.js` is the axios
+  boundary's PascalCase↔camelCase pass, imported only by `api/request.js:2`, `api/interceptors.js:5`,
+  `api/modules/rules/index.ts:3` and `mock/index.js:6`; under the BFF rule that reshaping leaves the ui
+  (bff › what a BFF would own), so it stays in `api/`. (`REA_UI@b7e7073`)
 - **Integration.** Consumes the kernel's schema (rea-kernel) and follows the prototype's layouts (rea-proto); see rule-editor and rule-codes.
