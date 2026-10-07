@@ -3,8 +3,8 @@
 The kernel's validation-job contract: how the ui asks `REA_kernel` to check a declaration batch and
 how it learns the outcome. Cited at `REA_kernel@8b852f3` (`develop`), paths under `src/`. The kernel's
 own `docs/ValidationJob.md` describes the worker side and, at `:206-208`, two read endpoints that do
-not exist in the controller; the controller is the evidence here. The ui side is plan
-hospital-data-upload; the prototype's older equivalent (`ValidationJob/Batch`, CSV upload) is
+not exist in the controller; the controller is the evidence here. The ui's client is
+`REA_UI@bdd28ec src/api/modules/validationJob/` (plan hospital-data-upload); the prototype's older equivalent (`ValidationJob/Batch`, CSV upload) is
 declare-verify › Part 3.
 
 ## Create — `POST /api/v1/ValidationJob`
