@@ -2,38 +2,33 @@
 
 ## Task
 Owner recorded the real `POST /api/v1/RuleSet` payloads the running ui sends, one per rule kind
-(`ui_misc/api-records/POST_RuleSet_payload_by-rules`, outside the workspace), and asks whether
-they
-complete the data-creator kernel plan; ingest if useful.
+(`ui_misc/api-records`, outside the workspace), set the precedence kernel spec > recorded payloads >
+prototype data, answered the plan's open questions in the panel and said: sign and ship.
 
 ## Done
-- Ingested the eighteen records and today's live `RuleSchema` as kernel sources. Compared each
-  record to the draft plan's mapping: the shape matches; two things differ — the ui sends every
-  served `ReferenceFields` key at its `Default`, and `AgeReference` values are
-  `Birthday`/`ChildBirthday`.
-- Traced the rename to `REA_kernel@692bdc0` (2026-10-07, the remote tip; clone now at it); from
-  `6540a4c` the validators, `RuleSetParameter` and the translator's reach are unchanged.
-- The 307 record answers plan question 1 in practice: the owner typed `RangeEnd1 = RangeStart1`
-  and months `0`–`9999`. Re-ran the scratch mapper with those fills and every reference default
-  against today's schema: all 12 763 bodies pass (was 61 refused). 202's record shows the radio
-  emitting `Executor`/`FullTime`, consistent with the proposed `FullTime` for `employmentType
-  "01"`.
-- Rewritten: the plan (mapping, step 5 now "confirm two readings"); ruleset-api › Save (the ui's
-  shape, the store's seven rows); field-map (AgeReference); rea-kernel › Live deployment;
-  rea-proto-data-creator › the kernel contract; the index line.
-
-- Owner, mid-session: precedence is kernel spec > recorded ui payloads > the prototype's data
-  (reference only). Plan mapping rewritten: every reference key at the kernel `Default`
-  (ReferenceDates included); only 202's `DoctorTypes` comes from a column. Re-checked in scratch:
-  all bodies pass.
+- Ingested the eighteen records and today's live `RuleSchema` as kernel sources, each cited by name.
+  Against the draft mapping: shape matches; the ui sends every served `Reference` key at its
+  `Default`; `AgeReference` is `Birthday`/`ChildBirthday` since `REA_kernel@692bdc0` (2026-10-07, the
+  remote tip; clone now at it) — validators, `RuleSetParameter` and translator reach unchanged.
+- Rulings (panel): 307 blanks → `RangeEnd1 = RangeStart1`, months `0`–`9999` (the values the owner
+  typed in record 307); 202 `DoctorRole "FullTime"`; `RuleStartDate` `2026-01-01`. Plan rewritten,
+  signed, shipped `f4c48c8` `e7a620e` `79c4566` `b059b56`: `schemas/RuleSchema_1.0.json`,
+  `src/kernel.js` (mapping, assembler, OtherNote, four-stage validator), `--target kernel`,
+  `--batch-size`, `fixtures/kernel/`, README.
+- Tests: fixtures validate clean; nine broken bodies each caught at the kernel's stage; the build
+  writes all 15 kinds (12 763 items, 25 files at 1000); proto output byte-identical to before.
+- Docs: ruleset-api › Save (the ui's shape, store at seven rows); field-map (AgeReference); rea-kernel
+  › Live deployment; rea-proto-data-creator rewritten for two targets; index.
 
 ## Decisions & pitfalls
-- `check` warned on the eighteen records cited by a `<code>` pattern — each is now named in full
-  in ruleset-api; a pattern is not a citation.
+- 202's `DoctorTypes` still comes from `ENAME` (a column supplies it); every other reference key takes
+  the kernel default, the prototype's `referenceDate` and 205/206's `doctorTypes` dropped.
+- The validator stops at the first failing stage as the kernel does: a 301 leaf with 302 keys reports
+  undeclared keys only, never the option error behind them — by design, not an omission.
 - The records all target `33116B` on one start date: only the last save (202) is in the store.
+- A `<code>` pattern is not a citation: `check` warned until all eighteen were named in full.
 
 ## TODO
-- Owner: confirm the two readings in plan step 5, then `Writes:` + `Signed:`; I then ship steps
-  1–4.
+- Owner: post `data/out/kernel/r203.json` to the dev kernel (plan › Done when); then `Verified:`.
 - Owner: 306-main-setting, rea-proto-data-creator-setup, payment-snapshot, reference-groups await
-  `Verified:`; push `rea`.
+  `Verified:`; push `rea`; the child still has no remote.
