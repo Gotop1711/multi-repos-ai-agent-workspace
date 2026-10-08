@@ -66,7 +66,8 @@ The five unread fields — 12% together — are named only by `src/api/modules/r
 - **Emptied by 2026-09-30.** `GET /api/v1/RuleSet?$top=3` on `:8080` answers `[]` (read in session, not captured) while its swagger already shows `ReferenceGroup` and the three new top-level keys: the store was reset with the new build, so no row of the old `Reference` shape is left there to deserialize — the loader's marks and the translated rows above describe the old build's store and survive only as this description. Whether other hosts keep old-shape rows is not known; the kernel has no converter for them (`grep ReferenceItem` hits one test file).
 
 ## Save — the gate `POST /api/v1/RuleSet` runs
-Kernel at `REA_kernel@6540a4c`; the host ran it on 2026-10-02 (rea-kernel › Live deployment).
+Kernel at `REA_kernel@6540a4c`; from there to `692bdc0` (2026-10-07, what the host runs) the validators,
+`RuleSetParameter` and the translator's reach are unchanged (`git diff`, read-only fetch).
 - **The body is an array.** `SaveAsync([FromBody] IEnumerable<RuleSetParameter>)`「支援批次儲存」
   (`API/NHI.API.ClaimValidator/Controllers/V1/RuleSetApiController.cs:30-32`); the ui sends a one-item
   array — the owner's capture of its 2026-10-02 save of `01116B`:
@@ -108,7 +109,23 @@ Kernel at `REA_kernel@6540a4c`; the host ran it on 2026-10-02 (rea-kernel › Li
   (`src/ETL/NHI.ETL.ClaimValidator/Workers/ClaimValidationWorker.cs:226-252`); the loop around it turns
   only *no row* into `NoRule` results (`:85-113`), nothing there catches the throw — what the job then
   records was not traced. Today that is every code but 201 and 203.
-- **The store on 2026-10-02**: two rows, both ui saves — `12116B` (101, start 2026-10-01) and `01116B`
-  (102, 2026-10-02), `TranslatorVersion` null, `OtherNote` in the ui's text form
-  `{"102":"群組1:\n主設定: 服務項目代碼: C"}` (`REA_UI@cffdc0f src/utils/rule/exprGenerator.js:217-262`,
-  `:268-307`). Read in session, not captured.
+- **What the ui sends — the owner's eighteen records of 2026-10-08.** One save per rule kind on
+  `33116B` from the running ui (`docs/rea/rea-kernel/sources/2026-10-08-post-ruleset-<code>.json.md`;
+  101 `@6e0778368c2e`, 103 `@b467b5903a92`, 202-01 `@2010353700b6`, 202-02 `@3e034b98ffeb`, 205
+  `@f1d549c51dfd`, 301 `@7bfd35685c0b`, 302-01…03 `@15b46331d9bc` `@1e1fa6ea9406` `@a799b0c18647`, 307
+  `@e159e6e20a7c`, 401 `@f178711aab38`). Every body is a one-item array; the leaf carries `Code`,
+  `Name` (the code's label), `GroupName` 群組1, `Main`, `UpdatedAt`, and **every `ReferenceFields` key
+  the code serves, one group each, at its schema `Default`** — `DoctorType [{Fields: ["Doctor"]}]` on
+  103, `HospCodes` on 106 and 202, `DoctorTypes` all three on 202/205/206, `AgeReference` on 302/307 —
+  while 201 and 301 carry no `Reference`. 205/206 `SpecialistCodes` and 301 `GenderCode` go as single
+  strings; 302's three records exercise every `MinOp`/`MaxOp`; 307's rows carry `RangeEnd1 =
+  RangeStart1` for a single code and `0`–`9999` months where no age applies, and 202's radio emits
+  `DoctorRole "Executor"` or `"FullTime"`. `OtherNote` is the ui's text form, labels not values.
+  `AgeReference`'s options are `Birthday`, `ChildBirthday` since `REA_kernel@692bdc0` (2026-10-07,
+  `_302.cs:91-94`, `_307.cs:98-101`), which the host serves
+  (`…/sources/2026-10-08-ruleschema-live.json.md@476fba76c157`); a body with the old lowercase values
+  is now「不允許的選項」.
+- **The store on 2026-10-08**: seven rows — `12116B` 101 (2026-10-01) and `01116B` 102 (10-02),
+  `TranslatorVersion` null; `01115A` 201, `51018C` 201, `02028B` 203 and `00111C` 201+203 (10-03),
+  all `1.1`; `33116B` 202 (10-09), null — the records above overwrote one another on the same start
+  date and the last, 202, stands. Read in session, not captured.

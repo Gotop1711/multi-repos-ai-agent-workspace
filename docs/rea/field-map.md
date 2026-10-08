@@ -4,7 +4,8 @@
 確認它在另一側沒有對應。kernel 取自 `REA_kernel@458e663`（`Specification/V1/Codes/V1.0/_<code>.cs`），
 ui 取自 `REA_UI@411c809`（`src/utils/rule/ruleUIConfig.ts`），prototype 取自 `REA_PROTO@3fdf47c`；最後一節
 「值的規則」取自 `REA_kernel@6540a4c` 與 2026-10-02 站台的回應
-（`docs/rea/rea-kernel/sources/2026-10-02-ruleschema-live.json.md@6bc34f74a2a3`）。
+（`docs/rea/rea-kernel/sources/2026-10-02-ruleschema-live.json.md@6bc34f74a2a3`）；`AgeReference` 的值
+取自 `692bdc0` 與 2026-10-08 的回應（`…/sources/2026-10-08-ruleschema-live.json.md@476fba76c157`）。
 
 **對應關係只有一條規則，沒有例外**：ui 的識別字就是 kernel 的 `Value` 把第一個 ASCII 字母轉為小寫，
 兩個方向皆然。執行這項轉換的兩層機制、它們不動的東西（`options[].value` 屬於資料，永不轉換），以及
@@ -184,7 +185,8 @@ id — 兩者位於不同命名空間，不衝突。
 
 參考欄位（`ReferenceFields`，皆 StringArray，值須在選項內）：`ReferenceDates` 的八個日期（203 另有
 `FuncDate`，五個 `Disabled`）；`DoctorTypes` `01` 執行醫師, `02` 處方醫師, `03` 遠距（202, 205, 206）；
-`HospCodes`（106, 202）；`AgeReference` `birthday`, `child_birthday`（302, 307）；`DoctorType`（103, String）。
+`HospCodes`（106, 202）；`AgeReference` `Birthday`, `ChildBirthday`（302, 307 — `692bdc0` 2026-10-07 改為
+PascalCase，之前是 `birthday`, `child_birthday`；站台已換）；`DoctorType`（103, String）。
 `CompareField` 只在兩邊都是數字時比較（`Validation/FieldRuleValidator.cs:153-171`），所以 307 的
 `RangeEnd1 >= RangeStart1` 實際上不會擋。kernel 自己的 `docs/ruleSetExample/*.json` 在 `6540a4c` 仍把
 `GenderCode` 寫成陣列、`Reference` 寫成陣列，與 schema 不符；`3c3c9fb`（2026-10-01）重寫了它們，內容未讀。

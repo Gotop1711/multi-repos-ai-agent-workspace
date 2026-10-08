@@ -41,7 +41,7 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [reference-groups](plans/reference-groups.md) — shipped `REA_UI@82908a2`, `@7bfff25`: the kernel's 2026-09-29 `Reference` shape round-trips and 203's five `Disabled` dates are unpickable; awaits the owner's check against the deployment
 - [payment-mock](plans/payment-mock.md) — abandoned: superseded by payment-snapshot
 - [payment-snapshot](plans/payment-snapshot.md) — draft: Node + JSON in its own repo on App Platform
-- [rea-proto-data-creator-kernel](plans/rea-proto-data-creator-kernel.md) — draft: `--target kernel`; 307 waits on a ruling
+- [rea-proto-data-creator-kernel](plans/rea-proto-data-creator-kernel.md) — draft: `--target kernel`, shaped as the ui's recorded saves; two readings await the owner
 - [nhia-vm-ui-routing](plans/nhia-vm-ui-routing.md) — shipped `REA_UI@2a7a7c9`: publish UI on 8082
   and route every API, including Payment, to the in-network backend; awaits the owner's check
 - [ui-layout-routing](plans/ui-layout-routing.md) — draft: `DefaultLayout.vue` is a tabbed page, not a layout, and `/payment` bypasses it; make the tabs child routes under a real layout
