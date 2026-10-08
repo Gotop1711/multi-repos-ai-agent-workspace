@@ -18,13 +18,17 @@ owner's 2026-10-08 records of the ui saving every one of the fifteen kinds on `3
 ## Writes
 `REA_PROTO_DATA_CREATOR (main)`. Nothing in `REA_kernel` (read-only).
 
-## The mapping — prototype `specificConfig` → kernel leaf
-`Name` = the code's schema `Label`; `GroupName` = 群組1, 群組2…; no `Condition`; `UpdatedAt` the
-build time. `Reference`, as the ui sends it: **every** `ReferenceFields` key the code serves, one
-group each — `ReferenceDates` from the 產出規則 (`["executionDate"]` → `["ExecutionStartDate"]`),
-`DoctorTypes` from `doctorTypes` (202, 205, 206), every other key its schema `Default` (`DoctorType`
-103, `HospCodes` 106/202, `AgeReference` 302/307 — `Birthday`, `ChildBirthday` since `692bdc0`);
-201 serves none and gets no `Reference` (else 400). `employmentType` has no kernel field except 202's.
+## The mapping — collected table values → kernel leaf
+**Precedence (owner, 2026-10-08): the kernel's conditions and specification first; the recorded ui
+payloads second; what the tool produced for `REA_PROTO_BE` last, as reference only.** The 採集規則
+still say which rows and columns; the prototype's `specificConfig` names below only locate a value.
+`Name` = the code's schema `Label`; `GroupName` = 群組1, 群組2…; no `Condition`; `UpdatedAt` = build time.
+`Reference`, as the ui sends it: **every** `ReferenceFields` key the code serves, one group at the
+kernel's `Default` — `ReferenceDates` included (`["ApplyDate", "ExecutionStartDate"]`; 203
+`["ExecutionStartDate", "FuncDate"]`), `DoctorType` 103, `HospCodes` 106/202, `DoctorTypes` 205/206,
+`AgeReference` 302/307 (`Birthday`, `ChildBirthday` since `692bdc0`) — except 202's `DoctorTypes`,
+which `ENAME` supplies (`["01"]` or `["02"]`). 201 serves none and gets no `Reference` (else 400).
+The prototype's `referenceDate ["executionDate"]` and 205/206's constant `doctorTypes` are dropped.
 
 | Code | `Main` |
 |---|---|
@@ -51,9 +55,9 @@ group each — `ReferenceDates` from the 產出規則 (`["executionDate"]` → `
    all-or-nothing (one bad item, nothing saved), and a start date earlier than the 醫令's current
    version is refused — the dev store already holds seven 醫令 dated 2026-10-01 … 2026-10-09.
 5. Before signing, the owner confirms two readings taken from the records: 307's fills (`RangeEnd1 =
-   RangeStart1`, months `0`–`9999`) as the 產出規則 for a blank `ENAME` / month pair, and 202's
-   `DoctorRole "FullTime"` for `employmentType "01"`. Asking the kernel team to drop `Required` on
-   307's three fields stays open as a request; the plan needs no change if they do.
+   RangeStart1`, months `0`–`9999`) for a blank `ENAME` / month pair, and 202's `DoctorRole
+   "FullTime"` for `employmentType "01"`. Dropping `Required` on 307's three fields stays open as a
+   request to the kernel team; the plan needs no change if they do.
 
 ## Done when
 The owner runs `build --target kernel`; posts `r203.json` (79 items — 203 is one of the two codes the

@@ -110,10 +110,16 @@ Kernel at `REA_kernel@6540a4c`; from there to `692bdc0` (2026-10-07, what the ho
   only *no row* into `NoRule` results (`:85-113`), nothing there catches the throw — what the job then
   records was not traced. Today that is every code but 201 and 203.
 - **What the ui sends — the owner's eighteen records of 2026-10-08.** One save per rule kind on
-  `33116B` from the running ui (`docs/rea/rea-kernel/sources/2026-10-08-post-ruleset-<code>.json.md`;
-  101 `@6e0778368c2e`, 103 `@b467b5903a92`, 202-01 `@2010353700b6`, 202-02 `@3e034b98ffeb`, 205
-  `@f1d549c51dfd`, 301 `@7bfd35685c0b`, 302-01…03 `@15b46331d9bc` `@1e1fa6ea9406` `@a799b0c18647`, 307
-  `@e159e6e20a7c`, 401 `@f178711aab38`). Every body is a one-item array; the leaf carries `Code`,
+  `33116B` from the running ui, under `docs/rea/rea-kernel/sources/`:
+  `2026-10-08-post-ruleset-101.json.md@6e0778368c2e`, `2026-10-08-post-ruleset-102.json.md@1fe2ad063bc5`,
+  `2026-10-08-post-ruleset-103.json.md@b467b5903a92`, `2026-10-08-post-ruleset-104.json.md@3157a491efe9`,
+  `2026-10-08-post-ruleset-106.json.md@fcf4d020a21f`, `2026-10-08-post-ruleset-201.json.md@f60f66f6dcbc`,
+  `2026-10-08-post-ruleset-202-01.json.md@2010353700b6`, `2026-10-08-post-ruleset-202-02.json.md@3e034b98ffeb`,
+  `2026-10-08-post-ruleset-203.json.md@532103a6f5a9`, `2026-10-08-post-ruleset-204.json.md@2e5f81ae9d99`,
+  `2026-10-08-post-ruleset-205.json.md@f1d549c51dfd`, `2026-10-08-post-ruleset-206.json.md@2c5addac36e6`,
+  `2026-10-08-post-ruleset-301.json.md@7bfd35685c0b`, `2026-10-08-post-ruleset-302-01.json.md@15b46331d9bc`,
+  `2026-10-08-post-ruleset-302-02.json.md@1e1fa6ea9406`, `2026-10-08-post-ruleset-302-03.json.md@a799b0c18647`,
+  `2026-10-08-post-ruleset-307.json.md@e159e6e20a7c`, `2026-10-08-post-ruleset-401.json.md@f178711aab38`. Every body is a one-item array; the leaf carries `Code`,
   `Name` (the code's label), `GroupName` 群組1, `Main`, `UpdatedAt`, and **every `ReferenceFields` key
   the code serves, one group each, at its schema `Default`** — `DoctorType [{Fields: ["Doctor"]}]` on
   103, `HospCodes` on 106 and 202, `DoctorTypes` all three on 202/205/206, `AgeReference` on 302/307 —
