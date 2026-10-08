@@ -48,3 +48,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [ui-right-drawer](plans/ui-right-drawer.md) — shipped, awaiting Verified: one global right `el-drawer` in the layout, opened from any button through a module-scoped composable, its content component chosen per scenario
 - [hospital-data-upload](plans/hospital-data-upload.md) — shipped `REA_UI@652f853`…`@bdd28ec`: the right drawer's
   first panel, a 院所資料 CSV posted row by row to the kernel's `POST /api/v1/ValidationJob`; awaits the owner's check 
+- [payment-local](plans/payment-local.md) — the ui answers the two Payment lookups from a compiled-in data set, dev and production alike
