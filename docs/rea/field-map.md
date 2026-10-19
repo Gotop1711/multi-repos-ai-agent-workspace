@@ -5,7 +5,8 @@
 ui 取自 `REA_UI@411c809`（`src/utils/rule/ruleUIConfig.ts`），prototype 取自 `REA_PROTO@3fdf47c`；最後一節
 「值的規則」取自 `REA_kernel@6540a4c` 與 2026-10-02 站台的回應
 （`docs/rea/rea-kernel/sources/2026-10-02-ruleschema-live.json.md@6bc34f74a2a3`）；`AgeReference` 的值
-取自 `692bdc0` 與 2026-10-08 的回應（`…/sources/2026-10-08-ruleschema-live.json.md@476fba76c157`）。
+取自 `692bdc0` 與 2026-10-08 的回應（`…/sources/2026-10-08-ruleschema-live.json.md@476fba76c157`）；
+檢核範圍的 `PrefixLen`、22 個比對欄位與各 `Disabled` 取自 `1706cb5`（2026-10-19，未有站台擷取）。
 
 **對應關係只有一條規則，沒有例外**：ui 的識別字就是 kernel 的 `Value` 把第一個 ASCII 字母轉為小寫，
 兩個方向皆然。執行這項轉換的兩層機制、它們不動的東西（`options[].value` 屬於資料，永不轉換），以及
@@ -122,16 +123,16 @@ rule-codes。被多個子群組共用的欄位只有一個值，只列一次。
 
 ## 沒有對應的名字
 
-### REA_UI 命名了、kernel 沒有這個欄位（七個）
+### REA_UI 命名了、kernel 沒有這個欄位（六個）
 
-`applyUIMapToBlock` 以服務端的欄位 id 查表，查不到就不渲染，不報錯（rule-editor › Field names）。行號依 `REA_UI@3ad7356`；205/206 的 `doctorRole`、`employmentType` 已於該 commit 移除（plan ui-205-206-stale-fields）。
+`applyUIMapToBlock` 以服務端的欄位 id 查表，查不到就不渲染，不報錯（rule-editor › Field names）。行號依 `REA_UI@3ad7356`；205/206 的 `doctorRole`、`employmentType` 已於該 commit 移除（owner verified 2026-10-19）。
 
 | 位置（`ruleUIConfig.ts`） | REA_UI 的名字 | kernel 實際 | 追蹤於 |
 |---|---|---|---|
 | 105 主設定 `:94` | `mainSetting` | `Note` → `note` | rule-codes |
 | 201 參考欄位 `:105` | `referenceDates` | `458e663` 起 201 無 `ReferenceFields` | ui-map-orphans |
 | 307 `subFieldWidths` `:379`, `:384` | `prefixLength`, `monthUnit` | 僅四個 `Range*` 子欄位 | ui-map-orphans |
-| 檢核範圍四條件 `:458-459`, `:476-477`, `:495-496`, `:547-548` | `prefixLen`, `prefixRange` | 四個 condition 皆無前幾碼欄位 | ui-map-orphans |
+| 檢核範圍四條件 `:459`, `:477`, `:496`, `:548` | `prefixRange`（03 起訖區塊） | 無此欄位；`prefixLen` 自 `REA_kernel@667734c` 起對應 `PrefixLen`（02 開頭區塊），已非孤兒 | ui-map-orphans |
 
 ### 只存在於 REA_UI 的名字：子群組 id
 
@@ -182,7 +183,7 @@ id — 兩者位於不同命名空間，不衝突。
 | 401 | `VisitTypes` | StringArray | Required | `01` 門診, `02` 住診, `03` 限急診, `04` 牙醫門診 | `_401.cs:14-24` |
 
 參考欄位（`ReferenceFields`，皆 StringArray，值須在選項內）：`ReferenceDates` 的八個日期（203 另有
-`FuncDate`，五個 `Disabled`）；`DoctorTypes` `01` 執行醫師, `02` 處方醫師, `03` 遠距（202, 205, 206）；
+`FuncDate`，五個 `Disabled`；204 同，另 `DoctorTypes` `03` `Disabled`，`1706cb5`）；`DoctorTypes` `01` 執行醫師, `02` 處方醫師, `03` 遠距（202, 205, 206）；
 `HospCodes`（106, 202）；`AgeReference` `Birthday`, `ChildBirthday`（302, 307 — `692bdc0` 2026-10-07 改為
 PascalCase，之前是 `birthday`, `child_birthday`；站台已換）；`DoctorType`（103, String）。
 `CompareField` 只在兩邊都是數字時比較（`Validation/FieldRuleValidator.cs:153-171`），所以 307 的

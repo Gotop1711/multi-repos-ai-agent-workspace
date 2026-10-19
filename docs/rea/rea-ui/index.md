@@ -2,7 +2,7 @@
 
 Repository `REA_UI` (`projects/ui`, access `write`) — Vue 3 schema-driven rule editor for 三代健保 REA: rule dialogs render from `GET /api/v1/RuleSchema`, the edited rule becomes a `RuleNode`. Cited at `REA_UI@442ef39` (`develop`; layout facts below at `04016d3` where marked); deployment lines at `@2d2c40e` on `feature-nhi-deployment`.
 
-- **Branches.** `develop` = `3ad7356` (2026-10-19, plan ui-205-206-stale-fields, unpushed) on `origin/develop` = `442ef39` (2026-10-19, pushed by the owner outside the
+- **Branches.** `develop` = `3ad7356` (2026-10-19, 205/206 stale fields dropped, verified, unpushed) on `origin/develop` = `442ef39` (2026-10-19, pushed by the owner outside the
   workflow): on `bdd28ec` (plan ui-right-drawer's two commits, then hospital-data-upload's six),
   `ae5a379` squashes binghan60's `origin/feature-ValidationResult@7264c61` (the 檢核結果 tab,
   validation-result), five reverts (`0448e05`…`4c70cb7`) take out the global drawer and the aside

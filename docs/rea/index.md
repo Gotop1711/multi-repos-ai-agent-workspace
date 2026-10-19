@@ -18,10 +18,11 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [declare-verify](declare-verify.md) — the prototype's back end, end to end: authoring endpoints, how a saved rule compiles to a RulesEngine tree (15 rule kinds, 10 scope conditions), the validation job, what surprises
 - [validation-job-api](validation-job-api.md) — the kernel's `POST`/`GET /api/v1/ValidationJob`: the `ClaimBatchKey` body, the `[{ id }]` answer, OData as the only read, no result endpoint yet 
 - [validation-result](validation-result.md) — the 檢核結果 tab: what it shows of a kernel `ClaimResult`, that it runs on four demo rows, and what no endpoint serves yet
+- [translator](translator.md) — the kernel's `RuleSet` → RulesEngine translator: which codes (201, 203, 204) and which conditions (twelve of thirteen) translate, what the ETL needs filled, what an untranslated row does 
 
 ## Repositories
 - [rea-ui](rea-ui/index.md) — `REA_UI`: run, test, entry points; the owner's `debug-ui` branch
-- [rea-kernel](rea-kernel/index.md) — `REA_kernel` (read-only): where the schema and each code live
+- [rea-kernel](rea-kernel/index.md) — `REA_kernel` (read-only): where the schema and each code live, the validators, the store, the pipeline
 - [rea-proto](rea-proto/index.md) — `REA_PROTO` (read-only): the template defining the desired forms
 - [rea-proto-be](rea-proto-be/index.md) — `REA_PROTO_BE` (read-only, no upstream): `NhiDeclareVerify` — run, what each mode needs, entry points, storage, who calls it
 - [rea-proto-data-creator](rea-proto-data-creator/index.md) — `REA_PROTO_DATA_CREATOR` (write, no upstream): Node.js; the owner's 採集規則 for 15 rule kinds, one payload file each from the two 資料表檔; what still waits on the owner
@@ -48,3 +49,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
   at `@442ef39`: a 院所資料 CSV posted row by row to the kernel's `POST /api/v1/ValidationJob` from the layout's own
   drawer; awaits the owner's check
 - [payment-local](plans/payment-local.md) — the ui answers the two Payment lookups from a compiled-in data set, dev and production alike
+- [ui-scope-option-flags](plans/ui-scope-option-flags.md) — draft: 檢核範圍 dropdowns ignore the kernel's option `Disabled` (類別 04 群組 saves untranslatable); mock still the 2026-09-17 shape 

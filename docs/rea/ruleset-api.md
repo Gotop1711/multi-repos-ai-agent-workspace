@@ -66,8 +66,12 @@ The five unread fields — 12% together — are named only by `src/api/modules/r
 - **Emptied by 2026-09-30.** `GET /api/v1/RuleSet?$top=3` on `:8080` answers `[]` (read in session, not captured) while its swagger already shows `ReferenceGroup` and the three new top-level keys: the store was reset with the new build, so no row of the old `Reference` shape is left there to deserialize — the loader's marks and the translated rows above describe the old build's store and survive only as this description. Whether other hosts keep old-shape rows is not known; the kernel has no converter for them (`grep ReferenceItem` hits one test file).
 
 ## Save — the gate `POST /api/v1/RuleSet` runs
-Kernel at `REA_kernel@6540a4c`; from there to `692bdc0` (2026-10-07, what the host runs) the validators,
-`RuleSetParameter` and the translator's reach are unchanged (`git diff`, read-only fetch).
+Kernel at `REA_kernel@6540a4c`; to `692bdc0` (2026-10-07, what the host ran) the validators,
+`RuleSetParameter` and the translator's reach are unchanged. To `1706cb5` (2026-10-19): one validator
+change — `FieldRuleValidator` skips a field whose `VisibleWhen` controller holds another value, so a
+hidden `Required` field no longer fails the save (`:76-81`, `1b0ecaf`; the line numbers below shift
+by +7 from `:76`) — and the translator now covers 204 and twelve conditions (rea-kernel › Save
+translates; scope-conditions › 7).
 - **The body is an array.** `SaveAsync([FromBody] IEnumerable<RuleSetParameter>)`「支援批次儲存」
   (`API/NHI.API.ClaimValidator/Controllers/V1/RuleSetApiController.cs:30-32`); the ui sends a one-item
   array — the owner's capture of its 2026-10-02 save of `01116B`:

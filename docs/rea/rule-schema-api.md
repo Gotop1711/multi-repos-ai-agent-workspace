@@ -84,7 +84,7 @@ nothing, and four of them actively mislead.
 | `"SubFields": ["string"]` (L32-34) | recursion is cut off, so a nested field becomes a bare string | an array of whole field objects |
 | `"Default": "string"` (L31) | the key is `object?`, which the generator prints as a string | `"In"`, or `["ApplyDate","ExecutionStartDate"]` |
 | `"EffectiveDate": "2026-09-24"` (L12) | the day the page was opened | `2026-01-01` |
-| `"Disabled": true` (L27), `"Value": 0` (L42) | the generator's default for `bool` / `number` | only 203's five date options carry `Disabled`; a constraint's `Value` is its real bound |
+| `"Disabled": true` (L27), `"Value": 0` (L42) | the generator's default for `bool` / `number` | at the capture only 203's five date options carried `Disabled` (91 options at `REA_kernel@1706cb5`: 203's and 204's five dates, 204's 遠距, and in every code 年齡's `06`–`08` and 診療之部位's `04`); a constraint's `Value` is its real bound |
 
 `"Type": "String"` (L22) and `"Type": "Required"` (L40) are likewise the first member of each enum.
 Line numbers are of the derivative cited in the header.
@@ -102,8 +102,8 @@ says is the value types — `OptionDescriptor.Disabled`, `ConditionDescriptor.Di
 ## What the kernel actually fills in
 
 Across the 2026-09-17 capture: 20 codes, 1,088 field descriptors (1,084 top-level and 4 inside one
-`SubFields`), 1,557 options, 260 conditions — thirteen per code, of which 201's nine are
-`Disabled` (rule-editor › Disabled conditions).
+`SubFields`), 1,557 options, 260 conditions — thirteen per code, of which 201's nine were
+`Disabled`; at `REA_kernel@1706cb5` one per code, `Robotic` (rule-editor › Disabled conditions).
 
 | Key | Used | Where it shows up |
 |---|---|---|
@@ -116,7 +116,7 @@ Across the 2026-09-17 capture: 20 codes, 1,088 field descriptors (1,084 top-leve
 | `PrefixText` / `SuffixText` | 14 / 12 fields | 303 and 304's sentences only |
 | `SubFields` | **1 field** | 307's `DiagnosisCodes`, the one `ObjectArray` in the registry |
 | `Description` (on `RuleCode`) | **0 codes** | never set |
-| `Disabled` (on an option) | 0 in the capture; **5 since `851bbb3`** (2026-09-29) | 203's `ReferenceDates`: `AdmissionDate`, `DischargeDate`, `DispensingDate`, `PhysicalTherapyStartDate`, `ExaminationDate` (`_203.cs:32-36`); the three left enabled are the ones its translator accepts (ruleset-api › `Reference`) |
+| `Disabled` (on an option) | 0 in the capture; **5 since `851bbb3`** (2026-09-29), **91 at `1706cb5`** (rea-kernel › The schema) | 203's `ReferenceDates`: `AdmissionDate`, `DischargeDate`, `DispensingDate`, `PhysicalTherapyStartDate`, `ExaminationDate` (`_203.cs:32-36`); the three left enabled are the ones its translator accepts (ruleset-api › `Reference`) |
 
 Field types: `String` 713, `StringArray` 320, `Number` 54, `ObjectArray` 1. Of the seven constraint
 types only three are ever served; `MinLength`, `MaxLength`, `Max` and `Pattern` exist in the enum
@@ -136,7 +136,7 @@ the client folds it back, deleting `constraints` (`src/api/modules/rules/index.t
 | `Value` `Label` `Type` `Options` `OptionsApi` `Default` `SubFields` | yes | `src/utils/rule/ruleSchemaUtils.js:37-80`, `MainSetting.vue:517-545` |
 | `PrefixText` `SuffixText` `Placeholder` | yes | printed inline, `src/utils/rule/inputTypeConfig.js:67-73` |
 | `Constraints` | as `validations`, three of seven types | below |
-| `VisibleWhen` | **no reader anywhere** | not in `src`, `tests` or `mock`; absent from the ui's own `RuleFieldDescriptor` (`src/api/modules/rules/types.ts:75-87`) |
+| `VisibleWhen` | **no reader in the ui** | not in `src`, `tests` or `mock`; absent from the ui's own `RuleFieldDescriptor` (`src/api/modules/rules/types.ts:75-87`). The kernel reads it since `1b0ecaf` (2026-10-14): a field whose controller holds another value is not validated at all (`FieldRuleValidator.cs:76-81` at `1706cb5`) |
 | `Options[].Disabled` | **no** | absent from the ui's `OptionDescriptor` (`types.ts:61-64`); served for 203's five dates since 2026-09-29; at `a024004` no 參考日期 option bound `disabled`, so they were selectable, admitted by the kernel's option check and refused by its translator; since `REA_UI@7bfff25` (2026-09-30, plan reference-groups) the sortable input and both `el-select` fallbacks bind it (`src/components/rules/SortOptionsInput.vue:30`, `src/views/rules/ReferenceSetting.vue:36`, `:84`) |
 | `RuleCode.Description` | **no** | never served either |
 | `ConditionDescriptor.Disabled` | yes | rule-editor › Disabled conditions |

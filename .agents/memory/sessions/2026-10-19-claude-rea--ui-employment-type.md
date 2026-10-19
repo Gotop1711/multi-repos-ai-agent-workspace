@@ -24,10 +24,7 @@ drop plans 205-main-fields and field-locking. Kernel checkout moved 692bdc0 → 
   new plan rather than a reuse. ui-map-orphans excludes 205/206 by name, unchanged in scope.
 - `plan rm` refuses while the previous removal is uncommitted: two removals = two commits.
 - `Status:` must be lowercase `signed`; the pre-commit hook rejects `Signed`.
-- Kernel modules cite `458e663`…`692bdc0`; the five commits to `1706cb5` are not resynced here.
+- Kernel resync to `1706cb5`: the owner's "do it now" — log kernel-1706cb5-resync.
 
 ## TODO
 - Owner: push `develop` (`3ad7356`) and `rea`.
-- Resync session for `REA_kernel@1706cb5`: field-map (RelDate/TherSDate/AssayDate dropped, Age
-  基準日 06–08 disabled), rule-editor (204 translator), scope-conditions (`667734c`), ruleset-api
-  (`1b0ecaf` VisibleWhen).
