@@ -7,7 +7,7 @@ Nine keys in `REA_UI@411c809 src/utils/rule/ruleUIConfig.ts` name no field in th
 `applyUIMapToBlock` matches the map *by* the served field id — so each costs an input that never
 renders, silently (`src/utils/rule/ruleSchemaUtils.js:111`, `:155`, `:190`; rule-editor › Field
 names). Five are already carried elsewhere: 105 `mainSetting` for `Note` (rule-codes), 205 and 206
-`doctorRole` + `employmentType` (plans 205-main-fields, field-locking). This plan is the other four,
+`doctorRole` + `employmentType` (plan ui-205-206-stale-fields). This plan is the other four,
 observed against `REA_kernel@458e663` and the deployment of 2026-09-11
 (`docs/rea/rea-kernel/sources/2026-09-11-ruleschema-live.json.md@548ac767c5d8`):
 

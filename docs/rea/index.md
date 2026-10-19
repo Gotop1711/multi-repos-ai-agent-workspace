@@ -28,7 +28,6 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [rea-proto-payment-snapshot](rea-proto-payment-snapshot/index.md) — the frozen Payment service; empty
 
 ## Plans
-- [field-locking](plans/field-locking.md) — draft: the prototype's locked fields lack a carrier end to end
 - [306-main-setting](plans/306-main-setting.md) — shipped `REA_UI@8281dbb`: the 306 entry (five defects of an unmapped 主設定); awaits the owner's check
 - [translated-rule-names](plans/translated-rule-names.md) — draft: a named leaf's engine rule names no longer match the kernel's own result parser (a request) 
 - [ui-map-orphans](plans/ui-map-orphans.md) — draft: nine UI-map keys name no served field; four are untracked (201 參考日期, 307 widths, 檢核範圍's 前 N 碼)
@@ -49,4 +48,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
   at `@442ef39`: a 院所資料 CSV posted row by row to the kernel's `POST /api/v1/ValidationJob` from the layout's own
   drawer; awaits the owner's check
 - [payment-local](plans/payment-local.md) — the ui answers the two Payment lookups from a compiled-in data set, dev and production alike
-- [ui-205-206-stale-fields](plans/ui-205-206-stale-fields.md) — draft: drop the ui's dead 205/206 `doctorRole` + `employmentType` (kernel dropped them at `de35a2f`); mock gains `doctorTypes` 
+- [ui-205-206-stale-fields](plans/ui-205-206-stale-fields.md) — shipped `REA_UI@3ad7356`: the dead 205/206 `doctorRole` + `employmentType` map entries and mock fields gone, mock gains `doctorTypes`; awaits the owner's check

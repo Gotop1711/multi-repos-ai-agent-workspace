@@ -122,18 +122,16 @@ rule-codes。被多個子群組共用的欄位只有一個值，只列一次。
 
 ## 沒有對應的名字
 
-### REA_UI 命名了、kernel 沒有這個欄位（九個）
+### REA_UI 命名了、kernel 沒有這個欄位（七個）
 
-`applyUIMapToBlock` 以服務端的欄位 id 查表，查不到就不渲染，不報錯（rule-editor › Field names）。
+`applyUIMapToBlock` 以服務端的欄位 id 查表，查不到就不渲染，不報錯（rule-editor › Field names）。行號依 `REA_UI@3ad7356`；205/206 的 `doctorRole`、`employmentType` 已於該 commit 移除（plan ui-205-206-stale-fields）。
 
 | 位置（`ruleUIConfig.ts`） | REA_UI 的名字 | kernel 實際 | 追蹤於 |
 |---|---|---|---|
 | 105 主設定 `:94` | `mainSetting` | `Note` → `note` | rule-codes |
 | 201 參考欄位 `:105` | `referenceDates` | `458e663` 起 201 無 `ReferenceFields` | ui-map-orphans |
-| 205 主設定 `:130-131` | `doctorRole`, `employmentType` | 僅 `SpecialistCodes` | 205-main-fields, field-locking |
-| 206 主設定 `:139-140` | `doctorRole`, `employmentType` | 僅 `SpecialistCodes` | 205-main-fields, field-locking |
-| 307 `subFieldWidths` `:387`, `:392` | `prefixLength`, `monthUnit` | 僅四個 `Range*` 子欄位 | ui-map-orphans |
-| 檢核範圍四條件 `:466-467`, `:484-485`, `:503-504`, `:555-556` | `prefixLen`, `prefixRange` | 四個 condition 皆無前幾碼欄位 | ui-map-orphans |
+| 307 `subFieldWidths` `:379`, `:384` | `prefixLength`, `monthUnit` | 僅四個 `Range*` 子欄位 | ui-map-orphans |
+| 檢核範圍四條件 `:458-459`, `:476-477`, `:495-496`, `:547-548` | `prefixLen`, `prefixRange` | 四個 condition 皆無前幾碼欄位 | ui-map-orphans |
 
 ### 只存在於 REA_UI 的名字：子群組 id
 

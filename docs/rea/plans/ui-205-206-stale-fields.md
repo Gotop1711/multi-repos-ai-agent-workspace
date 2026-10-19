@@ -1,8 +1,9 @@
 # rea — ui-205-206-stale-fields: 205 and 206 in the ui carry only fields the kernel serves
 
-Status: signed
+Status: shipped
 Writes: REA_UI (develop)
 Signed: gotop1711 — 2026-10-19
+Shipped: 2026-10-19 — REA_UI@3ad7356 (develop, unpushed)
 
 ## Goal
 `employmentType` (專任 / 不限專任) and a `doctorRole` main field for codes 205 and 206 survive in the
@@ -24,10 +25,9 @@ property of the pre-RuleSet model (`REA_kernel` `UiRule.cs:69` before `1d449cc`,
 When this ships, the 205 and 206 UI-map entries and mock blocks say exactly what `_205.cs` /
 `_206.cs` serve, and the owner's ruling (2026-10-19: remove) is on record.
 
-Related: 205-main-fields (draft, written at `REA_kernel@62948dd`) asked the kernel to *add*
-`EmploymentType` and fix `DoctorRole`; `de35a2f` answered three of its four points the
-prototype's way and dropped the field instead. field-locking's 205/206 lock of `employmentType`
-has no field left to lock. Both are reported here, not amended — the owner's call.
+Dropped with it on the owner's word (2026-10-19): 205-main-fields (asked the kernel to *add*
+`EmploymentType`; `de35a2f` dropped it instead) and field-locking (a lock on a field that no
+longer exists). `git log -- docs/rea/plans/<name>.md` keeps both.
 
 ## Writes
 `REA_UI (develop)`. Nothing in `REA_kernel`: the drop is its decision, shipped.
