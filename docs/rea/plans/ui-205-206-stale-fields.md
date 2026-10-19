@@ -1,6 +1,8 @@
 # rea — ui-205-206-stale-fields: 205 and 206 in the ui carry only fields the kernel serves
 
-Status: draft
+Status: signed
+Writes: REA_UI (develop)
+Signed: gotop1711 — 2026-10-19
 
 ## Goal
 `employmentType` (專任 / 不限專任) and a `doctorRole` main field for codes 205 and 206 survive in the

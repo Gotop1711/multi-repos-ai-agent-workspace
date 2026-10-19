@@ -28,7 +28,6 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [rea-proto-payment-snapshot](rea-proto-payment-snapshot/index.md) — the frozen Payment service; empty
 
 ## Plans
-- [205-main-fields](plans/205-main-fields.md) — draft: kernel 205 MainFields vs the prototype (four gaps; kernel is read-only, so a request)
 - [field-locking](plans/field-locking.md) — draft: the prototype's locked fields lack a carrier end to end
 - [306-main-setting](plans/306-main-setting.md) — shipped `REA_UI@8281dbb`: the 306 entry (five defects of an unmapped 主設定); awaits the owner's check
 - [translated-rule-names](plans/translated-rule-names.md) — draft: a named leaf's engine rule names no longer match the kernel's own result parser (a request) 
