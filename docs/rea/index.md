@@ -50,3 +50,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
   at `@442ef39`: a 院所資料 CSV posted row by row to the kernel's `POST /api/v1/ValidationJob` from the layout's own
   drawer; awaits the owner's check
 - [payment-local](plans/payment-local.md) — the ui answers the two Payment lookups from a compiled-in data set, dev and production alike
+- [ui-205-206-stale-fields](plans/ui-205-206-stale-fields.md) — draft: drop the ui's dead 205/206 `doctorRole` + `employmentType` (kernel dropped them at `de35a2f`); mock gains `doctorTypes` 
