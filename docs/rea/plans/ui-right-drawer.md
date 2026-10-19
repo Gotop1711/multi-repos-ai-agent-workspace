@@ -1,9 +1,10 @@
 # rea — ui-right-drawer: one global right drawer, its content chosen per scenario
 
-Status: shipped
+Status: abandoned
 Writes: REA_UI (develop)
 Signed: gotop1711 — 2026-10-06
 Shipped: 2026-10-06 — REA_UI@7d13a95, REA_UI@b7e7073 (develop, unpushed)
+Abandoned: 2026-10-19 — the owner reverted both commits on develop (REA_UI@a33fcbf, @4c70cb7, pushed) and re-opened the upload panel from the layout's own el-drawer (@442ef39); decided: a drawer belongs to the page that owns its state, no global drawer (rea-ui › Layout)
 
 ## Goal
 The frame's right aside is empty at `REA_UI@04016d3 src/layouts/DefaultLayout.vue:45`; the owner's

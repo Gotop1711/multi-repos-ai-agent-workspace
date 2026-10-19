@@ -4,9 +4,11 @@ Status: shipped
 Writes: REA_UI (develop)
 Signed: gotop1711 — 2026-10-07
 Shipped: 2026-10-07 — REA_UI@652f853, REA_UI@7827302, REA_UI@180231a, REA_UI@a446ca2, and the owner's REA_UI@69266f1, REA_UI@bdd28ec (develop, unpushed)
+Amended: 2026-10-19 — the aside opens the panel in the layout's own el-drawer (owner, by commit; the global drawer of plan ui-right-drawer is gone)
+Shipped: 2026-10-19 — REA_UI@442ef39 (develop, pushed; @a446ca2 and @bdd28ec reverted at @3825182, @0448e05 — the panel, csv and api commits stand)
 
 ## Goal
-The right drawer's first real panel: the user drops a 院所資料 CSV (`HOSP_ID, HOSP_DATA_TYPE,
+The aside drawer's panel: the user drops a 院所資料 CSV (`HOSP_ID, HOSP_DATA_TYPE,
 FEE_YM, APPL_TYPE, APPL_DATE[, ORDER_CODE]`, dates `MM/dd/yyyy` or `yyyy/MM/dd`, month and day zero-padded — the owner's rule) and the ui creates one kernel
 validation job per row through `POST /api/v1/ValidationJob` (validation-job-api,
 `REA_kernel@8b852f3 …/Jobs/ClaimBatchKey.cs:14-21`), then shows the returned job ids. The owner's
@@ -41,16 +43,18 @@ Job status: `GET /api/v1/ValidationJob?$filter=Id eq '<id>'` — the only read e
 3. `feat(ui): HospitalDataUploadPanel` — replace the stub: `accept=".csv"`, `:auto-upload="false"`,
    `:limit="1"`, no placeholder `fileList`; read `file.raw` with `File.text()`, show row count and
    the rows that fail (missing required column, bad date) with their line numbers, submit through
-   step 2, list the returned ids, then `emit('close', ids)` so the aside's `open()` promise resolves
-   (usage in `src/composables/useRightDrawer.js:9-24`). The panel is host-agnostic and sits directly in
-   `src/components/`; the composable header's example path says so (owner's placement, in session). Component test with
-   `@vue/test-utils` (the regulation's test stack, R L5533).
+   step 2, list the returned ids, then `emit('close', ids)`; the host drawer closes on that emit.
+   The panel is host-agnostic and sits directly in `src/components/` (owner's placement, in session).
+   Component test with `@vue/test-utils` (the regulation's test stack, R L5533).
 4. `feat(ui): open the upload panel from the aside` — the one-line `DefaultLayout.vue` change already
    in the draft, with `size` set; nothing else in the layout (plan ui-layout-routing owns the rest).
+   As landed at `442ef39`: the aside's `Upload` button toggles a local `isRightDrawerVisible`, the
+   layout's own `<el-drawer>` (title 申報資料上傳, `rtl`, 40%, `destroy-on-close`) wraps the panel and
+   closes on its `close` emit (`DefaultLayout.vue:53-69,84`).
 `npm run lint`, `npx vitest run` green at every commit.
 
 ## Done when
 In `npm run dev` against the kernel: aside button → drawer titled 申報資料上傳 → drop a CSV with the
 six columns → one job id per row appears in the drawer and `GET /api/v1/ValidationJob` lists them →
-× closes and the drawer resets. A CSV with a bad date or a missing required column is refused in the
+× closes and `destroy-on-close` resets the panel. A CSV with a bad date or a missing required column is refused in the
 drawer with the row named, and nothing is posted. `src/utils/common.js` is unchanged from `b7e7073`.

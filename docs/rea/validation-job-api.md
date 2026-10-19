@@ -30,7 +30,8 @@ declare-verify › Part 3.
 ## Read — `GET /api/v1/ValidationJob`
 - The only read endpoint: an OData query over every `ValidationJob`, `$filter`, `$orderby`, `$top`,
   `$skip` allowed (`ValidationJobApiController.cs:31-33`). No `/{id}` route and no result endpoint;
-  `ClaimResult` rows (`POCO/V1/Jobs/ClaimResult.cs`) are reachable by no controller today.
+  `ClaimResult` rows (`POCO/V1/Jobs/ClaimResult.cs`) are reachable by no controller today; the ui's
+  檢核結果 tab renders that shape from four demo rows until one exists (validation-result).
 - A row: `Id`, `ClaimBatch` (the key above), `Status` (`ValidationJobStatusEnum`, starts `Pending`),
   `RetryCount`, `LockedBy`, `LockedAt`, `CreatedAt`, `UpdatedAt`, `CompletedAt`, `ErrorMessage`
   (`POCO/V1/Jobs/ValidationJob.cs:15-45`). So the ui polls with `$filter=Id eq '<id>'`.
