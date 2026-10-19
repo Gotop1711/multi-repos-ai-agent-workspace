@@ -16,8 +16,8 @@ the repository doc, the plans and the index back to the tree at `442ef39`.
   hospital-data-upload: `Amended:` + `Shipped: 442ef39`, steps 3–4 and Done-when reworded.
 
 ## Decisions & pitfalls
-- Abandonment is inferred from the reverts and the inline re-implementation three days later, not
-  from a word of the owner's; `git show 0d9cfde:docs/rea/plans/ui-right-drawer.md` brings it back.
+- Abandonment was inferred from the reverts and the inline re-implementation three days later; the
+  owner confirmed it in session. `git show 0d9cfde:docs/rea/plans/ui-right-drawer.md` brings it back.
 - The squash differs from binghan60's merge only in the layout comment and a dropped test mock
   (`git diff 7264c61 ae5a379`) — recorded, not judged; the suite was not run (inspect, not execute).
 - No plan for the tab: landed work on demo data; wiring it needs a kernel result endpoint first
@@ -25,9 +25,11 @@ the repository doc, the plans and the index back to the tree at `442ef39`.
 - `plan done` needs the plan, index and logs committed first, so the closeout is two commits: the
   `Abandoned:` line lands, then the removal — the line stays in history.
 
+- Owner's answers in session: the rebase of `feature-nhi-deployment` onto `442ef39` is `41f5e76`
+  (nhia-vm-ui-routing `Shipped:`, rea-ui › Branches, ui-deployment); the 檢核結果 default mode stays
+  全部 (ruling in validation-result); the suite stays unrun.
+
 ## TODO
 - Owner: `Verified:` for hospital-data-upload against the inline drawer, or say what is wrong.
-- Owner: rebase `feature-nhi-deployment` onto `442ef39` and rebuild the VM image (it lacks the tab
-  and the inline drawer); push `rea`.
-- Owner: is the 檢核結果 default mode 全部 (code) or 失敗 (the sketch, `ValidationResult.vue:456`)?
-  The sketch 「批次完整性 × 判定追蹤」 is not in the workspace — ingest it if it is to guide a plan.
+- Owner: rebuild the VM image from `41f5e76` (the tar is from `2d2c40e`); push `rea`.
+- The sketch 「批次完整性 × 判定追蹤」 is not in the workspace — ingest it if it is to guide a plan.

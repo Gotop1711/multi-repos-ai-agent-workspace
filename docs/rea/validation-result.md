@@ -22,7 +22,7 @@ It runs on four built-in demo rows today, because no kernel endpoint returns a r
   into the applied scope, 清除 empties both and resets the mode (`ValidationResult.vue:572-584`).
 - Result mode: a radio group 全部 → 失敗 → 正確 over `OrderCodeResult` (`All`/`Fail`/`Pass`,
   `utils/validationResult/claimResult.js:7-18`). Default is 全部; the code says the sketch wants 失敗
-  (`ValidationResult.vue:456-458`) — an open question for the owner.
+  (`ValidationResult.vue:456-458`) — ruling (owner, 2026-10-19): it stays 全部.
 - Statistics, computed on the applied scope regardless of mode (`ValidationResult.vue:467-481`):
   ValidationJob counts per status in `ValidationJobStatusEnum` order with labels 待處理 / 執行中 / 完成 /
   工作失敗 / 已放棄 (`claimResult.js:22-34`, names from `api/modules/validationJob/index.ts:19`);

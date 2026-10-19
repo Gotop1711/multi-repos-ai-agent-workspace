@@ -5,6 +5,7 @@ Writes: REA_UI (feature-nhi-deployment)
 Signed: gotop1711 — 2026-10-05
 Shipped: 2026-10-05 — REA_UI@2a7a7c9 (feature-nhi-deployment, unpushed)
 Shipped: 2026-10-07 — REA_UI@2d2c40e (owner-rebased feature-nhi-deployment, unpushed)
+Shipped: 2026-10-19 — REA_UI@41f5e76 (owner-rebased feature-nhi-deployment onto develop@442ef39, unpushed; deployment files unchanged from @2d2c40e, image not yet rebuilt)
 
 ## Goal
 Package REA_UI for the closed NHIA VM: the VM publishes host port 8082 to the UI container's port

@@ -145,4 +145,6 @@ Owner decision, 2026-10-06: the VM handoff image repository is
 branch onto the updated `develop`, rebuild the offline image from `REA_UI@2d2c40e`. The resulting
 `linux/amd64` archive is `nhi-claimvalidator-frontend-dev.tar`, SHA-256
 `63d10a7d8e58edc5e95d3a0a238c8893bf384c757109b18717967906171ee80c`; its embedded tag is
-`nhi-claimvalidator-frontend-dev:latest`.
+`nhi-claimvalidator-frontend-dev:latest`. On 2026-10-19 the owner rebased the branch again, onto
+`develop@442ef39`, as `REA_UI@41f5e76` (same deployment files); that tar is from `2d2c40e` and lacks
+the 檢核結果 tab and the inline upload drawer until rebuilt the same way.
