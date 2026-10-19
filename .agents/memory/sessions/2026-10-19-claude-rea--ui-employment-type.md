@@ -17,7 +17,7 @@ drop plans 205-main-fields and field-locking. Kernel checkout moved 692bdc0 → 
   `specialistCodes` → `String`; a test pins it. 55 files / 1164 tests, lint clean.
 - `plan rm` 205-main-fields and field-locking (no sources of their own). References rewritten:
   field-map (seven orphans, line numbers −8), terms, rule-editor (two lines), rea-proto/index,
-  ui-map-orphans, rea-ui › Branches.
+  ui-map-orphans, rea-ui › Branches. Owner verified in session; `plan done` — the modules hold it.
 
 ## Decisions & pitfalls
 - 205-main-fields asked the kernel to *add* the field; `de35a2f` dropped it instead — hence the
@@ -27,7 +27,7 @@ drop plans 205-main-fields and field-locking. Kernel checkout moved 692bdc0 → 
 - Kernel modules cite `458e663`…`692bdc0`; the five commits to `1706cb5` are not resynced here.
 
 ## TODO
-- Owner: check 205/206 in the running editor (offline and deployed), then `Verified:`; push `develop`.
+- Owner: push `develop` (`3ad7356`) and `rea`.
 - Resync session for `REA_kernel@1706cb5`: field-map (RelDate/TherSDate/AssayDate dropped, Age
   基準日 06–08 disabled), rule-editor (204 translator), scope-conditions (`667734c`), ruleset-api
   (`1b0ecaf` VisibleWhen).
