@@ -12,8 +12,12 @@ only under 限專任; the two option values to be discussed after reading `REA_U
   map + mock + tests; the kernel's `VisibleWhen` is the gate its validator already honours.
 - rule-editor › Schema → form: `buildLinkedInputIdsMap` opens a linked row for `dropdown` only
   (`MainSetting.vue:648`); payload whitelist and read view already treat radio alike.
-- Values recommended: `01` / `02`, the kernel's `DoctorTypes` vocabulary that the prototype's back end
-  switched on (`SpecialistRuleGenerator.cs:63-86`); `Executor` / `Prescriber` the alternative.
+- Values recommended `01` / `02` (the kernel's `DoctorTypes` vocabulary, the prototype's back end
+  switched on it); owner ruled: those, `Default` `Any`, keep `sortOptions`.
+- Kernel fetched: `develop` → `2704043` (CI only). `REA_kernel@480e69e` (Kenny Chen, 2026-10-20,
+  `origin/demo-feature-RuleSetTranslator-202`, not on `develop`) already lands `EmploymentType` /
+  `FullTimeDoctorTypes` with exactly those values and `VisibleWhen`, plus 202's references reshaped
+  (`FuncDate`, five `Disabled`, 轉(代)檢 dropped) and 僅機械手臂 enabled; no translator yet. Plan rewritten.
 
 ## Decisions & pitfalls
 - `6b8cdca` (2026-08-31) is the precedent: when the kernel renamed `EmploymentType` → `DoctorRole`
@@ -23,6 +27,9 @@ only under 限專任; the two option values to be discussed after reading `REA_U
 - Stored 202 rows carry `DoctorRole`; after the rename they 400 on re-save — put to the kernel team.
 - Order in 專任查核對象 has no meaning in the prototype (roles OR'd); kept `sortOptions` as asked.
 
+- Labels differ: kernel 任職類型 / 專任 / 專任醫師角色 vs mock-up 專兼任 / 限專任 / 專任查核對象; the map can
+  relabel only a sub-group input, not a top-level one or an option — the owner's next ruling.
+
 ## TODO
-- Owner: rule on the option values and `EmploymentType`'s `Default`; sign, or send step 1 to the
-  kernel team first.
+- Owner: rule on the labels (kernel team adopts the mock-up's, or a map label override); sign.
+- Modules still cite `1706cb5`; `480e69e` enters field-map / rea-kernel when it reaches `develop`.
