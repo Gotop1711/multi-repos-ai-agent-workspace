@@ -30,23 +30,21 @@ whitelist (`ruleSchemaUtils.js:235-242`) and the read view (`RuleShows.vue:326`,
 radio and dropdown alike; `el-form` validates only rendered items, so a hidden required field does
 not block a save (inferred, `MainSetting.vue:817-870`, `:916-924`).
 
-**Open — the labels.** The kernel says 任職類型 / 不限 / 專任 and 專任醫師角色; the mock-up 專兼任 / 不限 /
-限專任 and 專任查核對象. The map can relabel a sub-group input (`SubGroupInput.label`) but not a top-level
-input or an option (`UIMapEntry.inputs` is type-only, `ruleUIConfig.ts:50-64`, `ruleSchemaUtils.js:111`).
-Either the kernel team adopts the mock-up's words (one source, recommended), or step 2 adds a label
-override for top-level inputs and options to the map (form, not meaning — terms › primary).
+**Labels come from the kernel.** `480e69e` says 任職類型 / 不限 / 專任 and 專任醫師角色; the owner asked
+the kernel team on 2026-10-20 to adopt the mock-up's 專兼任 / 不限 / 限專任 and 專任查核對象. The ui adds
+no label override (the map can relabel only a sub-group input, `ruleUIConfig.ts:50-64`); it renders
+what is served, so the words land with the kernel's next commit, not with this plan.
 
 ## Writes
 `REA_UI (develop)`. `REA_kernel` is read-only here: `480e69e` must reach the deployment (merge, build)
 before steps 2–4 can be verified; before that the new map keys are inert and the old ones dead.
 
 ## Steps
-1. Owner → kernel team: the label ruling above; when `demo-feature-RuleSetTranslator-202` lands on
-   `develop` and the host; what becomes of stored 202 rows (`DoctorRole` / `ApplyDate` / 轉(代)檢).
+1. Owner → kernel team (asked 2026-10-20): the mock-up's labels; when the branch lands on `develop`
+   and the host; what becomes of stored 202 rows (`DoctorRole` / `ApplyDate` / 轉(代)檢).
 2. `ruleUIConfig.ts` 202: `inputs { specialistCodes: 'checkbox', employmentType: 'radio' }`,
    `linkedOptions { employmentType: { FullTime: 'fullTimeCheck' } }`, `subGroups { fullTimeCheck:
-   { inputs: { fullTimeDoctorTypes: { type: 'sortOptions', label: '專任查核對象' } } } }` (label per
-   the ruling); `doctorRole` out; a label override for top-level inputs/options only if ruled so.
+   { inputs: { fullTimeDoctorTypes: 'sortOptions' } } }`; `doctorRole` out; served labels as served.
 3. `MainSetting.vue:648` — `buildLinkedInputIdsMap` accepts `radio` as well as `dropdown`, so a radio
    opens its linked row in both the `layout.rows` and the column path (`:768-813`); a test pins it.
 4. `mock/rulesData.js` 202 mirrors `480e69e` whole (the two fields, `default`, `visibleWhen`, the
@@ -58,5 +56,5 @@ before steps 2–4 can be verified; before that the new map keys are inert and t
 ## Done when
 Against a deployment serving `480e69e`'s schema: 202's 主設定 shows 專科醫師別, then the radio with 不限
 chosen by default, and 專任查核對象 (①執行醫師 ②處方醫師, reorderable) only while 限專任 is chosen; saving
-under 不限 sends no `FullTimeDoctorTypes`; the saved rule reads back with the same labels; 參考日期
+under 不限 sends no `FullTimeDoctorTypes`; the saved rule reads back with the kernel's labels; 參考日期
 offers 醫令執行起日 / 治療結束日 / 就醫日期 with five greyed. Offline the same. Every test passes.

@@ -27,9 +27,9 @@ only under 限專任; the two option values to be discussed after reading `REA_U
 - Stored 202 rows carry `DoctorRole`; after the rename they 400 on re-save — put to the kernel team.
 - Order in 專任查核對象 has no meaning in the prototype (roles OR'd); kept `sortOptions` as asked.
 
-- Labels differ: kernel 任職類型 / 專任 / 專任醫師角色 vs mock-up 專兼任 / 限專任 / 專任查核對象; the map can
-  relabel only a sub-group input, not a top-level one or an option — the owner's next ruling.
+- Labels differ (kernel 任職類型 / 專任 / 專任醫師角色, mock-up 專兼任 / 限專任 / 專任查核對象); the map can
+  relabel only a sub-group input, so the owner asked the kernel team to adopt the mock-up's words.
 
 ## TODO
-- Owner: rule on the labels (kernel team adopts the mock-up's, or a map label override); sign.
+- Owner: sign the plan; the kernel's label commit and the branch's landing on `develop` are awaited.
 - Modules still cite `1706cb5`; `480e69e` enters field-map / rea-kernel when it reaches `develop`.
