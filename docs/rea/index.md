@@ -50,3 +50,4 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
   drawer; awaits the owner's check
 - [payment-local](plans/payment-local.md) — the ui answers the two Payment lookups from a compiled-in data set, dev and production alike
 - [ui-scope-option-flags](plans/ui-scope-option-flags.md) — draft: 檢核範圍 dropdowns ignore the kernel's option `Disabled` (類別 04 群組 saves untranslatable); mock still the 2026-09-17 shape 
+- [ui-202-employment-type](plans/ui-202-employment-type.md) — draft: 202 專兼任 + 專任查核對象
