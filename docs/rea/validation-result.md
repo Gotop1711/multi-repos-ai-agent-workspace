@@ -10,7 +10,8 @@ It runs on four built-in demo rows today, because no kernel endpoint returns a r
   tree onto `bdd28ec` as `ae5a379` (2026-10-19), identical except the layout's aside comment restored
   to its original wording and the test's `ValidationResult` mock dropped (`git diff 7264c61 ae5a379`).
   The demo data's header says the screen follows a design sketch 「批次完整性 × 判定追蹤」
-  (`views/validationResult/validationResultDemoData.js:2`); that sketch is not in the workspace.
+  (`views/validationResult/validationResultDemoData.js:2`); the owner's 2026-10-20 update of it is
+  `rea-ui/sources/2026-10-20-validation-result-design.html.md` — plan ui-validation-result-deduction.
 
 ## What the screen is
 - The fifth `el-tab-pane` of the frame, label 檢核結果, name `validationResult`, rendering
