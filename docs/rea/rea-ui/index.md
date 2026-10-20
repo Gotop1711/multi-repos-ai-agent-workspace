@@ -2,7 +2,7 @@
 
 Repository `REA_UI` (`projects/ui`, access `write`) — Vue 3 schema-driven rule editor for 三代健保 REA: rule dialogs render from `GET /api/v1/RuleSchema`, the edited rule becomes a `RuleNode`. Cited at `REA_UI@442ef39` (`develop`; layout facts below at `04016d3` where marked); deployment lines at `@2d2c40e` on `feature-nhi-deployment`.
 
-- **Branches.** `develop` = `4909dc7` (2026-10-20, plan ui-202-employment-type's two commits and the owner's two fix-ups over `3ad7356`, unpushed) on `origin/develop` = `442ef39` (2026-10-19, pushed by the owner outside the
+- **Branches.** `develop` = `origin/develop` = `4909dc7` (2026-10-20, pushed by the owner: plan ui-202-employment-type's two commits and the owner's two fix-ups over `3ad7356`) over `442ef39` (2026-10-19, pushed by the owner outside the
   workflow): on `bdd28ec` (plan ui-right-drawer's two commits, then hospital-data-upload's six),
   `ae5a379` squashes binghan60's `origin/feature-ValidationResult@7264c61` (the 檢核結果 tab,
   validation-result), five reverts (`0448e05`…`4c70cb7`) take out the global drawer and the aside
@@ -32,3 +32,8 @@ Repository `REA_UI` (`projects/ui`, access `write`) — Vue 3 schema-driven rule
   `api/interceptors.js:14` (RuleSchema, RuleSet, options, ValidationJob since `@7827302`); under the BFF rule that
   reshaping leaves the ui (bff › what a BFF would own), so it stays in `api/`. (`REA_UI@442ef39`)
 - **Integration.** Consumes the kernel's schema (rea-kernel) and follows the prototype's layouts (rea-proto); see rule-editor and rule-codes.
+  Ruling (owner, 2026-10-20, in session): `REA_PROTO` is legacy, and the ui's codebase never names it,
+  neither as "proto" nor as "prototype"; a comment states what the ui took from it as the kernel's or
+  the ui's own fact. At `@4909dc7` seventeen comment and test-name lines still do (`src/utils/rule/
+  ruleUIConfig.ts`, `tests/unit/utils/rule/ruleSchemaUtils.test.js`, two add-on lines); plan
+  ui-no-prototype-references.

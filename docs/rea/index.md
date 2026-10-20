@@ -42,12 +42,10 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 - [payment-mock](plans/payment-mock.md) — abandoned: superseded by payment-snapshot
 - [payment-snapshot](plans/payment-snapshot.md) — draft: Node + JSON in its own repo on App Platform
 - [rea-proto-data-creator-kernel](plans/rea-proto-data-creator-kernel.md) — shipped `REA_PROTO_DATA_CREATOR@b059b56`: `--target kernel`; awaits the owner's post of `r203.json`
-- [nhia-vm-ui-routing](plans/nhia-vm-ui-routing.md) — shipped `REA_UI@2a7a7c9`: publish UI on 8082
-  and route every API, including Payment, to the in-network backend; awaits the owner's check
+- [nhia-vm-ui-routing](plans/nhia-vm-ui-routing.md) — shipped `REA_UI@2a7a7c9`: publish UI on 8082 and route every API, including Payment, to the in-network backend; awaits the owner's check
 - [ui-layout-routing](plans/ui-layout-routing.md) — draft: `DefaultLayout.vue` is a tabbed page, not a layout, and `/payment` bypasses it; make the tabs child routes under a real layout
-- [hospital-data-upload](plans/hospital-data-upload.md) — shipped `REA_UI@652f853`…`@bdd28ec`, re-wired by the owner
-  at `@442ef39`: a 院所資料 CSV posted row by row to the kernel's `POST /api/v1/ValidationJob` from the layout's own
-  drawer; awaits the owner's check
+- [hospital-data-upload](plans/hospital-data-upload.md) — shipped `REA_UI@652f853`…`@bdd28ec`, re-wired by the owner at `@442ef39`: a 院所資料 CSV posted row by row to the kernel's `POST /api/v1/ValidationJob` from the layout's own drawer; awaits the owner's check
 - [payment-local](plans/payment-local.md) — the ui answers the two Payment lookups from a compiled-in data set, dev and production alike
 - [ui-scope-option-flags](plans/ui-scope-option-flags.md) — draft: 檢核範圍 dropdowns ignore the kernel's option `Disabled` (類別 04 群組 saves untranslatable); mock still the 2026-09-17 shape 
 - [ui-202-employment-type](plans/ui-202-employment-type.md) — draft: 202 專兼任 + 專任查核對象
+- [ui-no-prototype-references](plans/ui-no-prototype-references.md) — draft: no prototype mentions
