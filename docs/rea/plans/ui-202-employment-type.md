@@ -1,6 +1,10 @@
 # rea — ui-202-employment-type: 202's 專兼任 radio and the 專任查核對象 it reveals
 
-Status: draft
+Status: shipped
+Writes: REA_UI (develop)
+Signed: gotop1711 — 2026-10-20
+Amended: 2026-10-20 — 專任查核對象 `sortOptions` width (sub-group object form), 320 by the owner
+Shipped: 2026-10-20 — REA_UI@514f817, @f959c2a, @19cfc98, @4909dc7 (develop, unpushed)
 
 ## Goal
 The owner's mock-up (`docs/rea/rea-ui/sources/2026-10-20-202-main-setting-design.png.md@5d93e7c5c656`,
@@ -14,8 +18,7 @@ last renamed this field), and an undeclared `Main` key 400s (`SchemaExistenceVal
 rewrites `_202.cs:22-48`: `DoctorRole` → `EmploymentType` 任職類型, `String`, `Any` 不限 / `FullTime`
 專任, `Default "Any"`, `Required`; new `FullTimeDoctorTypes` 專任醫師角色, `StringArray`, `01` 執行醫師 /
 `02` 處方醫師, `Default` both, `Required`, `VisibleWhen = { EmploymentType, FullTime }` — the values the
-owner ruled on 2026-10-20: the kernel's `DoctorTypes` vocabulary (`_202.cs:72-73`), which the
-prototype's back end switched on too (`REA_PROTO_BE@ba161ff …/SpecialistRuleGenerator.cs:63-86`).
+owner ruled on 2026-10-20: the kernel's `DoctorTypes` vocabulary (`_202.cs:72-73`).
 Its validator skips a hidden field (`Validation/FieldRuleValidator.cs:76-81`, since `1b0ecaf`), so a
 rule saved under 不限 needs no `FullTimeDoctorTypes`. The same commit reshapes 202's references —
 參考日期 `ApplyDate` → `FuncDate`, order 醫令執行起日 / 治療結束日 / 就醫日期, five
@@ -28,7 +31,7 @@ is `linkedOptions` / `subGroups` — the ui ignores `VisibleWhen` (rule-schema-a
 **dropdown** opens a linked row (`REA_UI@3ad7356 src/views/rules/MainSetting.vue:648`); the payload
 whitelist (`ruleSchemaUtils.js:235-242`) and the read view (`RuleShows.vue:326`, `:391`) already treat
 radio and dropdown alike; `el-form` validates only rendered items, so a hidden required field does
-not block a save (inferred, `MainSetting.vue:817-870`, `:916-924`).
+not block a save (inferred).
 
 **Labels come from the kernel.** `480e69e` says 任職類型 / 不限 / 專任 and 專任醫師角色; the owner asked
 the kernel team on 2026-10-20 to adopt the mock-up's 專兼任 / 不限 / 限專任 and 專任查核對象. The ui adds

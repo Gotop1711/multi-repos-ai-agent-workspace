@@ -4,7 +4,7 @@ REA (三代健保 rule engine): a schema-driven rule editor (`REA_UI`) renders r
 
 ## Modules
 - [rule-editor](rule-editor.md) — how a served schema becomes a form (the UI map, sub-group overrides) which stored `RuleSet` fields it reads, and how the form becomes the saved `Main`
-- [rule-codes](rule-codes.md) — the codes with a UI-map entry (303, 304, 305, 306) against the prototype; what is not yet mapped (105)
+- [rule-codes](rule-codes.md) — the codes with a UI-map entry (202, 303, 304, 305, 306) against the prototype; what is not yet mapped (105)
 - [terms](terms.md) — vocabulary rulings: the prototype's blank-style labels, the 類別 option order
 - [field-map](field-map.md) — every dialog field enumerated, kernel name against ui name, and the names with no counterpart
 - [ruleset-api](ruleset-api.md) — the `RuleSet` round trip: the row `GET` returns, what the ui reads of it and never reads, the dev store's provenance and quirks 
