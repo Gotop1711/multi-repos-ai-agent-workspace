@@ -2,6 +2,7 @@
 
 One line per change, newest first, written on `main` in the closeout that makes the change; never an organization's or a plan's state. Capped at 60 wrapped lines by `check` — cut the oldest, git keeps them.
 
+- 2026-10-27 — index cap 100 → 120 wrapped lines: a product with eleven shipped plans awaiting the owner's `Verified:` sat at exactly 100, and the one-line hook of every new plan had to be bought by trimming another; verification, not the cap, is what retires an entry.
 - 2026-10-02 — index cap 80 → 100 wrapped lines: a product with fourteen modules, six repositories and fifteen open plans sat at exactly 80, so every new plan forced a cut elsewhere in the index; the entries are one line each and nothing in it can be split off.
 - 2026-09-22 — README › Daily loop: the sequence for a project started here (declare, `clone`, `plan new`, `Signed:`, first commit, `Verified:`, `plan done`) — the rule alone left a reader to assemble it from three sections.
 - 2026-09-22 — `remote: none` declares a child without an upstream: `read-only` is a reference that `import <REPO> <folder>` copies in with one commit (credential-shaped files are named, never their values); `write` is a new project that `clone` creates empty, cited `<REPO>@unborn` until a signed plan makes its first commit; `pr-only` is refused by `check`. Also: `clone` and `cite` read all six manifest fields — since `product:` was added, `access` had carried `read-only|<product>` and the read-only push lock was never applied.
